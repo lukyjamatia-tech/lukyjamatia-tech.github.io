@@ -1012,7 +1012,7 @@
 <!-- Firebase -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, onSnapshot, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCH1s6Cf2Zx2CZVv5HUUu2P7TwHEqoxWW8",
@@ -1075,6 +1075,17 @@
     }
   };
 
+  // Delete post from Firestore
+  window.deletePost = async function(id) {
+    if (!confirm('Yeh post delete karna chahte ho?')) return;
+    try {
+      await deleteDoc(doc(db, "posts", id));
+      window.toast('🗑️ Post deleted!');
+    } catch(e) {
+      window.toast('❌ Delete failed. Try again.');
+    }
+  };
+
   function renderListings(posts) {
     const grid = document.getElementById('listings-grid');
     const noPosts = document.getElementById('no-posts');
@@ -1098,6 +1109,7 @@
           <div class="card-title">${p.item}</div>
           <div class="card-loc">📍 ${p.loc}</div>
           <div class="card-date">${p.date || ''}</div>
+          <button onclick="deletePost('${p.id}')" style="margin-top:8px;width:100%;padding:6px;border:none;background:#FEE2E2;color:#DC2626;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">🗑️ Delete</button>
         </div>
       </div>`;
     }).join('');
