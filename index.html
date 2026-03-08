@@ -26,12 +26,15 @@ max-width:600px;
 margin:auto;
 }
 
-input,textarea{
+.page{display:none}
+.page.active{display:block}
+
+input,textarea,select{
 width:100%;
 padding:12px;
-margin-bottom:10px;
 border-radius:8px;
 border:1px solid #ddd;
+margin-bottom:10px;
 }
 
 button{
@@ -42,6 +45,7 @@ border-radius:8px;
 background:#E8722A;
 color:white;
 font-weight:bold;
+cursor:pointer;
 }
 
 .card{
@@ -56,9 +60,6 @@ border:1px solid #eee;
 background:red;
 margin-top:10px;
 }
-
-.page{display:none}
-.page.active{display:block}
 
 .bottom{
 position:fixed;
@@ -76,8 +77,26 @@ background:none;
 color:#555;
 }
 
-</style>
+.tag{
+font-size:11px;
+font-weight:700;
+padding:4px 8px;
+border-radius:6px;
+display:inline-block;
+margin-bottom:6px;
+}
 
+.lost{
+background:#ffe4e6;
+color:#e11d48;
+}
+
+.found{
+background:#dcfce7;
+color:#16a34a;
+}
+
+</style>
 </head>
 
 <body>
@@ -87,19 +106,20 @@ color:#555;
 <div class="container">
 
 <div id="home" class="page active">
-
 <h3>Recent Updates</h3>
-
 <div id="posts"></div>
-
 </div>
 
 <div id="add" class="page">
 
-<h3>Add Post</h3>
+<h3>Add Lost / Found Item</h3>
+
+<select id="type">
+<option value="lost">Lost</option>
+<option value="found">Found</option>
+</select>
 
 <input id="title" placeholder="Item name">
-
 <textarea id="desc" placeholder="Description"></textarea>
 
 <button onclick="addPost()">Post</button>
@@ -111,13 +131,10 @@ color:#555;
 <h3>Account</h3>
 
 <input id="email" placeholder="Email">
-
 <input id="pass" type="password" placeholder="Password">
 
 <button onclick="register()">Register</button>
-
 <button onclick="login()">Login</button>
-
 <button onclick="logout()">Logout</button>
 
 </div>
@@ -125,11 +142,9 @@ color:#555;
 <div id="profile" class="page">
 
 <h3>My Profile</h3>
-
 <p id="profileEmail"></p>
 
 <h4>My Posts</h4>
-
 <div id="myPosts"></div>
 
 </div>
@@ -138,13 +153,10 @@ color:#555;
 
 <div class="bottom">
 
-<button onclick="show('home')">Home</button>
-
-<button onclick="show('add')">Add</button>
-
-<button onclick="show('account')">Account</button>
-
-<button onclick="show('profile')">Profile</button>
+<button onclick="showPage('home')">Home</button>
+<button onclick="showPage('add')">Add</button>
+<button onclick="showPage('account')">Account</button>
+<button onclick="showPage('profile')">Profile</button>
 
 </div>
 
@@ -153,7 +165,7 @@ color:#555;
 let user=null
 let posts=[]
 
-function show(p){
+function showPage(p){
 
 document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'))
 
@@ -167,8 +179,8 @@ loadProfile()
 
 function register(){
 
-let email=document.getElementById('email').value
-let pass=document.getElementById('pass').value
+let email=document.getElementById("email").value
+let pass=document.getElementById("pass").value
 
 localStorage.setItem("email",email)
 localStorage.setItem("pass",pass)
@@ -179,8 +191,8 @@ alert("Account created")
 
 function login(){
 
-let email=document.getElementById('email').value
-let pass=document.getElementById('pass').value
+let email=document.getElementById("email").value
+let pass=document.getElementById("pass").value
 
 if(email===localStorage.getItem("email") && pass===localStorage.getItem("pass")){
 
@@ -201,8 +213,7 @@ alert("Wrong login")
 function logout(){
 
 user=null
-
-alert("Logout")
+alert("Logged out")
 
 }
 
@@ -211,27 +222,26 @@ function addPost(){
 if(!user){
 
 alert("Login first")
-
 return
 
 }
 
+let type=document.getElementById("type").value
 let title=document.getElementById("title").value
 let desc=document.getElementById("desc").value
 
 posts.push({
-
+type:type,
 title:title,
 desc:desc,
 owner:user
-
 })
 
-render()
+renderPosts()
 
 }
 
-function render(){
+function renderPosts(){
 
 let html=""
 
@@ -240,14 +250,14 @@ posts.forEach((p,i)=>{
 let del=""
 
 if(p.owner===user){
-
-del=`<button class="delete" onclick="del(${i})">Delete</button>`
-
+del=`<button class="delete" onclick="deletePost(${i})">Delete</button>`
 }
 
 html+=`
 
 <div class="card">
+
+<div class="tag ${p.type}">${p.type}</div>
 
 <h4>${p.title}</h4>
 
@@ -269,13 +279,15 @@ function loadProfile(){
 
 let html=""
 
-posts.forEach((p)=>{
+posts.forEach(p=>{
 
 if(p.owner===user){
 
 html+=`
 
 <div class="card">
+
+<div class="tag ${p.type}">${p.type}</div>
 
 <h4>${p.title}</h4>
 
@@ -293,12 +305,11 @@ document.getElementById("myPosts").innerHTML=html
 
 }
 
-function del(i){
+function deletePost(i){
 
 posts.splice(i,1)
 
-render()
-
+renderPosts()
 loadProfile()
 
 }
