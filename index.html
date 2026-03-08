@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><!-- v1.5 -->
+<html lang="en"><!-- v1.5 build:20260308031820 -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -354,7 +354,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);m
   <div class="topbar">
     <div class="topbar-row">
       <div>
-        <div class="logo" onclick="showScreen('app')" style="cursor:pointer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="32" height="32" style="flex-shrink:0">
+        <div class="logo" onclick="showScreen('landing')" style="cursor:pointer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="32" height="32" style="flex-shrink:0">
   <circle cx="200" cy="200" r="200" fill="#0f0e0c"/>
   <circle cx="185" cy="165" r="75" fill="none" stroke="#c8410a" stroke-width="20"/>
   <line x1="243" y1="223" x2="298" y2="278" stroke="#c8410a" stroke-width="20" stroke-linecap="round"/>
@@ -543,7 +543,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);m
     <button class="back-btn" onclick="showScreen('app')">←</button>
     <div class="profile-avatar" id="profileAvatar">?</div>
     <div class="profile-name" id="profileName">User</div>
-    <div class="profile-email" id="profileEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1d78707c74715d78657c706d7178337e7270">[email&#160;protected]</a></div>
+    <div class="profile-email" id="profileEmail">email@example.com</div>
   </div>
   <div class="profile-body">
     <div class="profile-stat-row">
@@ -558,7 +558,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);m
     <p class="profile-section-title" style="margin-top:16px">⚙️ Settings</p>
     <div class="profile-menu-item" onclick="alert('Jald aa raha hai!')"><span>🔔 Notifications</span><span>→</span></div>
     <div class="profile-menu-item" onclick="alert('Jald aa raha hai!')"><span>🔒 Password Change</span><span>→</span></div>
-    <div class="profile-menu-item" onclick="showModal('contact')"><span>📞 Contact Support</span><span>→</span></div>
+    <div class="profile-menu-item" onclick="alert('Jald aa raha hai!')"><span>📞 Contact Support</span><span>→</span></div>
 
     <button class="logout-btn" onclick="doLogout()">🚪 Logout Karo</button>
   </div>
@@ -592,7 +592,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);m
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 const ADMIN_PASSWORD = "findback2026";
 
 const ITEMS = [
@@ -1034,7 +1034,8 @@ function closeModal(e) {
 }
 
 function showAboutPage() {
-  showModal('about');
+  showScreen('landing');
+  setTimeout(() => showModal('about'), 100);
 }
 
 // Notification system
@@ -1108,11 +1109,11 @@ function applyLang() {
 // Apply on load
 document.addEventListener('DOMContentLoaded', applyLang);
 
-// Visitor Counter - using goatcounter API (free & reliable)
+// Visitor Counter - localStorage only
 async function updateVisitorCount() {
   try {
-    // Try visitor counter API
-    const res = await fetch('https://api.counter.dev/stats?user=findbackindia&site=findback.org', {signal: AbortSignal.timeout(3000)});
+    // Use localStorage only - no external API
+    const res = {ok: false};
     if(res.ok) {
       const data = await res.json();
       const count = data.total || 0;
@@ -1161,4 +1162,8 @@ renderFeed();
   <div style="font-size:.78rem;opacity:.85;margin-bottom:12px">Naya item aane par alert milega!</div>
   <div style="display:flex;gap:8px">
     <button onclick="enableNotifications()" style="flex:1;padding:8px;background:#fff;color:#1a5c8a;border:none;border-radius:8px;font-weight:700;font-size:.82rem;cursor:pointer">Enable Karo ✅</button>
-    <button onclick="document.getEl
+    <button onclick="document.getElementById('notifBanner').style.display='none'" style="padding:8px 12px;background:rgba(255,255,255,.2);color:#fff;border:none;border-radius:8px;font-size:.82rem;cursor:pointer">Baad Mein</button>
+  </div>
+</div>
+</body>
+</html>
