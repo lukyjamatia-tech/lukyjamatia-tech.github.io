@@ -6,7 +6,6 @@
   <title>FindBack S1 — Find what the world lost</title>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    /* Sab style purana waisa hi rakha hai – koi change nahi */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --orange: #E8722A;
@@ -15,6 +14,10 @@
       --gray: #F5F5F5;
       --text-muted: #777;
       --border: #E0E0E0;
+      --card-bg: #FFFFFF;
+      --input-bg: #FFFFFF;
+      --toast-bg: #111111;
+      --toast-text: #FFFFFF;
     }
     body {
       font-family: 'Inter', sans-serif;
@@ -23,6 +26,19 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      transition: background-color 0.4s, color 0.4s;
+    }
+    body.dark-mode {
+      --orange: #FF9A5A;
+      --black: #E0E0E0;
+      --white: #1A1A1A;
+      --gray: #2D2D2D;
+      --text-muted: #AAAAAA;
+      --border: #444444;
+      --card-bg: #222222;
+      --input-bg: #2A2A2A;
+      --toast-bg: #222222;
+      --toast-text: #E0E0E0;
     }
     nav {
       background: var(--black);
@@ -42,7 +58,11 @@
       cursor: pointer;
     }
     .nav-logo span { color: var(--orange); }
-    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
     .live-badge { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #aaa; }
     .live-dot { width: 7px; height: 7px; background: #4CAF50; border-radius: 50%; animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
@@ -55,13 +75,6 @@
       padding: 3px 8px;
       border-radius: 6px;
     }
-    .page { display: none; flex: 1; flex-direction: column; }
-    .page.active { display: flex; }
-    .home-hero { background: var(--gray); padding: 60px 24px; text-align: center; }
-    .home-hero .emoji { font-size: 56px; margin-bottom: 16px; }
-    .home-hero h1 { font-family: 'Sora', sans-serif; font-size: 26px; font-weight: 700; margin-bottom: 8px; }
-    .home-hero p { color: var(--text-muted); font-size: 15px; }
-    .home-btns { display: flex; gap: 12px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
     .btn-primary {
       background: var(--orange);
       color: white;
@@ -86,17 +99,16 @@
       transition: all .2s;
     }
     .btn-outline:hover { background: var(--orange); color: white; }
+    .page { display: none; flex: 1; flex-direction: column; }
+    .page.active { display: flex; }
     .page-content { padding: 32px 24px; flex: 1; max-width: 680px; width: 100%; margin: 0 auto; }
-    .page-title { font-family: 'Sora', sans-serif; font-size: 24px; font-weight: 700; margin-bottom: 6px; }
-    .page-subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 28px; }
-    .divider { height: 1px; background: var(--border); margin: 24px 0; }
     .toast {
       position: fixed;
       bottom: 80px;
       left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: var(--black);
-      color: white;
+      transform: translateX(-50%);
+      background: var(--toast-bg);
+      color: var(--toast-text);
       padding: 12px 20px;
       border-radius: 24px;
       font-size: 13px;
@@ -107,130 +119,132 @@
       white-space: nowrap;
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-    /* Baaki styles same rahegi – space ke liye yahan short kiya */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.5);
+      z-index: 300;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-sheet {
+      background: var(--card-bg);
+      border-radius: 20px 20px 0 0;
+      padding: 24px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      color: var(--black);
+    }
+    .modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 20px; }
+    .modal-title { font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .modal-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+    .alert-success {
+      background: #D1FAE5;
+      color: #065F46;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    body.dark-mode .alert-success {
+      background: #064E3B;
+      color: #6EE7B7;
+    }
+    .listing-card {
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--card-bg);
+      cursor: pointer;
+      transition: box-shadow .2s;
+    }
+    body.dark-mode input,
+    body.dark-mode textarea,
+    body.dark-mode select {
+      background: var(--input-bg);
+      color: var(--black);
+      border-color: var(--border);
+    }
+    #user-menu-container:hover #user-avatar {
+      transform: scale(1.08);
+      transition: transform 0.2s;
+    }
+    #user-dropdown button:hover {
+      background: var(--gray);
+    }
+    /* Add your other original styles here (home-hero, page-content, etc.) */
   </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo" onclick="showPage('home')">Find<span>Back</span></div>
   <div class="nav-right">
     <div class="live-badge"><div class="live-dot"></div> Live</div>
     <div class="s1-badge">S1</div>
+
+    <button id="nav-login-top" class="btn-primary" style="padding:8px 16px; font-size:13px;" onclick="showPage('login')">Login</button>
+
+    <div id="user-menu-container" style="position:relative; display:none; cursor:pointer;">
+      <div id="user-avatar" style="width:36px;height:36px;border-radius:50%;background:var(--orange);color:white;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+        U
+      </div>
+      <div id="user-dropdown" style="display:none;position:absolute;top:45px;right:0;background:var(--white);border:1px solid var(--border);border-radius:10px;box-shadow:0 6px 16px rgba(0,0,0,0.15);min-width:180px;z-index:100;overflow:hidden;">
+        <button onclick="loadProfile()" style="width:100%;padding:12px 16px;border:none;background:none;text-align:left;cursor:pointer;font-size:14px;">👤 Profile</button>
+        <button onclick="showMyPosts()" style="width:100%;padding:12px 16px;border:none;background:none;text-align:left;cursor:pointer;font-size:14px;">📋 My Posts</button>
+        <button onclick="openSettingsModal()" style="width:100%;padding:12px 16px;border:none;background:none;text-align:left;cursor:pointer;font-size:14px;">⚙️ Settings</button>
+        <div style="height:1px;background:var(--border);margin:4px 0;"></div>
+        <button onclick="doLogout()" style="width:100%;padding:12px 16px;border:none;background:none;text-align:left;cursor:pointer;color:#dc2626;font-size:14px;">🚪 Logout</button>
+      </div>
+    </div>
   </div>
 </nav>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- HOME PAGE (baaki pages ke liye space bachaya – original code se copy kar lena) -->
-<div class="page active" id="page-home">
-  <div class="home-hero">
-    <div class="emoji">🔍</div>
-    <h1>Find what the world lost.</h1>
-    <p>India's most trusted lost & found platform</p>
-    <div class="home-btns">
-      <button class="btn-primary" onclick="openModal('lost')">😟 Report Lost</button>
-      <button class="btn-outline" onclick="openModal('found')">🎉 Report Found</button>
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settings-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">⚙️ Settings</div>
+    <div class="modal-sub">Customize your experience</div>
+
+    <div style="padding:16px 0;">
+      <div class="form-group">
+        <label>🌙 Dark Mode</label>
+        <select id="dark-mode-select" style="width:100%;padding:10px;border:1.5px solid var(--border);border-radius:10px;">
+          <option value="system">System default</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>📧 Notifications</label>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <input type="checkbox" id="notify-new-posts" checked>
+          <label for="notify-new-posts" style="margin:0;font-size:14px;">Notify about matching posts</label>
+        </div>
+      </div>
+      <div style="margin-top:24px;text-align:center;color:var(--text-muted);font-size:13px;">
+        Account: <strong id="settings-email"></strong>
+      </div>
     </div>
-  </div>
-  <div class="page-content">
-    <!-- Search + Category grid + Listings same rahegi -->
-  </div>
-</div>
 
-<!-- LOGIN PAGE -->
-<div class="page" id="page-login">
-  <div class="page-content" style="display:flex; flex-direction:column; justify-content:center; min-height:calc(100vh - 120px);">
-    <div style="margin-bottom:16px; cursor:pointer; color:var(--text-muted); font-size:13px;" onclick="showPage('home')">← Back</div>
-    <div class="auth-card">
-      <div class="auth-logo">
-        <div class="brand">Find<span>Back</span> S1</div>
-        <div style="font-size:13px; color:var(--text-muted); margin-top:4px;">Welcome back 👋</div>
-      </div>
-      <div id="login-success" class="alert-success">✅ Logged in successfully!</div>
-      <div class="form-group">
-        <label>📱 Email or Phone</label>
-        <div class="input-icon-wrap">
-          <span class="icon">📱</span>
-          <input type="text" id="l-email" placeholder="Enter email or phone">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>🔒 Password</label>
-        <div class="input-icon-wrap">
-          <span class="icon">🔒</span>
-          <input type="password" id="l-pass" placeholder="Enter password">
-        </div>
-      </div>
-      <button class="btn-primary" style="width:100%" onclick="doLogin()">Log In</button>
-    </div>
+    <button class="btn-primary" style="width:100%;margin-top:16px;" onclick="saveSettings()">Save Settings</button>
+    <button class="btn-outline" style="width:100%;margin-top:8px;" onclick="closeSettingsModal()">Close</button>
   </div>
 </div>
 
-<!-- REGISTER PAGE -->
-<div class="page" id="page-register">
-  <div class="page-content" style="display:flex; flex-direction:column; justify-content:center; min-height:calc(100vh - 120px);">
-    <div style="margin-bottom:16px; cursor:pointer; color:var(--text-muted); font-size:13px;" onclick="showPage('home')">← Back</div>
-    <div class="auth-card">
-      <div class="auth-logo">
-        <div class="brand">Find<span>Back</span> S1</div>
-        <div style="font-size:13px; color:var(--text-muted); margin-top:4px;">Create your free account</div>
-      </div>
-      <div id="reg-success" class="alert-success">✅ Account created! Welcome to FindBack!</div>
-      <div class="form-group">
-        <label>👤 Full Name</label>
-        <div class="input-icon-wrap">
-          <span class="icon">👤</span>
-          <input type="text" id="r-name" placeholder="Your full name">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>📧 Email Address</label>
-        <div class="input-icon-wrap">
-          <span class="icon">📧</span>
-          <input type="email" id="r-email" placeholder="your@email.com">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>🔒 Password</label>
-        <div class="input-icon-wrap">
-          <span class="icon">🔒</span>
-          <input type="password" id="r-pass" placeholder="Create a strong password">
-        </div>
-      </div>
-      <div class="form-check">
-        <input type="checkbox" id="r-agree">
-        <label for="r-agree">I agree to the <span style="color:var(--orange);cursor:pointer;">Terms</span></label>
-      </div>
-      <button class="btn-primary" style="width:100%" onclick="doRegister()">Create Account</button>
-    </div>
-  </div>
-</div>
+<!-- Your other pages/modals (login, register, home, detail, report, edit etc.) go here -->
+<!-- For brevity, only key parts shown. Paste your original page content here -->
 
-<!-- BOTTOM NAV -->
-<div class="bottom-nav">
-  <button class="nav-item active" id="nav-home" onclick="showPage('home')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    Home
-  </button>
-  <!-- baaki nav items same -->
-  <button class="nav-item" id="nav-login-btn" onclick="showPage('login')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    <span class="nav-label">Login</span>
-  </button>
-  <button class="nav-item" id="nav-profile-btn" style="display:none;" onclick="loadProfile()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    <span class="nav-label">Profile</span>
-  </button>
-</div>
-
-<!-- Firebase + Logic -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, orderBy, query, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCH1s6Cf2Zx2CZVv5HUUu2P7TwHEqoxWW8",
@@ -247,21 +261,97 @@
 
   window._currentUser = null;
 
-  // Auth state
-  onAuthStateChanged(auth, (user) => {
-    window._currentUser = user;
-    const loginBtn = document.getElementById('nav-login-btn');
-    const profileBtn = document.getElementById('nav-profile-btn');
-    if (user) {
-      loginBtn.style.display = 'none';
-      profileBtn.style.display = 'flex';
-    } else {
-      loginBtn.style.display = 'flex';
-      profileBtn.style.display = 'none';
+  // =============================================
+  // Dark Mode Logic
+  // =============================================
+  function applyDarkMode(mode) {
+    if (mode === 'dark') {
+      document.body.classList.add('dark-mode');
+    } else if (mode === 'light') {
+      document.body.classList.remove('dark-mode');
+    } else { // system
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.body.classList.remove('dark-mode');
+      }
+    }
+    localStorage.setItem('darkModePreference', mode);
+  }
+
+  // Load saved preference or system on start
+  const savedMode = localStorage.getItem('darkModePreference') || 'system';
+  applyDarkMode(savedMode);
+
+  // Listen to system changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    if (localStorage.getItem('darkModePreference') === 'system') {
+      applyDarkMode('system');
     }
   });
 
-  // Toast
+  // =============================================
+  // Auth & Avatar + Dropdown
+  // =============================================
+  onAuthStateChanged(auth, (user) => {
+    window._currentUser = user;
+    const loginBtn = document.getElementById('nav-login-top');
+    const menuContainer = document.getElementById('user-menu-container');
+    const avatar = document.getElementById('user-avatar');
+
+    if (user) {
+      loginBtn.style.display = 'none';
+      menuContainer.style.display = 'block';
+      const name = user.displayName || 'User';
+      avatar.textContent = name.charAt(0).toUpperCase();
+      avatar.onclick = toggleUserDropdown;
+    } else {
+      loginBtn.style.display = 'block';
+      menuContainer.style.display = 'none';
+    }
+  });
+
+  window.toggleUserDropdown = function() {
+    const dropdown = document.getElementById('user-dropdown');
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+  };
+
+  document.addEventListener('click', e => {
+    if (!document.getElementById('user-menu-container')?.contains(e.target)) {
+      document.getElementById('user-dropdown').style.display = 'none';
+    }
+  });
+
+  // =============================================
+  // Settings Modal
+  // =============================================
+  window.openSettingsModal = function() {
+    document.getElementById('settings-email').textContent = window._currentUser?.email || 'N/A';
+    document.getElementById('dark-mode-select').value = localStorage.getItem('darkModePreference') || 'system';
+    document.getElementById('settings-modal').classList.add('open');
+  };
+
+  window.closeSettingsModal = function() {
+    document.getElementById('settings-modal').classList.remove('open');
+  };
+
+  window.saveSettings = function() {
+    const darkMode = document.getElementById('dark-mode-select').value;
+    applyDarkMode(darkMode);
+    toast('⚙️ Settings saved!');
+    closeSettingsModal();
+  };
+
+  // =============================================
+  // Logout
+  // =============================================
+  window.doLogout = async function() {
+    await signOut(auth);
+    toast('👋 Logged out!');
+    showPage('home');
+  };
+
+  // Toast helper
   window.toast = function(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -269,50 +359,10 @@
     setTimeout(() => t.classList.remove('show'), 2500);
   };
 
-  // Login
-  window.doLogin = async function() {
-    const email = document.getElementById('l-email')?.value?.trim();
-    const pass = document.getElementById('l-pass')?.value?.trim();
-    if (!email || !pass) return toast('⚠️ Email aur password daalo');
-    try {
-      await signInWithEmailAndPassword(auth, email, pass);
-      toast('✅ Login successful!');
-      setTimeout(() => showPage('home'), 1200);
-    } catch (e) {
-      toast('❌ ' + (e.code.includes('credential') ? 'Galat email ya password' : 'Login failed'));
-    }
-  };
-
-  // Register
-  window.doRegister = async function() {
-    const name = document.getElementById('r-name')?.value?.trim();
-    const email = document.getElementById('r-email')?.value?.trim();
-    const pass = document.getElementById('r-pass')?.value?.trim();
-    const agree = document.getElementById('r-agree')?.checked;
-    if (!name || !email || !pass || !agree) return toast('⚠️ Sab bharo aur agree karo');
-    try {
-      const cred = await createUserWithEmailAndPassword(auth, email, pass);
-      await updateProfile(cred.user, { displayName: name });
-      toast('✅ Account ban gaya!');
-      setTimeout(() => showPage('home'), 1500);
-    } catch (e) {
-      toast('❌ ' + (e.code === 'auth/email-already-in-use' ? 'Email pehle se hai' : 'Registration failed'));
-    }
-  };
-
-  // Delete post (sirf apne post pe)
-  window.deletePost = async function(id) {
-    try {
-      await deleteDoc(doc(db, "posts", id));
-      toast('🗑️ Post delete ho gaya!');
-      showPage('home');
-    } catch (e) {
-      toast('❌ Delete nahi hua – permission check karo');
-    }
-  };
-
-  // Baaki functions (showPage, openModal, submitToFirebase, openDetail etc.) 
-  // tumhare purane code se copy-paste kar lena – yahan sirf fix wale parts diye hain
+  // Placeholder functions (add your original logic here)
+  window.showPage = function(page) { /* your page switch logic */ };
+  window.loadProfile = function() { /* your profile load */ };
+  window.showMyPosts = function() { loadProfile(); /* or custom */ };
 </script>
 
 </body>
