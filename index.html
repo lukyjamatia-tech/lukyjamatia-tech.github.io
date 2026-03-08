@@ -10,7 +10,7 @@ body{
 font-family:Arial;
 margin:0;
 background:#f5f5f5;
-padding-bottom:70px;
+padding-bottom:80px;
 }
 
 nav{
@@ -22,11 +22,11 @@ font-size:20px;
 
 .container{
 padding:20px;
-max-width:500px;
+max-width:600px;
 margin:auto;
 }
 
-input{
+input,textarea{
 width:100%;
 padding:12px;
 margin-bottom:10px;
@@ -77,6 +77,7 @@ color:#555;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -86,15 +87,20 @@ color:#555;
 <div class="container">
 
 <div id="home" class="page active">
-<h3>Posts</h3>
+
+<h3>Recent Updates</h3>
+
 <div id="posts"></div>
+
 </div>
 
 <div id="add" class="page">
+
 <h3>Add Post</h3>
 
 <input id="title" placeholder="Item name">
-<input id="desc" placeholder="Description">
+
+<textarea id="desc" placeholder="Description"></textarea>
 
 <button onclick="addPost()">Post</button>
 
@@ -105,11 +111,26 @@ color:#555;
 <h3>Account</h3>
 
 <input id="email" placeholder="Email">
+
 <input id="pass" type="password" placeholder="Password">
 
 <button onclick="register()">Register</button>
+
 <button onclick="login()">Login</button>
+
 <button onclick="logout()">Logout</button>
+
+</div>
+
+<div id="profile" class="page">
+
+<h3>My Profile</h3>
+
+<p id="profileEmail"></p>
+
+<h4>My Posts</h4>
+
+<div id="myPosts"></div>
 
 </div>
 
@@ -118,8 +139,12 @@ color:#555;
 <div class="bottom">
 
 <button onclick="show('home')">Home</button>
+
 <button onclick="show('add')">Add</button>
+
 <button onclick="show('account')">Account</button>
+
+<button onclick="show('profile')">Profile</button>
 
 </div>
 
@@ -133,6 +158,10 @@ function show(p){
 document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'))
 
 document.getElementById(p).classList.add('active')
+
+if(p==="profile"){
+loadProfile()
+}
 
 }
 
@@ -156,6 +185,9 @@ let pass=document.getElementById('pass').value
 if(email===localStorage.getItem("email") && pass===localStorage.getItem("pass")){
 
 user=email
+
+document.getElementById("profileEmail").innerText="Email: "+user
+
 alert("Login success")
 
 }else{
@@ -169,6 +201,7 @@ alert("Wrong login")
 function logout(){
 
 user=null
+
 alert("Logout")
 
 }
@@ -178,6 +211,7 @@ function addPost(){
 if(!user){
 
 alert("Login first")
+
 return
 
 }
@@ -231,11 +265,41 @@ document.getElementById("posts").innerHTML=html
 
 }
 
+function loadProfile(){
+
+let html=""
+
+posts.forEach((p)=>{
+
+if(p.owner===user){
+
+html+=`
+
+<div class="card">
+
+<h4>${p.title}</h4>
+
+<p>${p.desc}</p>
+
+</div>
+
+`
+
+}
+
+})
+
+document.getElementById("myPosts").innerHTML=html
+
+}
+
 function del(i){
 
 posts.splice(i,1)
 
 render()
+
+loadProfile()
 
 }
 
