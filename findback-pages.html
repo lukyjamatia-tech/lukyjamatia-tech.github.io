@@ -375,6 +375,34 @@
     margin-bottom: 16px;
   }
 
+  .listing-card {
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--white);
+    cursor: pointer;
+    transition: box-shadow .2s;
+  }
+  .listing-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08); }
+  .listing-card .card-img {
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    background: var(--gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+  }
+  .listing-card .card-img img { width:100%;height:110px;object-fit:cover; }
+  .listing-card .card-body { padding: 10px; }
+  .listing-card .card-type { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; display:inline-block; margin-bottom:5px; }
+  .listing-card .card-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+  .listing-card .card-loc { font-size: 11px; color: var(--text-muted); }
+  .listing-card .card-date { font-size: 10px; color: #bbb; margin-top:3px; }
+
+  .photo-upload-area-hover { border-color: var(--orange) !important; }
+
   @media (min-width: 500px) {
     .admin-grid { grid-template-columns: repeat(4, 1fr); }
   }
@@ -406,12 +434,17 @@
     </div>
   </div>
   <div class="page-content">
-    <div style="text-align:center; padding: 40px 0 20px; color: var(--text-muted);">
-      <div style="font-size:48px; margin-bottom:12px;">🔍</div>
-      <h3 style="font-family:'Sora',sans-serif; font-size:18px; margin-bottom:6px; color:var(--black)">No posts yet</h3>
-      <p style="font-size:14px;">Be the first to post!</p>
+    <div style="padding: 20px 0 8px;">
+      <div style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;margin-bottom:4px;">Recent Posts</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Latest lost & found listings</div>
+      <div id="listings-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"></div>
+      <div id="no-posts" style="text-align:center;padding:40px 0 20px;color:var(--text-muted);">
+        <div style="font-size:48px;margin-bottom:12px;">🔍</div>
+        <h3 style="font-family:'Sora',sans-serif;font-size:18px;margin-bottom:6px;color:var(--black)">No posts yet</h3>
+        <p style="font-size:14px;">Be the first to post!</p>
+      </div>
     </div>
-    <div style="display:flex; flex-wrap:wrap; gap:8px; padding-bottom:24px; justify-content:center;">
+    <div style="display:flex;flex-wrap:wrap;gap:8px;padding-bottom:24px;justify-content:center;">
       <span style="background:var(--gray);border-radius:20px;padding:6px 14px;font-size:13px;">👛 Wallet</span>
       <span style="background:var(--gray);border-radius:20px;padding:6px 14px;font-size:13px;">📱 Phone</span>
       <span style="background:var(--gray);border-radius:20px;padding:6px 14px;font-size:13px;">🔑 Keys</span>
@@ -515,11 +548,11 @@
     <div class="page-title">Contact Us</div>
     <div class="page-subtitle">We're here to help — reach out anytime</div>
 
-    <a class="contact-method" href="mailto:support@findbacks1.in">
+    <a class="contact-method" href="/cdn-cgi/l/email-protection#2f5c5a5f5f405d5b6f4946414b4d4e4c445c1e014641">
       <div class="contact-icon">📧</div>
       <div>
         <h4>Email Support</h4>
-        <p>support@findbacks1.in</p>
+        <p><span class="__cf_email__" data-cfemail="eb989e9b9b84999fab8d82858f898a888098dac58285">[email&#160;protected]</span></p>
       </div>
     </a>
 
@@ -684,7 +717,7 @@
 
     <div class="legal-section">
       <h3>📬 8. Contact</h3>
-      <p>For questions about these terms, email us at <strong>legal@findbacks1.in</strong></p>
+      <p>For questions about these terms, email us at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="610d0406000d2107080f050300020a12504f080f">[email&#160;protected]</a></strong></p>
     </div>
   </div>
 </div>
@@ -751,7 +784,7 @@
 
     <div class="legal-section">
       <h3>📬 7. Contact</h3>
-      <p>For privacy concerns, write to us at <strong>privacy@findbacks1.in</strong></p>
+      <p>For privacy concerns, write to us at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="94e4e6fde2f5f7edd4f2fdfaf0f6f5f7ffe7a5bafdfa">[email&#160;protected]</a></strong></p>
     </div>
   </div>
 </div>
@@ -909,6 +942,19 @@
     <div id="modal-success" class="alert-success">✅ Post submitted successfully! Others can now find it.</div>
 
     <div class="form-group">
+      <label>📸 Item Photo</label>
+      <div id="photo-upload-area" onclick="document.getElementById('m-photo').click()" style="border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;background:var(--gray);transition:border-color .2s;">
+        <div id="photo-placeholder">
+          <div style="font-size:32px;margin-bottom:6px;">📷</div>
+          <div style="font-size:13px;color:var(--text-muted);">Tap to add photo</div>
+          <div style="font-size:11px;color:#bbb;margin-top:3px;">JPG, PNG supported</div>
+        </div>
+        <img id="photo-preview" src="" alt="" style="display:none;width:100%;max-height:180px;object-fit:cover;border-radius:8px;">
+      </div>
+      <input type="file" id="m-photo" accept="image/*" style="display:none;" onchange="previewPhoto(this)">
+    </div>
+
+    <div class="form-group">
       <label>🏷️ Item Name</label>
       <input type="text" id="m-item" placeholder="e.g. 👛 Wallet, 📱 iPhone 14, 💼 Laptop bag">
     </div>
@@ -963,8 +1009,51 @@
   </button>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   let currentModal = 'lost';
+  let currentPhotoData = null;
+  let posts = [];
+
+  function previewPhoto(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        currentPhotoData = e.target.result;
+        document.getElementById('photo-preview').src = currentPhotoData;
+        document.getElementById('photo-preview').style.display = 'block';
+        document.getElementById('photo-placeholder').style.display = 'none';
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  function renderListings() {
+    const grid = document.getElementById('listings-grid');
+    const noPosts = document.getElementById('no-posts');
+    if (posts.length === 0) {
+      grid.innerHTML = '';
+      noPosts.style.display = 'block';
+      return;
+    }
+    noPosts.style.display = 'none';
+    grid.innerHTML = posts.map(p => {
+      const typeColor = p.type === 'lost' ? '#FEE2E2' : p.type === 'found' ? '#D1FAE5' : '#FEF3C7';
+      const typeText = p.type === 'lost' ? '#DC2626' : p.type === 'found' ? '#059669' : '#D97706';
+      const typeLabel = p.type === 'lost' ? '😟 Lost' : p.type === 'found' ? '🎉 Found' : '⚠️ Missing';
+      const imgHtml = p.photo
+        ? `<div class="card-img"><img src="${p.photo}" alt="${p.item}"></div>`
+        : `<div class="card-img">${p.type === 'lost' ? '🔍' : p.type === 'found' ? '📦' : '🆘'}</div>`;
+      return `<div class="listing-card">
+        ${imgHtml}
+        <div class="card-body">
+          <span class="card-type" style="background:${typeColor};color:${typeText};">${typeLabel}</span>
+          <div class="card-title">${p.item}</div>
+          <div class="card-loc">📍 ${p.loc}</div>
+          <div class="card-date">${p.date || 'Today'}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
 
   function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -1004,8 +1093,23 @@
     const item = document.getElementById('m-item').value.trim();
     const loc = document.getElementById('m-loc').value.trim();
     if (!item || !loc) { toast('⚠️ Please fill item name and location'); return; }
+    const date = document.getElementById('m-date').value;
+    posts.unshift({ type: currentModal, item, loc, date, photo: currentPhotoData });
+    renderListings();
     document.getElementById('modal-success').style.display = 'block';
-    setTimeout(closeModal, 2000);
+    setTimeout(() => {
+      closeModal();
+      // reset photo
+      currentPhotoData = null;
+      document.getElementById('photo-preview').style.display = 'none';
+      document.getElementById('photo-placeholder').style.display = 'block';
+      document.getElementById('m-photo').value = '';
+      document.getElementById('m-item').value = '';
+      document.getElementById('m-loc').value = '';
+      document.getElementById('m-date').value = '';
+      document.getElementById('m-desc').value = '';
+      document.getElementById('m-contact').value = '';
+    }, 1800);
   }
 
   function sendContact() {
@@ -1067,6 +1171,9 @@
   document.getElementById('report-modal').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
   });
+
+  // Init listings
+  renderListings();
 </script>
 </body>
 </html>
