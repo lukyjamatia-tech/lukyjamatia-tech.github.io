@@ -1009,28 +1009,76 @@
   </button>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  let currentModal = 'lost';
-  let currentPhotoData = null;
-  let posts = [];
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, onSnapshot, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-  function previewPhoto(input) {
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        currentPhotoData = e.target.result;
-        document.getElementById('photo-preview').src = currentPhotoData;
-        document.getElementById('photo-preview').style.display = 'block';
-        document.getElementById('photo-placeholder').style.display = 'none';
-      };
-      reader.readAsDataURL(input.files[0]);
+  const firebaseConfig = {
+    apiKey: "AIzaSyCH1s6Cf2Zx2CZVv5HUUu2P7TwHEqoxWW8",
+    authDomain: "findback-app-34e4f.firebaseapp.com",
+    projectId: "findback-app-34e4f",
+    storageBucket: "findback-app-34e4f.firebasestorage.app",
+    messagingSenderId: "504207496092",
+    appId: "1:504207496092:web:b9d6918639ed23ddad6e59"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Real-time listener — posts turant dikhenge sabko
+  const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+  onSnapshot(q, (snapshot) => {
+    const posts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    renderListings(posts);
+  });
+
+  // Submit post to Firestore
+  window.submitToFirebase = async function() {
+    const item = document.getElementById('m-item').value.trim();
+    const loc = document.getElementById('m-loc').value.trim();
+    if (!item || !loc) { window.toast('⚠️ Please fill item name and location'); return; }
+    const date = document.getElementById('m-date').value;
+    const desc = document.getElementById('m-desc').value.trim();
+    const contact = document.getElementById('m-contact').value.trim();
+    const type = window.currentModal;
+    const photo = window.currentPhotoData || null;
+
+    const btn = document.querySelector('#report-modal .btn-primary');
+    btn.textContent = 'Submitting...';
+    btn.disabled = true;
+
+    try {
+      await addDoc(collection(db, "posts"), {
+        type, item, loc, date, desc, contact, photo,
+        createdAt: serverTimestamp()
+      });
+      document.getElementById('modal-success').style.display = 'block';
+      setTimeout(() => {
+        window.closeModal();
+        window.currentPhotoData = null;
+        document.getElementById('photo-preview').style.display = 'none';
+        document.getElementById('photo-placeholder').style.display = 'block';
+        document.getElementById('m-photo').value = '';
+        document.getElementById('m-item').value = '';
+        document.getElementById('m-loc').value = '';
+        document.getElementById('m-date').value = '';
+        document.getElementById('m-desc').value = '';
+        document.getElementById('m-contact').value = '';
+        btn.textContent = 'Submit Post';
+        btn.disabled = false;
+      }, 1800);
+    } catch(e) {
+      window.toast('❌ Error saving. Try again.');
+      btn.textContent = 'Submit Post';
+      btn.disabled = false;
     }
-  }
+  };
 
-  function renderListings() {
+  function renderListings(posts) {
     const grid = document.getElementById('listings-grid');
     const noPosts = document.getElementById('no-posts');
-    if (posts.length === 0) {
+    if (!posts || posts.length === 0) {
       grid.innerHTML = '';
       noPosts.style.display = 'block';
       return;
@@ -1049,11 +1097,31 @@
           <span class="card-type" style="background:${typeColor};color:${typeText};">${typeLabel}</span>
           <div class="card-title">${p.item}</div>
           <div class="card-loc">📍 ${p.loc}</div>
-          <div class="card-date">${p.date || 'Today'}</div>
+          <div class="card-date">${p.date || ''}</div>
         </div>
       </div>`;
     }).join('');
   }
+</script>
+
+<script>
+  window.currentModal = 'lost';
+  window.currentPhotoData = null;
+
+  function previewPhoto(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        window.currentPhotoData = e.target.result;
+        document.getElementById('photo-preview').src = window.currentPhotoData;
+        document.getElementById('photo-preview').style.display = 'block';
+        document.getElementById('photo-placeholder').style.display = 'none';
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  function renderListings() {} // handled by Firebase
 
   function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -1066,7 +1134,7 @@
   }
 
   function openModal(type) {
-    currentModal = type;
+    window.currentModal = type;
     const titles = {
       lost: ['Report Lost Item', 'Fill in details about the item you lost'],
       found: ['Report Found Item', 'Fill in details about the item you found'],
@@ -1083,33 +1151,14 @@
     else if (type === 'missing') document.getElementById('nav-missing').classList.add('active');
   }
 
-  function closeModal() {
+  window.closeModal = function closeModal() {
     document.getElementById('report-modal').classList.remove('open');
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     document.getElementById('nav-home').classList.add('active');
   }
 
   function submitReport() {
-    const item = document.getElementById('m-item').value.trim();
-    const loc = document.getElementById('m-loc').value.trim();
-    if (!item || !loc) { toast('⚠️ Please fill item name and location'); return; }
-    const date = document.getElementById('m-date').value;
-    posts.unshift({ type: currentModal, item, loc, date, photo: currentPhotoData });
-    renderListings();
-    document.getElementById('modal-success').style.display = 'block';
-    setTimeout(() => {
-      closeModal();
-      // reset photo
-      currentPhotoData = null;
-      document.getElementById('photo-preview').style.display = 'none';
-      document.getElementById('photo-placeholder').style.display = 'block';
-      document.getElementById('m-photo').value = '';
-      document.getElementById('m-item').value = '';
-      document.getElementById('m-loc').value = '';
-      document.getElementById('m-date').value = '';
-      document.getElementById('m-desc').value = '';
-      document.getElementById('m-contact').value = '';
-    }, 1800);
+    window.submitToFirebase();
   }
 
   function sendContact() {
@@ -1166,14 +1215,12 @@
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 2500);
   }
+  window.toast = toast;
 
   // Close modal on overlay tap
   document.getElementById('report-modal').addEventListener('click', function(e) {
-    if (e.target === this) closeModal();
+    if (e.target === this) window.closeModal();
   });
-
-  // Init listings
-  renderListings();
 </script>
 </body>
 </html>
