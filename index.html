@@ -16,8 +16,6 @@
       --border: #E0E0E0;
       --card-bg: #FFFFFF;
       --input-bg: #FFFFFF;
-      --toast-bg: #111111;
-      --toast-text: #FFFFFF;
     }
     body {
       font-family: 'Inter', sans-serif;
@@ -26,7 +24,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      transition: background-color 0.4s, color 0.4s;
+      transition: background 0.4s, color 0.4s;
     }
     body.dark-mode {
       --orange: #FF9A5A;
@@ -37,8 +35,16 @@
       --border: #444444;
       --card-bg: #222222;
       --input-bg: #2A2A2A;
-      --toast-bg: #222222;
-      --toast-text: #E0E0E0;
+    }
+    body.dark-mode nav { background: #0F0F0F; }
+    body.dark-mode .modal-sheet,
+    body.dark-mode .page-content,
+    body.dark-mode .listing-card,
+    body.dark-mode .auth-card { background: var(--card-bg); color: var(--black); }
+    body.dark-mode input, body.dark-mode textarea, body.dark-mode select {
+      background: var(--input-bg);
+      color: var(--black);
+      border-color: var(--border);
     }
     nav {
       background: var(--black);
@@ -75,6 +81,15 @@
       padding: 3px 8px;
       border-radius: 6px;
     }
+    .home-hero {
+      background: var(--gray);
+      padding: 60px 24px;
+      text-align: center;
+    }
+    .home-hero .emoji { font-size: 56px; margin-bottom: 16px; }
+    .home-hero h1 { font-family: 'Sora', sans-serif; font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+    .home-hero p { color: var(--text-muted); font-size: 15px; }
+    .home-btns { display: flex; gap: 12px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
     .btn-primary {
       background: var(--orange);
       color: white;
@@ -107,16 +122,14 @@
       bottom: 80px;
       left: 50%;
       transform: translateX(-50%);
-      background: var(--toast-bg);
-      color: var(--toast-text);
+      background: var(--black);
+      color: white;
       padding: 12px 20px;
       border-radius: 24px;
       font-size: 13px;
       opacity: 0;
-      pointer-events: none;
       transition: all .3s;
       z-index: 999;
-      white-space: nowrap;
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .modal-overlay {
@@ -130,14 +143,14 @@
     }
     .modal-overlay.open { display: flex; }
     .modal-sheet {
-      background: var(--card-bg);
+      background: var(--white);
       border-radius: 20px 20px 0 0;
       padding: 24px;
       width: 100%;
       max-height: 85vh;
       overflow-y: auto;
-      color: var(--black);
     }
+    body.dark-mode .modal-sheet { background: #222; color: #e0e0e0; }
     .modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 20px; }
     .modal-title { font-family: 'Sora', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
     .modal-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
@@ -153,29 +166,29 @@
       background: #064E3B;
       color: #6EE7B7;
     }
-    .listing-card {
-      border: 1.5px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-      background: var(--card-bg);
+    .bottom-nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      display: flex;
+      padding: 8px 0 14px;
+      z-index: 200;
+    }
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
       cursor: pointer;
-      transition: box-shadow .2s;
+      color: #aaa;
+      font-size: 10px;
+      font-weight: 500;
     }
-    body.dark-mode input,
-    body.dark-mode textarea,
-    body.dark-mode select {
-      background: var(--input-bg);
-      color: var(--black);
-      border-color: var(--border);
-    }
-    #user-menu-container:hover #user-avatar {
-      transform: scale(1.08);
-      transition: transform 0.2s;
-    }
-    #user-dropdown button:hover {
-      background: var(--gray);
-    }
-    /* Add your other original styles here (home-hero, page-content, etc.) */
+    .nav-item.active { color: var(--orange); }
+    #user-menu-container:hover #user-avatar { transform: scale(1.08); transition: 0.2s; }
+    #user-dropdown button:hover { background: var(--gray); }
   </style>
 </head>
 <body>
@@ -189,21 +202,37 @@
     <button id="nav-login-top" class="btn-primary" style="padding:8px 16px; font-size:13px;" onclick="showPage('login')">Login</button>
 
     <div id="user-menu-container" style="position:relative; display:none; cursor:pointer;">
-      <div id="user-avatar" style="width:36px;height:36px;border-radius:50%;background:var(--orange);color:white;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+      <div id="user-avatar" style="width:36px;height:36px;border-radius:50%;background:var(--orange);color:white;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid white;">
         U
       </div>
-      <div id="user-dropdown" style="display:none;position:absolute;top:45px;right:0;background:var(--white);border:1px solid var(--border);border-radius:10px;box-shadow:0 6px 16px rgba(0,0,0,0.15);min-width:180px;z-index:100;overflow:hidden;">
-        <button onclick="loadProfile()" style="width:100%;padding:12px 16px;border:none;background:none;text-align:left;cursor:pointer;font-size:14px;">👤 Profile</button>
-        <button onclick="showMyPosts()" style="width:100%;padding:12px 16px;border:none;background:none;text-align:left;cursor:pointer;font-size:14px;">📋 My Posts</button>
-        <button onclick="openSettingsModal()" style="width:100%;padding:12px 16px;border:none;background:none;text-align:left;cursor:pointer;font-size:14px;">⚙️ Settings</button>
+      <div id="user-dropdown" style="display:none;position:absolute;top:45px;right:0;background:var(--white);border:1px solid var(--border);border-radius:10px;box-shadow:0 6px 16px rgba(0,0,0,0.15);min-width:180px;z-index:100;">
+        <button onclick="loadProfile()" style="width:100%;padding:12px 16px;border:none;background:none;text-align:left;cursor:pointer;">👤 Profile</button>
+        <button onclick="openSettingsModal()" style="width:100%;padding:12px 16px;border:none;background:none;text-align:left;cursor:pointer;">⚙️ Settings</button>
         <div style="height:1px;background:var(--border);margin:4px 0;"></div>
-        <button onclick="doLogout()" style="width:100%;padding:12px 16px;border:none;background:none;text-align:left;cursor:pointer;color:#dc2626;font-size:14px;">🚪 Logout</button>
+        <button onclick="doLogout()" style="width:100%;padding:12px 16px;border:none;background:none;text-align:left;cursor:pointer;color:#dc2626;">🚪 Logout</button>
       </div>
     </div>
   </div>
 </nav>
 
 <div class="toast" id="toast"></div>
+
+<div class="page active" id="page-home">
+  <div class="home-hero">
+    <div class="emoji">🔍</div>
+    <h1>Find what the world lost.</h1>
+    <p>India's most trusted lost & found platform</p>
+    <div class="home-btns">
+      <button class="btn-primary" onclick="openModal('lost')">😟 Report Lost</button>
+      <button class="btn-outline" onclick="openModal('found')">🎉 Report Found</button>
+    </div>
+  </div>
+  <div class="page-content">
+    <!-- Tumhara purana search bar, category grid, listings grid yahan paste kar lena -->
+    <!-- Example placeholder -->
+    <div id="listings-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"></div>
+  </div>
+</div>
 
 <!-- SETTINGS MODAL -->
 <div class="modal-overlay" id="settings-modal">
@@ -221,30 +250,36 @@
           <option value="dark">Dark</option>
         </select>
       </div>
-      <div class="form-group">
-        <label>📧 Notifications</label>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <input type="checkbox" id="notify-new-posts" checked>
-          <label for="notify-new-posts" style="margin:0;font-size:14px;">Notify about matching posts</label>
-        </div>
-      </div>
-      <div style="margin-top:24px;text-align:center;color:var(--text-muted);font-size:13px;">
-        Account: <strong id="settings-email"></strong>
-      </div>
+      <button class="btn-primary" style="width:100%;margin-top:16px;" onclick="saveSettings()">Save</button>
+      <button class="btn-outline" style="width:100%;margin-top:8px;" onclick="closeSettingsModal()">Close</button>
     </div>
-
-    <button class="btn-primary" style="width:100%;margin-top:16px;" onclick="saveSettings()">Save Settings</button>
-    <button class="btn-outline" style="width:100%;margin-top:8px;" onclick="closeSettingsModal()">Close</button>
   </div>
 </div>
 
-<!-- Your other pages/modals (login, register, home, detail, report, edit etc.) go here -->
-<!-- For brevity, only key parts shown. Paste your original page content here -->
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="nav-item active" id="nav-home" onclick="showPage('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Home
+  </button>
+  <button class="nav-item" id="nav-lost" onclick="openModal('lost')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    Lost
+  </button>
+  <button class="nav-item" id="nav-found" onclick="openModal('found')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Found
+  </button>
+  <button class="nav-item" id="nav-login-btn" onclick="showPage('login')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Login
+  </button>
+</div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, orderBy, query, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCH1s6Cf2Zx2CZVv5HUUu2P7TwHEqoxWW8",
@@ -260,38 +295,26 @@
   const db = getFirestore(app);
 
   window._currentUser = null;
+  window._allPosts = [];
 
   // =============================================
-  // Dark Mode Logic
+  // Dark Mode
   // =============================================
   function applyDarkMode(mode) {
-    if (mode === 'dark') {
-      document.body.classList.add('dark-mode');
-    } else if (mode === 'light') {
-      document.body.classList.remove('dark-mode');
-    } else { // system
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark-mode');
-      } else {
-        document.body.classList.remove('dark-mode');
-      }
+    if (mode === 'dark') document.body.classList.add('dark-mode');
+    else if (mode === 'light') document.body.classList.remove('dark-mode');
+    else {
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) document.body.classList.add('dark-mode');
+      else document.body.classList.remove('dark-mode');
     }
     localStorage.setItem('darkModePreference', mode);
   }
 
-  // Load saved preference or system on start
   const savedMode = localStorage.getItem('darkModePreference') || 'system';
   applyDarkMode(savedMode);
 
-  // Listen to system changes
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-    if (localStorage.getItem('darkModePreference') === 'system') {
-      applyDarkMode('system');
-    }
-  });
-
   // =============================================
-  // Auth & Avatar + Dropdown
+  // Auth + Avatar + Dropdown
   // =============================================
   onAuthStateChanged(auth, (user) => {
     window._currentUser = user;
@@ -304,7 +327,6 @@
       menuContainer.style.display = 'block';
       const name = user.displayName || 'User';
       avatar.textContent = name.charAt(0).toUpperCase();
-      avatar.onclick = toggleUserDropdown;
     } else {
       loginBtn.style.display = 'block';
       menuContainer.style.display = 'none';
@@ -326,8 +348,6 @@
   // Settings Modal
   // =============================================
   window.openSettingsModal = function() {
-    document.getElementById('settings-email').textContent = window._currentUser?.email || 'N/A';
-    document.getElementById('dark-mode-select').value = localStorage.getItem('darkModePreference') || 'system';
     document.getElementById('settings-modal').classList.add('open');
   };
 
@@ -351,7 +371,7 @@
     showPage('home');
   };
 
-  // Toast helper
+  // Toast
   window.toast = function(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -359,10 +379,20 @@
     setTimeout(() => t.classList.remove('show'), 2500);
   };
 
-  // Placeholder functions (add your original logic here)
-  window.showPage = function(page) { /* your page switch logic */ };
-  window.loadProfile = function() { /* your profile load */ };
-  window.showMyPosts = function() { loadProfile(); /* or custom */ };
+  // =============================================
+  // Placeholder for your original functions
+  // =============================================
+  window.showPage = function(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+  };
+
+  window.openModal = function(type) {
+    toast('Opening ' + type + ' modal...');
+    // Tumhara purana modal code yahan daal dena
+  };
+
+  // Your original Firebase post logic (real-time, submit, delete etc.) paste here
 </script>
 
 </body>
