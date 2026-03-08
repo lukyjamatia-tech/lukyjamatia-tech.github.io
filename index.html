@@ -4,775 +4,453 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FindBack S1 — Find What The World Lost</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
   <style>
     :root {
-  --bg: #ffffff;
---surface: #f5f5f5;
---card: #ffffff;
---border: #e0e0e0;
---text: #1a1a1a;
---muted: #666666;    
-      --green: #2adb7a;
-      --red: #e05c2a;
-      --blue: #3a8ef0;
+      --bg: #fafaf8; --surface: #ffffff; --card: #ffffff; --border: #ebebea;
+      --accent: #e07b39; --accent-light: #fdf1e8; --accent2: #d94f4f;
+      --text: #1c1c1a; --text-soft: #5a5a56; --muted: #9a9a94;
+      --green: #3aaa6e; --green-light: #eaf7f1;
+      --blue: #3a7ef0; --blue-light: #eef3fd; --red-light: #fdf0ee;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.07);
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
-      padding-bottom: 80px;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:var(--bg); color:var(--text); font-family:'Nunito',sans-serif; min-height:100vh; padding-bottom:80px; -webkit-font-smoothing:antialiased; }
 
-    /* HEADER */
-    header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.4rem;
-      letter-spacing: -0.5px;
-    }
-    .logo span { color: var(--accent); }
-    .header-tag {
-      font-size: 0.65rem;
-      background: var(--accent);
-      color: #000;
-      padding: 2px 8px;
-      border-radius: 20px;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
+    header { background:var(--surface); border-bottom:1px solid var(--border); padding:13px 18px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+    .logo { font-family:'Lora',serif; font-weight:600; font-size:1.25rem; text-decoration:none; color:var(--text); }
+    .logo em { font-style:italic; color:var(--accent); }
+    .header-right { display:flex; align-items:center; gap:10px; }
+    .live-badge { display:flex; align-items:center; gap:5px; font-size:0.72rem; color:var(--muted); font-weight:600; }
+    .live-dot { width:7px; height:7px; background:var(--green); border-radius:50%; animation:pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+    .s1-tag { font-size:0.62rem; background:var(--text); color:#fff; padding:2px 7px; border-radius:4px; font-weight:700; }
 
-    /* HERO */
-    .hero {
-      padding: 28px 18px 20px;
-      background: linear-gradient(160deg, #13131a 0%, #0d0d16 100%);
-      border-bottom: 1px solid var(--border);
-    }
-    .hero h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.9rem;
-      font-weight: 800;
-      line-height: 1.15;
-      margin-bottom: 6px;
-    }
-    .hero h1 em { color: var(--accent); font-style: normal; }
-    .hero p { color: var(--muted); font-size: 0.9rem; margin-bottom: 18px; }
+    .hero { background:var(--surface); padding:22px 18px 20px; border-bottom:1px solid var(--border); }
+    .hero-title { font-family:'Lora',serif; font-size:1.55rem; font-weight:600; line-height:1.3; margin-bottom:5px; }
+    .hero-title em { font-style:italic; color:var(--accent); }
+    .hero-sub { font-size:0.85rem; color:var(--text-soft); margin-bottom:18px; font-weight:500; }
 
-    /* STATS */
-    .stats {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-    .stat-box {
-      flex: 1;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px 8px;
-      text-align: center;
-    }
-    .stat-num {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.3rem;
-      font-weight: 800;
-      color: var(--accent);
-    }
-    .stat-label { font-size: 0.65rem; color: var(--muted); margin-top: 2px; }
+    .stats { display:flex; gap:8px; margin-bottom:16px; }
+    .stat-box { flex:1; background:var(--bg); border:1px solid var(--border); border-radius:10px; padding:9px 6px; text-align:center; }
+    .stat-num { font-family:'Lora',serif; font-size:1.2rem; font-weight:600; color:var(--accent); }
+    .stat-label { font-size:0.6rem; color:var(--muted); margin-top:1px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; }
 
-    /* POST BUTTONS */
-    .post-buttons {
-      display: flex;
-      gap: 10px;
-    }
-    .btn {
-      flex: 1;
-      padding: 13px 10px;
-      border-radius: 12px;
-      border: none;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: transform 0.15s, opacity 0.15s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-    .btn:active { transform: scale(0.97); opacity: 0.85; }
-    .btn-lost { background: var(--accent2); color: #fff; }
-    .btn-found { background: var(--green); color: #000; }
-    .btn-missing { background: var(--blue); color: #fff; }
-    .btn-missing { font-size: 0.78rem; }
+    .post-buttons { display:flex; gap:8px; }
+    .btn { flex:1; padding:11px 8px; border-radius:10px; border:1.5px solid transparent; font-family:'Nunito',sans-serif; font-weight:700; font-size:0.82rem; cursor:pointer; transition:transform 0.15s; display:flex; align-items:center; justify-content:center; }
+    .btn:active { transform:scale(0.97); }
+    .btn-lost { background:var(--red-light); color:var(--accent2); border-color:#f5c4c4; }
+    .btn-found { background:var(--green-light); color:#2e8a5a; border-color:#b8e8d0; }
+    .btn-missing { background:var(--blue-light); color:#2a60c0; border-color:#c0d4f8; }
 
-    /* FILTERS */
-    .filters {
-      padding: 14px 18px;
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      border-bottom: 1px solid var(--border);
-    }
-    .filters::-webkit-scrollbar { display: none; }
-    .filter-btn {
-      white-space: nowrap;
-      padding: 7px 14px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--muted);
-      font-size: 0.8rem;
-      cursor: pointer;
-      transition: all 0.15s;
-      font-family: 'DM Sans', sans-serif;
-    }
-    .filter-btn.active {
-      background: var(--accent);
-      color: #000;
-      border-color: var(--accent);
-      font-weight: 600;
-    }
+    .filters { padding:12px 18px; display:flex; gap:7px; overflow-x:auto; scrollbar-width:none; border-bottom:1px solid var(--border); background:var(--surface); }
+    .filters::-webkit-scrollbar { display:none; }
+    .filter-btn { white-space:nowrap; padding:6px 13px; border-radius:20px; border:1.5px solid var(--border); background:var(--bg); color:var(--text-soft); font-size:0.78rem; cursor:pointer; transition:all 0.15s; font-family:'Nunito',sans-serif; font-weight:600; }
+    .filter-btn.active { background:var(--text); color:#fff; border-color:var(--text); }
 
-    /* LISTINGS */
-    .listings-header {
-      padding: 16px 18px 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .listings-header h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-    }
-    .listings-count {
-      font-size: 0.75rem;
-      color: var(--muted);
-    }
+    .listings-header { padding:15px 18px 8px; display:flex; align-items:center; justify-content:space-between; }
+    .listings-header h2 { font-family:'Lora',serif; font-size:0.95rem; font-weight:600; }
+    .listings-count { font-size:0.72rem; color:var(--muted); font-weight:600; }
+    .listings-grid { padding:0 14px; display:flex; flex-direction:column; gap:10px; }
 
-    .listings-grid {
-      padding: 0 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px; box-shadow:var(--shadow-sm); animation:fadeIn 0.25s ease; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+    .card-top { display:flex; gap:12px; margin-bottom:10px; }
+    .card-photo { width:70px; height:70px; border-radius:10px; object-fit:cover; border:1px solid var(--border); flex-shrink:0; }
+    .card-photo-placeholder { width:70px; height:70px; border-radius:10px; background:var(--bg); border:1px solid var(--border); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:1.6rem; }
+    .card-info { flex:1; min-width:0; }
+    .card-badge { display:inline-flex; align-items:center; font-size:0.62rem; font-weight:700; letter-spacing:0.6px; padding:2px 8px; border-radius:4px; margin-bottom:6px; text-transform:uppercase; }
+    .badge-lost { background:var(--red-light); color:var(--accent2); }
+    .badge-found { background:var(--green-light); color:#2e8a5a; }
+    .badge-missing { background:var(--blue-light); color:#2a60c0; }
+    .card-title { font-family:'Lora',serif; font-size:0.98rem; font-weight:600; margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .card-location { font-size:0.76rem; color:var(--text-soft); font-weight:600; }
+    .card-desc { font-size:0.8rem; color:var(--text-soft); line-height:1.55; margin-bottom:10px; }
+    .card-footer { display:flex; align-items:center; justify-content:space-between; }
+    .card-time { font-size:0.7rem; color:var(--muted); font-weight:600; }
+    .card-actions { display:flex; gap:7px; }
+    .action-btn { padding:6px 13px; border-radius:7px; border:1.5px solid var(--border); background:var(--bg); color:var(--text); font-size:0.75rem; cursor:pointer; font-family:'Nunito',sans-serif; font-weight:700; }
+    .action-btn.call { background:var(--green-light); color:#2e8a5a; border-color:#b8e8d0; }
+    .action-btn.whatsapp { background:#f0fdf4; color:#1a7a3a; border-color:#86efac; }
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px;
-      position: relative;
-      overflow: hidden;
-      animation: fadeIn 0.3s ease;
-    }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-    }
-    .card.lost::before { background: var(--accent2); }
-    .card.found::before { background: var(--green); }
-    .card.missing::before { background: var(--blue); }
+    .empty-state { text-align:center; padding:40px 20px; color:var(--muted); }
+    .empty-icon { font-size:2.2rem; margin-bottom:10px; }
+    .empty-state h3 { font-family:'Lora',serif; color:var(--text); font-size:1rem; margin-bottom:5px; }
+    .loading { text-align:center; padding:30px; color:var(--muted); font-size:0.85rem; }
+    .spinner { width:26px; height:26px; border:2.5px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 10px; }
+    @keyframes spin { to{transform:rotate(360deg)} }
 
-    .card-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.8px;
-      padding: 3px 9px;
-      border-radius: 20px;
-      margin-bottom: 10px;
-    }
-    .badge-lost { background: rgba(224,92,42,0.15); color: var(--accent2); }
-    .badge-found { background: rgba(42,219,122,0.12); color: var(--green); }
-    .badge-missing { background: rgba(58,142,240,0.12); color: var(--blue); }
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:200; align-items:flex-end; }
+    .modal-overlay.open { display:flex; }
+    .modal { background:var(--surface); border-radius:20px 20px 0 0; padding:20px 18px 36px; width:100%; max-height:88vh; overflow-y:auto; animation:slideUp 0.28s ease; position:relative; }
+    @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+    .modal-handle { width:36px; height:3.5px; background:var(--border); border-radius:2px; margin:0 auto 18px; }
+    .modal-title { font-family:'Lora',serif; font-size:1.15rem; font-weight:600; margin-bottom:18px; }
+    .close-modal { position:absolute; top:14px; right:16px; background:var(--bg); border:1px solid var(--border); color:var(--muted); font-size:1rem; width:30px; height:30px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:700; }
 
-    .card-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 5px;
-    }
-    .card-desc {
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.5;
-      margin-bottom: 12px;
-    }
-    .card-meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.75rem;
-      color: var(--muted);
-    }
-    .card-location { display: flex; align-items: center; gap: 4px; }
-    .card-actions { display: flex; gap: 8px; }
-    .action-btn {
-      padding: 7px 14px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text);
-      font-size: 0.78rem;
-      cursor: pointer;
-      font-family: 'DM Sans', sans-serif;
-      transition: all 0.15s;
-    }
-    .action-btn:active { transform: scale(0.96); }
-    .action-btn.call { background: var(--green); color: #000; border-color: var(--green); font-weight: 600; }
-    .action-btn.whatsapp { background: #25D366; color: #fff; border-color: #25D366; font-weight: 600; }
+    .photo-upload-area { border:2px dashed var(--border); border-radius:12px; padding:18px; text-align:center; cursor:pointer; transition:all 0.2s; margin-bottom:14px; position:relative; background:var(--bg); min-height:80px; }
+    .photo-upload-area:hover { border-color:var(--accent); background:var(--accent-light); }
+    .photo-upload-area.has-photo { padding:0; border-style:solid; border-color:var(--border); overflow:hidden; }
+    .photo-upload-area input[type="file"] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; z-index:1; }
+    .upload-icon { font-size:1.5rem; margin-bottom:5px; }
+    .upload-text { font-size:0.8rem; color:var(--text-soft); font-weight:600; }
+    .upload-sub { font-size:0.68rem; color:var(--muted); margin-top:2px; }
+    .photo-preview { width:100%; max-height:180px; object-fit:cover; border-radius:10px; display:none; }
+    .photo-preview.show { display:block; }
+    .photo-remove { position:absolute; top:8px; right:8px; background:rgba(0,0,0,0.5); color:#fff; border:none; border-radius:50%; width:26px; height:26px; font-size:0.8rem; cursor:pointer; display:none; align-items:center; justify-content:center; z-index:2; font-weight:700; }
+    .photo-remove.show { display:flex; }
+    .photo-size-warn { font-size:0.7rem; color:var(--accent2); margin-top:4px; display:none; font-weight:600; }
 
-    /* EMPTY STATE */
-    .empty-state {
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--muted);
-    }
-    .empty-icon { font-size: 3rem; margin-bottom: 12px; }
-    .empty-state h3 { font-family: 'Syne', sans-serif; color: var(--text); margin-bottom: 6px; }
+    .form-group { margin-bottom:13px; }
+    .form-label { display:block; font-size:0.75rem; color:var(--text-soft); margin-bottom:5px; font-weight:700; }
+    .form-input,.form-textarea,.form-select { width:100%; background:var(--bg); border:1.5px solid var(--border); border-radius:10px; padding:11px 13px; color:var(--text); font-family:'Nunito',sans-serif; font-size:0.88rem; outline:none; transition:border-color 0.2s; font-weight:500; }
+    .form-input:focus,.form-textarea:focus,.form-select:focus { border-color:var(--accent); background:var(--surface); }
+    .form-textarea { height:80px; resize:none; line-height:1.5; }
+    .submit-btn { width:100%; padding:14px; border-radius:12px; border:none; font-family:'Nunito',sans-serif; font-weight:800; font-size:0.95rem; cursor:pointer; margin-top:6px; transition:opacity 0.2s,transform 0.15s; }
+    .submit-btn:active { transform:scale(0.98); }
+    .submit-btn:disabled { opacity:0.5; cursor:not-allowed; }
+    .submit-lost { background:var(--accent2); color:#fff; }
+    .submit-found { background:var(--green); color:#fff; }
+    .submit-missing { background:var(--blue); color:#fff; }
 
-    /* LOADING */
-    .loading {
-      text-align: center;
-      padding: 30px;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-    .spinner {
-      width: 30px; height: 30px;
-      border: 3px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 12px;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    .toast { position:fixed; bottom:88px; left:50%; transform:translateX(-50%) translateY(16px); background:var(--text); color:#fff; padding:11px 22px; border-radius:30px; font-weight:700; font-size:0.85rem; z-index:300; opacity:0; transition:all 0.28s; white-space:nowrap; }
+    .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+    .toast.error { background:var(--accent2); }
+    .toast.success { background:var(--green); }
 
-    /* MODAL OVERLAY */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      z-index: 200;
-      align-items: flex-end;
-      justify-content: center;
-    }
-    .modal-overlay.open { display: flex; }
-    .modal {
-      background: var(--surface);
-      border-radius: 20px 20px 0 0;
-      padding: 24px 20px 36px;
-      width: 100%;
-      max-height: 85vh;
-      overflow-y: auto;
-      animation: slideUp 0.3s ease;
-    }
-    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-    .modal-handle {
-      width: 40px; height: 4px;
-      background: var(--border);
-      border-radius: 2px;
-      margin: 0 auto 20px;
-    }
-    .modal-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.2rem;
-      font-weight: 800;
-      margin-bottom: 20px;
-    }
+    .bottom-nav { position:fixed; bottom:0; left:0; right:0; background:var(--surface); border-top:1px solid var(--border); display:flex; z-index:100; }
+    .nav-item { flex:1; display:flex; flex-direction:column; align-items:center; padding:9px 0 11px; cursor:pointer; color:var(--muted); font-size:0.6rem; gap:3px; border:none; background:none; font-family:'Nunito',sans-serif; font-weight:700; transition:color 0.15s; }
+    .nav-item.active { color:var(--accent); }
+    .nav-icon { font-size:1.1rem; }
 
-    .form-group { margin-bottom: 14px; }
-    .form-label {
-      display: block;
-      font-size: 0.78rem;
-      color: var(--muted);
-      margin-bottom: 6px;
-      font-weight: 500;
-    }
-    .form-input, .form-textarea, .form-select {
-      width: 100%;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px 14px;
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .form-input:focus, .form-textarea:focus, .form-select:focus {
-      border-color: var(--accent);
-    }
-    .form-textarea { height: 90px; resize: none; }
-    .form-select option { background: var(--card); }
-
-    .submit-btn {
-      width: 100%;
-      padding: 15px;
-      border-radius: 12px;
-      border: none;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-top: 8px;
-      transition: opacity 0.2s;
-    }
-    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .submit-lost { background: var(--accent2); color: #fff; }
-    .submit-found { background: var(--green); color: #000; }
-    .submit-missing { background: var(--blue); color: #fff; }
-
-    .close-modal {
-      position: absolute;
-      top: 16px; right: 20px;
-      background: var(--card);
-      border: none;
-      color: var(--muted);
-      font-size: 1.2rem;
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-    }
-
-    /* TOAST */
-    .toast {
-      position: fixed;
-      bottom: 90px;
-      left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: var(--green);
-      color: #000;
-      padding: 12px 24px;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      z-index: 300;
-      opacity: 0;
-      transition: all 0.3s;
-      white-space: nowrap;
-    }
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-    .toast.error { background: var(--accent2); color: #fff; }
-
-    /* BOTTOM NAV */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      display: flex;
-      z-index: 100;
-    }
-    .nav-item {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 10px 0 14px;
-      cursor: pointer;
-      color: var(--muted);
-      font-size: 0.65rem;
-      gap: 4px;
-      transition: color 0.15s;
-      border: none;
-      background: none;
-    }
-    .nav-item.active { color: var(--accent); }
-    .nav-icon { font-size: 1.3rem; }
-
-    /* ONLINE BADGE */
-    .online-dot {
-      width: 8px; height: 8px;
-      background: var(--green);
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 4px;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
+    .fb-footer { background:var(--surface); border-top:1px solid var(--border); padding:32px 20px 96px; }
+    .fb-footer-grid { max-width:960px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:24px 16px; }
+    .fb-footer-brand { grid-column:1/-1; }
+    .fb-footer-brand h2 { font-family:'Lora',serif; font-size:1.1rem; font-weight:600; color:var(--text); margin:0 0 4px; }
+    .fb-footer-brand p { color:var(--muted); font-size:0.78rem; font-weight:500; }
+    .fb-footer-col h4 { font-size:0.6rem; font-weight:800; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin:0 0 10px; }
+    .fb-footer-col a { display:block; color:var(--text-soft); text-decoration:none; font-size:0.82rem; margin-bottom:8px; font-weight:600; transition:color 0.15s; }
+    .fb-footer-col a:hover { color:var(--accent); }
+    .fb-footer-divider { max-width:960px; margin:24px auto 14px; border:none; border-top:1px solid var(--border); }
+    .fb-footer-bottom { max-width:960px; margin:0 auto; display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; }
+    .fb-footer-bottom p { font-size:0.72rem; color:var(--muted); font-weight:500; }
+    .fb-footer-bottom a { color:var(--muted); text-decoration:none; font-size:0.72rem; margin-left:10px; font-weight:600; }
   </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
-  <div class="logo">Find<span>Back</span></div>
-  <div style="display:flex;align-items:center;gap:8px;">
-    <span style="font-size:0.75rem;color:var(--muted);"><span class="online-dot"></span>Live</span>
-    <span class="header-tag">S1</span>
+  <a href="index.html" class="logo">Find<em>Back</em></a>
+  <div class="header-right">
+    <span class="live-badge"><span class="live-dot"></span>Live</span>
+    <span class="s1-tag">S1</span>
   </div>
 </header>
 
-<!-- HERO -->
 <div class="hero">
-  <h1>Find What The<br/><em>World Lost.</em></h1>
-  <p>India's real-time lost & found platform</p>
-
+  <h1 class="hero-title">Find what the<br/><em>world lost.</em></h1>
+  <p class="hero-sub">India's real-time lost &amp; found platform</p>
   <div class="stats">
-    <div class="stat-box">
-      <div class="stat-num" id="stat-total">0</div>
-      <div class="stat-label">Total Posts</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-num" id="stat-lost">0</div>
-      <div class="stat-label">Lost</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-num" id="stat-found">0</div>
-      <div class="stat-label">Found</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-num" id="stat-missing">0</div>
-      <div class="stat-label">Missing</div>
-    </div>
+    <div class="stat-box"><div class="stat-num" id="stat-total">0</div><div class="stat-label">Total</div></div>
+    <div class="stat-box"><div class="stat-num" id="stat-lost">0</div><div class="stat-label">Lost</div></div>
+    <div class="stat-box"><div class="stat-num" id="stat-found">0</div><div class="stat-label">Found</div></div>
+    <div class="stat-box"><div class="stat-num" id="stat-missing">0</div><div class="stat-label">Missing</div></div>
   </div>
-
   <div class="post-buttons">
-    <button class="btn btn-lost" onclick="openModal('lost')">🔴 Lost</button>
-    <button class="btn btn-found" onclick="openModal('found')">🟢 Found</button>
-    <button class="btn btn-missing" onclick="openModal('missing')">🔵 Missing</button>
+    <button class="btn btn-lost" onclick="openModal('lost')">Lost</button>
+    <button class="btn btn-found" onclick="openModal('found')">Found</button>
+    <button class="btn btn-missing" onclick="openModal('missing')">Missing</button>
   </div>
 </div>
 
-<!-- FILTERS -->
 <div class="filters">
-  <button class="filter-btn active" onclick="filterPosts('all', this)">🌐 All</button>
-  <button class="filter-btn" onclick="filterPosts('lost', this)">🔴 Lost</button>
-  <button class="filter-btn" onclick="filterPosts('found', this)">🟢 Found</button>
-  <button class="filter-btn" onclick="filterPosts('missing', this)">🔵 Missing</button>
-  <button class="filter-btn" onclick="filterPosts('mobile', this)">📱 Mobile</button>
-  <button class="filter-btn" onclick="filterPosts('wallet', this)">👛 Wallet</button>
-  <button class="filter-btn" onclick="filterPosts('keys', this)">🔑 Keys</button>
-  <button class="filter-btn" onclick="filterPosts('documents', this)">📄 Documents</button>
-  <button class="filter-btn" onclick="filterPosts('bag', this)">🎒 Bag</button>
-  <button class="filter-btn" onclick="filterPosts('person', this)">👤 Person</button>
+  <button class="filter-btn active" onclick="filterPosts('all',this)">All</button>
+  <button class="filter-btn" onclick="filterPosts('lost',this)">Lost</button>
+  <button class="filter-btn" onclick="filterPosts('found',this)">Found</button>
+  <button class="filter-btn" onclick="filterPosts('missing',this)">Missing</button>
+  <button class="filter-btn" onclick="filterPosts('mobile',this)">Mobile</button>
+  <button class="filter-btn" onclick="filterPosts('wallet',this)">Wallet</button>
+  <button class="filter-btn" onclick="filterPosts('keys',this)">Keys</button>
+  <button class="filter-btn" onclick="filterPosts('documents',this)">Documents</button>
+  <button class="filter-btn" onclick="filterPosts('bag',this)">Bag</button>
+  <button class="filter-btn" onclick="filterPosts('person',this)">Person</button>
 </div>
 
-<!-- LISTINGS -->
 <div class="listings-header">
   <h2>Recent Posts</h2>
   <span class="listings-count" id="listings-count">Loading...</span>
 </div>
-
 <div class="listings-grid" id="listings-grid">
-  <div class="loading">
-    <div class="spinner"></div>
-    Connecting to Firebase...
-  </div>
+  <div class="loading"><div class="spinner"></div>Connecting...</div>
 </div>
 
-<!-- MODAL -->
 <div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
-  <div class="modal" style="position:relative;">
+  <div class="modal">
     <div class="modal-handle"></div>
     <button class="close-modal" onclick="closeModal()">✕</button>
     <div class="modal-title" id="modal-title">Post Item</div>
 
+    <div class="photo-upload-area" id="photo-upload-area">
+      <input type="file" id="f-photo" accept="image/*" onchange="handlePhotoUpload(event)" />
+      <img class="photo-preview" id="photo-preview" src="" alt="Preview" />
+      <button class="photo-remove" id="photo-remove" onclick="removePhoto(event)">✕</button>
+      <div id="upload-placeholder">
+        <div class="upload-icon">📷</div>
+        <div class="upload-text">Add a photo</div>
+        <div class="upload-sub">Max 50 KB · JPG, PNG</div>
+      </div>
+    </div>
+    <div class="photo-size-warn" id="photo-size-warn">Photo too large. Please choose under 50 KB.</div>
+
     <div class="form-group">
       <label class="form-label">Item Name *</label>
-      <input class="form-input" id="f-title" placeholder="e.g. iPhone 14 Pro, Aadhar Card, Black Wallet..." />
+      <input class="form-input" id="f-title" placeholder="e.g. Black wallet, Aadhar card, iPhone..." />
     </div>
     <div class="form-group">
       <label class="form-label">Category</label>
       <select class="form-select" id="f-category">
-        <option value="mobile">📱 Mobile / Phone</option>
-        <option value="wallet">👛 Wallet / Purse</option>
-        <option value="keys">🔑 Keys</option>
-        <option value="documents">📄 Documents / ID</option>
-        <option value="bag">🎒 Bag / Luggage</option>
-        <option value="jewelry">💍 Jewelry</option>
-        <option value="vehicle">🚗 Vehicle</option>
-        <option value="person">👤 Person</option>
-        <option value="animal">🐾 Animal / Pet</option>
-        <option value="other">📦 Other</option>
+        <option value="mobile">Mobile / Phone</option>
+        <option value="wallet">Wallet / Purse</option>
+        <option value="keys">Keys</option>
+        <option value="documents">Documents / ID</option>
+        <option value="bag">Bag / Luggage</option>
+        <option value="jewelry">Jewelry</option>
+        <option value="vehicle">Vehicle</option>
+        <option value="person">Person</option>
+        <option value="animal">Animal / Pet</option>
+        <option value="other">Other</option>
       </select>
     </div>
     <div class="form-group">
       <label class="form-label">Description *</label>
-      <textarea class="form-textarea" id="f-desc" placeholder="Describe the item — color, brand, any unique marks..."></textarea>
+      <textarea class="form-textarea" id="f-desc" placeholder="Color, brand, any identifying marks..."></textarea>
     </div>
     <div class="form-group">
       <label class="form-label">Location *</label>
-      <input class="form-input" id="f-location" placeholder="e.g. Connaught Place, Delhi / Koramangala, Bengaluru" />
+      <input class="form-input" id="f-location" placeholder="e.g. Connaught Place, Delhi" />
     </div>
     <div class="form-group">
       <label class="form-label">Your Name</label>
-      <input class="form-input" id="f-name" placeholder="Your name (optional)" />
+      <input class="form-input" id="f-name" placeholder="Optional" />
     </div>
     <div class="form-group">
       <label class="form-label">Contact Number *</label>
-      <input class="form-input" id="f-phone" type="tel" placeholder="10-digit mobile number" maxlength="10" />
+      <input class="form-input" id="f-phone" type="tel" placeholder="10-digit number" maxlength="10" />
     </div>
     <div class="form-group">
       <label class="form-label">Reward (optional)</label>
-      <input class="form-input" id="f-reward" placeholder="e.g. ₹500 reward" />
+      <input class="form-input" id="f-reward" placeholder="e.g. Rs. 500 reward" />
     </div>
-
     <button class="submit-btn" id="submit-btn" onclick="submitPost()">Submit Post</button>
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
-  <button class="nav-item active">
-    <span class="nav-icon">🏠</span>
-    Home
+  <button class="nav-item active" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <span class="nav-icon">⌂</span>Home
   </button>
   <button class="nav-item" onclick="openModal('lost')">
-    <span class="nav-icon">🔴</span>
-    Lost
+    <span class="nav-icon">○</span>Lost
   </button>
   <button class="nav-item" onclick="openModal('found')">
-    <span class="nav-icon">🟢</span>
-    Found
+    <span class="nav-icon">◎</span>Found
   </button>
   <button class="nav-item" onclick="openModal('missing')">
-    <span class="nav-icon">🔵</span>
-    Missing
+    <span class="nav-icon">◉</span>Missing
   </button>
   <button class="nav-item">
-    <span class="nav-icon">ℹ️</span>
-    About
+    <span class="nav-icon">◌</span>About
   </button>
 </nav>
 
-<!-- FIREBASE SDK -->
+<footer class="fb-footer">
+  <div class="fb-footer-grid">
+    <div class="fb-footer-brand">
+      <h2>FindBack S1</h2>
+      <p>Find what the world lost — India's trusted lost &amp; found platform.</p>
+    </div>
+    <div class="fb-footer-col">
+      <h4>Company</h4>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+      <a href="customers.html">Customers</a>
+    </div>
+    <div class="fb-footer-col">
+      <h4>Legal</h4>
+      <a href="terms.html">Terms of Service</a>
+      <a href="privacy.html">Privacy Policy</a>
+    </div>
+    <div class="fb-footer-col">
+      <h4>Account</h4>
+      <a href="login.html">Log In</a>
+      <a href="register.html">Register</a>
+      <a href="admin.html">Admin</a>
+    </div>
+    <div class="fb-footer-col">
+      <h4>Quick Links</h4>
+      <a href="#" onclick="openModal('lost');return false;">Report Lost</a>
+      <a href="#" onclick="openModal('found');return false;">Report Found</a>
+    </div>
+  </div>
+  <hr class="fb-footer-divider">
+  <div class="fb-footer-bottom">
+    <p>© 2025 FindBack S1. All rights reserved.</p>
+    <div>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</footer>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
   const firebaseConfig = {
     apiKey: "AIzaSyCH1s6Cf2Zx2CZVv5HUUu2P7TwHEqoxWW8",
     authDomain: "findback-app-34e4f.firebaseapp.com",
     projectId: "findback-app-34e4f",
     storageBucket: "findback-app-34e4f.firebasestorage.app",
     messagingSenderId: "504207496092",
-    appId: "1:504207496092:web:b9d6918639ed23ddad6e59",
-    measurementId: "G-4LQX64BLC9"
+    appId: "1:504207496092:web:b9d6918639ed23ddad6e59"
   };
-
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
-
-  // Global state
-  window._db = db;
-  window._addDoc = addDoc;
-  window._collection = collection;
-  window._serverTimestamp = serverTimestamp;
-  window._allPosts = [];
-  window._currentFilter = 'all';
-  window._currentType = 'lost';
-
-  // Real-time listener
-  const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-  onSnapshot(q, (snapshot) => {
-    window._allPosts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    renderPosts();
-    updateStats();
-  }, (err) => {
-    document.getElementById('listings-grid').innerHTML = `
-      <div class="empty-state">
-        <div class="empty-icon">⚠️</div>
-        <h3>Connection Error</h3>
-        <p style="font-size:0.8rem;margin-top:6px;">Firebase se connect nahi ho paya. Firestore rules check karo.</p>
-      </div>`;
-    document.getElementById('listings-count').textContent = 'Error';
+  window._db=db; window._addDoc=addDoc; window._collection=collection;
+  window._serverTimestamp=serverTimestamp; window._allPosts=[];
+  window._currentFilter='all'; window._currentType='lost';
+  const q = query(collection(db,"posts"), orderBy("createdAt","desc"));
+  onSnapshot(q, (snap) => {
+    window._allPosts = snap.docs.map(d => ({id:d.id,...d.data()}));
+    renderPosts(); updateStats();
+  }, () => {
+    document.getElementById('listings-grid').innerHTML=`<div class="empty-state"><div class="empty-icon">⚠</div><h3>Connection Error</h3><p style="font-size:0.78rem;margin-top:4px;">Check your internet and try again.</p></div>`;
+    document.getElementById('listings-count').textContent='Error';
   });
 </script>
 
 <script>
-  // ── MODAL ──
-  function openModal(type) {
-    window._currentType = type;
-    const titles = { lost: '🔴 Report Lost Item', found: '🟢 Report Found Item', missing: '🔵 Report Missing Person' };
-    const colors = { lost: 'submit-lost', found: 'submit-found', missing: 'submit-missing' };
-    document.getElementById('modal-title').textContent = titles[type];
-    const btn = document.getElementById('submit-btn');
-    btn.className = 'submit-btn ' + colors[type];
-    btn.textContent = 'Submit Post';
+  window._photoBase64=null;
+  function handlePhotoUpload(e){
+    const file=e.target.files[0]; if(!file)return;
+    const warn=document.getElementById('photo-size-warn');
+    if(file.size>51200){warn.style.display='block';e.target.value='';return;}
+    warn.style.display='none';
+    const r=new FileReader();
+    r.onload=function(ev){
+      window._photoBase64=ev.target.result;
+      document.getElementById('photo-preview').src=ev.target.result;
+      document.getElementById('photo-preview').classList.add('show');
+      document.getElementById('upload-placeholder').style.display='none';
+      document.getElementById('photo-remove').classList.add('show');
+      document.getElementById('photo-upload-area').classList.add('has-photo');
+    };
+    r.readAsDataURL(file);
+  }
+  function removePhoto(e){
+    if(e&&e.stopPropagation){e.stopPropagation();e.preventDefault();}
+    window._photoBase64=null;
+    document.getElementById('photo-preview').src='';
+    document.getElementById('photo-preview').classList.remove('show');
+    document.getElementById('upload-placeholder').style.display='block';
+    document.getElementById('photo-remove').classList.remove('show');
+    document.getElementById('photo-upload-area').classList.remove('has-photo');
+    document.getElementById('f-photo').value='';
+    document.getElementById('photo-size-warn').style.display='none';
+  }
+  function openModal(type){
+    window._currentType=type;
+    const titles={lost:'Report Lost Item',found:'Report Found Item',missing:'Report Missing Person'};
+    const colors={lost:'submit-lost',found:'submit-found',missing:'submit-missing'};
+    document.getElementById('modal-title').textContent=titles[type];
+    const btn=document.getElementById('submit-btn');
+    btn.className='submit-btn '+colors[type]; btn.textContent='Submit Post';
     document.getElementById('modal-overlay').classList.add('open');
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow='hidden';
   }
-  function closeModal() {
+  function closeModal(){
     document.getElementById('modal-overlay').classList.remove('open');
-    document.body.style.overflow = '';
+    document.body.style.overflow='';
   }
-  function closeModalOutside(e) {
-    if (e.target === document.getElementById('modal-overlay')) closeModal();
-  }
-
-  // ── SUBMIT ──
-  async function submitPost() {
-    const title = document.getElementById('f-title').value.trim();
-    const desc = document.getElementById('f-desc').value.trim();
-    const location = document.getElementById('f-location').value.trim();
-    const phone = document.getElementById('f-phone').value.trim();
-    const name = document.getElementById('f-name').value.trim();
-    const reward = document.getElementById('f-reward').value.trim();
-    const category = document.getElementById('f-category').value;
-
-    if (!title) { showToast('Item name required!', true); return; }
-    if (!desc) { showToast('Description required!', true); return; }
-    if (!location) { showToast('Location required!', true); return; }
-    if (!phone || phone.length !== 10) { showToast('Valid 10-digit number required!', true); return; }
-
-    const btn = document.getElementById('submit-btn');
-    btn.disabled = true;
-    btn.textContent = 'Posting...';
-
-    try {
-      await window._addDoc(window._collection(window._db, 'posts'), {
-        type: window._currentType,
-        title, desc, location, phone, name, reward, category,
-        createdAt: window._serverTimestamp()
+  function closeModalOutside(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
+  async function submitPost(){
+    const title=document.getElementById('f-title').value.trim();
+    const desc=document.getElementById('f-desc').value.trim();
+    const location=document.getElementById('f-location').value.trim();
+    const phone=document.getElementById('f-phone').value.trim();
+    const name=document.getElementById('f-name').value.trim();
+    const reward=document.getElementById('f-reward').value.trim();
+    const category=document.getElementById('f-category').value;
+    if(!title){showToast('Item name required!','error');return;}
+    if(!desc){showToast('Description required!','error');return;}
+    if(!location){showToast('Location required!','error');return;}
+    if(!phone||phone.length!==10){showToast('Valid 10-digit number required!','error');return;}
+    const btn=document.getElementById('submit-btn');
+    btn.disabled=true; btn.textContent='Posting...';
+    try{
+      await window._addDoc(window._collection(window._db,'posts'),{
+        type:window._currentType,title,desc,location,phone,name,reward,category,
+        photo:window._photoBase64||null,createdAt:window._serverTimestamp()
       });
-
-      // Clear form
-      ['f-title','f-desc','f-location','f-phone','f-name','f-reward'].forEach(id => document.getElementById(id).value = '');
-      closeModal();
-      showToast('✅ Post submitted successfully!');
-    } catch (err) {
-      showToast('Error posting. Try again!', true);
-      console.error(err);
-    } finally {
-      btn.disabled = false;
-      btn.textContent = 'Submit Post';
-    }
+      ['f-title','f-desc','f-location','f-phone','f-name','f-reward'].forEach(id=>document.getElementById(id).value='');
+      removePhoto(null); closeModal(); showToast('Post submitted!','success');
+    }catch(err){showToast('Error posting. Try again!','error');}
+    finally{btn.disabled=false;btn.textContent='Submit Post';}
   }
-  window.submitPost = submitPost;
-
-  // ── RENDER ──
-  function renderPosts() {
-    const grid = document.getElementById('listings-grid');
-    let posts = window._allPosts;
-
-    const f = window._currentFilter;
-    if (f !== 'all') {
-      if (['lost','found','missing'].includes(f)) {
-        posts = posts.filter(p => p.type === f);
-      } else {
-        posts = posts.filter(p => p.category === f);
-      }
-    }
-
-    document.getElementById('listings-count').textContent = posts.length + ' posts';
-
-    if (posts.length === 0) {
-      grid.innerHTML = `
-        <div class="empty-state">
-          <div class="empty-icon">🔍</div>
-          <h3>No posts yet</h3>
-          <p style="font-size:0.82rem;margin-top:6px;">Pehla post karo — koi zaroor help karega!</p>
-        </div>`;
-      return;
-    }
-
-    const typeEmoji = { lost: '🔴', found: '🟢', missing: '🔵' };
-    const typeLabel = { lost: 'LOST', found: 'FOUND', missing: 'MISSING' };
-
-    grid.innerHTML = posts.map(p => {
-      const timeStr = p.createdAt ? timeAgo(p.createdAt.toDate()) : 'Just now';
-      return `
-        <div class="card ${p.type}">
-          <span class="card-badge badge-${p.type}">${typeEmoji[p.type]} ${typeLabel[p.type]}</span>
-          <div class="card-title">${escHtml(p.title)}</div>
-          <div class="card-desc">${escHtml(p.desc)}${p.reward ? `<br/><strong style="color:var(--accent)">🏆 ${escHtml(p.reward)}</strong>` : ''}</div>
-          <div class="card-meta">
-            <span class="card-location">📍 ${escHtml(p.location)}</span>
-            <span>${timeStr}</span>
-          </div>
-          <div class="card-actions" style="margin-top:12px;">
-            <button class="action-btn call" onclick="callContact('${p.phone}')">📞 Call</button>
-            <button class="action-btn whatsapp" onclick="whatsappContact('${p.phone}', '${escHtml(p.title)}')">💬 WhatsApp</button>
-            ${p.name ? `<button class="action-btn" style="pointer-events:none;opacity:0.7;">👤 ${escHtml(p.name)}</button>` : ''}
-          </div>
-        </div>`;
+  function renderPosts(){
+    const grid=document.getElementById('listings-grid');
+    let posts=window._allPosts;
+    const f=window._currentFilter;
+    if(f!=='all') posts=['lost','found','missing'].includes(f)?posts.filter(p=>p.type===f):posts.filter(p=>p.category===f);
+    document.getElementById('listings-count').textContent=posts.length+' posts';
+    if(posts.length===0){grid.innerHTML=`<div class="empty-state"><div class="empty-icon">🔍</div><h3>No posts yet</h3><p style="font-size:0.78rem;margin-top:4px;">Be the first to post!</p></div>`;return;}
+    const tl={lost:'Lost',found:'Found',missing:'Missing'};
+    const ci={mobile:'📱',wallet:'👛',keys:'🔑',documents:'📄',bag:'🎒',jewelry:'💍',vehicle:'🚗',person:'👤',animal:'🐾',other:'📦'};
+    grid.innerHTML=posts.map(p=>{
+      const t=p.createdAt?timeAgo(p.createdAt.toDate()):'Just now';
+      const ph=p.photo?`<img class="card-photo" src="${p.photo}" alt="${escHtml(p.title)}"/>`:`<div class="card-photo-placeholder">${ci[p.category]||'📦'}</div>`;
+      return `<div class="card"><div class="card-top">${ph}<div class="card-info"><span class="card-badge badge-${p.type}">${tl[p.type]}</span><div class="card-title">${escHtml(p.title)}</div><div class="card-location">📍 ${escHtml(p.location)}</div></div></div><div class="card-desc">${escHtml(p.desc)}${p.reward?` · <strong style="color:var(--accent)">${escHtml(p.reward)}</strong>`:''}</div><div class="card-footer"><span class="card-time">${t}${p.name?' · '+escHtml(p.name):''}</span><div class="card-actions"><button class="action-btn call" onclick="callContact('${p.phone}')">Call</button><button class="action-btn whatsapp" onclick="whatsappContact('${p.phone}','${escHtml(p.title)}')">WhatsApp</button></div></div></div>`;
     }).join('');
   }
-
-  // ── STATS ──
-  function updateStats() {
-    const posts = window._allPosts;
-    document.getElementById('stat-total').textContent = posts.length;
-    document.getElementById('stat-lost').textContent = posts.filter(p => p.type === 'lost').length;
-    document.getElementById('stat-found').textContent = posts.filter(p => p.type === 'found').length;
-    document.getElementById('stat-missing').textContent = posts.filter(p => p.type === 'missing').length;
+  function updateStats(){
+    const p=window._allPosts;
+    document.getElementById('stat-total').textContent=p.length;
+    document.getElementById('stat-lost').textContent=p.filter(x=>x.type==='lost').length;
+    document.getElementById('stat-found').textContent=p.filter(x=>x.type==='found').length;
+    document.getElementById('stat-missing').textContent=p.filter(x=>x.type==='missing').length;
   }
-
-  // ── FILTER ──
-  function filterPosts(type, el) {
-    window._currentFilter = type;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    el.classList.add('active');
-    renderPosts();
+  function filterPosts(type,el){
+    window._currentFilter=type;
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    el.classList.add('active'); renderPosts();
   }
-  window.filterPosts = filterPosts;
-
-  // ── CONTACT ──
-  function callContact(phone) {
-    window.location.href = 'tel:' + phone;
+  function callContact(phone){window.location.href='tel:'+phone;}
+  function whatsappContact(phone,title){
+    const msg=encodeURIComponent(`Hi! I saw your FindBack post about "${title}". Can we connect?`);
+    window.open(`https://wa.me/91${phone}?text=${msg}`,'_blank');
   }
-  function whatsappContact(phone, title) {
-    const msg = encodeURIComponent(`Hi! I saw your FindBack post about "${title}". Can we connect?`);
-    window.open(`https://wa.me/91${phone}?text=${msg}`, '_blank');
+  function showToast(msg,type=''){
+    const t=document.getElementById('toast');
+    t.textContent=msg; t.className='toast show'+(type?' '+type:'');
+    setTimeout(()=>t.className='toast',3000);
   }
-  window.callContact = callContact;
-  window.whatsappContact = whatsappContact;
-  window.openModal = openModal;
-  window.closeModal = closeModal;
-  window.closeModalOutside = closeModalOutside;
-
-  // ── TOAST ──
-  function showToast(msg, isError = false) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className = 'toast show' + (isError ? ' error' : '');
-    setTimeout(() => t.className = 'toast', 3000);
+  function timeAgo(date){
+    const d=Math.floor((Date.now()-date)/1000);
+    if(d<60)return 'Just now';
+    if(d<3600)return Math.floor(d/60)+'m ago';
+    if(d<86400)return Math.floor(d/3600)+'h ago';
+    return Math.floor(d/86400)+'d ago';
   }
-
-  // ── HELPERS ──
-  function timeAgo(date) {
-    const diff = Math.floor((Date.now() - date) / 1000);
-    if (diff < 60) return 'Just now';
-    if (diff < 3600) return Math.floor(diff/60) + 'm ago';
-    if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
-    return Math.floor(diff/86400) + 'd ago';
+  function escHtml(s){
+    if(!s)return '';
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
-  function escHtml(str) {
-    if (!str) return '';
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
+  window.openModal=openModal;window.closeModal=closeModal;window.closeModalOutside=closeModalOutside;
+  window.submitPost=submitPost;window.filterPosts=filterPosts;window.callContact=callContact;
+  window.whatsappContact=whatsappContact;window.handlePhotoUpload=handlePhotoUpload;window.removePhoto=removePhoto;
 </script>
 </body>
 </html>
