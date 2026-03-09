@@ -256,11 +256,14 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
         <a onclick="showPage('about')">🏢 About Us</a>
         <a onclick="showPage('contact')">📞 Contact</a>
         <a onclick="showPage('customers')">❤️ Customers</a>
+        <a onclick="showPage('trust')">🤝 Trust Score</a>
       </div>
       <div class="footer-col">
         <h5>Legal</h5>
         <a onclick="showPage('terms')">📜 Terms of Service</a>
         <a onclick="showPage('privacy')">🔒 Privacy Policy</a>
+        <a onclick="showPage('qrtag')">🏷️ QR Smart Tag</a>
+        <a onclick="showPage('reward')">💰 Reward System</a>
       </div>
       <div class="footer-col">
         <h5>Account</h5>
@@ -273,6 +276,7 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
         <a onclick="openModal('lost')">😟 Report Lost</a>
         <a onclick="openModal('found')">🎉 Report Found</a>
         <a onclick="openModal('missing')">⚠️ Report Missing</a>
+        <a onclick="showPage('fir')">👮 Police FIR Help</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -627,7 +631,7 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
     Map
   </button>
-  <button class="nav-item" id="nav-alerts-btn" onclick="showPage('alerts');renderAlerts()">
+  <button class="nav-item" id="nav-alerts-btn" onclick="showPage('alerts');if(window.renderAlerts)window.renderAlerts()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
     Alerts
   </button>
@@ -672,6 +676,9 @@ onSnapshot(q, (snapshot) => {
   window._allPosts = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
   window._renderAll();
   refreshAdminStats();
+  // If map page is open, refresh it
+  const mapPage = document.getElementById('page-map');
+  if (mapPage && mapPage.classList.contains('active')) renderMapPins();
 });
 
 // Auth state
@@ -1120,6 +1127,12 @@ function showPage(id) {
   window.scrollTo(0, 0);
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   if (id === 'home') document.getElementById('nav-home').classList.add('active');
+  if (id === 'map') { const b=document.getElementById('nav-map-btn'); if(b) b.classList.add('active'); }
+  if (id === 'alerts') { const b=document.getElementById('nav-alerts-btn'); if(b) b.classList.add('active'); }
+  // Load dynamic content for new pages
+  if (id === 'trust') setTimeout(() => { if(window.loadTrustScore) window.loadTrustScore(); }, 100);
+  if (id === 'reward') setTimeout(() => { if(window.loadRewardPosts) window.loadRewardPosts(); }, 100);
+  if (id === 'map') setTimeout(() => { if(window.initMap) window.initMap(); }, 100);
 }
 window.showPage = showPage;
 
@@ -1331,32 +1344,49 @@ window.closeAIMatch = function() {
 // ============================================================
 window.openMapView = function() {
   showPage('map');
-  setTimeout(initMap, 300);
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const mb = document.getElementById('nav-map-btn');
+  if(mb) mb.classList.add('active');
+  setTimeout(initMap, 200);
 };
 
-let _mapInit = false;
+let _mapRetries = 0;
 function initMap() {
-  if (_mapInit) { renderMapPins(); return; }
-  const mapEl = document.getElementById('map-container');
-  if (!mapEl) return;
-
-  // Use OpenStreetMap via iframe — no API key needed
   const posts = window._allPosts || [];
-  if (!posts.length) {
-    mapEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:12px;color:var(--text-muted)"><div style="font-size:48px">🗺️</div><p>Abhi koi posts map pe nahi hain</p></div>';
+  // Firebase se data load hone ka wait karo — max 5 seconds
+  if (!posts.length && _mapRetries < 10) {
+    _mapRetries++;
+    const mapEl = document.getElementById('map-container');
+    if (mapEl) mapEl.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-muted)"><div style="font-size:32px;margin-bottom:8px;">⏳</div><div style="font-size:13px;">Posts load ho rahe hain...</div></div>';
+    setTimeout(initMap, 500);
     return;
   }
-
-  // Show posts list with location
+  _mapRetries = 0;
   renderMapPins();
-  _mapInit = true;
 }
 
 function renderMapPins() {
   const container = document.getElementById('map-posts-list');
+  const mapEl = document.getElementById('map-container');
   if (!container) return;
   const posts = (window._allPosts||[]).filter(p=>p.loc);
-  if (!posts.length) { container.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px">No posts yet</p>'; return; }
+
+  if (!posts.length) {
+    if (mapEl) mapEl.innerHTML = '';
+    container.innerHTML = `<div style="text-align:center;padding:48px 20px;color:var(--text-muted)">
+      <div style="font-size:52px;margin-bottom:12px;">🗺️</div>
+      <div style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:#333;margin-bottom:6px;">Koi posts abhi nahi hain</div>
+      <div style="font-size:13px;">Jab log posts karenge, yahan location se dikhenge</div>
+    </div>`;
+    return;
+  }
+
+  if (mapEl) mapEl.innerHTML = '';
+
+  // Stats bar
+  const lostCount = posts.filter(p=>p.type==='lost').length;
+  const foundCount = posts.filter(p=>p.type==='found').length;
+  const missingCount = posts.filter(p=>p.type==='missing').length;
 
   // Group by location
   const byLoc = {};
@@ -1366,21 +1396,39 @@ function renderMapPins() {
     byLoc[key].push(p);
   });
 
-  container.innerHTML = Object.entries(byLoc).map(([loc, ps]) => `
-    <div style="border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;">
-      <div style="font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
-        <span style="font-size:16px">📍</span>${ps[0].loc}
-        <span style="background:var(--orange);color:white;font-size:10px;padding:1px 7px;border-radius:20px;margin-left:auto;">${ps.length} post${ps.length>1?'s':''}</span>
+  container.innerHTML = `
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <div style="flex:1;background:#FEE2E2;border-radius:10px;padding:10px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:#DC2626;">${lostCount}</div>
+        <div style="font-size:10px;color:#DC2626;font-weight:600;">😟 Lost</div>
       </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <div style="flex:1;background:#D1FAE5;border-radius:10px;padding:10px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:#059669;">${foundCount}</div>
+        <div style="font-size:10px;color:#059669;font-weight:600;">🎉 Found</div>
+      </div>
+      <div style="flex:1;background:#FEF3C7;border-radius:10px;padding:10px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:#D97706;">${missingCount}</div>
+        <div style="font-size:10px;color:#D97706;font-weight:600;">⚠️ Missing</div>
+      </div>
+    </div>
+    <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:10px;color:#333;">
+      📍 ${Object.keys(byLoc).length} Locations • ${posts.length} Total Posts
+    </div>
+    ${Object.entries(byLoc).sort((a,b)=>b[1].length-a[1].length).map(([loc, ps]) => `
+    <div style="border:1.5px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;background:white;">
+      <div style="font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+        <span>📍</span><span style="flex:1">${ps[0].loc}</span>
+        <span style="background:var(--orange);color:white;font-size:11px;padding:2px 9px;border-radius:20px;">${ps.length} post${ps.length>1?'s':''}</span>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
         ${ps.map(p=>{
           const tc=p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7';
           const tt=p.type==='lost'?'#DC2626':p.type==='found'?'#059669':'#D97706';
-          return `<div onclick="openDetail('${p.id}')" style="background:${tc};color:${tt};padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;">${p.item}</div>`;
+          const emoji=p.type==='lost'?'😟':p.type==='found'?'🎉':'⚠️';
+          return `<div onclick="openDetail('${p.id}')" style="background:${tc};color:${tt};padding:5px 11px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,.05);">${emoji} ${p.item}</div>`;
         }).join('')}
       </div>
-    </div>
-  `).join('');
+    </div>`).join('')}`;
 }
 
 // ============================================================
@@ -1407,7 +1455,7 @@ window.deleteAlert = function(id) {
   renderAlerts();
 };
 
-function renderAlerts() {
+window.renderAlerts = function renderAlerts() {
   const container = document.getElementById('alerts-list');
   if (!container) return;
   if (!window._areaAlerts.length) {
@@ -1493,7 +1541,7 @@ window.toggleAnonMsg = function(postId) {
 </div>
 
 <!-- ===== MAP PAGE ===== -->
-<div class="page" id="page-map" style="display:none;flex-direction:column;">
+<div class="page" id="page-map">
   <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
     <span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span>
     <span style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;">📍 Area Map</span>
@@ -1510,7 +1558,7 @@ window.toggleAnonMsg = function(postId) {
 </div>
 
 <!-- ===== ALERTS PAGE ===== -->
-<div class="page" id="page-alerts" style="display:none;flex-direction:column;">
+<div class="page" id="page-alerts">
   <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
     <span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span>
     <span style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;">🔔 Area Alerts</span>
@@ -1551,6 +1599,538 @@ window.toggleAnonMsg = function(postId) {
     </div>
   </div>
 </div>
+
+
+<!-- ===== POLICE FIR PAGE ===== -->
+<div class="page" id="page-fir">
+  <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
+    <span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span>
+    <span style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;">👮 Police FIR Helper</span>
+  </div>
+  <div style="padding:20px 20px 110px;">
+    <div style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);border-radius:16px;padding:20px;margin-bottom:20px;color:white;">
+      <div style="font-size:13px;opacity:.7;margin-bottom:4px;">🇮🇳 India Police Help</div>
+      <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;">FIR Draft Banao — Free</div>
+      <div style="font-size:13px;opacity:.8;line-height:1.6;">Details bharo → PDF ready → Police station le jaao. Sab kuch pre-filled milega.</div>
+    </div>
+
+    <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
+      <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;">📋 Item Details</div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🏷️ Item Name</label>
+        <input id="fir-item" type="text" placeholder="e.g. Samsung Galaxy S23, Leather Wallet" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
+      </div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📂 Category</label>
+        <select id="fir-cat" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;">
+          <option value="">-- Select --</option>
+          <option>Mobile Phone</option><option>Wallet / Purse</option><option>Laptop / Tablet</option>
+          <option>Jewellery</option><option>Documents / ID</option><option>Bag / Backpack</option>
+          <option>Keys</option><option>Watch</option><option>Cash</option><option>Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📝 Description (Color, Brand, Model)</label>
+        <textarea id="fir-desc" placeholder="e.g. Black Samsung phone, IMEI: 123456789, 6.1 inch screen, cracked back cover" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;resize:vertical;min-height:80px;"></textarea>
+      </div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">💰 Approximate Value (₹)</label>
+        <input id="fir-value" type="number" placeholder="e.g. 15000" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
+      </div>
+    </div>
+
+    <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
+      <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;">📍 Incident Details</div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📍 Location where lost</label>
+        <input id="fir-loc" type="text" placeholder="e.g. Connaught Place Metro, Gate No. 2, New Delhi" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
+      </div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📅 Date & Time</label>
+        <input id="fir-date" type="datetime-local" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
+      </div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🔍 How it was lost (optional)</label>
+        <textarea id="fir-how" placeholder="e.g. I was travelling in Metro from Rajiv Chowk to Kashmere Gate. When I reached my destination, I realized my bag was missing from the overhead rack." style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;resize:vertical;min-height:70px;"></textarea>
+      </div>
+    </div>
+
+    <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
+      <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;">👤 Your Details</div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">👤 Full Name</label>
+        <input id="fir-name" type="text" placeholder="As per Aadhaar / ID" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
+      </div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📱 Mobile Number</label>
+        <input id="fir-phone" type="tel" placeholder="+91 XXXXX XXXXX" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
+      </div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🏠 Address</label>
+        <input id="fir-addr" type="text" placeholder="Your current address" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
+      </div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🪪 ID Proof Type</label>
+        <select id="fir-idtype" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;">
+          <option>Aadhaar Card</option><option>PAN Card</option><option>Passport</option>
+          <option>Voter ID</option><option>Driving Licence</option>
+        </select>
+      </div>
+    </div>
+
+    <button onclick="generateFIR()" class="btn-primary" style="width:100%;margin-bottom:10px;font-size:16px;padding:14px;">📄 FIR Draft Generate Karo</button>
+    <div style="background:#EFF6FF;border-radius:12px;padding:14px;font-size:12px;color:#1D4ED8;line-height:1.7;">
+      💡 <strong>Note:</strong> Yeh ek draft hai jo police station mein submit karne ke liye hai. Online FIR ke liye apne state ke police portal pe jaayein.
+      <br>🔗 <a href="https://www.digitalpolice.gov.in" target="_blank" style="color:#1D4ED8;font-weight:700;">digitalpolice.gov.in</a> — National Police Portal
+    </div>
+  </div>
+</div>
+
+<!-- ===== FIR PREVIEW MODAL ===== -->
+<div id="fir-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:600;align-items:flex-end;justify-content:center;" onclick="if(event.target===this)document.getElementById('fir-modal').style.display='none'">
+  <div style="background:white;border-radius:20px 20px 0 0;padding:24px;width:100%;max-height:90vh;overflow-y:auto;">
+    <div style="width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px;"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <div>
+        <div style="font-family:'Sora',sans-serif;font-size:17px;font-weight:700;">📄 FIR Draft Ready!</div>
+        <div style="font-size:12px;color:var(--text-muted);">Copy karke police station mein submit karo</div>
+      </div>
+      <button onclick="document.getElementById('fir-modal').style.display='none'" style="background:var(--gray);border:none;border-radius:50%;width:32px;height:32px;font-size:18px;cursor:pointer;">×</button>
+    </div>
+    <div id="fir-preview" style="background:#F8FAFC;border:1.5px solid #CBD5E1;border-radius:12px;padding:16px;font-size:13px;line-height:1.9;white-space:pre-wrap;font-family:monospace;color:#1e293b;margin-bottom:16px;"></div>
+    <button onclick="copyFIR()" class="btn-primary" style="width:100%;margin-bottom:10px;">📋 Copy FIR Draft</button>
+    <button onclick="shareFIRWhatsApp()" style="width:100%;padding:13px;background:#25D366;color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">💬 WhatsApp pe Share Karo</button>
+  </div>
+</div>
+
+<!-- ===== QR TAG PAGE ===== -->
+<div class="page" id="page-qrtag">
+  <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
+    <span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span>
+    <span style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;">🏷️ QR Smart Tag</span>
+  </div>
+  <div style="padding:20px 20px 110px;">
+    <div style="background:linear-gradient(135deg,#E8722A 0%,#c45a1a 100%);border-radius:16px;padding:22px;margin-bottom:20px;color:white;text-align:center;">
+      <div style="font-size:40px;margin-bottom:8px;">🏷️</div>
+      <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;">Smart QR Tag</div>
+      <div style="font-size:13px;opacity:.85;line-height:1.6;">Apne items pe lagao — Koi bhi scan kare aur seedha tumse contact kare. Number share karne ki zaroorat nahi!</div>
+    </div>
+
+    <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
+      <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;">📋 Tag Details</div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">👤 Owner Name (Optional)</label>
+        <input id="qr-name" type="text" placeholder="e.g. Samarendra (First name only for privacy)" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
+      </div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🏷️ Item Name</label>
+        <input id="qr-item" type="text" placeholder="e.g. My Laptop Bag, Bike Helmet, School Bag" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
+      </div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📱 Contact (Optional — stays private)</label>
+        <input id="qr-contact" type="text" placeholder="Phone or email — finder ko securely milega" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
+      </div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">💬 Message for Finder</label>
+        <textarea id="qr-msg" placeholder="e.g. Agar yeh item mila hai toh please contact karen. Reward milega! 🙏" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;resize:vertical;min-height:70px;"></textarea>
+      </div>
+      <button onclick="generateQR()" class="btn-primary" style="width:100%;font-size:15px;padding:13px;">🏷️ QR Tag Generate Karo</button>
+    </div>
+
+    <div id="qr-result" style="display:none;">
+      <div style="background:white;border:2px solid var(--orange);border-radius:16px;padding:20px;text-align:center;margin-bottom:16px;">
+        <div id="qr-code-display" style="margin-bottom:16px;"></div>
+        <div id="qr-item-label" style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;margin-bottom:4px;"></div>
+        <div id="qr-owner-label" style="font-size:13px;color:var(--text-muted);margin-bottom:12px;"></div>
+        <div style="background:#FFF5EE;border-radius:10px;padding:10px;font-size:12px;color:#E8722A;font-weight:600;">
+          📱 Scan karne pe FindBack contact page khulega
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button onclick="shareQR()" style="flex:1;padding:13px;background:#25D366;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">💬 Share</button>
+        <button onclick="printQR()" style="flex:1;padding:13px;background:var(--gray);color:var(--black);border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">🖨️ Print</button>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;">
+      <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px;">📌 Kahan lagaein?</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div style="background:var(--gray);border-radius:10px;padding:12px;text-align:center;font-size:13px;">💼 Bags</div>
+        <div style="background:var(--gray);border-radius:10px;padding:12px;text-align:center;font-size:13px;">💻 Laptop</div>
+        <div style="background:var(--gray);border-radius:10px;padding:12px;text-align:center;font-size:13px;">🪖 Helmet</div>
+        <div style="background:var(--gray);border-radius:10px;padding:12px;text-align:center;font-size:13px;">🎒 School Bag</div>
+        <div style="background:var(--gray);border-radius:10px;padding:12px;text-align:center;font-size:13px;">📱 Phone Case</div>
+        <div style="background:var(--gray);border-radius:10px;padding:12px;text-align:center;font-size:13px;">🚲 Cycle / Bike</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TRUST SCORE PAGE ===== -->
+<div class="page" id="page-trust">
+  <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
+    <span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span>
+    <span style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;">🤝 Finder Trust Score</span>
+  </div>
+  <div style="padding:20px 20px 110px;">
+    <div id="trust-profile-card" style="background:linear-gradient(135deg,#111 0%,#333 100%);border-radius:16px;padding:24px;margin-bottom:20px;color:white;text-align:center;">
+      <div id="trust-avatar" style="width:64px;height:64px;border-radius:50%;background:var(--orange);color:white;font-size:28px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">?</div>
+      <div id="trust-name" style="font-family:'Sora',sans-serif;font-size:18px;font-weight:700;margin-bottom:4px;">Login karo</div>
+      <div id="trust-badge" style="font-size:13px;opacity:.7;margin-bottom:16px;">Trust score dekhne ke liye</div>
+      <div style="display:flex;justify-content:center;gap:24px;">
+        <div style="text-align:center;">
+          <div id="trust-score" style="font-family:'Sora',sans-serif;font-size:36px;font-weight:700;color:var(--orange);">--</div>
+          <div style="font-size:11px;opacity:.7;">Trust Score</div>
+        </div>
+        <div style="text-align:center;">
+          <div id="trust-returns" style="font-family:'Sora',sans-serif;font-size:36px;font-weight:700;color:#4CAF50;">0</div>
+          <div style="font-size:11px;opacity:.7;">Items Returned</div>
+        </div>
+        <div style="text-align:center;">
+          <div id="trust-posts" style="font-family:'Sora',sans-serif;font-size:36px;font-weight:700;color:#64B5F6;">0</div>
+          <div style="font-size:11px;opacity:.7;">Total Posts</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="trust-level-card" style="border-radius:14px;padding:16px;margin-bottom:16px;text-align:center;background:#FFF5EE;border:2px solid var(--orange);">
+      <div id="trust-level-icon" style="font-size:36px;margin-bottom:6px;">🆕</div>
+      <div id="trust-level-name" style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;">New Member</div>
+      <div id="trust-level-desc" style="font-size:12px;color:var(--text-muted);margin-top:4px;">Post karo aur items return karo score badhane ke liye</div>
+    </div>
+
+    <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px;">🏆 Trust Levels</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--gray);border-radius:10px;">
+        <span style="font-size:24px;">🆕</span><div><div style="font-weight:600;font-size:13px;">New Member</div><div style="font-size:11px;color:var(--text-muted);">0-9 score</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:#EFF6FF;border-radius:10px;">
+        <span style="font-size:24px;">✅</span><div><div style="font-weight:600;font-size:13px;">Trusted User</div><div style="font-size:11px;color:#3B82F6;">10-29 score • 1+ item returned</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:#F0FDF4;border-radius:10px;">
+        <span style="font-size:24px;">⭐</span><div><div style="font-weight:600;font-size:13px;">Star Finder</div><div style="font-size:11px;color:#16A34A;">30-59 score • 3+ items returned</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:#FFF7ED;border-radius:10px;">
+        <span style="font-size:24px;">🏅</span><div><div style="font-weight:600;font-size:13px;">Hero Finder</div><div style="font-size:11px;color:#EA580C;">60-89 score • 5+ items returned</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:linear-gradient(135deg,#FEF9C3,#FEF08A);border-radius:10px;border:1.5px solid #EAB308;">
+        <span style="font-size:24px;">👑</span><div><div style="font-weight:600;font-size:13px;">Legend</div><div style="font-size:11px;color:#A16207;">90+ score • 10+ items returned</div></div>
+      </div>
+    </div>
+
+    <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px;">📈 Score kaise badhaye?</div>
+    <div style="background:var(--gray);border-radius:14px;padding:16px;">
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;"><span>📝 Post karo</span><span style="color:#059669;font-weight:700;">+2 points</span></div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;"><span>🎉 Item return karo</span><span style="color:#059669;font-weight:700;">+10 points</span></div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;"><span>⭐ Good review milo</span><span style="color:#059669;font-weight:700;">+5 points</span></div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:13px;"><span>🔒 Verified contact add</span><span style="color:#059669;font-weight:700;">+3 points</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== REWARD ESCROW PAGE ===== -->
+<div class="page" id="page-reward">
+  <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
+    <span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span>
+    <span style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;">💰 Reward System</span>
+  </div>
+  <div style="padding:20px 20px 110px;">
+    <div style="background:linear-gradient(135deg,#065F46 0%,#047857 100%);border-radius:16px;padding:22px;margin-bottom:20px;color:white;text-align:center;">
+      <div style="font-size:40px;margin-bottom:8px;">💰</div>
+      <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;">Safe Reward System</div>
+      <div style="font-size:13px;opacity:.85;line-height:1.6;">Reward offer karo — Finder ko milega sirf item return karne ke baad. Dono parties 100% safe.</div>
+    </div>
+
+    <div style="background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:14px;padding:16px;margin-bottom:16px;">
+      <div style="font-size:13px;font-weight:700;color:#15803D;margin-bottom:8px;">🛡️ Yeh kaise kaam karta hai:</div>
+      <div style="font-size:13px;color:#166534;line-height:1.9;">
+        1️⃣ Owner reward amount set kare post mein<br>
+        2️⃣ Finder item return kare<br>
+        3️⃣ Owner confirm kare<br>
+        4️⃣ Finder ko UPI se payment jaaye<br>
+        ✅ <strong>Fraud impossible — dono safe</strong>
+      </div>
+    </div>
+
+    <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
+      <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;">💰 Reward Amount Calculator</div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Item ki Value (₹)</label>
+        <input id="rew-value" type="number" placeholder="e.g. 15000" oninput="calcReward()" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
+      </div>
+      <div id="reward-suggestions" style="display:none;margin-top:8px;">
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Suggested reward amounts:</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="reward-chips"></div>
+      </div>
+    </div>
+
+    <div style="background:#FFF5EE;border:1.5px solid var(--orange);border-radius:14px;padding:16px;margin-bottom:16px;">
+      <div style="font-size:13px;font-weight:700;color:var(--orange);margin-bottom:8px;">💡 Reward Tips:</div>
+      <div style="font-size:13px;color:#92400E;line-height:1.8;">
+        • <strong>5-10%</strong> of item value = Standard reward<br>
+        • <strong>10-20%</strong> = High priority — jaldi milega<br>
+        • Documents/IDs ke liye ₹200-500 kaafi hai<br>
+        • Pet ke liye ₹500-2000 set karo
+      </div>
+    </div>
+
+    <div style="background:var(--gray);border-radius:14px;padding:16px;">
+      <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px;">🏆 Top Reward Posts</div>
+      <div id="top-reward-posts">
+        <div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">Reward posts load ho rahe hain...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// 👮 POLICE FIR GENERATOR
+// ============================================================
+window.generateFIR = function() {
+  const item    = document.getElementById('fir-item').value.trim();
+  const cat     = document.getElementById('fir-cat').value;
+  const desc    = document.getElementById('fir-desc').value.trim();
+  const value   = document.getElementById('fir-value').value.trim();
+  const loc     = document.getElementById('fir-loc').value.trim();
+  const date    = document.getElementById('fir-date').value;
+  const how     = document.getElementById('fir-how').value.trim();
+  const name    = document.getElementById('fir-name').value.trim();
+  const phone   = document.getElementById('fir-phone').value.trim();
+  const addr    = document.getElementById('fir-addr').value.trim();
+  const idtype  = document.getElementById('fir-idtype').value;
+
+  if (!item || !loc || !name || !phone) {
+    toast('⚠️ Item name, location, aapka naam aur phone zaroori hai');
+    return;
+  }
+
+  const dateStr = date ? new Date(date).toLocaleString('en-IN') : new Date().toLocaleString('en-IN');
+  const todayStr = new Date().toLocaleDateString('en-IN');
+
+  const firText = `
+TO,
+The Station House Officer,
+[Nearest Police Station Name]
+[City], [State]
+
+SUBJECT: Application for Registration of FIR regarding Loss of ${cat || item}
+
+Respected Sir/Madam,
+
+I, ${name}, resident of ${addr || '[Your Address]'}, am writing to report the loss of my ${cat || item} under the following circumstances:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LOST ITEM DETAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Item         : ${item}
+Category     : ${cat || 'Not specified'}
+Description  : ${desc || 'Not specified'}
+Approx. Value: ₹${value || 'Not specified'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+INCIDENT DETAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Date & Time  : ${dateStr}
+Location     : ${loc}
+Circumstances: ${how || 'The item was misplaced/stolen at the above mentioned location.'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+COMPLAINANT DETAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Name         : ${name}
+Mobile       : ${phone}
+Address      : ${addr || '[Your Address]'}
+ID Proof     : ${idtype}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+I humbly request you to kindly register an FIR and take necessary action in this matter. I am ready to cooperate fully with the police investigation.
+
+I also hereby declare that all the information provided above is true to the best of my knowledge.
+
+Thanking you,
+
+Date: ${todayStr}
+Place: ${loc}
+
+Signature: _______________
+Name: ${name}
+Mobile: ${phone}
+
+[Note: Also listed on FindBack — India's Lost & Found Platform]
+`.trim();
+
+  window._lastFIR = firText;
+  document.getElementById('fir-preview').textContent = firText;
+  document.getElementById('fir-modal').style.display = 'flex';
+};
+
+window.copyFIR = function() {
+  if (navigator.clipboard && window._lastFIR) {
+    navigator.clipboard.writeText(window._lastFIR).then(() => toast('✅ FIR draft copied! Paste karke print karo.'));
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = window._lastFIR || '';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast('✅ Copied!');
+  }
+};
+
+window.shareFIRWhatsApp = function() {
+  const msg = encodeURIComponent('FIR Draft (FindBack):\n\n' + (window._lastFIR||''));
+  window.open('https://wa.me/?text=' + msg, '_blank');
+};
+
+// ============================================================
+// 🏷️ QR TAG GENERATOR
+// ============================================================
+window.generateQR = function() {
+  const name    = document.getElementById('qr-name').value.trim();
+  const item    = document.getElementById('qr-item').value.trim();
+  const contact = document.getElementById('qr-contact').value.trim();
+  const msg     = document.getElementById('qr-msg').value.trim();
+
+  if (!item) { toast('⚠️ Item name daalo'); return; }
+
+  // Generate unique tag ID
+  const tagId = 'FB' + Date.now().toString(36).toUpperCase();
+
+  // QR data - a findback contact URL
+  const qrData = encodeURIComponent(`https://findback.in/tag/${tagId}?item=${encodeURIComponent(item)}&owner=${encodeURIComponent(name)}&contact=${encodeURIComponent(contact)}&msg=${encodeURIComponent(msg)}`);
+
+  // Use QR code API
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qrData}&color=111111&bgcolor=ffffff&qzone=2`;
+
+  const result = document.getElementById('qr-result');
+  const display = document.getElementById('qr-code-display');
+
+  display.innerHTML = `
+    <img src="${qrUrl}" alt="QR Code" style="width:180px;height:180px;border-radius:12px;border:3px solid var(--orange);" onerror="this.parentElement.innerHTML='<div style=\'font-size:48px\'>📱</div><div style=\'font-size:11px;color:var(--text-muted)\'>QR image load failed — share link use karo</div>'">
+    <div style="margin-top:10px;font-size:11px;color:var(--text-muted);">Tag ID: ${tagId}</div>
+  `;
+
+  document.getElementById('qr-item-label').textContent = '🏷️ ' + item;
+  document.getElementById('qr-owner-label').textContent = name ? ('👤 ' + name + ' ka item') : 'FindBack Tagged Item';
+  result.style.display = 'block';
+  result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  window._lastQRData = { tagId, item, name, contact, msg, qrUrl };
+  toast('✅ QR Tag ready! Print karo ya share karo.');
+};
+
+window.shareQR = function() {
+  if (!window._lastQRData) return;
+  const d = window._lastQRData;
+  const text = '\uD83C\uDFF7\uFE0F FindBack QR Tag\n\nItem: ' + d.item +
+    (d.name ? '\nOwner: ' + d.name : '') +
+    (d.msg ? '\nMessage: ' + d.msg : '') +
+    '\n\nAgar yeh item mile toh please scan karein ya contact karein.\n\nPowered by FindBack \u2014 India\'s Lost & Found Platform';
+  if (navigator.share) {
+    navigator.share({ title: 'FindBack QR Tag', text });
+  } else {
+    const wa = encodeURIComponent(text);
+    window.open('https://wa.me/?text=' + wa, '_blank');
+  }
+};
+
+window.printQR = function() {
+  if (!window._lastQRData) return;
+  const d = window._lastQRData;
+  const w = window.open('', '_blank');
+  const printHTML = [
+    '<html><head><title>FindBack QR Tag - ' + d.item + '</title>',
+    '<style>body{font-family:sans-serif;text-align:center;padding:20px;}',
+    '.tag{border:3px solid #E8722A;border-radius:16px;padding:20px;display:inline-block;max-width:300px;}',
+    'h2{color:#E8722A;} .brand{font-size:12px;color:#777;margin-top:12px;}</style>',
+    '</head><body><div class="tag">',
+    '<h2>&#127991;&#65039; FindBack Smart Tag</h2>',
+    '<img src="' + d.qrUrl + '" style="width:180px;height:180px;">',
+    '<h3>' + d.item + '</h3>',
+    d.name ? '<p>Owner: <b>' + d.name + '</b></p>' : '',
+    d.msg ? '<p style="font-size:13px;color:#555;">' + d.msg + '</p>' : '',
+    '<p style="font-size:12px;color:#E8722A;font-weight:bold;">&#128241; Scan to contact owner</p>',
+    '<div class="brand">FindBack — Find what the world lost</div>',
+    '</div></body></html>'
+  ].join('');
+  w.document.write(printHTML);
+  w.document.close();
+  setTimeout(() => w.print(), 300);
+};
+
+// ============================================================
+// 🤝 TRUST SCORE SYSTEM
+// ============================================================
+window.loadTrustScore = function() {
+  const user = window._currentUser;
+  const posts = window._allPosts || [];
+
+  if (!user) {
+    document.getElementById('trust-name').textContent = 'Login karo';
+    document.getElementById('trust-badge').textContent = 'Trust score dekhne ke liye';
+    document.getElementById('trust-score').textContent = '--';
+    return;
+  }
+
+  const myPosts = posts.filter(p => p.uid === user.uid);
+  const postCount = myPosts.length;
+  // Base score: 2 per post + 10 per return (simulated here)
+  const baseScore = postCount * 2;
+  const score = Math.min(99, baseScore);
+
+  document.getElementById('trust-avatar').textContent = (user.displayName||'U')[0].toUpperCase();
+  document.getElementById('trust-name').textContent = user.displayName || 'User';
+  document.getElementById('trust-score').textContent = score;
+  document.getElementById('trust-posts').textContent = postCount;
+
+  let level, icon, desc, bg;
+  if (score >= 90)      { level='Legend';       icon='👑'; desc='Top 1% finder — aap hero ho!'; bg='linear-gradient(135deg,#FEF9C3,#FEF08A)'; }
+  else if (score >= 60) { level='Hero Finder';  icon='🏅'; desc='Bahut trusted user — great work!'; bg='#FFF7ED'; }
+  else if (score >= 30) { level='Star Finder';  icon='⭐'; desc='Community ka trusted member'; bg='#F0FDF4'; }
+  else if (score >= 10) { level='Trusted User'; icon='✅'; desc='Acha start! Aur posts karo'; bg='#EFF6FF'; }
+  else                  { level='New Member';   icon='🆕'; desc='Post karo aur score badhao'; bg='#FFF5EE'; }
+
+  document.getElementById('trust-level-icon').textContent = icon;
+  document.getElementById('trust-level-name').textContent = level;
+  document.getElementById('trust-level-desc').textContent = desc;
+  document.getElementById('trust-level-card').style.background = bg;
+  document.getElementById('trust-badge').textContent = icon + ' ' + level;
+};
+
+// ============================================================
+// 💰 REWARD CALCULATOR
+// ============================================================
+window.calcReward = function() {
+  const val = parseInt(document.getElementById('rew-value').value) || 0;
+  if (!val) { document.getElementById('reward-suggestions').style.display='none'; return; }
+
+  const chips = [
+    { pct: 5,  label: '5% — Standard', amount: Math.round(val*0.05) },
+    { pct: 10, label: '10% — Good',    amount: Math.round(val*0.10) },
+    { pct: 15, label: '15% — Priority',amount: Math.round(val*0.15) },
+    { pct: 20, label: '20% — Urgent!', amount: Math.round(val*0.20) },
+  ];
+
+  document.getElementById('reward-chips').innerHTML = chips.map(c =>
+    `<div onclick="toast('✅ ₹${c.amount} reward — Post mein add karo!')"
+      style="background:#D1FAE5;color:#065F46;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;">
+      ₹${c.amount} (${c.label})
+    </div>`
+  ).join('');
+  document.getElementById('reward-suggestions').style.display='block';
+};
+
+// Load top reward posts
+window.loadRewardPosts = function() {
+  const posts = (window._allPosts||[]).filter(p=>p.reward && parseInt(p.reward)>0)
+    .sort((a,b)=>parseInt(b.reward)-parseInt(a.reward)).slice(0,5);
+  const el = document.getElementById('top-reward-posts');
+  if (!el) return;
+  if (!posts.length) {
+    el.innerHTML = '<div style="text-align:center;padding:16px;color:var(--text-muted);font-size:13px;">Koi reward posts nahi hain abhi</div>';
+    return;
+  }
+  el.innerHTML = posts.map(p => {
+    const tc=p.type==='lost'?'#FEE2E2':'#D1FAE5';
+    const tt=p.type==='lost'?'#DC2626':'#059669';
+    return `<div onclick="openDetail('${p.id}')" style="display:flex;align-items:center;gap:10px;padding:10px;background:white;border-radius:10px;margin-bottom:8px;cursor:pointer;border:1.5px solid var(--border);">
+      <div style="background:#FEF9C3;color:#92400E;font-weight:800;font-size:15px;padding:6px 12px;border-radius:10px;min-width:70px;text-align:center;">₹${p.reward}</div>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:700;">${p.item}</div>
+        <div style="font-size:11px;color:var(--text-muted);">📍 ${p.loc}</div>
+      </div>
+      <span style="background:${tc};color:${tt};font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;">${p.type==='lost'?'Lost':'Found'}</span>
+    </div>`;
+  }).join('');
+};
+</script>
 
 </body>
 </html>
