@@ -739,7 +739,7 @@ window.submitToFirebase = async function() {
       btn.textContent = 'Submit Post'; btn.disabled = false;
     }, 1800);
   } catch(e) {
-    window.toast('❌Error saving. Try again.');
+    alert('Firebase Error: ' + (e.code || e.message || JSON.stringify(e))); window.toast('❌ ' + (e.code || e.message || 'Error'));
     btn.textContent = 'Submit Post'; btn.disabled = false;
   }
 };
