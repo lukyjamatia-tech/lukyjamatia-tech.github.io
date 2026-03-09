@@ -164,7 +164,7 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
 .listing-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);}
 
 /* POST OPTIONS MENU */
-.post-options-btn{position:absolute;top:6px;right:6px;width:28px;height:28px;background:rgba(255,255,255,.9);border:none;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;z-index:5;}
+.post-options-btn{position:absolute;top:6px;right:6px;width:32px;height:32px;background:rgba(255,255,255,0.95);border:1.5px solid #ddd;border-radius:50%;cursor:pointer;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;z-index:5;color:#333;box-shadow:0 1px 4px rgba(0,0,0,.15);}
 .post-options-menu{position:absolute;top:36px;right:6px;background:white;border:1.5px solid var(--border);border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,.12);z-index:10;min-width:130px;display:none;}
 .post-options-menu.open{display:block;}
 .post-option-item{padding:10px 14px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .15s;}
@@ -310,7 +310,7 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
     <div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div>
     <div class="page-title">Contact Us</div>
     <div class="page-subtitle">We're here to help — reach out anytime</div>
-    <a class="contact-method" href="mailto:support@findback.in"><div class="contact-icon">📧</div><div><h4>Email Support</h4><p>support@findback.in</p></div></a>
+    <a class="contact-method" href="/cdn-cgi/l/email-protection#b9caccc9c9d6cbcdf9dfd0d7dddbd8dad297d0d7"><div class="contact-icon">📧</div><div><h4>Email Support</h4><p><span class="__cf_email__" data-cfemail="0f7c7a7f7f607d7b4f6966616b6d6e6c64216661">[email&#160;protected]</span></p></div></a>
     <a class="contact-method" href="https://wa.me/919999999999" target="_blank"><div class="contact-icon">💬</div><div><h4>WhatsApp</h4><p>Chat with us on WhatsApp</p></div></a>
     <a class="contact-method" href="#"><div class="contact-icon">🐦</div><div><h4>Twitter / X</h4><p>@FindBackS1</p></div></a>
     <div class="divider"></div>
@@ -365,7 +365,7 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
     <div class="divider"></div>
     <div class="legal-section"><h3>🔄 7. Changes to Terms</h3><p>We reserve the right to update these terms at any time. Continued use of the platform after changes constitutes acceptance of the new terms.</p></div>
     <div class="divider"></div>
-    <div class="legal-section"><h3>📬 8. Contact</h3><p>For questions about these terms, email us at <strong>support@findback.in</strong></p></div>
+    <div class="legal-section"><h3>📬 8. Contact</h3><p>For questions about these terms, email us at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="89fafcf9f9e6fbfdc9efe0e7edebe8eae2a7e0e7">[email&#160;protected]</a></strong></p></div>
   </div>
 </div>
 
@@ -387,7 +387,7 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
     <div class="divider"></div>
     <div class="legal-section"><h3>⚖️ 6. Your Rights</h3><p>You have the right to:</p><ul><li>🗑️ Request deletion of your account and posts</li><li>👁️ Access the personal information we hold about you</li><li>✏️ Correct any inaccurate information</li></ul></div>
     <div class="divider"></div>
-    <div class="legal-section"><h3>📬 7. Contact</h3><p>For privacy concerns, write to us at <strong>support@findback.in</strong></p></div>
+    <div class="legal-section"><h3>📬 7. Contact</h3><p>For privacy concerns, write to us at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a2d1d7d2d2cdd0d6e2c4cbccc6c0c3c1c98ccbcc">[email&#160;protected]</a></strong></p></div>
   </div>
 </div>
 
@@ -636,7 +636,7 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
 <!-- ===== SCRIPTS ===== -->
 
 <!-- Firebase Firestore + Posts -->
-<script type="module">
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot, orderBy, query, serverTimestamp, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -670,7 +670,7 @@ onSnapshot(q, (snapshot) => {
 onAuthStateChanged(auth, (user) => {
   window._currentUser = user || null;
   updateNavForUser(user);
-  if (window._renderAll) window._renderAll();
+  setTimeout(() => { if (window._renderAll) window._renderAll(); }, 400);
 });
 
 function updateNavForUser(user) {
@@ -911,9 +911,10 @@ window._renderAll = function() {
     const img = p.photo
       ? `<img src="${p.photo}" style="width:100%;height:100px;object-fit:cover;">`
       : `<div style="height:100px;background:var(--gray);display:flex;align-items:center;justify-content:center;font-size:32px;">${p.type==='lost'?'🔍':p.type==='found'?'📦':p.type==='person'?'🧍':'🆘'}</div>`;
-    const isOwn = window._currentUser && window._currentUser.uid === p.uid;
+    const curUid = window._currentUser ? window._currentUser.uid : null;
+    const isOwn = curUid && (p.uid === curUid || !p.uid);
     const optionsBtn = isOwn ? `
-      <button class="post-options-btn" onclick="event.stopPropagation();toggleOptions('${p.id}')">⋮</button>
+      <button class="post-options-btn" onclick="event.stopPropagation();toggleOptions('${p.id}')" style="position:absolute;top:6px;right:6px;width:30px;height:30px;background:rgba(255,255,255,0.95);border:1.5px solid #ddd;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;z-index:5;font-weight:700;color:#333;line-height:1;">⋮</button>
       <div class="post-options-menu" id="opts-${p.id}">
         <div class="post-option-item" onclick="event.stopPropagation();closeAllOptions();openEditModal('${p.id}')">✏️ Edit</div>
         <div class="post-option-item delete" onclick="event.stopPropagation();closeAllOptions();deletePost('${p.id}')">🗑️ Delete</div>
@@ -1187,21 +1188,4 @@ function refreshAdminStats() {
 window.refreshAdminStats = refreshAdminStats;
 
 function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-window.toast = toast;
-
-// Close modals on overlay tap
-document.getElementById('report-modal').addEventListener('click', function(e) {
-  if (e.target === this) window.closeModal();
-});
-document.getElementById('edit-modal').addEventListener('click', function(e) {
-  if (e.target === this) window.closeEditModal();
-});
-</script>
-
-</body>
-</html>
+  const 
