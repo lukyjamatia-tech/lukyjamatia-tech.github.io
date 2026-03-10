@@ -17,8 +17,10 @@
 }
 body{font-family:'Inter',sans-serif;background:var(--white);color:var(--black);min-height:100vh;display:flex;flex-direction:column;}
 nav{background:var(--black);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
-.nav-logo{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:var(--white);cursor:pointer;}
-.nav-logo span{color:var(--orange);}
+.nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer;}
+.nav-logo svg{width:36px;height:36px;flex-shrink:0;}
+.nav-logo-text{font-family:'Sora',sans-serif;font-size:20px;font-weight:800;color:var(--white);letter-spacing:-0.5px;}
+.nav-logo-text span{color:var(--orange);}
 .nav-right{display:flex;align-items:center;gap:10px;}
 .live-badge{display:flex;align-items:center;gap:5px;font-size:12px;color:#aaa;}
 .live-dot{width:7px;height:7px;background:#4CAF50;border-radius:50%;animation:pulse 2s infinite;}
@@ -149,7 +151,16 @@ window.addEventListener('unhandledrejection', function(e) {
 <body>
 
 <nav>
-  <div class="nav-logo" onclick="showPage('home')">Find<span>Back</span></div>
+  <div class="nav-logo" onclick="showPage('home')">
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:36px;height:36px;">
+      <path d="M50 50 C50 44 48 36 44 28 C41 22 38 17 38 14 C38 10 41 8 44 9 C47 10 49 14 50 20 C51 26 52 34 54 40 C56 46 56 50 50 50Z" fill="#FF6B00"/>
+      <path d="M50 50 C44 52 37 54 30 56 C23 58 17 59 14 57 C11 55 11 51 13 49 C15 47 19 47 25 48 C31 49 38 49 43 48 C48 47 52 46 50 50Z" fill="#FF6B00"/>
+      <path d="M50 50 C54 46 60 42 66 40 C72 38 78 37 81 39 C84 41 83 45 81 47 C79 49 75 49 69 50 C63 51 57 52 53 53 C49 54 47 54 50 50Z" fill="#FF6B00"/>
+      <circle cx="50" cy="50" r="6.5" fill="#111"/>
+      <circle cx="50" cy="50" r="3.5" fill="#FF6B00"/>
+    </svg>
+    <div class="nav-logo-text">Find<span>Back</span></div>
+  </div>
   <div class="nav-right">
     <div class="live-badge"><div class="live-dot"></div> Live</div>
     <div class="s1-badge">S1</div>
@@ -1028,7 +1039,7 @@ window.openDetail = function(id) {
   }
   const tc = p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':p.type==='person'?'#EDE9FE':'#FEF3C7';
   const tt = p.type==='lost'?'#DC2626':p.type==='found'?'#059669':p.type==='person'?'#7C3AED':'#D97706';
-  const tl = p.type==='lost'?'\ud83d\ude1f Lost':p.type==='found'?'\ud83c\udf89 Found':p.type==='person'?'\ud83e\uddcd Person':'\u26a0ufe0f Missing';
+  const tl = p.type==='lost'?'\ud83d\ude1f Lost':p.type==='found'?'\ud83c\udf89 Found':p.type==='person'?'\ud83e\uddcd Person':'\u26a0\ufe0f Missing';
   document.getElementById('detail-badge').innerHTML = `<span style="background:${tc};color:${tt};padding:4px 12px;border-radius:20px;font-weight:700;font-size:13px;">${tl}</span>`;
   document.getElementById('detail-title').textContent = p.item || '';
   document.getElementById('detail-cat').textContent = p.category || '';
@@ -1056,8 +1067,8 @@ window.openDetail = function(id) {
     btns += `<a href="mailto:${p.contact}" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--orange);color:white;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">\ud83d\udce7 Email karo</a>`;
   }
   if (window._currentUser && window._currentUser.uid === p.uid) {
-    btns += `<button onclick="openEditModal('${p.id}')" style="padding:14px;border:none;background:var(--gray);color:var(--black);border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">\u270fufe0f Edit Post</button>`;
-    btns += `<button onclick="deletePost('${p.id}')" style="padding:14px;border:none;background:#FEE2E2;color:#DC2626;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">\ud83d\uddd1\ufe0fDelete Post</button>`;
+    btns += `<button onclick="openEditModal('${p.id}')" style="padding:14px;border:none;background:var(--gray);color:var(--black);border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">\u270f\ufe0f Edit Post</button>`;
+    btns += `<button onclick="deletePost('${p.id}')" style="padding:14px;border:none;background:#FEE2E2;color:#DC2626;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">\ud83d\uddd1\ufe0f Delete Post</button>`;
   }
   // Anonymous message section
   const anonId = p.id.replace(/[^a-z0-9]/gi,'_');
@@ -1098,7 +1109,7 @@ function openModal(type) {
   const titles = {
     lost:    ['\ud83d\ude1f Report Lost Item',    'Fill in details about the item you lost'],
     found:   ['\ud83c\udf89 Report Found Item',   'Fill in details about the item you found'],
-    missing: ['\u26a0ufe0f Report Missing',      'Provide details to help locate them'],
+    missing: ['\u26a0\ufe0f Report Missing',      'Provide details to help locate them'],
     person:  ['\ud83e\uddcd Report Missing Person','Provide details about the missing person']
   };
   const t = titles[type] || titles['lost'];
@@ -1127,7 +1138,7 @@ window.submitReport = submitReport;
 function sendContact() {
   const name = document.getElementById('c-name').value.trim();
   const msg  = document.getElementById('c-msg').value.trim();
-  if (!name || !msg) { toast('\u26a0ufe0f Please fill name and message'); return; }
+  if (!name || !msg) { toast('\u26a0\ufe0f Please fill name and message'); return; }
   document.getElementById('contact-success').style.display = 'block';
   document.getElementById('c-name').value = '';
   document.getElementById('c-email').value = '';
@@ -1181,7 +1192,7 @@ function refreshAdminStats() {
         return `<tr>
           <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.item||'-'}</td>
           <td><span class="tag ${tc}">${tl}</span></td>
-          <td><button onclick="deletePost('${p.id}')" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600;cursor:pointer;">\ud83d\uddd1\ufe0fDel</button></td>
+          <td><button onclick="deletePost('${p.id}')" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600;cursor:pointer;">\ud83d\uddd1\ufe0f Del</button></td>
         </tr>`;
       }).join('');
     }
@@ -1365,7 +1376,7 @@ function renderMapPins() {
       </div>
       <div style="flex:1;background:#FEF3C7;border-radius:10px;padding:10px;text-align:center;">
         <div style="font-size:18px;font-weight:700;color:#D97706;">${missingCount}</div>
-        <div style="font-size:10px;color:#D97706;font-weight:600;">\u26a0ufe0f Missing</div>
+        <div style="font-size:10px;color:#D97706;font-weight:600;">\u26a0\ufe0f Missing</div>
       </div>
     </div>
     <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:10px;color:#333;">
@@ -1381,7 +1392,7 @@ function renderMapPins() {
         ${ps.map(p=>{
           const tc=p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7';
           const tt=p.type==='lost'?'#DC2626':p.type==='found'?'#059669':'#D97706';
-          const emoji=p.type==='lost'?'\ud83d\ude1f':p.type==='found'?'\ud83c\udf89':'\u26a0ufe0f';
+          const emoji=p.type==='lost'?'\ud83d\ude1f':p.type==='found'?'\ud83c\udf89':'\u26a0\ufe0f';
           return `<div onclick="openDetail('${p.id}')" style="background:${tc};color:${tt};padding:5px 11px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,.05);">${emoji} ${p.item}</div>`;
         }).join('')}
       </div>
@@ -1396,7 +1407,7 @@ window._areaAlerts = JSON.parse(localStorage.getItem('fb_alerts')||'[]');
 window.saveAreaAlert = function() {
   const area = document.getElementById('alert-area').value.trim();
   const cat  = document.getElementById('alert-cat').value;
-  if (!area) { toast('\u26a0ufe0f Area name daalo'); return; }
+  if (!area) { toast('\u26a0\ufe0f Area name daalo'); return; }
   const alert = { id: Date.now(), area, cat, created: new Date().toLocaleDateString('en-IN') };
   window._areaAlerts.push(alert);
   localStorage.setItem('fb_alerts', JSON.stringify(window._areaAlerts));
@@ -1449,7 +1460,7 @@ window.checkAreaAlerts = checkAreaAlerts;
 // ============================================================
 window.sendAnonymousMsg = async function(postId) {
   const msg = document.getElementById('anon-msg-'+postId.replace(/[^a-z0-9]/gi,'_'));
-  if (!msg || !msg.value.trim()) { toast('\u26a0ufe0f Message likho pehle'); return; }
+  if (!msg || !msg.value.trim()) { toast('\u26a0\ufe0f Message likho pehle'); return; }
 
   const post = (window._allPosts||[]).find(p=>p.id===postId);
   if (!post) return;
