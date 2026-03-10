@@ -166,27 +166,102 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
     <div style="margin-bottom:20px;">
       <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;">📂 Browse by Category</div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
-        <div onclick="setCatGrid('')" class="cat-grid-item active-cat-grid" id="catgrid-all"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="22" cy="22" r="14" fill="#FFF0E6" stroke="#E8722A" stroke-width="3"/><circle cx="22" cy="22" r="8" fill="#E8722A" opacity="0.2"/><line x1="32" y1="32" x2="42" y2="42" stroke="#E8722A" stroke-width="4" stroke-linecap="round"/><circle cx="22" cy="22" r="5" fill="#E8722A"/></svg></div><div class="cat-grid-label">All</div></div>
-        <div onclick="setCatGrid('Wallet')" class="cat-grid-item" id="catgrid-Wallet"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="14" width="40" height="26" rx="4" fill="#8B5E3C"/><rect x="4" y="14" width="40" height="8" rx="2" fill="#6B4226"/><rect x="28" y="25" width="14" height="10" rx="3" fill="#F5C842"/><circle cx="35" cy="30" r="2.5" fill="#E8A000"/><rect x="4" y="10" width="32" height="6" rx="2" fill="#A0714F"/></svg></div><div class="cat-grid-label">Wallet</div></div>
-        <div onclick="setCatGrid('Phone')" class="cat-grid-item" id="catgrid-Phone"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="3" width="24" height="42" rx="4" fill="#1A1A2E"/><rect x="14" y="7" width="20" height="32" rx="2" fill="#3B82F6" opacity="0.5"/><circle cx="24" cy="43" r="2" fill="#555"/><rect x="19" y="5" width="10" height="2" rx="1" fill="#555"/></svg></div><div class="cat-grid-label">Phone</div></div>
-        <div onclick="setCatGrid('Keys')" class="cat-grid-item" id="catgrid-Keys"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="20" r="11" fill="#F5C842" stroke="#E8A000" stroke-width="2.5"/><circle cx="16" cy="20" r="5" fill="#FFF" stroke="#E8A000" stroke-width="2"/><rect x="24" y="18" width="18" height="4" rx="2" fill="#E8A000"/><rect x="36" y="22" width="4" height="5" rx="1" fill="#E8A000"/><rect x="30" y="22" width="4" height="4" rx="1" fill="#E8A000"/></svg></div><div class="cat-grid-label">Keys</div></div>
-        <div onclick="setCatGrid('Bag')" class="cat-grid-item" id="catgrid-Bag"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="16" width="38" height="28" rx="3" fill="#6B4226"/><rect x="5" y="16" width="38" height="8" rx="2" fill="#8B5E3C"/><rect x="18" y="8" width="12" height="10" rx="4" fill="none" stroke="#6B4226" stroke-width="3"/><rect x="3" y="23" width="42" height="3" rx="1.5" fill="#5A3520"/><rect x="20" y="27" width="8" height="6" rx="1" fill="#F5C842"/></svg></div><div class="cat-grid-label">Bag</div></div>
-        <div onclick="setCatGrid('Jewellery')" class="cat-grid-item" id="catgrid-Jewellery"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="32" r="12" fill="none" stroke="#C084FC" stroke-width="3"/><path d="M16 20 L24 8 L32 20 Z" fill="#A855F7"/><path d="M18 20 L24 14 L30 20 L24 26 Z" fill="#C084FC"/><circle cx="24" cy="32" r="5" fill="#E9D5FF"/><circle cx="24" cy="32" r="2.5" fill="#A855F7"/></svg></div><div class="cat-grid-label">Jewellery</div></div>
-        <div onclick="setCatGrid('Backpack')" class="cat-grid-item" id="catgrid-Backpack"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="10" width="28" height="34" rx="6" fill="#2563EB"/><rect x="14" y="6" width="8" height="6" rx="2" fill="#1D4ED8"/><rect x="26" y="6" width="8" height="6" rx="2" fill="#1D4ED8"/><rect x="13" y="24" width="22" height="12" rx="3" fill="#1D4ED8"/><rect x="22" y="27" width="4" height="6" rx="1" fill="#60A5FA"/><rect x="10" y="14" width="4" height="18" rx="2" fill="#1E40AF"/><rect x="34" y="14" width="4" height="18" rx="2" fill="#1E40AF"/></svg></div><div class="cat-grid-label">Backpack</div></div>
-        <div onclick="setCatGrid('Laptop')" class="cat-grid-item" id="catgrid-Laptop"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="8" width="36" height="25" rx="3" fill="#374151"/><rect x="8" y="10" width="32" height="21" rx="2" fill="#1E293B"/><rect x="2" y="33" width="44" height="5" rx="2" fill="#4B5563"/><rect x="18" y="35" width="12" height="2" rx="1" fill="#9CA3AF"/><line x1="14" y1="18" x2="22" y2="18" stroke="#3B82F6" stroke-width="2" stroke-linecap="round"/><line x1="14" y1="22" x2="34" y2="22" stroke="#60A5FA" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="cat-grid-label">Laptop</div></div>
-        <div onclick="setCatGrid('Pet')" class="cat-grid-item" id="catgrid-Pet"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="24" cy="28" rx="12" ry="10" fill="#F97316"/><ellipse cx="14" cy="16" rx="5" ry="7" fill="#F97316" transform="rotate(-15 14 16)"/><ellipse cx="34" cy="16" rx="5" ry="7" fill="#F97316" transform="rotate(15 34 16)"/><circle cx="20" cy="24" r="2.5" fill="#1A1A1A"/><circle cx="28" cy="24" r="2.5" fill="#1A1A1A"/><ellipse cx="24" cy="30" rx="4" ry="2.5" fill="#FDA97B"/></svg></div><div class="cat-grid-label">Pet</div></div>
-        <div onclick="setCatGrid('Glasses')" class="cat-grid-item" id="catgrid-Glasses"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="15" cy="26" r="10" fill="none" stroke="#2563EB" stroke-width="3"/><circle cx="33" cy="26" r="10" fill="none" stroke="#2563EB" stroke-width="3"/><circle cx="15" cy="26" r="7" fill="#DBEAFE" opacity="0.6"/><circle cx="33" cy="26" r="7" fill="#DBEAFE" opacity="0.6"/><path d="M25 26 Q24 24 23 26" stroke="#2563EB" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="2" y1="22" x2="5" y2="24" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round"/><line x1="43" y1="22" x2="46" y2="24" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="cat-grid-label">Glasses</div></div>
-        <div onclick="setCatGrid('Documents')" class="cat-grid-item" id="catgrid-Documents"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="4" width="32" height="40" rx="3" fill="#F0FDF4"/><rect x="8" y="4" width="32" height="40" rx="3" stroke="#16A34A" stroke-width="2"/><rect x="8" y="4" width="32" height="14" rx="3" fill="#16A34A"/><circle cx="19" cy="11" r="5" fill="#FFF" opacity="0.9"/><rect x="26" y="8" width="10" height="2" rx="1" fill="#FFF" opacity="0.8"/><rect x="26" y="12" width="8" height="2" rx="1" fill="#FFF" opacity="0.6"/><rect x="13" y="24" width="22" height="2" rx="1" fill="#16A34A" opacity="0.5"/><rect x="13" y="29" width="18" height="2" rx="1" fill="#16A34A" opacity="0.4"/><rect x="13" y="34" width="20" height="2" rx="1" fill="#16A34A" opacity="0.3"/></svg></div><div class="cat-grid-label">Documents</div></div>
-        <div onclick="setCatGrid('Watch')" class="cat-grid-item" id="catgrid-Watch"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="2" width="12" height="8" rx="2" fill="#4B5563"/><rect x="18" y="38" width="12" height="8" rx="2" fill="#4B5563"/><circle cx="24" cy="24" r="15" fill="#F5C842" stroke="#E8A000" stroke-width="2"/><circle cx="24" cy="24" r="12" fill="#1A1A2E"/><line x1="24" y1="24" x2="24" y2="16" stroke="#FFF" stroke-width="2" stroke-linecap="round"/><line x1="24" y1="24" x2="29" y2="24" stroke="#E8722A" stroke-width="2" stroke-linecap="round"/><circle cx="24" cy="24" r="1.5" fill="#E8722A"/></svg></div><div class="cat-grid-label">Watch</div></div>
-        <div onclick="setCatGrid('Purse')" class="cat-grid-item" id="catgrid-Purse"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 20 Q10 12 24 12 Q38 12 38 20 L40 40 Q40 44 36 44 L12 44 Q8 44 8 40 Z" fill="#EC4899"/><path d="M16 12 Q16 6 24 6 Q32 6 32 12" fill="none" stroke="#BE185D" stroke-width="3" stroke-linecap="round"/><rect x="18" y="24" width="12" height="8" rx="3" fill="#FDF2F8"/><circle cx="24" cy="28" r="2" fill="#EC4899"/></svg></div><div class="cat-grid-label">Purse</div></div>
-        <div onclick="setCatGrid('Person')" class="cat-grid-item" id="catgrid-Person"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="13" r="9" fill="#FED7AA" stroke="#EA580C" stroke-width="2"/><path d="M8 44 Q8 28 24 28 Q40 28 40 44" fill="#EA580C"/></svg></div><div class="cat-grid-label">Person</div></div>
-        <div onclick="setCatGrid('Car')" class="cat-grid-item" id="catgrid-Car"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="22" width="42" height="16" rx="3" fill="#DC2626"/><path d="M8 22 L13 12 L35 12 L40 22" fill="#EF4444"/><rect x="13" y="14" width="9" height="8" rx="1" fill="#BFDBFE" opacity="0.9"/><rect x="26" y="14" width="9" height="8" rx="1" fill="#BFDBFE" opacity="0.9"/><circle cx="12" cy="36" r="5" fill="#1A1A1A" stroke="#555" stroke-width="1.5"/><circle cx="12" cy="36" r="2.5" fill="#555"/><circle cx="36" cy="36" r="5" fill="#1A1A1A" stroke="#555" stroke-width="1.5"/><circle cx="36" cy="36" r="2.5" fill="#555"/><rect x="3" y="26" width="5" height="4" rx="1" fill="#FDE047"/><rect x="40" y="26" width="5" height="4" rx="1" fill="#F87171"/></svg></div><div class="cat-grid-label">Car</div></div>
-        <div onclick="setCatGrid('Bike')" class="cat-grid-item" id="catgrid-Bike"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="34" r="8" fill="none" stroke="#1A1A1A" stroke-width="3"/><circle cx="11" cy="34" r="3" fill="#555"/><circle cx="37" cy="34" r="8" fill="none" stroke="#1A1A1A" stroke-width="3"/><circle cx="37" cy="34" r="3" fill="#555"/><path d="M11 34 L22 18 L37 34" fill="none" stroke="#E8722A" stroke-width="3" stroke-linejoin="round"/><path d="M22 18 L30 18" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round"/><path d="M7 22 L15 22" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round"/><ellipse cx="27" cy="17" rx="5" ry="3" fill="#E8722A"/><rect x="26" y="8" width="3" height="10" rx="1" fill="#555"/><path d="M23 8 L32 8" stroke="#555" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="cat-grid-label">Bike</div></div>
-        <div onclick="setCatGrid('Cycle')" class="cat-grid-item" id="catgrid-Cycle"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="34" r="9" fill="none" stroke="#0D9488" stroke-width="3"/><circle cx="10" cy="34" r="3" fill="#0D9488"/><circle cx="38" cy="34" r="9" fill="none" stroke="#0D9488" stroke-width="3"/><circle cx="38" cy="34" r="3" fill="#0D9488"/><path d="M10 34 L24 16 L38 34" fill="none" stroke="#0D9488" stroke-width="3" stroke-linejoin="round"/><path d="M20 16 L28 16" stroke="#555" stroke-width="3" stroke-linecap="round"/><path d="M24 16 L24 12" stroke="#555" stroke-width="3" stroke-linecap="round"/><path d="M20 12 L28 12" stroke="#555" stroke-width="3" stroke-linecap="round"/><path d="M6 24 L14 24" stroke="#555" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="cat-grid-label">Cycle</div></div>
-        <div onclick="setCatGrid('Animals')" class="cat-grid-item" id="catgrid-Animals"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="24" cy="28" rx="14" ry="10" fill="#E8722A"/><ellipse cx="11" cy="17" rx="5" ry="7" fill="#E8722A" transform="rotate(-20 11 17)"/><ellipse cx="37" cy="17" rx="5" ry="7" fill="#E8722A" transform="rotate(20 37 17)"/><ellipse cx="24" cy="26" rx="8" ry="6" fill="#FED7AA"/><circle cx="19" cy="24" r="2.5" fill="#111"/><circle cx="29" cy="24" r="2.5" fill="#111"/><line x1="10" y1="34" x2="6" y2="42" stroke="#E8722A" stroke-width="3" stroke-linecap="round"/><line x1="18" y1="37" x2="16" y2="44" stroke="#E8722A" stroke-width="3" stroke-linecap="round"/><line x1="30" y1="37" x2="32" y2="44" stroke="#E8722A" stroke-width="3" stroke-linecap="round"/><line x1="38" y1="34" x2="42" y2="42" stroke="#E8722A" stroke-width="3" stroke-linecap="round"/></svg></div><div class="cat-grid-label">Animals</div></div>
-        <div onclick="setCatGrid('Other')" class="cat-grid-item" id="catgrid-Other"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="16" width="36" height="28" rx="2" fill="#92400E"/><rect x="6" y="16" width="36" height="6" rx="1" fill="#78350F"/><path d="M6 16 L14 10 L34 10 L42 16" fill="#A16207"/><rect x="20" y="27" width="8" height="10" rx="1" fill="#F5C842" opacity="0.8"/><line x1="20" y1="32" x2="28" y2="32" stroke="#A16207" stroke-width="1.5"/></svg></div><div class="cat-grid-label">Other</div></div>
-      </div>
-    </div>
+        <div onclick="setCatGrid('')" class="cat-grid-item  active-cat-grid" id="catgrid-all" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="22" cy="22" r="14" fill="#FFF0E6" stroke="#E8722A" stroke-width="3"/><circle cx="22" cy="22" r="8" fill="#E8722A" opacity="0.2"/><line x1="32" y1="32" x2="42" y2="42" stroke="#E8722A" stroke-width="4" stroke-linecap="round"/><circle cx="22" cy="22" r="5" fill="#E8722A"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">All</div>
+  <div id="catcount-all" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+        <div onclick="setCatGrid('Wallet')" class="cat-grid-item" id="catgrid-Wallet" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="14" width="40" height="26" rx="4" fill="#8B5E3C"/><rect x="4" y="14" width="40" height="8" rx="2" fill="#6B4226"/><rect x="28" y="25" width="14" height="10" rx="3" fill="#F5C842"/><circle cx="35" cy="30" r="2.5" fill="#E8A000"/><rect x="4" y="10" width="32" height="6" rx="2" fill="#A0714F"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">Wallet</div>
+  <div id="catcount-Wallet" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+        <div onclick="setCatGrid('Phone')" class="cat-grid-item" id="catgrid-Phone" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="3" width="24" height="42" rx="4" fill="#1A1A2E"/><rect x="14" y="7" width="20" height="32" rx="2" fill="#3B82F6" opacity="0.5"/><circle cx="24" cy="43" r="2" fill="#555"/><rect x="19" y="5" width="10" height="2" rx="1" fill="#555"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">Phone</div>
+  <div id="catcount-Phone" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+        <div onclick="setCatGrid('Keys')" class="cat-grid-item" id="catgrid-Keys" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="20" r="11" fill="#F5C842" stroke="#E8A000" stroke-width="2.5"/><circle cx="16" cy="20" r="5" fill="#FFF" stroke="#E8A000" stroke-width="2"/><rect x="24" y="18" width="18" height="4" rx="2" fill="#E8A000"/><rect x="36" y="22" width="4" height="5" rx="1" fill="#E8A000"/><rect x="30" y="22" width="4" height="4" rx="1" fill="#E8A000"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">Keys</div>
+  <div id="catcount-Keys" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+        <div onclick="setCatGrid('Bag')" class="cat-grid-item" id="catgrid-Bag" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="16" width="38" height="28" rx="3" fill="#6B4226"/><rect x="5" y="16" width="38" height="8" rx="2" fill="#8B5E3C"/><rect x="18" y="8" width="12" height="10" rx="4" fill="none" stroke="#6B4226" stroke-width="3"/><rect x="3" y="23" width="42" height="3" rx="1.5" fill="#5A3520"/><rect x="20" y="27" width="8" height="6" rx="1" fill="#F5C842"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">Bag</div>
+  <div id="catcount-Bag" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+        <div onclick="setCatGrid('Jewellery')" class="cat-grid-item" id="catgrid-Jewellery" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="32" r="12" fill="none" stroke="#C084FC" stroke-width="3"/><path d="M16 20 L24 8 L32 20 Z" fill="#A855F7"/><path d="M18 20 L24 14 L30 20 L24 26 Z" fill="#C084FC"/><circle cx="24" cy="32" r="5" fill="#E9D5FF"/><circle cx="24" cy="32" r="2.5" fill="#A855F7"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">Jewellery</div>
+  <div id="catcount-Jewellery" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+        <div onclick="setCatGrid('Backpack')" class="cat-grid-item" id="catgrid-Backpack" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="10" width="28" height="34" rx="6" fill="#2563EB"/><rect x="14" y="6" width="8" height="6" rx="2" fill="#1D4ED8"/><rect x="26" y="6" width="8" height="6" rx="2" fill="#1D4ED8"/><rect x="13" y="24" width="22" height="12" rx="3" fill="#1D4ED8"/><rect x="22" y="27" width="4" height="6" rx="1" fill="#60A5FA"/><rect x="10" y="14" width="4" height="18" rx="2" fill="#1E40AF"/><rect x="34" y="14" width="4" height="18" rx="2" fill="#1E40AF"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">Backpack</div>
+  <div id="catcount-Backpack" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+        <div onclick="setCatGrid('Laptop')" class="cat-grid-item" id="catgrid-Laptop" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="8" width="36" height="25" rx="3" fill="#374151"/><rect x="8" y="10" width="32" height="21" rx="2" fill="#1E293B"/><rect x="2" y="33" width="44" height="5" rx="2" fill="#4B5563"/><rect x="18" y="35" width="12" height="2" rx="1" fill="#9CA3AF"/><line x1="14" y1="18" x2="22" y2="18" stroke="#3B82F6" stroke-width="2" stroke-linecap="round"/><line x1="14" y1="22" x2="34" y2="22" stroke="#60A5FA" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">Laptop</div>
+  <div id="catcount-Laptop" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+        <div onclick="setCatGrid('Pet')" class="cat-grid-item" id="catgrid-Pet" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="24" cy="28" rx="12" ry="10" fill="#F97316"/><ellipse cx="14" cy="16" rx="5" ry="7" fill="#F97316" transform="rotate(-15 14 16)"/><ellipse cx="34" cy="16" rx="5" ry="7" fill="#F97316" transform="rotate(15 34 16)"/><circle cx="20" cy="24" r="2.5" fill="#1A1A1A"/><circle cx="28" cy="24" r="2.5" fill="#1A1A1A"/><ellipse cx="24" cy="30" rx="4" ry="2.5" fill="#FDA97B"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">Pet</div>
+  <div id="catcount-Pet" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+        <div onclick="setCatGrid('Glasses')" class="cat-grid-item" id="catgrid-Glasses" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="15" cy="26" r="10" fill="none" stroke="#2563EB" stroke-width="3"/><circle cx="33" cy="26" r="10" fill="none" stroke="#2563EB" stroke-width="3"/><circle cx="15" cy="26" r="7" fill="#DBEAFE" opacity="0.6"/><circle cx="33" cy="26" r="7" fill="#DBEAFE" opacity="0.6"/><path d="M25 26 Q24 24 23 26" stroke="#2563EB" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="2" y1="22" x2="5" y2="24" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round"/><line x1="43" y1="22" x2="46" y2="24" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">Glasses</div>
+  <div id="catcount-Glasses" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+        <div onclick="setCatGrid('Documents')" class="cat-grid-item" id="catgrid-Documents" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="4" width="32" height="40" rx="3" fill="#F0FDF4"/><rect x="8" y="4" width="32" height="40" rx="3" stroke="#16A34A" stroke-width="2"/><rect x="8" y="4" width="32" height="14" rx="3" fill="#16A34A"/><circle cx="19" cy="11" r="5" fill="#FFF" opacity="0.9"/><rect x="26" y="8" width="10" height="2" rx="1" fill="#FFF" opacity="0.8"/><rect x="26" y="12" width="8" height="2" rx="1" fill="#FFF" opacity="0.6"/><rect x="13" y="24" width="22" height="2" rx="1" fill="#16A34A" opacity="0.5"/><rect x="13" y="29" width="18" height="2" rx="1" fill="#16A34A" opacity="0.4"/><rect x="13" y="34" width="20" height="2" rx="1" fill="#16A34A" opacity="0.3"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">Documents</div>
+  <div id="catcount-Documents" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+        <div onclick="setCatGrid('Watch')" class="cat-grid-item" id="catgrid-Watch" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="2" width="12" height="8" rx="2" fill="#4B5563"/><rect x="18" y="38" width="12" height="8" rx="2" fill="#4B5563"/><circle cx="24" cy="24" r="15" fill="#F5C842" stroke="#E8A000" stroke-width="2"/><circle cx="24" cy="24" r="12" fill="#1A1A2E"/><line x1="24" y1="24" x2="24" y2="16" stroke="#FFF" stroke-width="2" stroke-linecap="round"/><line x1="24" y1="24" x2="29" y2="24" stroke="#E8722A" stroke-width="2" stroke-linecap="round"/><circle cx="24" cy="24" r="1.5" fill="#E8722A"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">Watch</div>
+  <div id="catcount-Watch" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+        <div onclick="setCatGrid('Purse')" class="cat-grid-item" id="catgrid-Purse" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 20 Q10 12 24 12 Q38 12 38 20 L40 40 Q40 44 36 44 L12 44 Q8 44 8 40 Z" fill="#EC4899"/><path d="M16 12 Q16 6 24 6 Q32 6 32 12" fill="none" stroke="#BE185D" stroke-width="3" stroke-linecap="round"/><rect x="18" y="24" width="12" height="8" rx="3" fill="#FDF2F8"/><circle cx="24" cy="28" r="2" fill="#EC4899"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">Purse</div>
+  <div id="catcount-Purse" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+        <div onclick="setCatGrid('Person')" class="cat-grid-item" id="catgrid-Person" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="13" r="9" fill="#FED7AA" stroke="#EA580C" stroke-width="2"/><path d="M8 44 Q8 28 24 28 Q40 28 40 44" fill="#EA580C"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">Person</div>
+  <div id="catcount-Person" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+        <div onclick="setCatGrid('Car')" class="cat-grid-item" id="catgrid-Car" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="22" width="42" height="16" rx="3" fill="#DC2626"/><path d="M8 22 L13 12 L35 12 L40 22" fill="#EF4444"/><rect x="13" y="14" width="9" height="8" rx="1" fill="#BFDBFE" opacity="0.9"/><rect x="26" y="14" width="9" height="8" rx="1" fill="#BFDBFE" opacity="0.9"/><circle cx="12" cy="36" r="5" fill="#1A1A1A" stroke="#555" stroke-width="1.5"/><circle cx="12" cy="36" r="2.5" fill="#555"/><circle cx="36" cy="36" r="5" fill="#1A1A1A" stroke="#555" stroke-width="1.5"/><circle cx="36" cy="36" r="2.5" fill="#555"/><rect x="3" y="26" width="5" height="4" rx="1" fill="#FDE047"/><rect x="40" y="26" width="5" height="4" rx="1" fill="#F87171"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">Car</div>
+  <div id="catcount-Car" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+        <div onclick="setCatGrid('Bike')" class="cat-grid-item" id="catgrid-Bike" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="34" r="8" fill="none" stroke="#1A1A1A" stroke-width="3"/><circle cx="11" cy="34" r="3" fill="#555"/><circle cx="37" cy="34" r="8" fill="none" stroke="#1A1A1A" stroke-width="3"/><circle cx="37" cy="34" r="3" fill="#555"/><path d="M11 34 L22 18 L37 34" fill="none" stroke="#E8722A" stroke-width="3" stroke-linejoin="round"/><path d="M22 18 L30 18" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round"/><path d="M7 22 L15 22" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round"/><ellipse cx="27" cy="17" rx="5" ry="3" fill="#E8722A"/><rect x="26" y="8" width="3" height="10" rx="1" fill="#555"/><path d="M23 8 L32 8" stroke="#555" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">Bike</div>
+  <div id="catcount-Bike" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+        <div onclick="setCatGrid('Cycle')" class="cat-grid-item" id="catgrid-Cycle" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="34" r="9" fill="none" stroke="#0D9488" stroke-width="3"/><circle cx="10" cy="34" r="3" fill="#0D9488"/><circle cx="38" cy="34" r="9" fill="none" stroke="#0D9488" stroke-width="3"/><circle cx="38" cy="34" r="3" fill="#0D9488"/><path d="M10 34 L24 16 L38 34" fill="none" stroke="#0D9488" stroke-width="3" stroke-linejoin="round"/><path d="M20 16 L28 16" stroke="#555" stroke-width="3" stroke-linecap="round"/><path d="M24 16 L24 12" stroke="#555" stroke-width="3" stroke-linecap="round"/><path d="M20 12 L28 12" stroke="#555" stroke-width="3" stroke-linecap="round"/><path d="M6 24 L14 24" stroke="#555" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">Cycle</div>
+  <div id="catcount-Cycle" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+        <div onclick="setCatGrid('Animals')" class="cat-grid-item" id="catgrid-Animals" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="24" cy="28" rx="14" ry="10" fill="#E8722A"/><ellipse cx="11" cy="17" rx="5" ry="7" fill="#E8722A" transform="rotate(-20 11 17)"/><ellipse cx="37" cy="17" rx="5" ry="7" fill="#E8722A" transform="rotate(20 37 17)"/><ellipse cx="24" cy="26" rx="8" ry="6" fill="#FED7AA"/><circle cx="19" cy="24" r="2.5" fill="#111"/><circle cx="29" cy="24" r="2.5" fill="#111"/><line x1="10" y1="34" x2="6" y2="42" stroke="#E8722A" stroke-width="3" stroke-linecap="round"/><line x1="18" y1="37" x2="16" y2="44" stroke="#E8722A" stroke-width="3" stroke-linecap="round"/><line x1="30" y1="37" x2="32" y2="44" stroke="#E8722A" stroke-width="3" stroke-linecap="round"/><line x1="38" y1="34" x2="42" y2="42" stroke="#E8722A" stroke-width="3" stroke-linecap="round"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">Animals</div>
+  <div id="catcount-Animals" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+        <div onclick="setCatGrid('Other')" class="cat-grid-item" id="catgrid-Other" style="padding:10px 4px 8px;">
+  <div style="width:36px;height:36px;margin:0 auto 4px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="16" width="36" height="28" rx="2" fill="#92400E"/><rect x="6" y="16" width="36" height="6" rx="1" fill="#78350F"/><path d="M6 16 L14 10 L34 10 L42 16" fill="#A16207"/><rect x="20" y="27" width="8" height="10" rx="1" fill="#F5C842" opacity="0.8"/><line x1="20" y1="32" x2="28" y2="32" stroke="#A16207" stroke-width="1.5"/></svg></div>
+  <div class="cat-grid-label" style="font-size:10px;font-weight:700;color:#333;margin-bottom:3px;">Other</div>
+  <div id="catcount-Other" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
+</div>
+      </div></div>
     <div id="filter-label"<div id="filter-label" style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;">🔍 All Posts</div>
     <div id="listings-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"></div>
     <div id="no-posts" style="text-align:center;padding:40px 0 20px;color:var(--text-muted);">
@@ -597,6 +672,7 @@ window._allPosts = [];
 const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
 onSnapshot(q, (snapshot) => {
   window._allPosts = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+  if (window.updateCatCounts) window.updateCatCounts();
   window._renderAll();
   refreshAdminStats();
   const mapPage = document.getElementById('page-map');
@@ -772,414 +848,203 @@ window.refreshAdminStats = function() {
     else { tbody.innerHTML = all.slice(0,20).map(p => { const tc=p.type==='lost'?'tag-lost':p.type==='found'?'tag-found':'tag-pending'; const tl=p.type==='lost'?'Lost':p.type==='found'?'Found':'Missing'; return `<tr><td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.item||'-'}</td><td><span class="tag ${tc}">${tl}</span></td><td><button onclick="deletePost('${p.id}')" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600;cursor:pointer;">🗑️</button></td></tr>`; }).join(''); }
   }
 };
+</script>
+<script>
+
+window._pagination = { page: 1, perPage: 100 };
+
+window.updateCatCounts = function() {
+  var posts = window._allPosts || [];
+  var cats = ['All','Wallet','Phone','Keys','Bag','Jewellery','Backpack','Laptop','Pet','Glasses','Documents','Watch','Purse','Person','Car','Bike','Cycle','Animals','Other'];
+  cats.forEach(function(cat) {
+    var id = cat === 'All' ? 'all' : cat;
+    var el = document.getElementById('catcount-' + id);
+    if (!el) return;
+    var catPosts = cat === 'All' ? posts : posts.filter(function(p){ return p.category && p.category.includes(cat); });
+    var lost = catPosts.filter(function(p){ return p.type==='lost'; }).length;
+    var found = catPosts.filter(function(p){ return p.type==='found'; }).length;
+    var h = '';
+    if (cat === 'All') {
+      if (posts.length > 0) h = '<span style="background:#E8722A;color:white;font-size:9px;font-weight:700;padding:1px 5px;border-radius:8px;">' + posts.length + ' posts</span>';
+    } else {
+      if (lost > 0)  h += '<span style="background:#FEE2E2;color:#DC2626;font-size:9px;font-weight:700;padding:1px 5px;border-radius:8px;">' + lost + ' L</span>';
+      if (found > 0) h += '<span style="background:#D1FAE5;color:#059669;font-size:9px;font-weight:700;padding:1px 5px;border-radius:8px;">' + found + ' F</span>';
+    }
+    el.innerHTML = h;
+  });
+};
 
 window._renderAll = function() {
-  const container = document.getElementById('listings-grid');
-  const noPosts = document.getElementById('no-posts');
-  const filterLabel = document.getElementById('filter-label');
-  const activeCat = window.activeCat || '';
-  let filtered = [...(window._allPosts || [])];
-  if (activeCat) filtered = filtered.filter(p => p.category && p.category.includes(activeCat));
-  const sq = window.searchQuery || '';
-  if (sq) filtered = filtered.filter(p => (p.item||'').toLowerCase().includes(sq) || (p.loc||'').toLowerCase().includes(sq) || (p.desc||'').toLowerCase().includes(sq));
+  var container = document.getElementById('listings-grid');
+  var noPosts = document.getElementById('no-posts');
+  var filterLabel = document.getElementById('filter-label');
+  if (!container) return;
+  var activeCat = window.activeCat || '';
+  var filtered = (window._allPosts || []).slice();
+  if (activeCat) filtered = filtered.filter(function(p){ return p.category && p.category.includes(activeCat); });
+  var sq = window.searchQuery || '';
+  if (sq) filtered = filtered.filter(function(p){
+    return (p.item||'').toLowerCase().indexOf(sq)>=0
+      || (p.loc||'').toLowerCase().indexOf(sq)>=0
+      || (p.desc||'').toLowerCase().indexOf(sq)>=0;
+  });
   filterLabel.textContent = activeCat ? ('📂 ' + activeCat) : '🔍 All Posts';
-  if (!filtered.length) { container.innerHTML = ''; noPosts.style.display = 'block'; return; }
+  if (!filtered.length) { container.innerHTML = ''; noPosts.style.display = 'block'; removePagination(); return; }
   noPosts.style.display = 'none';
 
+  if (window._lastFilter !== (activeCat + sq)) {
+    window._pagination.page = 1;
+    window._lastFilter = activeCat + sq;
+  }
+
+  var perPage = window._pagination.perPage;
+  var totalPages = Math.ceil(filtered.length / perPage);
+  var page = Math.max(1, Math.min(window._pagination.page, totalPages));
+  window._pagination.page = page;
+  var pageStart = (page - 1) * perPage;
+  var pageEnd = pageStart + perPage;
+  var pagePosts = filtered.slice(pageStart, pageEnd);
+
   function card(p) {
-    const tc = p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':p.type==='person'?'#EDE9FE':'#FEF3C7';
-    const tt = p.type==='lost'?'#DC2626':p.type==='found'?'#059669':p.type==='person'?'#7C3AED':'#D97706';
-    const tl = p.type==='lost'?'😟 Lost':p.type==='found'?'🎉 Found':p.type==='person'?'🧍 Person':'⚠️ Missing';
-    const img = p.photo ? `<img src="${p.photo}" style="width:100%;height:100px;object-fit:cover;">` : `<div style="height:100px;background:var(--gray);display:flex;align-items:center;justify-content:center;font-size:32px;">${p.type==='lost'?'🔍':p.type==='found'?'📦':p.type==='person'?'🧍':'🆘'}</div>`;
-    const curUid = window._currentUser ? window._currentUser.uid : null;
-    const isOwn = curUid && p.uid === curUid;
-    const eid = p.id.replace(/[^a-zA-Z0-9]/g,'_');
-    const optionsBtn = isOwn ? `
-      <button id="optbtn-${eid}" style="position:absolute;top:6px;right:6px;width:34px;height:34px;background:rgba(255,255,255,0.97);border:1.5px solid #ccc;border-radius:50%;font-size:22px;font-weight:900;display:flex;align-items:center;justify-content:center;z-index:20;color:#333;box-shadow:0 2px 6px rgba(0,0,0,.18);cursor:pointer;" ontouchstart="window._optTap=true;event.preventDefault();event.stopPropagation();toggleOptions('${eid}');" onclick="event.stopPropagation();if(!window._optTap)toggleOptions('${eid}');window._optTap=false;">⋮</button>
-      <div id="opts-${eid}" style="display:none;position:absolute;top:44px;right:6px;background:white;border:1.5px solid #ddd;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.15);z-index:30;min-width:140px;overflow:hidden;">
-        <div ontouchstart="event.stopPropagation();" onclick="event.stopPropagation();closeAllOptions();openEditModal('${p.id}');" style="padding:13px 16px;font-size:14px;font-weight:600;cursor:pointer;border-bottom:1px solid #eee;">✏️ Edit</div>
-        <div ontouchstart="event.stopPropagation();" onclick="event.stopPropagation();closeAllOptions();deletePost('${p.id}');" style="padding:13px 16px;font-size:14px;font-weight:600;cursor:pointer;color:#DC2626;">🗑️ Delete</div>
-      </div>` : '';
-    return `<div style="border:1.5px solid var(--border);border-radius:14px;overflow:hidden;background:var(--white);position:relative;">
-      ${optionsBtn}
-      <div onclick="openDetail('${p.id}')" style="cursor:pointer;">
-        <div style="overflow:hidden;border-radius:12px 12px 0 0;">${img}</div>
-        <div style="padding:10px;">
-          <span style="background:${tc};color:${tt};font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;">${tl}</span>
-          <div style="font-size:13px;font-weight:600;margin:4px 0 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.item}</div>
-          ${p.category?`<div style="font-size:11px;color:var(--orange);">${p.category}</div>`:''}
-          <div style="font-size:11px;color:var(--text-muted);">📍 ${p.loc}</div>
-          <div style="font-size:10px;color:#bbb;">${p.date||''}</div>
-          ${p.reward?`<div style="margin-top:4px;background:#FEF9C3;color:#92400E;font-size:11px;font-weight:700;padding:2px 7px;border-radius:8px;display:inline-block;">🏆 ₹${p.reward}</div>`:''}
-        </div>
-      </div>
-    </div>`;
+    var tc = p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':p.type==='person'?'#EDE9FE':'#FEF3C7';
+    var tt = p.type==='lost'?'#DC2626':p.type==='found'?'#059669':p.type==='person'?'#7C3AED':'#D97706';
+    var tl = p.type==='lost'?'😟 Lost':p.type==='found'?'🎉 Found':p.type==='person'?'🧍 Person':'⚠️ Missing';
+    var img = p.photo
+      ? '<img src="' + p.photo + '" style="width:100%;height:100px;object-fit:cover;">'
+      : '<div style="height:100px;background:var(--gray);display:flex;align-items:center;justify-content:center;font-size:32px;">' + (p.type==='lost'?'🔍':p.type==='found'?'📦':p.type==='person'?'🧍':'🆘') + '</div>';
+    var curUid = window._currentUser ? window._currentUser.uid : null;
+    var isOwn = curUid && p.uid === curUid;
+    var eid = p.id.replace(/[^a-zA-Z0-9]/g,'_');
+    var q = String.fromCharCode(39);
+    var optionsBtn = '';
+    if (isOwn) {
+      optionsBtn = '<button id="optbtn-' + eid + '" style="position:absolute;top:6px;right:6px;width:34px;height:34px;background:rgba(255,255,255,0.97);border:1.5px solid #ccc;border-radius:50%;font-size:22px;font-weight:900;display:flex;align-items:center;justify-content:center;z-index:20;color:#333;box-shadow:0 2px 6px rgba(0,0,0,.18);cursor:pointer;" onclick="event.stopPropagation();toggleOptions(' + q + eid + q + ');">&#8942;</button>'
+        + '<div id="opts-' + eid + '" style="display:none;position:absolute;top:44px;right:6px;background:white;border:1.5px solid #ddd;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.15);z-index:30;min-width:140px;overflow:hidden;">'
+        + '<div onclick="event.stopPropagation();closeAllOptions();openEditModal(' + q + p.id + q + ');" style="padding:13px 16px;font-size:14px;font-weight:600;cursor:pointer;border-bottom:1px solid #eee;">&#9999;&#65039; Edit</div>'
+        + '<div onclick="event.stopPropagation();closeAllOptions();deletePost(' + q + p.id + q + ');" style="padding:13px 16px;font-size:14px;font-weight:600;cursor:pointer;color:#DC2626;">&#128465;&#65039; Delete</div>'
+        + '</div>';
+    }
+    var catHtml = p.category ? '<div style="font-size:11px;color:var(--orange);">' + p.category + '</div>' : '';
+    var rewardHtml = p.reward ? '<div style="margin-top:4px;background:#FEF9C3;color:#92400E;font-size:11px;font-weight:700;padding:2px 7px;border-radius:8px;display:inline-block;">&#127942; &#8377;' + p.reward + '</div>' : '';
+    return '<div style="border:1.5px solid var(--border);border-radius:14px;overflow:hidden;background:var(--white);position:relative;">'
+      + optionsBtn
+      + '<div onclick="openDetail(' + q + p.id + q + ')" style="cursor:pointer;">'
+      + '<div style="overflow:hidden;border-radius:12px 12px 0 0;">' + img + '</div>'
+      + '<div style="padding:10px;">'
+      + '<span style="background:' + tc + ';color:' + tt + ';font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;">' + tl + '</span>'
+      + '<div style="font-size:13px;font-weight:600;margin:4px 0 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + p.item + '</div>'
+      + catHtml
+      + '<div style="font-size:11px;color:var(--text-muted);">&#128205; ' + p.loc + '</div>'
+      + '<div style="font-size:10px;color:#bbb;">' + (p.date||'') + '</div>'
+      + rewardHtml
+      + '</div></div></div>';
   }
 
-  const allCats = ['Wallet','Phone','Keys','Bag','Jewellery','Backpack','Laptop','Pet','Glasses','Documents','Watch','Purse','Person','Animals','Car','Bike','Cycle','Other'];
-  let html = '';
+  var innerHtml = '';
+  var allCats = ['Wallet','Phone','Keys','Bag','Jewellery','Backpack','Laptop','Pet','Glasses','Documents','Watch','Purse','Person','Animals','Car','Bike','Cycle','Other'];
+
   if (activeCat) {
-    const lost = filtered.filter(p=>p.type==='lost');
-    const found = filtered.filter(p=>p.type==='found');
-    const missing = filtered.filter(p=>p.type==='missing');
-    if (lost.length) html += `<div style="grid-column:1/-1;margin:8px 0 4px;"><span style="background:#FEE2E2;color:#DC2626;padding:4px 12px;border-radius:10px;font-weight:700;font-size:13px;">😟 Lost (${lost.length})</span></div>${lost.map(card).join('')}`;
-    if (found.length) html += `<div style="grid-column:1/-1;margin:8px 0 4px;"><span style="background:#D1FAE5;color:#059669;padding:4px 12px;border-radius:10px;font-weight:700;font-size:13px;">🎉 Found (${found.length})</span></div>${found.map(card).join('')}`;
-    if (missing.length) html += `<div style="grid-column:1/-1;margin:8px 0 4px;"><span style="background:#FEF3C7;color:#D97706;padding:4px 12px;border-radius:10px;font-weight:700;font-size:13px;">⚠️ Missing (${missing.length})</span></div>${missing.map(card).join('')}`;
+    var lostPosts    = pagePosts.filter(function(p){ return p.type==='lost'; });
+    var foundPosts   = pagePosts.filter(function(p){ return p.type==='found'; });
+    var missingPosts = pagePosts.filter(function(p){ return p.type==='missing'; });
+    var totalLost    = filtered.filter(function(p){ return p.type==='lost'; }).length;
+    var totalFound   = filtered.filter(function(p){ return p.type==='found'; }).length;
+    var totalMissing = filtered.filter(function(p){ return p.type==='missing'; }).length;
+
+    innerHtml += '<div style="grid-column:1/-1;background:linear-gradient(135deg,#FFF5EE,#FFF);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:4px;">'
+      + '<div style="font-size:16px;font-weight:800;color:#333;margin-bottom:8px;">' + activeCat + '</div>'
+      + '<div style="display:flex;gap:8px;flex-wrap:wrap;">'
+      + (totalLost>0    ? '<span style="background:#FEE2E2;color:#DC2626;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;">&#128543; ' + totalLost + ' Lost</span>' : '')
+      + (totalFound>0   ? '<span style="background:#D1FAE5;color:#059669;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;">&#127881; ' + totalFound + ' Found</span>' : '')
+      + (totalMissing>0 ? '<span style="background:#FEF3C7;color:#D97706;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;">&#9888;&#65039; ' + totalMissing + ' Missing</span>' : '')
+      + '</div></div>';
+
+    if (lostPosts.length) {
+      innerHtml += '<div style="grid-column:1/-1;margin:12px 0 6px;"><span style="background:#FEE2E2;color:#DC2626;padding:5px 14px;border-radius:10px;font-weight:700;font-size:13px;">&#128543; Lost</span></div>';
+      innerHtml += lostPosts.map(card).join('');
+    }
+    if (foundPosts.length) {
+      innerHtml += '<div style="grid-column:1/-1;margin:12px 0 6px;"><span style="background:#D1FAE5;color:#059669;padding:5px 14px;border-radius:10px;font-weight:700;font-size:13px;">&#127881; Found</span></div>';
+      innerHtml += foundPosts.map(card).join('');
+    }
+    if (missingPosts.length) {
+      innerHtml += '<div style="grid-column:1/-1;margin:12px 0 6px;"><span style="background:#FEF3C7;color:#D97706;padding:5px 14px;border-radius:10px;font-weight:700;font-size:13px;">&#9888;&#65039; Missing</span></div>';
+      innerHtml += missingPosts.map(card).join('');
+    }
   } else {
-    allCats.forEach(key => {
-      const cats = filtered.filter(p => p.category && p.category.includes(key));
+    allCats.forEach(function(key) {
+      var cats = pagePosts.filter(function(p){ return p.category && p.category.includes(key); });
       if (!cats.length) return;
-      html += `<div style="grid-column:1/-1;margin:16px 0 8px;"><div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;">${key} <span style="font-size:12px;color:var(--text-muted);font-weight:400;">(${cats.length})</span></div></div>${cats.map(card).join('')}`;
+      var catLost  = cats.filter(function(p){ return p.type==='lost'; }).length;
+      var catFound = cats.filter(function(p){ return p.type==='found'; }).length;
+      innerHtml += '<div style="grid-column:1/-1;margin:16px 0 8px;display:flex;align-items:center;gap:8px;">'
+        + '<div style="font-size:15px;font-weight:700;">' + key + '</div>'
+        + (catLost>0  ? '<span style="background:#FEE2E2;color:#DC2626;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">' + catLost + ' Lost</span>' : '')
+        + (catFound>0 ? '<span style="background:#D1FAE5;color:#059669;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">' + catFound + ' Found</span>' : '')
+        + '</div>'
+        + cats.map(card).join('');
     });
-    const noCat = filtered.filter(p => !p.category);
-    if (noCat.length) html += `<div style="grid-column:1/-1;margin:16px 0 8px;"><div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;">📦 Other (${noCat.length})</div></div>${noCat.map(card).join('')}`;
+    var noCat = pagePosts.filter(function(p){ return !p.category; });
+    if (noCat.length) {
+      innerHtml += '<div style="grid-column:1/-1;margin:16px 0 8px;"><div style="font-size:15px;font-weight:700;">&#128230; Other (' + noCat.length + ')</div></div>' + noCat.map(card).join('');
+    }
   }
-  container.innerHTML = html || `<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--text-muted);">No posts found</div>`;
-};
-</script>
 
-<script>
-window.activeFilter = 'all';
-window.activeCat = '';
-window.currentPhotosData = [];
+  container.innerHTML = innerHtml || '<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--text-muted);">No posts found</div>';
+  renderPagination(page, totalPages, filtered.length, pageStart, Math.min(pageEnd, filtered.length));
+};
 
-window.toggleOptions = function(id) {
-  const menu = document.getElementById('opts-' + id);
-  if (!menu) return;
-  const isOpen = menu.style.display === 'block';
-  closeAllOptions();
-  if (!isOpen) menu.style.display = 'block';
-};
-window.closeAllOptions = function() {
-  document.querySelectorAll('[id^="opts-"]').forEach(m => { if(m.style) m.style.display = 'none'; });
-};
-document.addEventListener('touchstart', function(e) { if (!e.target.closest('[id^="opts-"]') && !e.target.closest('[id^="optbtn-"]')) closeAllOptions(); });
-document.addEventListener('click', function(e) { if (!e.target.closest('[id^="opts-"]') && !e.target.closest('[id^="optbtn-"]')) closeAllOptions(); });
+function renderPagination(page, totalPages, total, from, to) {
+  var existing = document.getElementById('pagination-bar');
+  if (existing) existing.remove();
+  if (totalPages <= 1) return;
+  var bar = document.createElement('div');
+  bar.id = 'pagination-bar';
+  bar.style.cssText = 'grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:12px;margin:16px 0 24px;';
+  var info = document.createElement('div');
+  info.style.cssText = 'font-size:12px;color:var(--text-muted);';
+  info.textContent = (from+1) + '-' + to + ' of ' + total + ' posts';
+  bar.appendChild(info);
+  var row = document.createElement('div');
+  row.style.cssText = 'display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;';
+  function makeBtn(label, pg, isActive, isDisabled) {
+    var btn = document.createElement('button');
+    btn.textContent = label;
+    btn.disabled = isDisabled || false;
+    btn.style.cssText = 'padding:8px 14px;border-radius:20px;border:1.5px solid ' + (isActive?'var(--orange)':'var(--border)') + ';background:' + (isActive?'var(--orange)':isDisabled?'#f5f5f5':'white') + ';color:' + (isActive?'white':isDisabled?'#bbb':'var(--orange)') + ';font-weight:700;font-size:13px;cursor:' + (isActive||isDisabled?'default':'pointer') + ';min-width:36px;';
+    if (!isActive && !isDisabled) btn.onclick = function() {
+      window._pagination.page = pg;
+      window._renderAll();
+      var grid = document.getElementById('listings-grid');
+      if (grid) window.scrollTo({top: grid.offsetTop - 80, behavior: 'smooth'});
+    };
+    return btn;
+  }
+  row.appendChild(makeBtn('← Prev', page-1, false, page===1));
+  var startP = Math.max(1, page-2), endP = Math.min(totalPages, startP+4);
+  startP = Math.max(1, endP-4);
+  if (startP > 1) { row.appendChild(makeBtn('1', 1, false, false)); if (startP>2){var d=document.createElement('span');d.textContent='...';d.style.cssText='font-size:13px;color:#bbb;padding:0 4px;';row.appendChild(d);} }
+  for (var i = startP; i <= endP; i++) row.appendChild(makeBtn(String(i), i, i===page, false));
+  if (endP < totalPages) { if(endP<totalPages-1){var d2=document.createElement('span');d2.textContent='...';d2.style.cssText='font-size:13px;color:#bbb;padding:0 4px;';row.appendChild(d2);} row.appendChild(makeBtn(String(totalPages), totalPages, false, false)); }
+  row.appendChild(makeBtn('Next →', page+1, false, page===totalPages));
+  bar.appendChild(row);
+  var grid = document.getElementById('listings-grid');
+  if (grid && grid.parentNode) grid.parentNode.insertBefore(bar, grid.nextSibling);
+}
+
+function removePagination() { var b = document.getElementById('pagination-bar'); if (b) b.remove(); }
 
 window.setCatGrid = function(cat) {
   window.activeCat = cat;
-  document.querySelectorAll('.cat-grid-item').forEach(c => c.classList.remove('active-cat-grid'));
-  const el = document.getElementById(cat ? 'catgrid-' + cat : 'catgrid-all');
-  if (el) el.classList.add('active-cat-grid');
-  const grid = document.getElementById('listings-grid');
-  if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  window._pagination.page = 1;
+  document.querySelectorAll('.cat-grid-item').forEach(function(el){ el.classList.remove('active-cat-grid'); });
+  var activeEl = document.getElementById('catgrid-' + (cat || 'all'));
+  if (activeEl) activeEl.classList.add('active-cat-grid');
   if (window._renderAll) window._renderAll();
+  var grid = document.getElementById('listings-grid');
+  if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
 };
 
-function previewPhotos(input) {
-  if (!input.files || !input.files.length) return;
-  const MAX_KB = 250;
-  const allFiles = Array.from(input.files).slice(0, 5);
-  const tooBig = allFiles.filter(f => f.size > MAX_KB * 1024);
-  if (tooBig.length) { toast('❌ ' + tooBig.length + ' photo(s) 250KB se badi hain'); input.value = ''; return; }
-  window.currentPhotosData = [];
-  const preview = document.getElementById('photos-preview');
-  const placeholder = document.getElementById('photo-placeholder');
-  preview.innerHTML = '';
-  preview.style.display = 'flex';
-  placeholder.style.display = 'none';
-  allFiles.forEach(file => {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      window.currentPhotosData.push(e.target.result);
-      const img = document.createElement('img');
-      img.src = e.target.result;
-      img.style.cssText = 'width:80px;height:80px;object-fit:cover;border-radius:8px;flex-shrink:0;';
-      const wrap = document.createElement('div');
-      wrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;';
-      wrap.appendChild(img);
-      preview.appendChild(wrap);
-    };
-    reader.readAsDataURL(file);
-  });
-}
-window.previewPhotos = previewPhotos;
-
-window.setSearch = function(val) { window.searchQuery = val.toLowerCase(); if (window._renderAll) window._renderAll(); };
-
-window.openDetail = function(id) {
-  const p = (window._allPosts || []).find(x => x.id === id);
-  if (!p) return;
-  const photos = p.photos || (p.photo ? [p.photo] : []);
-  const photosEl = document.getElementById('detail-photos');
-  const tc = p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7';
-  const tt = p.type==='lost'?'#DC2626':p.type==='found'?'#059669':'#D97706';
-  const tl = p.type==='lost'?'😟 Lost':p.type==='found'?'🎉 Found':'⚠️ Missing';
-  if (photos.length) { photosEl.style.display = 'flex'; photosEl.innerHTML = photos.map(src => `<img src="${src}" style="height:220px;min-width:100%;object-fit:cover;border-radius:14px;flex-shrink:0;">`).join(''); }
-  else { photosEl.style.display = 'flex'; photosEl.innerHTML = `<div style="height:180px;min-width:100%;background:${tc};border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:64px;">${p.type==='lost'?'🔍':p.type==='found'?'📦':'🆘'}</div>`; }
-  document.getElementById('detail-badge').innerHTML = `<span style="background:${tc};color:${tt};padding:4px 12px;border-radius:20px;font-weight:700;font-size:13px;">${tl}</span>`;
-  document.getElementById('detail-title').textContent = p.item || '';
-  document.getElementById('detail-cat').textContent = p.category || '';
-  document.getElementById('detail-loc').textContent = p.loc || '-';
-  document.getElementById('detail-date').textContent = p.date || '-';
-  document.getElementById('detail-desc').textContent = p.desc || 'No description provided.';
-  if (p.reward) { document.getElementById('detail-reward-wrap').style.display = 'block'; document.getElementById('detail-reward').textContent = '₹' + p.reward; }
-  else { document.getElementById('detail-reward-wrap').style.display = 'none'; }
-  const name = p.authorName || 'Anonymous';
-  document.getElementById('detail-poster-avatar').textContent = name[0].toUpperCase();
-  document.getElementById('detail-poster-name').textContent = name;
-  document.getElementById('detail-poster-contact').textContent = p.contact || 'Contact not provided';
-  const actions = document.getElementById('detail-actions');
-  const phone = p.contact ? p.contact.replace(/\D/g,'') : '';
-  const waMsg = encodeURIComponent('Hi, I saw your post on FindBack about "' + p.item + '" (' + tl + '). Can we talk?');
-  let btns = '';
-  if (phone.length >= 10) {
-    btns += `<a href="https://wa.me/91${phone.slice(-10)}?text=${waMsg}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#25D366;color:white;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">💬 WhatsApp karo</a>`;
-    btns += `<a href="tel:${p.contact}" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--gray);color:var(--black);border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">📞 Call karo</a>`;
-  } else if (p.contact && p.contact.includes('@')) {
-    btns += `<a href="mailto:${p.contact}" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--orange);color:white;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">📧 Email karo</a>`;
-  }
-  if (window._currentUser && window._currentUser.uid === p.uid) {
-    btns += `<button onclick="openEditModal('${p.id}')" style="padding:14px;border:none;background:var(--gray);color:var(--black);border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">✏️ Edit Post</button>`;
-    btns += `<button onclick="deletePost('${p.id}')" style="padding:14px;border:none;background:#FEE2E2;color:#DC2626;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">🗑️ Delete Post</button>`;
-  }
-  const anonId = p.id.replace(/[^a-z0-9]/gi,'_');
-  const anonSection = `<div id="anon-section-${anonId}" style="display:none;margin-top:4px;">
-    <textarea id="anon-msg-${anonId}" placeholder="Anonymous message likho..." style="width:100%;padding:12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;resize:vertical;min-height:80px;outline:none;margin-bottom:8px;"></textarea>
-    <button onclick="sendAnonymousMsg('${p.id}')" style="width:100%;padding:12px;background:#111;color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">📨 Anonymous Message Bhejo</button>
-  </div>`;
-  const aiBtn = (p.type==='lost'||p.type==='found') ? `<button id="ai-match-btn-${anonId}" onclick="runAIMatch('${p.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:linear-gradient(135deg,#111,#333);color:white;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">🤖 AI Match Dhundo</button>` : '';
-  const anonBtn = `<button onclick="toggleAnonMsg('${p.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#F5F5F5;color:#333;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">🔒 Anonymous Contact</button>${anonSection}`;
-  actions.innerHTML = (btns || '<div style="color:var(--text-muted);text-align:center;padding-bottom:8px">No contact info provided</div>') + aiBtn + anonBtn;
-  showPage('detail');
-};
-
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const pg = document.getElementById('page-' + id);
-  if (pg) pg.classList.add('active');
-  window.scrollTo(0, 0);
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  if (id === 'home') document.getElementById('nav-home').classList.add('active');
-  if (id === 'map') { const b=document.getElementById('nav-map-btn'); if(b) b.classList.add('active'); }
-  if (id === 'alerts') { const b=document.getElementById('nav-alerts-btn'); if(b) b.classList.add('active'); }
-  if (id === 'trust') setTimeout(() => { if(window.loadTrustScore) window.loadTrustScore(); }, 100);
-  if (id === 'reward') setTimeout(() => { if(window.loadRewardPosts) window.loadRewardPosts(); }, 100);
-  if (id === 'map') setTimeout(() => { if(window.initMap) window.initMap(); }, 100);
-}
-window.showPage = showPage;
-
-function openModal(type) {
-  window.currentModal = type;
-  const titles = { lost:['😟 Report Lost Item','Fill in details about the item you lost'], found:['🎉 Report Found Item','Fill in details about the item you found'], missing:['⚠️ Report Missing','Provide details to help locate them'] };
-  const t = titles[type] || titles['lost'];
-  document.getElementById('modal-title').textContent = t[0];
-  document.getElementById('modal-sub').textContent = t[1];
-  document.getElementById('modal-success').style.display = 'none';
-  document.getElementById('report-modal').classList.add('open');
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  if (type === 'lost') document.getElementById('nav-lost').classList.add('active');
-  else if (type === 'found') document.getElementById('nav-found').classList.add('active');
-  else if (type === 'missing') document.getElementById('nav-missing').classList.add('active');
-}
-window.openModal = openModal;
-
-window.closeModal = function() {
-  document.getElementById('report-modal').classList.remove('open');
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('nav-home').classList.add('active');
-};
-
-function submitReport() { if (window.submitToFirebase) window.submitToFirebase(); }
-window.submitReport = submitReport;
-
-function sendContact() {
-  const name = document.getElementById('c-name').value.trim();
-  const msg = document.getElementById('c-msg').value.trim();
-  if (!name || !msg) { toast('⚠️ Please fill name and message'); return; }
-  document.getElementById('contact-success').style.display = 'block';
-  ['c-name','c-email','c-subject','c-msg'].forEach(id => { document.getElementById(id).value = ''; });
-}
-window.sendContact = sendContact;
-
-async function adminLogin() {
-  const u = document.getElementById('a-user').value.trim();
-  const p = document.getElementById('a-pass').value.trim();
-  const salt = '4cb297b1319af2d28745ce4d7108027d';
-  const correctHash = '80728bd327882419c60aab8a062ae3c6d6be53100ba3214c82906a620b356572';
-  const msgBuffer = new TextEncoder().encode(salt + p);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-  const hashHex = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,'0')).join('');
-  if (u === 'findback_admin' && hashHex === correctHash) {
-    document.getElementById('admin-login-wall').style.display = 'none';
-    document.getElementById('admin-dashboard').style.display = 'block';
-    refreshAdminStats();
-  } else { toast('❌ Invalid admin credentials'); }
-}
-window.adminLogin = adminLogin;
-
-function adminLogout() {
-  document.getElementById('admin-login-wall').style.display = 'block';
-  document.getElementById('admin-dashboard').style.display = 'none';
-  document.getElementById('a-user').value = '';
-  document.getElementById('a-pass').value = '';
-}
-window.adminLogout = adminLogout;
-
-function refreshAdminStats() {
-  if (!window._allPosts) return;
-  const all = window._allPosts;
-  const el = document.getElementById('admin-total'); if (el) el.textContent = all.length;
-  const el2 = document.getElementById('admin-lost'); if (el2) el2.textContent = all.filter(p=>p.type==='lost').length;
-  const el3 = document.getElementById('admin-found'); if (el3) el3.textContent = all.filter(p=>p.type==='found').length;
-  const el4 = document.getElementById('admin-missing'); if (el4) el4.textContent = all.filter(p=>p.type==='missing').length;
-}
-window.refreshAdminStats = refreshAdminStats;
-
-function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2800);
-}
-window.toast = toast;
-
-document.getElementById('report-modal').addEventListener('click', function(e) { if (e.target === this) window.closeModal(); });
-document.getElementById('edit-modal').addEventListener('click', function(e) { if (e.target === this) window.closeEditModal(); });
-
-// AI MATCH ENGINE
-window.runAIMatch = async function(postId) {
-  const post = (window._allPosts||[]).find(p=>p.id===postId);
-  if (!post) return;
-  const btn = document.getElementById('ai-match-btn-'+postId.replace(/[^a-z0-9]/gi,'_'));
-  if (btn) { btn.textContent = '🤖 Matching...'; btn.disabled = true; }
-  const oppositeType = post.type === 'lost' ? 'found' : 'lost';
-  const candidates = (window._allPosts||[]).filter(p => p.type === oppositeType).slice(0,10);
-  if (!candidates.length) { toast('😔 Abhi koi matching post nahi mili'); if (btn) { btn.textContent = '🤖 AI Match Dhundo'; btn.disabled = false; } return; }
-  const prompt = `You are a lost-and-found matching assistant for India.\n\nLOST/FOUND POST:\nType: ${post.type}\nItem: ${post.item}\nCategory: ${post.category||'unknown'}\nLocation: ${post.loc}\nDate: ${post.date||'unknown'}\nDescription: ${post.desc||'none'}\n\nCANDIDATE POSTS (${oppositeType}):\n${candidates.map((c,i)=>`${i+1}. ID:${c.id} | Item:${c.item} | Cat:${c.category||'?'} | Loc:${c.loc} | Date:${c.date||'?'} | Desc:${c.desc||'none'}`).join('\n')}\n\nFind the TOP 3 best matches. Respond ONLY in JSON:\n{"matches":[{"id":"post_id","score":95,"reason":"Brief reason"},{"id":"post_id","score":80,"reason":"..."}]}`;
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:500, messages:[{role:'user',content:prompt}] }) });
-    const data = await res.json();
-    const text = data.content?.[0]?.text || '{}';
-    const parsed = JSON.parse(text.replace(/```json|```/g,'').trim());
-    showAIMatchResults(post, parsed.matches || [], candidates);
-  } catch(e) { toast('❌ AI Match error. Try again.'); }
-  if (btn) { btn.textContent = '🤖 AI Match Dhundo'; btn.disabled = false; }
-};
-
-function showAIMatchResults(post, matches, candidates) {
-  const overlay = document.getElementById('ai-match-overlay');
-  const body = document.getElementById('ai-match-body');
-  if (!overlay || !body) return;
-  if (!matches.length) { body.innerHTML = '<div style="text-align:center;padding:40px 0;color:var(--text-muted)"><div style="font-size:48px">😔</div><p style="margin-top:12px">Koi match nahi mila abhi</p></div>'; overlay.style.display = 'flex'; return; }
-  const matchedPosts = matches.map(m => { const p = candidates.find(c=>c.id===m.id); return p ? {...p, _score: m.score, _reason: m.reason} : null; }).filter(Boolean);
-  body.innerHTML = matchedPosts.map(p => {
-    const scoreColor = p._score>=80?'#059669':p._score>=60?'#D97706':'#777';
-    const tc = p.type==='found'?'#D1FAE5':'#FEE2E2';
-    const tt = p.type==='found'?'#059669':'#DC2626';
-    return `<div onclick="closeAIMatch();openDetail('${p.id}')" style="border:2px solid ${scoreColor}30;border-radius:14px;padding:14px;margin-bottom:12px;cursor:pointer;background:white;position:relative;">
-      <div style="position:absolute;top:10px;right:10px;background:${scoreColor};color:white;border-radius:20px;padding:2px 10px;font-size:12px;font-weight:700;">${p._score}% Match</div>
-      <span style="background:${tc};color:${tt};font-size:10px;padding:2px 8px;border-radius:20px;font-weight:700;">${p.type==='found'?'🎉 Found':'😟 Lost'}</span>
-      <div style="font-size:15px;font-weight:700;margin:6px 0 4px;padding-right:70px">${p.item}</div>
-      <div style="font-size:12px;color:var(--text-muted)">📍 ${p.loc} • ${p.date||''}</div>
-      <div style="margin-top:8px;background:#F0FFF4;border-radius:8px;padding:8px 10px;font-size:12px;color:#065F46;">🤖 ${p._reason}</div>
-    </div>`;
-  }).join('');
-  overlay.style.display = 'flex';
-}
-window.closeAIMatch = function() { document.getElementById('ai-match-overlay').style.display = 'none'; };
-
-// MAP VIEW
-window.openMapView = function() {
-  showPage('map');
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  const mb = document.getElementById('nav-map-btn'); if(mb) mb.classList.add('active');
-  setTimeout(initMap, 200);
-};
-
-let _mapRetries = 0;
-function initMap() {
-  const posts = window._allPosts || [];
-  if (!posts.length && _mapRetries < 10) { _mapRetries++; setTimeout(initMap, 500); return; }
-  _mapRetries = 0;
-  renderMapPins();
-}
-
-function renderMapPins() {
-  const container = document.getElementById('map-posts-list');
-  if (!container) return;
-  const posts = (window._allPosts||[]).filter(p=>p.loc);
-  if (!posts.length) { container.innerHTML = `<div style="text-align:center;padding:48px 20px;color:var(--text-muted)"><div style="font-size:52px;margin-bottom:12px;">🗺️</div><div style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:#333;margin-bottom:6px;">Koi posts abhi nahi hain</div></div>`; return; }
-  const lostCount = posts.filter(p=>p.type==='lost').length;
-  const foundCount = posts.filter(p=>p.type==='found').length;
-  const missingCount = posts.filter(p=>p.type==='missing').length;
-  const byLoc = {};
-  posts.forEach(p => { const key = p.loc.trim().toLowerCase(); if (!byLoc[key]) byLoc[key] = []; byLoc[key].push(p); });
-  container.innerHTML = `
-    <div style="display:flex;gap:8px;margin-bottom:16px;">
-      <div style="flex:1;background:#FEE2E2;border-radius:10px;padding:10px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#DC2626;">${lostCount}</div><div style="font-size:10px;color:#DC2626;font-weight:600;">😟 Lost</div></div>
-      <div style="flex:1;background:#D1FAE5;border-radius:10px;padding:10px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#059669;">${foundCount}</div><div style="font-size:10px;color:#059669;font-weight:600;">🎉 Found</div></div>
-      <div style="flex:1;background:#FEF3C7;border-radius:10px;padding:10px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#D97706;">${missingCount}</div><div style="font-size:10px;color:#D97706;font-weight:600;">⚠️ Missing</div></div>
-    </div>
-    ${Object.entries(byLoc).sort((a,b)=>b[1].length-a[1].length).map(([loc, ps]) => `
-    <div style="border:1.5px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;background:white;">
-      <div style="font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
-        <span>📍</span><span style="flex:1">${ps[0].loc}</span>
-        <span style="background:var(--orange);color:white;font-size:11px;padding:2px 9px;border-radius:20px;">${ps.length} post${ps.length>1?'s':''}</span>
-      </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;">
-        ${ps.map(p=>{const tc=p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7';const tt=p.type==='lost'?'#DC2626':p.type==='found'?'#059669':'#D97706';const emoji=p.type==='lost'?'😟':p.type==='found'?'🎉':'⚠️';return `<div onclick="openDetail('${p.id}')" style="background:${tc};color:${tt};padding:5px 11px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;">${emoji} ${p.item}</div>`;}).join('')}
-      </div>
-    </div>`).join('')}`;
-}
-
-// AREA ALERTS
-window._areaAlerts = JSON.parse(localStorage.getItem('fb_alerts')||'[]');
-window.saveAreaAlert = function() {
-  const area = document.getElementById('alert-area').value.trim();
-  const cat = document.getElementById('alert-cat').value;
-  if (!area) { toast('⚠️ Area name daalo'); return; }
-  const alert = { id: Date.now(), area, cat, created: new Date().toLocaleDateString('en-IN') };
-  window._areaAlerts.push(alert);
-  localStorage.setItem('fb_alerts', JSON.stringify(window._areaAlerts));
-  renderAlerts();
-  document.getElementById('alert-area').value = '';
-  toast('🔔 Alert set ho gaya!');
-};
-window.deleteAlert = function(id) {
-  window._areaAlerts = window._areaAlerts.filter(a=>a.id!==id);
-  localStorage.setItem('fb_alerts', JSON.stringify(window._areaAlerts));
-  renderAlerts();
-};
-window.renderAlerts = function() {
-  const container = document.getElementById('alerts-list');
-  if (!container) return;
-  if (!window._areaAlerts.length) { container.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-muted);font-size:14px;">Koi alert set nahi hai</div>'; return; }
-  container.innerHTML = window._areaAlerts.map(a=>`
-    <div style="border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;">
-      <div style="flex:1"><div style="font-weight:700;font-size:14px;">📍 ${a.area}</div>${a.cat?`<div style="font-size:12px;color:var(--orange);margin-top:2px;">${a.cat}</div>`:''}<div style="font-size:11px;color:var(--text-muted);margin-top:2px;">${a.created} se active</div></div>
-      <button onclick="deleteAlert(${a.id})" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer;">🗑️</button>
-    </div>`).join('');
-};
-function checkAreaAlerts(newPost) {
-  (window._areaAlerts||[]).forEach(alert => {
-    const locMatch = newPost.loc && newPost.loc.toLowerCase().includes(alert.area.toLowerCase());
-    const catMatch = !alert.cat || (newPost.category && newPost.category.includes(alert.cat));
-    if (locMatch && catMatch) toast('🔔 Alert! "' + newPost.item + '" posted in ' + alert.area + '!');
-  });
-}
-window.checkAreaAlerts = checkAreaAlerts;
-
-// ANONYMOUS CONTACT
-window.sendAnonymousMsg = async function(postId) {
-  const anonId = postId.replace(/[^a-z0-9]/gi,'_');
-  const msg = document.getElementById('anon-msg-'+anonId);
-  if (!msg || !msg.value.trim()) { toast('⚠️ Message likho pehle'); return; }
-  const post = (window._allPosts||[]).find(p=>p.id===postId);
-  if (!post) return;
-  try {
-    const { collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-    await addDoc(collection(window._db, "messages"), { postId, toUid: post.uid||null, fromAlias:"Anonymous User", message:msg.value.trim(), postItem:post.item, createdAt:serverTimestamp() });
-    toast('✅ Anonymous message bhej diya!');
-    msg.value = '';
-    document.getElementById('anon-section-'+anonId).style.display='none';
-  } catch(e) { toast('❌ Message send failed.'); }
-};
-window.toggleAnonMsg = function(postId) {
-  const id = postId.replace(/[^a-z0-9]/gi,'_');
-  const el = document.getElementById('anon-section-'+id);
-  if (el) el.style.display = el.style.display==='none'?'block':'none';
-};
 </script>
 
 <!-- AI MATCH OVERLAY -->
