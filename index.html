@@ -262,7 +262,7 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
     <div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div>
     <div class="page-title">Contact Us</div>
     <div class="page-subtitle">We're here to help — reach out anytime</div>
-    <a class="contact-method" href="mailto:support@findback.in"><div class="contact-icon">📧</div><div><h4>Email Support</h4><p>support@findback.in</p></div></a>
+    <a class="contact-method" href="/cdn-cgi/l/email-protection#96e5e3e6e6f9e4e2d6f0fff8f2f4f7f5fdb8fff8"><div class="contact-icon">📧</div><div><h4>Email Support</h4><p><span class="__cf_email__" data-cfemail="75060005051a070135131c1b111714161e5b1c1b">[email&#160;protected]</span></p></div></a>
     <a class="contact-method" href="https://wa.me/919999999999" target="_blank"><div class="contact-icon">💬</div><div><h4>WhatsApp</h4><p>Chat with us on WhatsApp</p></div></a>
     <a class="contact-method" href="#"><div class="contact-icon">🐦</div><div><h4>Twitter / X</h4><p>@FindBackS1</p></div></a>
     <div class="divider"></div>
@@ -311,7 +311,7 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
     <div class="divider"></div>
     <div class="legal-section"><h3>⚠️ 5. Disclaimers</h3><p>FindBack S1 is a directory platform. We do not verify all claims made by users and are not responsible for the outcome of item reunification.</p></div>
     <div class="divider"></div>
-    <div class="legal-section"><h3>📬 8. Contact</h3><p>For questions about these terms, email us at <strong>support@findback.in</strong></p></div>
+    <div class="legal-section"><h3>📬 8. Contact</h3><p>For questions about these terms, email us at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="097a7c7979667b7d496f60676d6b686a62276067">[email&#160;protected]</a></strong></p></div>
   </div>
 </div>
 
@@ -325,7 +325,7 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
     <div class="divider"></div>
     <div class="legal-section"><h3>🚫 3. We Never Sell Your Data</h3><p>FindBack S1 does not sell, rent, or trade your personal information to any third party.</p></div>
     <div class="divider"></div>
-    <div class="legal-section"><h3>📬 7. Contact</h3><p>For privacy concerns, write to us at <strong>support@findback.in</strong></p></div>
+    <div class="legal-section"><h3>📬 7. Contact</h3><p>For privacy concerns, write to us at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="45363035352a373105232c2b212724262e6b2c2b">[email&#160;protected]</a></strong></p></div>
   </div>
 </div>
 
@@ -573,7 +573,7 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
 </div>
 
 <!-- FIREBASE SCRIPT -->
-<script type="module">
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -910,8 +910,8 @@ window.openDetail = function(id) {
   document.getElementById('detail-badge').innerHTML = `<span style="background:${tc};color:${tt};padding:4px 12px;border-radius:20px;font-weight:700;font-size:13px;">${tl}</span>`;
   document.getElementById('detail-title').textContent = p.item || '';
   document.getElementById('detail-cat').textContent = p.category || '';
-  document.getElementById('detail-loc').textContent = p.loc || '—';
-  document.getElementById('detail-date').textContent = p.date || '—';
+  document.getElementById('detail-loc').textContent = p.loc || '-';
+  document.getElementById('detail-date').textContent = p.date || '-';
   document.getElementById('detail-desc').textContent = p.desc || 'No description provided.';
   if (p.reward) { document.getElementById('detail-reward-wrap').style.display = 'block'; document.getElementById('detail-reward').textContent = '₹' + p.reward; }
   else { document.getElementById('detail-reward-wrap').style.display = 'none'; }
@@ -1269,6 +1269,37 @@ window.toggleAnonMsg = function(postId) {
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">💰 Approximate Value (₹)</label><input id="fir-value" type="number" placeholder="e.g. 15000" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
     </div>
     <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
+      <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:6px;">🏛️ Police Station Select Karo</div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:14px;">State → District → Police Station auto-fill ho jayega</div>
+      
+      <div class="form-group" style="margin-bottom:10px;">
+        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🗺️ State / UT</label>
+        <select id="fir-state" onchange="onFirStateChange()" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;">
+          <option value="">-- State / UT Select Karo --</option>
+        </select>
+      </div>
+      
+      <div class="form-group" style="margin-bottom:10px;">
+        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🏙️ District</label>
+        <select id="fir-district" onchange="onFirDistrictChange()" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;" disabled>
+          <option value="">-- Pehle State Select Karo --</option>
+        </select>
+      </div>
+      
+      <div class="form-group" style="margin-bottom:0;">
+        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">👮 Police Station</label>
+        <select id="fir-ps" onchange="onFirPSChange()" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;" disabled>
+          <option value="">-- District Select Karo --</option>
+        </select>
+      </div>
+      
+      <div id="fir-ps-preview" style="display:none;margin-top:12px;background:#EFF6FF;border-radius:10px;padding:12px;border-left:3px solid #2563EB;">
+        <div style="font-size:11px;color:#1D4ED8;font-weight:700;margin-bottom:4px;">✅ Selected Police Station:</div>
+        <div id="fir-ps-preview-text" style="font-size:13px;font-weight:700;color:#1e293b;"></div>
+        <div id="fir-ps-address-text" style="font-size:12px;color:#64748b;margin-top:2px;"></div>
+      </div>
+    </div>
+    <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
       <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;">📍 Incident Details</div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📍 Location where lost</label><input id="fir-loc" type="text" placeholder="e.g. Connaught Place Metro, Gate No. 2" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📅 Date & Time</label><input id="fir-date" type="datetime-local" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
@@ -1392,103 +1423,8 @@ window.toggleAnonMsg = function(postId) {
 </div>
 
 <script>
-// FIR GENERATOR — FIXED VERSION
-window.generateFIR = function() {
-  const item   = document.getElementById('fir-item').value.trim();
-  const cat    = document.getElementById('fir-cat').value;
-  const desc   = document.getElementById('fir-desc').value.trim();
-  const value  = document.getElementById('fir-value').value.trim();
-  const loc    = document.getElementById('fir-loc').value.trim();
-  const date   = document.getElementById('fir-date').value;
-  const how    = document.getElementById('fir-how').value.trim();
-  const name   = document.getElementById('fir-name').value.trim();
-  const phone  = document.getElementById('fir-phone').value.trim();
-  const addr   = document.getElementById('fir-addr').value.trim();
-  const idtype = document.getElementById('fir-idtype').value;
 
-  if (!item || !loc || !name || !phone) {
-    toast('⚠️ Item name, location, aapka naam aur phone zaroori hai');
-    return;
-  }
 
-  const dateStr  = date ? new Date(date).toLocaleString('en-IN') : new Date().toLocaleString('en-IN');
-  const todayStr = new Date().toLocaleDateString('en-IN');
-  const line     = '─'.repeat(32);
-
-  const firText = `TO,
-The Station House Officer,
-[Nearest Police Station Name]
-[City], [State]
-
-SUBJECT: Application for Registration of FIR regarding Loss of ${cat || item}
-
-Respected Sir/Madam,
-
-I, ${name}, resident of ${addr || '[Your Address]'}, am writing to report the loss of my ${cat || item} under the following circumstances:
-
-${line}
-LOST ITEM DETAILS
-${line}
-Item         : ${item}
-Category     : ${cat || 'Not specified'}
-Description  : ${desc || 'Not specified'}
-Approx. Value: ${value ? '₹' + value : 'Not specified'}
-
-${line}
-INCIDENT DETAILS
-${line}
-Date & Time  : ${dateStr}
-Location     : ${loc}
-Circumstances: ${how || 'The item was misplaced/stolen at the above mentioned location.'}
-
-${line}
-COMPLAINANT DETAILS
-${line}
-Name         : ${name}
-Mobile       : ${phone}
-Address      : ${addr || '[Your Address]'}
-ID Proof     : ${idtype}
-
-${line}
-
-I humbly request you to kindly register an FIR and take necessary action. I am ready to cooperate fully with the police investigation.
-
-I hereby declare that all the information provided above is true to the best of my knowledge.
-
-Thanking you,
-
-Date: ${todayStr}
-Place: ${loc}
-
-Signature: _______________
-Name: ${name}
-Mobile: ${phone}
-
-[Note: Also listed on FindBack — India's Lost & Found Platform]`;
-
-  window._lastFIR = firText;
-  document.getElementById('fir-preview').textContent = firText;
-  document.getElementById('fir-modal').style.display = 'flex';
-};
-
-window.copyFIR = function() {
-  if (navigator.clipboard && window._lastFIR) {
-    navigator.clipboard.writeText(window._lastFIR).then(() => toast('✅ FIR draft copied!'));
-  } else {
-    const ta = document.createElement('textarea');
-    ta.value = window._lastFIR || '';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    toast('✅ Copied!');
-  }
-};
-
-window.shareFIRWhatsApp = function() {
-  const msg = encodeURIComponent('FIR Draft (FindBack):\n\n' + (window._lastFIR||''));
-  window.open('https://wa.me/?text=' + msg, '_blank');
-};
 
 // QR TAG
 window.generateQR = function() {
@@ -1512,7 +1448,7 @@ window.generateQR = function() {
 window.shareQR = function() {
   if (!window._lastQRData) return;
   const d = window._lastQRData;
-  const text = '🏷️ FindBack QR Tag\n\nItem: ' + d.item + (d.name ? '\nOwner: ' + d.name : '') + (d.msg ? '\nMessage: ' + d.msg : '') + '\n\nAgar yeh item mile toh scan karein.\n\nFindBack — India\'s Lost & Found Platform';
+  const text = '🏷️ FindBack QR Tag\n\nItem: ' + d.item + (d.name ? '\nOwner: ' + d.name : '') + (d.msg ? '\nMessage: ' + d.msg : '') + '\n\nAgar yeh item mile toh scan karein.\n\nFindBack  -  India\'s Lost & Found Platform';
   if (navigator.share) { navigator.share({ title: 'FindBack QR Tag', text }); }
   else { window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank'); }
 };
@@ -1521,11 +1457,21 @@ window.printQR = function() {
   if (!window._lastQRData) return;
   const d = window._lastQRData;
   const w = window.open('', '_blank');
-  w.document.write('<html><head><title>FindBack QR Tag</title><style>body{font-family:sans-serif;text-align:center;padding:20px;}.tag{border:3px solid #E8722A;border-radius:16px;padding:20px;display:inline-block;max-width:300px;}h2{color:#E8722A;}</style></head><body><div class="tag"><h2>🏷️ FindBack Smart Tag</h2><img src="' + d.qrUrl + '" style="width:180px;height:180px;"><h3>' + d.item + '</h3>' + (d.name ? '<p>Owner: <b>' + d.name + '</b></p>' : '') + (d.msg ? '<p style="font-size:13px;color:#555;">' + d.msg + '</p>' : '') + '<p style="font-size:12px;color:#E8722A;font-weight:bold;">📱 Scan to contact owner</p></div></body></html>');
+  w.document.write('<html><head><title>FindBack QR Tag</title><style>body{font-family:sans-serif;text-align:center;padding:20px;}.tag{border:3px solid #E8722A;border-radius:16px;padding:20px;display:inline-block;max-width:300px;}h2{color:#E8722A;}</style></head><body><div class="tag"><h2>🏷️ FindBack Smart Tag</h2><img src="' + d.qrUrl + '" style="width:180px;height:180px;"><h3>' + d.item + '</h3>' + (d.name ? '<p>Owner: <b>' + d.name + '</b></p>' : '') + (d.msg ? '<p style="font-size:13px;color:#555;">' + d.msg + '</p>' : '') + '<p style="font-size:12px;color:#E8722A;font-weight:bold;">📱 Scan to contact owner<\/p><\/div><\/body><\/html>');
   w.document.close();
-  setTimeout(() => w.print(), 300);
+  setTimeout(function() { w.print(); }, 300);
 };
+</script>
 
+<script>
+var INDIA_POLICE_DATA={"Andhra Pradesh":{"Visakhapatnam":["Visakhapatnam Town PS","Gajuwaka PS","Seethammadhara PS","MVP Colony PS","Dwaraka Nagar PS","Bheemunipatnam PS"],"Vijayawada":["One Town PS","Governorpet PS","Patamata PS","Labbipet PS","Machavaram PS","Auto Nagar PS"],"Guntur":["Guntur Town PS","Brodipet PS","Narasaraopet PS","Tenali PS","Mangalagiri PS"],"Tirupati":["Tirupati Urban PS","Tiruchanur PS","Chandragiri PS","Srikalahasti PS"],"Nellore":["Nellore Town PS","Atmakur PS","Kavali PS","Gudur PS"]},"Arunachal Pradesh":{"Itanagar":["Itanagar PS","Naharlagun PS","Nirjuli PS"],"Tawang":["Tawang PS","Lumla PS"],"Pasighat":["Pasighat PS","Mebo PS"]},"Assam":{"Guwahati":["Dispur PS","Jalukbari PS","Bharalumukh PS","Pan Bazar PS","Beltola PS","Noonmati PS","Azara PS","Chandmari PS"],"Dibrugarh":["Dibrugarh PS","Chabua PS","Naharkatia PS"],"Jorhat":["Jorhat PS","Mariani PS","Titabor PS"],"Silchar":["Silchar PS","Sonai PS","Hailakandi PS"]},"Bihar":{"Patna":["Kotwali PS","Gardanibagh PS","Phulwari Sharif PS","Danapur PS","Bankipur PS","Sheikhpura PS","Boring Road PS","Rajiv Nagar PS"],"Gaya":["Gaya Town PS","Bodh Gaya PS","Sherghati PS","Nawada PS"],"Muzaffarpur":["Muzaffarpur Town PS","Motihara PS","Sitamarhi PS"],"Bhagalpur":["Bhagalpur Town PS","Banka PS","Kahalgaon PS"]},"Chhattisgarh":{"Raipur":["Civil Lines PS","Kotwali PS","Pandri PS","Telibandha PS","Mana PS","Urla PS"],"Bilaspur":["Bilaspur Kotwali PS","Tifra PS","Civil Lines PS Bilaspur"],"Durg":["Durg Kotwali PS","Bhilai Nagar PS","Supela PS"]},"Goa":{"North Goa":["Panaji PS","Calangute PS","Mapusa PS","Pernem PS","Bicholim PS","Candolim PS"],"South Goa":["Margao PS","Vasco PS","Ponda PS","Quepem PS","Sanguem PS"]},"Gujarat":{"Ahmedabad":["Navrangpura PS","Satellite PS","Vastrapur PS","Chandkheda PS","Bopal PS","Narol PS","Maninagar PS","Ghatlodia PS","Bapunagar PS"],"Surat":["Surat City PS","Adajan PS","Katargam PS","Varachha PS","Udhna PS","Piplod PS"],"Vadodara":["Vadodara City PS","Sayajigunj PS","Fatehgunj PS","Gotri PS","Makarpura PS"],"Rajkot":["Rajkot A Division PS","Rajkot B Division PS","Kotecha Chowk PS","Raiya Road PS"],"Gandhinagar":["Gandhinagar Sector 21 PS","Gandhinagar Sector 7 PS","Mansa PS"]},"Haryana":{"Gurugram":["DLF Phase 1 PS","Sushant Lok PS","Sector 40 PS","Manesar PS","Palam Vihar PS","Sector 65 PS"],"Faridabad":["NIT Faridabad PS","Ballabhgarh PS","Tigaon PS","Sector 55 PS"],"Ambala":["Ambala City PS","Ambala Cantonment PS","Barara PS"],"Hisar":["Hisar City PS","Hansi PS","Fatehabad PS"],"Rohtak":["Rohtak City PS","Bahadurgarh PS","Jhajjar PS"]},"Himachal Pradesh":{"Shimla":["Shimla Sadar PS","Boileauganj PS","Kasumpti PS"],"Kangra":["Dharamsala PS","Palampur PS","Nurpur PS"],"Kullu":["Kullu PS","Manali PS","Banjar PS"],"Mandi":["Mandi Sadar PS","Sundernagar PS"]},"Jharkhand":{"Ranchi":["Kotwali PS","Doranda PS","Hindpiri PS","Bariatu PS","Lalpur PS","Argora PS"],"Jamshedpur":["Bistupur PS","Sakchi PS","Telco PS","Jugsalai PS","Mango PS"],"Dhanbad":["Dhanbad PS","Jharia PS","Sindri PS","Katras PS"]},"Karnataka":{"Bengaluru":["Cubbon Park PS","Shivajinagar PS","Whitefield PS","Koramangala PS","Indiranagar PS","Jayanagar PS","JP Nagar PS","Yelahanka PS","Electronic City PS","HSR Layout PS","Marathahalli PS","Hennur PS"],"Mysuru":["Mysuru North PS","Mysuru South PS","Nazarbad PS","Jayalakshmipuram PS"],"Mangaluru":["Mangaluru North PS","Mangaluru South PS","Urva PS","Kadri PS"],"Hubballi":["Hubballi Town PS","Dharwad PS","Gokul Road PS"],"Belagavi":["Belagavi City PS","Angol PS","Tilakwadi PS"]},"Kerala":{"Thiruvananthapuram":["Fort PS","Cantonment PS","Karamana PS","Peroorkada PS","Nemom PS","Vanchiyoor PS"],"Kochi":["Ernakulam Town PS","Fort Kochi PS","Aluva PS","Thrippunithura PS","Kakkanad PS"],"Kozhikode":["Kozhikode Town PS","West Hill PS","Nadakkavu PS","Chevayur PS"],"Thrissur":["Thrissur Town PS","Ollur PS","Kodungallur PS"]},"Madhya Pradesh":{"Bhopal":["TT Nagar PS","Kotwali PS","Habibganj PS","Misrod PS","Govindpura PS","Hanumanganj PS","MP Nagar PS"],"Indore":["Vijay Nagar PS","Palasia PS","Central Kotwali PS","Lasudia PS","Kanadiya PS","Bhanwarkuan PS"],"Jabalpur":["Kotwali PS","Omti PS","Wright Town PS","Gorakhpur PS"],"Gwalior":["City Kotwali PS","Thatipur PS","Morar PS","Lashkar PS"]},"Maharashtra":{"Mumbai":["Colaba PS","Cuffe Parade PS","Marine Drive PS","Azad Maidan PS","Pydhonie PS","Bandra PS","Andheri PS","Borivali PS","Kandivali PS","Malad PS","Goregaon PS","Kurla PS","Ghatkopar PS","Mulund PS","Thane City PS"],"Pune":["Shivajinagar PS","Deccan PS","Kothrud PS","Warje PS","Hadapsar PS","Kondhwa PS","Viman Nagar PS","Yerawada PS"],"Nagpur":["Kotwali PS","Lakadganj PS","Sitabuldi PS","Sadar PS","Wadi PS","Hingna PS"],"Nashik":["Nashik Road PS","Cidco PS","Panchavati PS","Satpur PS"],"Aurangabad":["Aurangabad City PS","CIDCO PS","Mukundwadi PS"]},"Manipur":{"Imphal East":["Porompat PS","Heingang PS","Lamlai PS","Pangei PS"],"Imphal West":["Imphal PS","Lamphel PS","Singjamei PS","Patsoi PS","Sekmai PS"],"Bishnupur":["Bishnupur PS","Moirang PS","Nambol PS"],"Thoubal":["Thoubal PS","Kakching PS","Wangoi PS"],"Churachandpur":["Churachandpur PS","Saikot PS","Henglep PS"]},"Meghalaya":{"East Khasi Hills":["Shillong Sadar PS","Laitumkhrah PS","Mawkhar PS","Nongthymmai PS"],"West Khasi Hills":["Nongstoin PS","Mairang PS"],"Ri Bhoi":["Nongpoh PS","Umiam PS"]},"Mizoram":{"Aizawl":["Aizawl North PS","Aizawl East PS","Aizawl West PS"],"Lunglei":["Lunglei PS","Tlabung PS"]},"Nagaland":{"Kohima":["Kohima PS","Kohima Village PS","Thizama PS"],"Dimapur":["Dimapur PS","Purana Bazar PS","Chumukedima PS"]},"Odisha":{"Bhubaneswar":["Town PS","Kharavela Nagar PS","Saheed Nagar PS","Airfield PS","Mancheswar PS","Nayapalli PS","Bharatpur PS"],"Cuttack":["Cuttack Town PS","Mangalabag PS","Malgodown PS","Chauliaganj PS"],"Puri":["Puri Town PS","Brahmagiri PS","Konark PS"],"Rourkela":["Rourkela PS","Civil Township PS","Bondamunda PS"]},"Punjab":{"Amritsar":["Kotwali PS","Islamabad PS","Sultanwind PS","Majitha Road PS","Cantonment PS"],"Ludhiana":["Division No. 1 PS","Division No. 2 PS","Sarabha Nagar PS","Dugri PS","Focal Point PS"],"Jalandhar":["Kotwali PS","Sadar PS","Model Town PS","Kabir Nagar PS"],"Chandigarh":["Sector 17 PS","Sector 26 PS","Sector 36 PS","Industrial Area PS","Manimajra PS"]},"Rajasthan":{"Jaipur":["Kotwali PS","Bani Park PS","Malviya Nagar PS","Mansarovar PS","Vaishali Nagar PS","Sanganer PS","Shastri Nagar PS","Civil Lines PS"],"Jodhpur":["Kotwali PS","Sardarpura PS","Shastri Nagar PS","Sojati Gate PS"],"Udaipur":["Kotwali PS","Sukhadia Circle PS","Ambamata PS","Hiran Magri PS"],"Ajmer":["Kotwali PS","Civil Lines PS","Kishangarh PS"],"Kota":["Kota North PS","Kota South PS","Sangod PS"]},"Sikkim":{"East Sikkim":["Gangtok Sadar PS","Ranipool PS","Singtam PS"],"West Sikkim":["Gyalshing PS","Soreng PS"],"South Sikkim":["Namchi PS","Ravangla PS"]},"Tamil Nadu":{"Chennai":["Anna Nagar PS","T Nagar PS","Adyar PS","Velachery PS","Tambaram PS","Egmore PS","Royapettah PS","Mylapore PS","Nungambakkam PS","Kodambakkam PS","Porur PS","Ambattur PS","Avadi PS"],"Coimbatore":["Town South PS","RS Puram PS","Saibaba Colony PS","Peelamedu PS","Ganapathy PS"],"Madurai":["Town PS","KK Nagar PS","Goripalayam PS","Anaiyur PS"],"Tiruchirappalli":["Ariyamangalam PS","Woraiyur PS","Srirangam PS","Golden Rock PS"],"Salem":["Salem Town PS","Fairlands PS","Suramangalam PS"]},"Telangana":{"Hyderabad":["Banjara Hills PS","Jubilee Hills PS","Madhapur PS","Cyberabad PS","Kukatpally PS","LB Nagar PS","Uppal PS","Malkajgiri PS","Secunderabad PS","Himayath Nagar PS"],"Warangal":["Warangal Town PS","Hanamkonda PS","Kazipet PS"],"Nizamabad":["Nizamabad Town PS","Armoor PS","Kamareddy PS"]},"Tripura":{"West Tripura":["Agartala Sadar PS","East Agartala PS","West Agartala PS","Amtali PS","Ranirbazar PS","Jirania PS","Mohanpur PS","Khowai PS"],"Gomati":["Udaipur PS","Amarpur PS","Karbook PS","Sonamura PS","Ompi PS"],"Sepahijala":["Bishalgarh PS","Melaghar PS","Katlamara PS","Sonamura PS"],"Dhalai":["Kamalpur PS","Ambassa PS","Manu PS"],"Unakoti":["Kailashahar PS","Kumarghat PS"],"North Tripura":["Dharmanagar PS","Panisagar PS"],"South Tripura":["Belonia PS","Sabroom PS","Rajnagar PS"],"Khowai":["Khowai PS","Teliamura PS"]},"Uttar Pradesh":{"Lucknow":["Hazratganj PS","Gomtinagar PS","Vibhuti Khand PS","Kaiserbagh PS","Chowk PS","Alambagh PS","Mahanagar PS","Indira Nagar PS"],"Kanpur":["Kotwali PS","Govind Nagar PS","Kalyanpur PS","Kidwai Nagar PS","Chakeri PS"],"Varanasi":["Lanka PS","Sigra PS","Kotwali PS","Shivpur PS","Bhelupur PS"],"Agra":["Kotwali PS","Taj Ganj PS","Kamla Nagar PS","Shahganj PS"],"Prayagraj":["Kotwali PS","Civil Lines PS","Kareli PS","George Town PS"],"Ghaziabad":["Kotwali PS","Kavi Nagar PS","Nandgram PS","Indirapuram PS","Vasundhara PS"],"Noida":["Sector 20 PS","Sector 24 PS","Phase 2 PS","Sector 113 PS","Greater Noida PS"]},"Uttarakhand":{"Dehradun":["Kotwali PS","Rajpur Road PS","Prem Nagar PS","Raipur PS","Vasant Vihar PS"],"Haridwar":["Haridwar City PS","Roorkee PS","Jwalapur PS"],"Nainital":["Nainital Kotwali PS","Haldwani PS","Kathgodam PS"]},"West Bengal":{"Kolkata":["Lalbazar PS","Park Street PS","Gariahat PS","Lake PS","New Market PS","Bowbazar PS","Shyambazar PS","Dum Dum PS","Salt Lake PS","Kasba PS","Behala PS"],"Howrah":["Howrah PS","Liluah PS","Shibpur PS","Golabari PS"],"Siliguri":["Siliguri PS","Bhaktinagar PS","Matigara PS","Jalpaiguri PS"],"Durgapur":["Durgapur PS","Andal PS","Faridpur PS"]},"Delhi":{"Central Delhi":["Connaught Place PS","Karol Bagh PS","Paharganj PS","Daryaganj PS","Sadar Bazar PS"],"South Delhi":["Hauz Khas PS","Malviya Nagar PS","Kalkaji PS","Saket PS","Greater Kailash PS","Mehrauli PS"],"North Delhi":["Civil Lines PS","Subzi Mandi PS","Timarpur PS","Mukherjee Nagar PS"],"East Delhi":["Preet Vihar PS","Vivek Vihar PS","Mayur Vihar PS","Laxmi Nagar PS"],"West Delhi":["Janakpuri PS","Uttam Nagar PS","Vikaspuri PS","Punjabi Bagh PS"],"South West Delhi":["Dwarka Sector 10 PS","Dwarka Sector 23 PS","Palam PS","Cantonment PS"],"North West Delhi":["Rohini PS","Pitampura PS","Shalimar Bagh PS","Ashok Vihar PS"],"North East Delhi":["Seelampur PS","Shahdara PS","Bhajanpura PS"],"Outer Delhi":["Narela PS","Alipur PS","Bawana PS"]},"Jammu & Kashmir":{"Jammu":["Jammu Sadar PS","Bakshi Nagar PS","Gandhi Nagar PS","Bahu PS","Raghunath Bazar PS"],"Srinagar":["Kothi Bagh PS","Rajouri Kadal PS","Nowhatta PS","M R Gunj PS","Shaheed Gunj PS"],"Anantnag":["Anantnag PS","Kulgam PS","Shopian PS"]},"Puducherry":{"Puducherry":["Lawspet PS","Mudaliarpet PS","Oulgaret PS","Town PS"],"Karaikal":["Karaikal PS","Thirunallar PS"]},"Chandigarh":{"Chandigarh":["Sector 17 PS","Sector 26 PS","Sector 36 PS","Manimajra PS","Industrial Area PS","Sector 11 PS","Sector 19 PS"]}};
+(function(){var sel=document.getElementById('fir-state');if(!sel)return;var st=Object.keys(INDIA_POLICE_DATA).sort();for(var i=0;i<st.length;i++){var o=document.createElement('option');o.value=st[i];o.textContent=st[i];sel.appendChild(o);}})();
+window.onFirStateChange=function(){var state=document.getElementById('fir-state').value;var dd=document.getElementById('fir-district');var pd=document.getElementById('fir-ps');var pv=document.getElementById('fir-ps-preview');dd.innerHTML='<option value="">-- District Select Karo --</option>';pd.innerHTML='<option value="">-- PS Select Karo --</option>';dd.disabled=true;pd.disabled=true;if(pv)pv.style.display='none';if(!state)return;var d=Object.keys(INDIA_POLICE_DATA[state]).sort();for(var i=0;i<d.length;i++){var o=document.createElement('option');o.value=d[i];o.textContent=d[i];dd.appendChild(o);}dd.disabled=false;};
+window.onFirDistrictChange=function(){var state=document.getElementById('fir-state').value;var dist=document.getElementById('fir-district').value;var pd=document.getElementById('fir-ps');var pv=document.getElementById('fir-ps-preview');pd.innerHTML='<option value="">-- Police Station Select Karo --</option>';pd.disabled=true;if(pv)pv.style.display='none';if(!state||!dist)return;var st=INDIA_POLICE_DATA[state][dist]||[];for(var i=0;i<st.length;i++){var o=document.createElement('option');o.value=st[i];o.textContent=st[i];pd.appendChild(o);}pd.disabled=false;};
+window.onFirPSChange=function(){var state=document.getElementById('fir-state').value;var dist=document.getElementById('fir-district').value;var ps=document.getElementById('fir-ps').value;var pv=document.getElementById('fir-ps-preview');if(!ps){if(pv)pv.style.display='none';return;}var pt=document.getElementById('fir-ps-preview-text');var at=document.getElementById('fir-ps-address-text');if(pt)pt.textContent=ps;if(at)at.textContent=dist+', '+state;if(pv)pv.style.display='block';};
+window.generateFIR=function(){var stEl=document.getElementById('fir-state'),dtEl=document.getElementById('fir-district'),psEl=document.getElementById('fir-ps');var state=stEl?stEl.value:'',dist=dtEl?dtEl.value:'',ps=psEl?psEl.value:'';var item=document.getElementById('fir-item').value.trim();var cat=document.getElementById('fir-cat').value;var desc=document.getElementById('fir-desc').value.trim();var val=document.getElementById('fir-value').value.trim();var loc=document.getElementById('fir-loc').value.trim();var dt=document.getElementById('fir-date').value;var how=document.getElementById('fir-how').value.trim();var name=document.getElementById('fir-name').value.trim();var phone=document.getElementById('fir-phone').value.trim();var addr=document.getElementById('fir-addr').value.trim();var idtype=document.getElementById('fir-idtype').value;if(!item||!loc||!name||!phone){toast('Item, location, naam aur phone zaroori hai');return;}if(!ps){toast('Police station select karo');return;}var dateStr=dt?new Date(dt).toLocaleString('en-IN'):new Date().toLocaleString('en-IN');var today=new Date().toLocaleDateString('en-IN');var L='--------------------------------';var NL='\n';var txt='TO,'+NL+'The Station House Officer,'+NL+ps+','+NL+dist+', '+state+NL+NL+'SUBJECT: Application for FIR - Loss of '+(cat||item)+NL+NL+'Respected Sir/Madam,'+NL+NL+'I, '+name+', resident of '+(addr||'[Address]')+', wish to report the loss of my '+(cat||item)+'.'+NL+NL+L+NL+'LOST ITEM DETAILS'+NL+L+NL+'Item         : '+item+NL+'Category     : '+(cat||'Not specified')+NL+'Description  : '+(desc||'Not specified')+NL+'Value (Approx): '+(val?'Rs.'+val:'Not specified')+NL+NL+L+NL+'INCIDENT DETAILS'+NL+L+NL+'Date & Time  : '+dateStr+NL+'Location     : '+loc+NL+'Circumstances: '+(how||'Item misplaced at above location.')+NL+NL+L+NL+'COMPLAINANT DETAILS'+NL+L+NL+'Name         : '+name+NL+'Mobile       : '+phone+NL+'Address      : '+(addr||'[Address]')+NL+'ID Proof     : '+idtype+NL+NL+L+NL+NL+'I request FIR registration and necessary action.'+NL+NL+'Date : '+today+NL+'Place: '+dist+', '+state+NL+NL+'Signature: _______________'+NL+'Name: '+name+NL+'Mobile: '+phone+NL+NL+'[Also listed on FindBack - India Lost and Found Platform]';window._lastFIR=txt;document.getElementById('fir-preview').textContent=txt;document.getElementById('fir-modal').style.display='flex';};
+</script>
+<script>
 // TRUST SCORE
 window.loadTrustScore = function() {
   const user = window._currentUser;
@@ -1574,7 +1520,7 @@ window.loadRewardPosts = function() {
   el.innerHTML = posts.map(p => {
     const tc=p.type==='lost'?'#FEE2E2':'#D1FAE5';
     const tt=p.type==='lost'?'#DC2626':'#059669';
-    return '<div onclick="openDetail(\'' + p.id + '\')" style="display:flex;align-items:center;gap:10px;padding:10px;background:white;border-radius:10px;margin-bottom:8px;cursor:pointer;border:1.5px solid var(--border);"><div style="background:#FEF9C3;color:#92400E;font-weight:800;font-size:15px;padding:6px 12px;border-radius:10px;min-width:70px;text-align:center;">₹' + p.reward + '</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;">' + p.item + '</div><div style="font-size:11px;color:var(--text-muted);">📍 ' + p.loc + '</div></div><span style="background:' + tc + ';color:' + tt + ';font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;">' + (p.type==='lost'?'Lost':'Found') + '</span></div>';
+    return '<div onclick="openDetail(\'' + p.id + '\')" style="display:flex;align-items:center;gap:10px;padding:10px;background:white;border-radius:10px;margin-bottom:8px;cursor:pointer;border:1.5px solid var(--border);"><div style="background:#FEF9C3;color:#92400E;font-weight:800;font-size:15px;padding:6px 12px;border-radius:10px;min-width:70px;text-align:center;">&#8377;' + p.reward + '</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;">' + p.item + '</div><div style="font-size:11px;color:var(--text-muted);">&#128205; ' + p.loc + '</div></div><span style="background:' + tc + ';color:' + tt + ';font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;">' + (p.type==='lost'?'Lost':'Found') + '</span></div>';
   }).join('');
 };
 </script>
