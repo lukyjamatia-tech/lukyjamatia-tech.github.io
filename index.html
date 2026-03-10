@@ -571,6 +571,17 @@ window.addEventListener('unhandledrejection', function(e) {
     <div class="form-group"><label>📝 Description</label><textarea id="e-desc" placeholder="Description"></textarea></div>
     <div class="form-group"><label>📱 Contact</label><div class="input-icon-wrap"><span class="icon">📱</span><input type="text" id="e-contact" placeholder="Phone or email"></div></div>
     <div class="form-group"><label>🏆 Reward (Optional)</label><div class="input-icon-wrap"><span class="icon">₹</span><input type="number" id="e-reward" placeholder="e.g. 500" min="0"></div></div>
+    <div class="form-group">
+      <label>📷 Photo</label>
+      <div id="e-photo-preview" style="margin-bottom:8px;display:none;">
+        <img id="e-photo-img" src="" style="width:100%;max-height:160px;object-fit:cover;border-radius:10px;">
+        <button onclick="document.getElementById('e-photo-img').src='';document.getElementById('e-photo-preview').style.display='none';window._editNewPhoto=null;" style="margin-top:6px;width:100%;padding:8px;background:#FEE2E2;color:#DC2626;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">🗑️ Remove Photo</button>
+      </div>
+      <label style="display:block;padding:12px;border:2px dashed #ddd;border-radius:10px;text-align:center;cursor:pointer;background:#fafafa;">
+        <span style="font-size:13px;color:#666;">📷 Change Photo (optional)</span>
+        <input type="file" accept="image/*" style="display:none;" onchange="previewEditPhoto(this)">
+      </label>
+    </div>
     <button class="btn-primary" style="width:100%;margin-bottom:10px;" onclick="submitEdit()">Update Post</button>
     <button class="btn-outline" style="width:100%" onclick="closeEditModal()">Cancel</button>
   </div>
@@ -660,8 +671,9 @@ window.addEventListener('unhandledrejection', function(e) {
 
 <!-- FIREBASE SCRIPT -->
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot, orderBy, query, serverTimestamp, enableNetwork, disableNetwork } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -675,6 +687,15 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+// Handle Android WebView screen switch - pause/resume Firestore connection
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') {
+    disableNetwork(db).catch(() => {});
+  } else {
+    enableNetwork(db).catch(() => {});
+  }
+});
 const auth = getAuth(app);
 window._db = db;
 window._auth = auth;
@@ -710,12 +731,7 @@ function startListener() {
 }
 startListener();
 
-// Reconnect when app comes back from background
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible') {
-    setTimeout(() => { try { startListener(); } catch(e){} }, 500);
-  }
-});
+// visibilitychange handled inside Firebase module
 
 onAuthStateChanged(auth, (user) => {
   window._currentUser = user || null;
@@ -745,9 +761,11 @@ window.submitToFirebase = async function() {
   const uid = window._currentUser ? window._currentUser.uid : null;
   const authorName = window._currentUser ? (window._currentUser.displayName || 'Anonymous') : 'Anonymous';
   const btn = document.querySelector('#report-modal .btn-primary');
-  btn.textContent = 'Submitting...'; btn.disabled = true;
+  if (btn) { btn.textContent = 'Submitting...'; btn.disabled = true; }
   try {
-    await addDoc(collection(db, "posts"), { type, item, loc, date, desc, contact, category, reward, uid, authorName, photoCount: photos.length, createdAt: serverTimestamp() });
+    // Only save photo if small enough (Firestore 1MB doc limit)
+    const photoToSave = (photos[0] && photos[0].length < 700000) ? photos[0] : null;
+    await addDoc(collection(db, "posts"), { type, item, loc, date, desc, contact, category, reward, uid, authorName, photo: photoToSave, photoCount: photos.length, createdAt: serverTimestamp() });
     document.getElementById('modal-success').style.display = 'block';
     if (window.checkAreaAlerts) window.checkAreaAlerts({ type, item, loc, category });
     setTimeout(() => {
@@ -761,8 +779,9 @@ window.submitToFirebase = async function() {
       btn.textContent = 'Submit Post'; btn.disabled = false;
     }, 1800);
   } catch(e) {
-    window.toast('❌ ' + (e.code || e.message || 'Error'));
-    btn.textContent = 'Submit Post'; btn.disabled = false;
+    console.error('Submit error:', e);
+    window.toast('❌ Error: ' + (e.code || e.message || 'Try again'));
+    if (btn) { btn.textContent = 'Submit Post'; btn.disabled = false; }
   }
 };
 
@@ -786,7 +805,11 @@ window.submitEdit = async function() {
   const btn = document.querySelector('#edit-modal .btn-primary');
   btn.textContent = 'Updating...'; btn.disabled = true;
   try {
-    await updateDoc(doc(db, "posts", id), { item, loc, category, date, desc, contact, reward });
+    const updateData = { item, loc, category, date, desc, contact, reward };
+    if (window._editNewPhoto !== undefined) {
+      updateData.photo = window._editNewPhoto && window._editNewPhoto.length < 700000 ? window._editNewPhoto : null;
+    }
+    await updateDoc(doc(db, "posts", id), updateData);
     document.getElementById('edit-success').style.display = 'block';
     window.toast('✅ Post updated!');
     setTimeout(() => { window.closeEditModal(); btn.textContent = 'Update Post'; btn.disabled = false; }, 1500);
@@ -869,6 +892,16 @@ window.openEditModal = function(id) {
   document.getElementById('e-contact').value = p.contact || '';
   document.getElementById('e-reward').value = p.reward || '';
   document.getElementById('edit-success').style.display = 'none';
+  // Show existing photo if available
+  window._editNewPhoto = undefined;
+  const editPhotoImg = document.getElementById('e-photo-img');
+  const editPhotoPreview = document.getElementById('e-photo-preview');
+  if (p.photo && editPhotoImg && editPhotoPreview) {
+    editPhotoImg.src = p.photo;
+    editPhotoPreview.style.display = 'block';
+  } else if (editPhotoPreview) {
+    editPhotoPreview.style.display = 'none';
+  }
   document.getElementById('edit-modal').classList.add('open');
 };
 
@@ -886,6 +919,7 @@ window.refreshAdminStats = function() {
     else { tbody.innerHTML = all.slice(0,20).map(p => { const tc=p.type==='lost'?'tag-lost':p.type==='found'?'tag-found':'tag-pending'; const tl=p.type==='lost'?'Lost':p.type==='found'?'Found':'Missing'; return `<tr><td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.item||'-'}</td><td><span class="tag ${tc}">${tl}</span></td><td><button onclick="deletePost('${p.id}')" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600;cursor:pointer;">🗑️</button></td></tr>`; }).join(''); }
   }
 };
+
 </script>
 <script>
 
@@ -924,15 +958,54 @@ function previewPhotos(input) {
   files.forEach(file => {
     const reader = new FileReader();
     reader.onload = function(e) {
-      window.currentPhotosData.push(e.target.result);
-      const img = document.createElement('img');
-      img.src = e.target.result;
-      img.style.cssText = 'width:80px;height:80px;object-fit:cover;border-radius:8px;flex-shrink:0;';
-      preview.appendChild(img);
+      // Compress image using canvas
+      const image = new Image();
+      image.onload = function() {
+        const canvas = document.createElement('canvas');
+        const MAX = 600;
+        let w = image.width, h = image.height;
+        if (w > h) { if (w > MAX) { h = h * MAX / w; w = MAX; } }
+        else { if (h > MAX) { w = w * MAX / h; h = MAX; } }
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(image, 0, 0, w, h);
+        const compressed = canvas.toDataURL('image/jpeg', 0.6);
+        window.currentPhotosData.push(compressed);
+        const img = document.createElement('img');
+        img.src = compressed;
+        img.style.cssText = 'width:80px;height:80px;object-fit:cover;border-radius:8px;flex-shrink:0;';
+        preview.appendChild(img);
+      };
+      image.src = e.target.result;
     };
     reader.readAsDataURL(file);
   });
 }
+
+window.previewEditPhoto = function(input) {
+  if (!input.files || !input.files.length) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const image = new Image();
+    image.onload = function() {
+      const canvas = document.createElement('canvas');
+      const MAX = 600;
+      let w = image.width, h = image.height;
+      if (w > h) { if (w > MAX) { h = h * MAX / w; w = MAX; } }
+      else { if (h > MAX) { w = w * MAX / h; h = MAX; } }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(image, 0, 0, w, h);
+      const compressed = canvas.toDataURL('image/jpeg', 0.6);
+      window._editNewPhoto = compressed;
+      const img = document.getElementById('e-photo-img');
+      const prev = document.getElementById('e-photo-preview');
+      if (img) img.src = compressed;
+      if (prev) prev.style.display = 'block';
+    };
+    image.src = e.target.result;
+  };
+  reader.readAsDataURL(input.files[0]);
+};
 window.previewPhotos = previewPhotos;
 
 window.setSearch = function(val) {
