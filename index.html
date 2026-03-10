@@ -851,6 +851,526 @@ window.refreshAdminStats = function() {
 </script>
 <script>
 
+window.activeFilter = 'all';
+window.activeCat = '';
+window.currentPhotosData = [];
+
+// Toggle post options menu
+window.toggleOptions = function(id) {
+  const menu = document.getElementById('opts-' + id);
+  if (!menu) return;
+  const isOpen = menu.style.display === 'block';
+  closeAllOptions();
+  if (!isOpen) menu.style.display = 'block';
+};
+window.closeAllOptions = function() {
+  document.querySelectorAll('[id^="opts-"]').forEach(m => { if(m.style) m.style.display = 'none'; });
+};
+document.addEventListener('touchstart', function(e) {
+  if (!e.target.closest('[id^="opts-"]') && !e.target.closest('[id^="optbtn-"]')) closeAllOptions();
+});
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('[id^="opts-"]') && !e.target.closest('[id^="optbtn-"]')) closeAllOptions();
+});
+
+
+function previewPhotos(input) {
+  if (!input.files || !input.files.length) return;
+  const files = Array.from(input.files).slice(0, 5);
+  window.currentPhotosData = [];
+  const preview = document.getElementById('photos-preview');
+  const placeholder = document.getElementById('photo-placeholder');
+  preview.innerHTML = '';
+  preview.style.display = 'flex';
+  placeholder.style.display = 'none';
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      window.currentPhotosData.push(e.target.result);
+      const img = document.createElement('img');
+      img.src = e.target.result;
+      img.style.cssText = 'width:80px;height:80px;object-fit:cover;border-radius:8px;flex-shrink:0;';
+      preview.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+window.previewPhotos = previewPhotos;
+
+window.setSearch = function(val) {
+  window.searchQuery = val.toLowerCase();
+  if (window._renderAll) window._renderAll();
+};
+
+window.openDetail = function(id) {
+  const p = (window._allPosts || []).find(x => x.id === id);
+  if (!p) return;
+  const photos = p.photos || (p.photo ? [p.photo] : []);
+  const photosEl = document.getElementById('detail-photos');
+  if (photos.length) {
+    photosEl.style.display = 'flex';
+    photosEl.innerHTML = photos.map(src => `<img src="${src}" style="height:220px;min-width:100%;object-fit:cover;border-radius:14px;flex-shrink:0;">`).join('');
+  } else {
+    const tc = p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7';
+    photosEl.style.display = 'flex';
+    photosEl.innerHTML = `<div style="height:180px;min-width:100%;background:${tc};border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:64px;">${p.type==='lost'?'\ud83d\udd0d':p.type==='found'?'\ud83d\udce6':'\ud83c\udd98'}</div>`;
+  }
+  const tc = p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':p.type==='person'?'#EDE9FE':'#FEF3C7';
+  const tt = p.type==='lost'?'#DC2626':p.type==='found'?'#059669':p.type==='person'?'#7C3AED':'#D97706';
+  const tl = p.type==='lost'?'\ud83d\ude1f Lost':p.type==='found'?'\ud83c\udf89 Found':p.type==='person'?'\ud83e\uddcd Person':'\u26a0ufe0f Missing';
+  document.getElementById('detail-badge').innerHTML = `<span style="background:${tc};color:${tt};padding:4px 12px;border-radius:20px;font-weight:700;font-size:13px;">${tl}</span>`;
+  document.getElementById('detail-title').textContent = p.item || '';
+  document.getElementById('detail-cat').textContent = p.category || '';
+  document.getElementById('detail-loc').textContent = p.loc || '\u2014';
+  document.getElementById('detail-date').textContent = p.date || '\u2014';
+  document.getElementById('detail-desc').textContent = p.desc || 'No description provided.';
+  if (p.reward) {
+    document.getElementById('detail-reward-wrap').style.display = 'block';
+    document.getElementById('detail-reward').textContent = '\u20b9' + p.reward;
+  } else {
+    document.getElementById('detail-reward-wrap').style.display = 'none';
+  }
+  const name = p.authorName || 'Anonymous';
+  document.getElementById('detail-poster-avatar').textContent = name[0].toUpperCase();
+  document.getElementById('detail-poster-name').textContent = name;
+  document.getElementById('detail-poster-contact').textContent = p.contact || 'Contact not provided';
+  const actions = document.getElementById('detail-actions');
+  const phone = p.contact ? p.contact.replace(/\\D/g,'') : '';
+  const waMsg = encodeURIComponent(`Hi, I saw your post on FindBack about "${p.item}" (${tl}). Can we talk?`);
+  let btns = '';
+  if (phone.length >= 10) {
+    btns += `<a href="https://wa.me/91${phone.slice(-10)}?text=${waMsg}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#25D366;color:white;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">\ud83d\udcac WhatsApp karo</a>`;
+    btns += `<a href="tel:${p.contact}" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--gray);color:var(--black);border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">\ud83d\udcde Call karo</a>`;
+  } else if (p.contact && p.contact.includes('@')) {
+    btns += `<a href="mailto:${p.contact}" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--orange);color:white;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">\ud83d\udce7 Email karo</a>`;
+  }
+  if (window._currentUser && window._currentUser.uid === p.uid) {
+    btns += `<button onclick="openEditModal('${p.id}')" style="padding:14px;border:none;background:var(--gray);color:var(--black);border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">\u270fufe0f Edit Post</button>`;
+    btns += `<button onclick="deletePost('${p.id}')" style="padding:14px;border:none;background:#FEE2E2;color:#DC2626;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">\ud83d\uddd1\ufe0fDelete Post</button>`;
+  }
+  // Anonymous message section
+  const anonId = p.id.replace(/[^a-z0-9]/gi,'_');
+  const anonSection = `<div id="anon-section-${anonId}" style="display:none;margin-top:4px;">
+    <textarea id="anon-msg-${anonId}" placeholder="Anonymous message likho... (Owner ko tumhara number nahi milega)" style="width:100%;padding:12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;resize:vertical;min-height:80px;outline:none;margin-bottom:8px;"></textarea>
+    <button onclick="sendAnonymousMsg('${p.id}')" style="width:100%;padding:12px;background:#111;color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">\ud83d\udce8 Anonymous Message Bhejo</button>
+  </div>`;
+
+  // AI Match button (only for lost posts)
+  const aiBtn = (p.type==='lost'||p.type==='found') ? `<button id="ai-match-btn-${anonId}" onclick="runAIMatch('${p.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:linear-gradient(135deg,#111,#333);color:white;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">\ud83e\udd16 AI Match Dhundo</button>` : '';
+
+  const anonBtn = `<button onclick="toggleAnonMsg('${p.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#F5F5F5;color:#333;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">\ud83d\udd12 Anonymous Contact</button>${anonSection}`;
+
+  actions.innerHTML = (btns || '<div style="color:var(--text-muted);text-align:center;padding-bottom:8px">No contact info provided</div>') + aiBtn + anonBtn;
+  showPage('detail');
+};
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const pg = document.getElementById('page-' + id);
+  if (pg) pg.classList.add('active');
+  window.scrollTo(0, 0);
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (id === 'home') document.getElementById('nav-home').classList.add('active');
+  if (id === 'map') { const b=document.getElementById('nav-map-btn'); if(b) b.classList.add('active'); }
+  if (id === 'alerts') { const b=document.getElementById('nav-alerts-btn'); if(b) b.classList.add('active'); }
+  // Load dynamic content for new pages
+  if (id === 'trust') setTimeout(() => { if(window.loadTrustScore) window.loadTrustScore(); }, 100);
+  if (id === 'reward') setTimeout(() => { if(window.loadRewardPosts) window.loadRewardPosts(); }, 100);
+  if (id === 'map') setTimeout(() => { if(window.initMap) window.initMap(); }, 100);
+}
+window.showPage = showPage;
+
+function openModal(type) {
+  window.currentModal = type;
+  const titles = {
+    lost:    ['\ud83d\ude1f Report Lost Item',    'Fill in details about the item you lost'],
+    found:   ['\ud83c\udf89 Report Found Item',   'Fill in details about the item you found'],
+    missing: ['\u26a0ufe0f Report Missing',      'Provide details to help locate them'],
+    person:  ['\ud83e\uddcd Report Missing Person','Provide details about the missing person']
+  };
+  const t = titles[type] || titles['lost'];
+  document.getElementById('modal-title').textContent = t[0];
+  document.getElementById('modal-sub').textContent = t[1];
+  document.getElementById('modal-success').style.display = 'none';
+  document.getElementById('report-modal').classList.add('open');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (type === 'lost') document.getElementById('nav-lost').classList.add('active');
+  else if (type === 'found') document.getElementById('nav-found').classList.add('active');
+  else if (type === 'missing') document.getElementById('nav-missing').classList.add('active');
+}
+window.openModal = openModal;
+
+window.closeModal = function() {
+  document.getElementById('report-modal').classList.remove('open');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('nav-home').classList.add('active');
+};
+
+function submitReport() {
+  if (window.submitToFirebase) window.submitToFirebase();
+}
+window.submitReport = submitReport;
+
+function sendContact() {
+  const name = document.getElementById('c-name').value.trim();
+  const msg  = document.getElementById('c-msg').value.trim();
+  if (!name || !msg) { toast('\u26a0ufe0f Please fill name and message'); return; }
+  document.getElementById('contact-success').style.display = 'block';
+  document.getElementById('c-name').value = '';
+  document.getElementById('c-email').value = '';
+  document.getElementById('c-subject').value = '';
+  document.getElementById('c-msg').value = '';
+}
+window.sendContact = sendContact;
+
+async function adminLogin() {
+  const u = document.getElementById('a-user').value.trim();
+  const p = document.getElementById('a-pass').value.trim();
+  const salt = '4cb297b1319af2d28745ce4d7108027d';
+  const correctHash = '80728bd327882419c60aab8a062ae3c6d6be53100ba3214c82906a620b356572';
+  const msgBuffer = new TextEncoder().encode(salt + p);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashHex = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,'0')).join('');
+  if (u === 'findback_admin' && hashHex === correctHash) {
+    document.getElementById('admin-login-wall').style.display = 'none';
+    document.getElementById('admin-dashboard').style.display = 'block';
+    refreshAdminStats();
+  } else {
+    toast('\u274cInvalid admin credentials');
+  }
+}
+window.adminLogin = adminLogin;
+
+function adminLogout() {
+  document.getElementById('admin-login-wall').style.display = 'block';
+  document.getElementById('admin-dashboard').style.display = 'none';
+  document.getElementById('a-user').value = '';
+  document.getElementById('a-pass').value = '';
+}
+window.adminLogout = adminLogout;
+
+function refreshAdminStats() {
+  if (window._allPosts) {
+    const all = window._allPosts;
+    const el = document.getElementById('admin-total');
+    if (el) el.textContent = all.length;
+    const el2 = document.getElementById('admin-lost');
+    if (el2) el2.textContent = all.filter(p=>p.type==='lost').length;
+    const el3 = document.getElementById('admin-found');
+    if (el3) el3.textContent = all.filter(p=>p.type==='found').length;
+    const el4 = document.getElementById('admin-missing');
+    if (el4) el4.textContent = all.filter(p=>p.type==='missing').length;
+    const tbody = document.getElementById('admin-posts-tbody');
+    if (tbody && all.length) {
+      tbody.innerHTML = all.slice(0,20).map(p => {
+        const tc = p.type==='lost'?'tag-lost':p.type==='found'?'tag-found':'tag-pending';
+        const tl = p.type==='lost'?'Lost':p.type==='found'?'Found':'Missing';
+        return `<tr>
+          <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.item||'-'}</td>
+          <td><span class="tag ${tc}">${tl}</span></td>
+          <td><button onclick="deletePost('${p.id}')" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600;cursor:pointer;">\ud83d\uddd1\ufe0fDel</button></td>
+        </tr>`;
+      }).join('');
+    }
+  }
+}
+window.refreshAdminStats = refreshAdminStats;
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+window.toast = toast;
+
+// Close modals on overlay tap
+document.getElementById('report-modal').addEventListener('click', function(e) {
+  if (e.target === this) window.closeModal();
+});
+document.getElementById('edit-modal').addEventListener('click', function(e) {
+  if (e.target === this) window.closeEditModal();
+});
+
+// ============================================================
+// \ud83e\udd16 AI SMART MATCH ENGINE
+// ============================================================
+window.runAIMatch = async function(postId) {
+  const post = (window._allPosts||[]).find(p=>p.id===postId);
+  if (!post) return;
+  const btn = document.getElementById('ai-match-btn-'+postId.replace(/[^a-z0-9]/gi,'_'));
+  if (btn) { btn.textContent = '\ud83e\udd16 Matching...'; btn.disabled = true; }
+
+  const oppositeType = post.type === 'lost' ? 'found' : 'lost';
+  const candidates = (window._allPosts||[]).filter(p => p.type === oppositeType).slice(0,10);
+  if (!candidates.length) {
+    toast('\ud83d\ude14 Abhi koi matching post nahi mili');
+    if (btn) { btn.textContent = '\ud83e\udd16 AI Match Dhundo'; btn.disabled = false; }
+    return;
+  }
+
+  const prompt = `You are a lost-and-found matching assistant for India.
+
+LOST/FOUND POST:
+Type: ${post.type}
+Item: ${post.item}
+Category: ${post.category||'unknown'}
+Location: ${post.loc}
+Date: ${post.date||'unknown'}
+Description: ${post.desc||'none'}
+
+CANDIDATE POSTS (${oppositeType}):
+${candidates.map((c,i)=>`${i+1}. ID:${c.id} | Item:${c.item} | Cat:${c.category||'?'} | Loc:${c.loc} | Date:${c.date||'?'} | Desc:${c.desc||'none'}`).join('\n')}
+
+Find the TOP 3 best matches. Consider: item name similarity, category, location proximity, date closeness.
+Respond ONLY in this JSON format (no markdown):
+{"matches":[{"id":"post_id","score":95,"reason":"Brief reason in Hindi/English"},{"id":"post_id","score":80,"reason":"..."},{"id":"post_id","score":60,"reason":"..."}]}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 500,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.[0]?.text || '{}';
+    const clean = text.replace(/```json|```/g,'').trim();
+    const parsed = JSON.parse(clean);
+    showAIMatchResults(post, parsed.matches || [], candidates);
+  } catch(e) {
+    toast('\u274cAI Match error. Try again.');
+  }
+  if (btn) { btn.textContent = '\ud83e\udd16 AI Match Dhundo'; btn.disabled = false; }
+};
+
+function showAIMatchResults(post, matches, candidates) {
+  const overlay = document.getElementById('ai-match-overlay');
+  const body = document.getElementById('ai-match-body');
+  if (!overlay || !body) return;
+
+  if (!matches.length) {
+    body.innerHTML = '<div style="text-align:center;padding:40px 0;color:var(--text-muted)"><div style="font-size:48px">\ud83d\ude14</div><p style="margin-top:12px">Koi match nahi mila abhi</p></div>';
+    overlay.style.display = 'flex';
+    return;
+  }
+
+  const matchedPosts = matches.map(m => {
+    const p = candidates.find(c=>c.id===m.id);
+    return p ? {...p, _score: m.score, _reason: m.reason} : null;
+  }).filter(Boolean);
+
+  body.innerHTML = matchedPosts.map(p => {
+    const scoreColor = p._score>=80?'#059669':p._score>=60?'#D97706':'#777';
+    const tc = p.type==='found'?'#D1FAE5':'#FEE2E2';
+    const tt = p.type==='found'?'#059669':'#DC2626';
+    return `<div onclick="closeAIMatch();openDetail('${p.id}')" style="border:2px solid ${scoreColor}30;border-radius:14px;padding:14px;margin-bottom:12px;cursor:pointer;background:white;position:relative;">
+      <div style="position:absolute;top:10px;right:10px;background:${scoreColor};color:white;border-radius:20px;padding:2px 10px;font-size:12px;font-weight:700;">${p._score}% Match</div>
+      <span style="background:${tc};color:${tt};font-size:10px;padding:2px 8px;border-radius:20px;font-weight:700;">${p.type==='found'?'\ud83c\udf89 Found':'\ud83d\ude1f Lost'}</span>
+      <div style="font-size:15px;font-weight:700;margin:6px 0 4px;padding-right:70px">${p.item}</div>
+      <div style="font-size:12px;color:var(--text-muted)">\ud83d\udccd ${p.loc} \u2022${p.date||''}</div>
+      <div style="margin-top:8px;background:#F0FFF4;border-radius:8px;padding:8px 10px;font-size:12px;color:#065F46;">\ud83e\udd16 ${p._reason}</div>
+    </div>`;
+  }).join('');
+
+  overlay.style.display = 'flex';
+}
+
+window.closeAIMatch = function() {
+  document.getElementById('ai-match-overlay').style.display = 'none';
+};
+
+// ============================================================
+// \ud83d\udccd NEARBY MAP VIEW
+// ============================================================
+window.openMapView = function() {
+  showPage('map');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const mb = document.getElementById('nav-map-btn');
+  if(mb) mb.classList.add('active');
+  setTimeout(initMap, 200);
+};
+
+let _mapRetries = 0;
+function initMap() {
+  const posts = window._allPosts || [];
+  // Firebase se data load hone ka wait karo \u2014max 5 seconds
+  if (!posts.length && _mapRetries < 10) {
+    _mapRetries++;
+    const mapEl = document.getElementById('map-container');
+    if (mapEl) mapEl.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-muted)"><div style="font-size:32px;margin-bottom:8px;">\u23f3</div><div style="font-size:13px;">Posts load ho rahe hain...</div></div>';
+    setTimeout(initMap, 500);
+    return;
+  }
+  _mapRetries = 0;
+  renderMapPins();
+}
+
+function renderMapPins() {
+  const container = document.getElementById('map-posts-list');
+  const mapEl = document.getElementById('map-container');
+  if (!container) return;
+  const posts = (window._allPosts||[]).filter(p=>p.loc);
+
+  if (!posts.length) {
+    if (mapEl) mapEl.innerHTML = '';
+    container.innerHTML = `<div style="text-align:center;padding:48px 20px;color:var(--text-muted)">
+      <div style="font-size:52px;margin-bottom:12px;">\ud83d\uddfa\ufe0f</div>
+      <div style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:#333;margin-bottom:6px;">Koi posts abhi nahi hain</div>
+      <div style="font-size:13px;">Jab log posts karenge, yahan location se dikhenge</div>
+    </div>`;
+    return;
+  }
+
+  if (mapEl) mapEl.innerHTML = '';
+
+  // Stats bar
+  const lostCount = posts.filter(p=>p.type==='lost').length;
+  const foundCount = posts.filter(p=>p.type==='found').length;
+  const missingCount = posts.filter(p=>p.type==='missing').length;
+
+  // Group by location
+  const byLoc = {};
+  posts.forEach(p => {
+    const key = p.loc.trim().toLowerCase();
+    if (!byLoc[key]) byLoc[key] = [];
+    byLoc[key].push(p);
+  });
+
+  container.innerHTML = `
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <div style="flex:1;background:#FEE2E2;border-radius:10px;padding:10px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:#DC2626;">${lostCount}</div>
+        <div style="font-size:10px;color:#DC2626;font-weight:600;">\ud83d\ude1f Lost</div>
+      </div>
+      <div style="flex:1;background:#D1FAE5;border-radius:10px;padding:10px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:#059669;">${foundCount}</div>
+        <div style="font-size:10px;color:#059669;font-weight:600;">\ud83c\udf89 Found</div>
+      </div>
+      <div style="flex:1;background:#FEF3C7;border-radius:10px;padding:10px;text-align:center;">
+        <div style="font-size:18px;font-weight:700;color:#D97706;">${missingCount}</div>
+        <div style="font-size:10px;color:#D97706;font-weight:600;">\u26a0ufe0f Missing</div>
+      </div>
+    </div>
+    <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:10px;color:#333;">
+      \ud83d\udccd ${Object.keys(byLoc).length} Locations \u2022${posts.length} Total Posts
+    </div>
+    ${Object.entries(byLoc).sort((a,b)=>b[1].length-a[1].length).map(([loc, ps]) => `
+    <div style="border:1.5px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;background:white;">
+      <div style="font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+        <span>\ud83d\udccd</span><span style="flex:1">${ps[0].loc}</span>
+        <span style="background:var(--orange);color:white;font-size:11px;padding:2px 9px;border-radius:20px;">${ps.length} post${ps.length>1?'s':''}</span>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        ${ps.map(p=>{
+          const tc=p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7';
+          const tt=p.type==='lost'?'#DC2626':p.type==='found'?'#059669':'#D97706';
+          const emoji=p.type==='lost'?'\ud83d\ude1f':p.type==='found'?'\ud83c\udf89':'\u26a0ufe0f';
+          return `<div onclick="openDetail('${p.id}')" style="background:${tc};color:${tt};padding:5px 11px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,.05);">${emoji} ${p.item}</div>`;
+        }).join('')}
+      </div>
+    </div>`).join('')}`;
+}
+
+// ============================================================
+// \ud83d\udd14 AREA ALERT SYSTEM
+// ============================================================
+window._areaAlerts = JSON.parse(localStorage.getItem('fb_alerts')||'[]');
+
+window.saveAreaAlert = function() {
+  const area = document.getElementById('alert-area').value.trim();
+  const cat  = document.getElementById('alert-cat').value;
+  if (!area) { toast('\u26a0ufe0f Area name daalo'); return; }
+  const alert = { id: Date.now(), area, cat, created: new Date().toLocaleDateString('en-IN') };
+  window._areaAlerts.push(alert);
+  localStorage.setItem('fb_alerts', JSON.stringify(window._areaAlerts));
+  renderAlerts();
+  document.getElementById('alert-area').value = '';
+  document.getElementById('alert-cat').value = '';
+  toast('\ud83d\udd14 Alert set ho gaya! Jab bhi '+area+' mein post aayega, tumhe pata chalega.');
+};
+
+window.deleteAlert = function(id) {
+  window._areaAlerts = window._areaAlerts.filter(a=>a.id!==id);
+  localStorage.setItem('fb_alerts', JSON.stringify(window._areaAlerts));
+  renderAlerts();
+};
+
+window.renderAlerts = function renderAlerts() {
+  const container = document.getElementById('alerts-list');
+  if (!container) return;
+  if (!window._areaAlerts.length) {
+    container.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-muted);font-size:14px;">Koi alert set nahi hai</div>';
+    return;
+  }
+  container.innerHTML = window._areaAlerts.map(a=>`
+    <div style="border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;">
+      <div style="flex:1">
+        <div style="font-weight:700;font-size:14px;">\ud83d\udccd ${a.area}</div>
+        ${a.cat?`<div style="font-size:12px;color:var(--orange);margin-top:2px;">${a.cat}</div>`:''}
+        <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">${a.created} se active</div>
+      </div>
+      <button onclick="deleteAlert(${a.id})" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer;">\ud83d\uddd1\ufe0f</button>
+    </div>
+  `).join('');
+}
+
+// Check alerts on new post
+function checkAreaAlerts(newPost) {
+  const alerts = window._areaAlerts || [];
+  alerts.forEach(alert => {
+    const locMatch = newPost.loc && newPost.loc.toLowerCase().includes(alert.area.toLowerCase());
+    const catMatch = !alert.cat || (newPost.category && newPost.category.includes(alert.cat));
+    if (locMatch && catMatch) {
+      toast(`\ud83d\udd14 Alert! "${newPost.item}" posted in ${alert.area}!`);
+    }
+  });
+}
+window.checkAreaAlerts = checkAreaAlerts;
+
+// ============================================================
+// \ud83d\udd12 ANONYMOUS CONTACT (Masked Message)
+// ============================================================
+window.sendAnonymousMsg = async function(postId) {
+  const msg = document.getElementById('anon-msg-'+postId.replace(/[^a-z0-9]/gi,'_'));
+  if (!msg || !msg.value.trim()) { toast('\u26a0ufe0f Message likho pehle'); return; }
+
+  const post = (window._allPosts||[]).find(p=>p.id===postId);
+  if (!post) return;
+
+  // Store anonymous message in Firestore
+  try {
+    const { getFirestore, collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+    const db = window._db;
+    await addDoc(collection(db, "messages"), {
+      postId,
+      toUid: post.uid || null,
+      fromAlias: "Anonymous User",
+      message: msg.value.trim(),
+      postItem: post.item,
+      createdAt: serverTimestamp()
+    });
+    toast('\u2705Anonymous message bhej diya! Owner ko notification milega.');
+    msg.value = '';
+    document.getElementById('anon-section-'+postId.replace(/[^a-z0-9]/gi,'_')).style.display='none';
+  } catch(e) {
+    toast('\u274cMessage send failed. Try again.');
+  }
+};
+
+window.toggleAnonMsg = function(postId) {
+  const id = postId.replace(/[^a-z0-9]/gi,'_');
+  const el = document.getElementById('anon-section-'+id);
+  if (el) el.style.display = el.style.display==='none'?'block':'none';
+};
+
+
+</script>
+<script>
+
 window._pagination = { page: 1, perPage: 100 };
 
 window.updateCatCounts = function() {
