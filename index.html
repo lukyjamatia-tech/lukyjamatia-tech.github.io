@@ -1411,6 +1411,7 @@ window.toggleAnonMsg = function(postId) {
 </script>
 <script>
 
+
 window._pagination = { page: 1, perPage: 100 };
 
 window.updateCatCounts = function() {
@@ -1469,32 +1470,35 @@ window._renderAll = function() {
     var tc = p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':p.type==='person'?'#EDE9FE':'#FEF3C7';
     var tt = p.type==='lost'?'#DC2626':p.type==='found'?'#059669':p.type==='person'?'#7C3AED':'#D97706';
     var tl = p.type==='lost'?'😟 Lost':p.type==='found'?'🎉 Found':p.type==='person'?'🧍 Person':'⚠️ Missing';
-    var img = p.photo
-      ? '<img src="' + p.photo + '" style="width:100%;height:100px;object-fit:cover;">'
-      : '<div style="height:100px;background:var(--gray);display:flex;align-items:center;justify-content:center;font-size:32px;">' + (p.type==='lost'?'🔍':p.type==='found'?'📦':p.type==='person'?'🧍':'🆘') + '</div>';
+    var imgHtml = p.photo
+      ? '<img src="' + p.photo + '" style="width:100%;height:110px;object-fit:cover;display:block;">'
+      : '<div style="height:110px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:36px;">' + (p.type==='lost'?'🔍':p.type==='found'?'📦':p.type==='person'?'🧍':'🆘') + '</div>';
     var curUid = window._currentUser ? window._currentUser.uid : null;
     var isOwn = curUid && p.uid === curUid;
     var eid = p.id.replace(/[^a-zA-Z0-9]/g,'_');
     var q = String.fromCharCode(39);
-    var optionsBtn = '';
+    var menuHtml = '';
     if (isOwn) {
-      optionsBtn = '<button id="optbtn-' + eid + '" style="position:absolute;top:6px;right:6px;width:34px;height:34px;background:rgba(255,255,255,0.97);border:1.5px solid #ccc;border-radius:50%;font-size:22px;font-weight:900;display:flex;align-items:center;justify-content:center;z-index:20;color:#333;box-shadow:0 2px 6px rgba(0,0,0,.18);cursor:pointer;" onclick="event.stopPropagation();toggleOptions(' + q + eid + q + ');">&#8942;</button>'
-        + '<div id="opts-' + eid + '" style="display:none;position:absolute;top:44px;right:6px;background:white;border:1.5px solid #ddd;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.15);z-index:30;min-width:140px;overflow:hidden;">'
-        + '<div onclick="event.stopPropagation();closeAllOptions();openEditModal(' + q + p.id + q + ');" style="padding:13px 16px;font-size:14px;font-weight:600;cursor:pointer;border-bottom:1px solid #eee;">&#9999;&#65039; Edit</div>'
-        + '<div onclick="event.stopPropagation();closeAllOptions();deletePost(' + q + p.id + q + ');" style="padding:13px 16px;font-size:14px;font-weight:600;cursor:pointer;color:#DC2626;">&#128465;&#65039; Delete</div>'
+      menuHtml =
+        '<div style="position:absolute;top:6px;right:6px;z-index:25;">'
+        + '<button id="optbtn-' + eid + '" onclick="event.stopPropagation();toggleOptions(' + q + eid + q + ');" style="width:32px;height:32px;background:rgba(255,255,255,0.95);border:1.5px solid #ddd;border-radius:50%;font-size:18px;font-weight:900;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.15);">⋮</button>'
+        + '<div id="opts-' + eid + '" style="display:none;position:absolute;top:36px;right:0;background:white;border:1.5px solid #eee;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.12);z-index:50;min-width:130px;overflow:hidden;">'
+        + '<div onclick="event.stopPropagation();closeAllOptions();openEditModal(' + q + p.id + q + ');" style="padding:12px 14px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:1px solid #f0f0f0;">✏️ Edit</div>'
+        + '<div onclick="event.stopPropagation();closeAllOptions();deletePost(' + q + p.id + q + ');" style="padding:12px 14px;font-size:13px;font-weight:600;cursor:pointer;color:#DC2626;">🗑️ Delete</div>'
+        + '</div>'
         + '</div>';
     }
-    var catHtml = p.category ? '<div style="font-size:11px;color:var(--orange);">' + p.category + '</div>' : '';
-    var rewardHtml = p.reward ? '<div style="margin-top:4px;background:#FEF9C3;color:#92400E;font-size:11px;font-weight:700;padding:2px 7px;border-radius:8px;display:inline-block;">&#127942; &#8377;' + p.reward + '</div>' : '';
-    return '<div style="border:1.5px solid var(--border);border-radius:14px;background:var(--white);position:relative;">'
-      + optionsBtn
+    var catHtml = p.category ? '<div style="font-size:11px;color:var(--orange);margin-bottom:2px;">' + p.category + '</div>' : '';
+    var rewardHtml = p.reward ? '<div style="margin-top:5px;background:#FEF9C3;color:#92400E;font-size:11px;font-weight:700;padding:2px 8px;border-radius:8px;display:inline-block;">🏆 ₹' + p.reward + '</div>' : '';
+    return '<div style="border:1.5px solid var(--border);border-radius:14px;background:var(--white);position:relative;overflow:visible;">'
+      + menuHtml
       + '<div onclick="openDetail(' + q + p.id + q + ')" style="cursor:pointer;">'
-      + '<div style="overflow:hidden;border-radius:12px 12px 0 0;">' + img + '</div>'
+      + '<div style="border-radius:12px 12px 0 0;overflow:hidden;">' + imgHtml + '</div>'
       + '<div style="padding:10px;">'
       + '<span style="background:' + tc + ';color:' + tt + ';font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;">' + tl + '</span>'
-      + '<div style="font-size:13px;font-weight:600;margin:4px 0 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + p.item + '</div>'
+      + '<div style="font-size:13px;font-weight:600;margin:5px 0 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + p.item + '</div>'
       + catHtml
-      + '<div style="font-size:11px;color:var(--text-muted);">&#128205; ' + p.loc + '</div>'
+      + '<div style="font-size:11px;color:var(--text-muted);">📍 ' + p.loc + '</div>'
       + '<div style="font-size:10px;color:#bbb;">' + (p.date||'') + '</div>'
       + rewardHtml
       + '</div></div></div>';
@@ -1604,6 +1608,7 @@ window.setCatGrid = function(cat) {
   var grid = document.getElementById('listings-grid');
   if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
 };
+
 
 </script>
 
