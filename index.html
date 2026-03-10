@@ -16,8 +16,6 @@
 --border:#E0E0E0;
 }
 body{font-family:'Inter',sans-serif;background:var(--white);color:var(--black);min-height:100vh;display:flex;flex-direction:column;}
-
-/* NAV */
 nav{background:var(--black);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
 .nav-logo{font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:var(--white);cursor:pointer;}
 .nav-logo span{color:var(--orange);}
@@ -26,12 +24,8 @@ nav{background:var(--black);padding:14px 20px;display:flex;align-items:center;ju
 .live-dot{width:7px;height:7px;background:#4CAF50;border-radius:50%;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .s1-badge{background:var(--black);border:1px solid #444;color:var(--white);font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;}
-
-/* PAGES */
 .page{display:none;flex:1;flex-direction:column;}
 .page.active{display:flex;}
-
-/* HOME */
 .home-hero{background:var(--gray);padding:60px 24px;text-align:center;}
 .home-hero .emoji{font-size:56px;margin-bottom:16px;}
 .home-hero h1{font-family:'Sora',sans-serif;font-size:26px;font-weight:700;margin-bottom:8px;}
@@ -41,14 +35,10 @@ nav{background:var(--black);padding:14px 20px;display:flex;align-items:center;ju
 .btn-primary:hover{opacity:.88;}
 .btn-outline{background:transparent;color:var(--orange);border:2px solid var(--orange);padding:12px 24px;border-radius:10px;font-weight:600;font-size:15px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;}
 .btn-outline:hover{background:var(--orange);color:white;}
-
-/* GENERIC PAGE LAYOUT */
 .page-content{padding:32px 24px;flex:1;max-width:680px;width:100%;margin:0 auto;}
 .page-title{font-family:'Sora',sans-serif;font-size:24px;font-weight:700;margin-bottom:6px;}
 .page-subtitle{color:var(--text-muted);font-size:14px;margin-bottom:28px;}
 .divider{height:1px;background:var(--border);margin:24px 0;}
-
-/* ABOUT */
 .about-card{background:var(--gray);border-radius:14px;padding:20px;margin-bottom:16px;}
 .about-card h3{font-family:'Sora',sans-serif;font-size:16px;margin-bottom:8px;}
 .about-card p{font-size:14px;color:#444;line-height:1.7;}
@@ -56,8 +46,6 @@ nav{background:var(--black);padding:14px 20px;display:flex;align-items:center;ju
 .stat-box{flex:1;background:var(--black);color:white;border-radius:12px;padding:16px;text-align:center;}
 .stat-box .num{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:var(--orange);}
 .stat-box .lbl{font-size:11px;color:#aaa;margin-top:4px;}
-
-/* CONTACT */
 .contact-method{display:flex;align-items:center;gap:14px;padding:16px;background:var(--gray);border-radius:12px;margin-bottom:12px;text-decoration:none;color:var(--black);transition:background .2s;}
 .contact-method:hover{background:#eee;}
 .contact-icon{font-size:22px;width:40px;text-align:center;}
@@ -69,16 +57,12 @@ nav{background:var(--black);padding:14px 20px;display:flex;align-items:center;ju
 .form-group input,.form-group textarea,.form-group select{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;background:var(--white);}
 .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--orange);}
 .form-group textarea{resize:vertical;min-height:100px;}
-
-/* LEGAL */
 .legal-section{margin-bottom:24px;}
 .legal-section h3{font-family:'Sora',sans-serif;font-size:16px;margin-bottom:10px;color:var(--orange);}
 .legal-section p,.legal-section li{font-size:14px;color:#444;line-height:1.8;}
 .legal-section ul{padding-left:20px;}
 .legal-section li{margin-bottom:6px;}
 .legal-date{font-size:12px;color:var(--text-muted);margin-bottom:24px;}
-
-/* AUTH */
 .auth-card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:28px 24px;max-width:400px;margin:0 auto;}
 .auth-logo{text-align:center;margin-bottom:20px;}
 .auth-logo .brand{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;}
@@ -90,8 +74,6 @@ nav{background:var(--black);padding:14px 20px;display:flex;align-items:center;ju
 .input-icon-wrap .icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:16px;}
 .form-check{display:flex;align-items:center;gap:8px;font-size:13px;color:#444;margin-bottom:16px;}
 .form-check input[type=checkbox]{accent-color:var(--orange);width:16px;height:16px;}
-
-/* ADMIN */
 .admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
 .admin-stat{background:var(--gray);border-radius:12px;padding:16px;}
 .admin-stat .val{font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:var(--orange);}
@@ -108,15 +90,11 @@ nav{background:var(--black);padding:14px 20px;display:flex;align-items:center;ju
 .btn-sm{padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:'Inter',sans-serif;}
 .btn-danger{background:#FEE2E2;color:#DC2626;}
 .btn-success{background:#D1FAE5;color:#059669;}
-
-/* CUSTOMERS */
 .customer-card{border:1.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;}
 .customer-card .stars{color:var(--orange);font-size:14px;}
 .customer-card h4{font-size:14px;font-weight:600;margin:6px 0 4px;}
 .customer-card p{font-size:13px;color:#555;line-height:1.6;}
 .customer-card .meta{font-size:11px;color:var(--text-muted);margin-top:8px;}
-
-/* FOOTER */
 footer{background:var(--white);border-top:1px solid var(--border);padding:32px 24px 110px;}
 .footer-brand{font-family:'Sora',sans-serif;font-size:18px;font-weight:700;margin-bottom:4px;}
 .footer-brand span{color:var(--orange);}
@@ -130,59 +108,35 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
 .footer-bottom-links{display:flex;gap:16px;}
 .footer-bottom-links a{font-size:12px;color:var(--text-muted);text-decoration:none;cursor:pointer;}
 .footer-bottom-links a:hover{color:var(--orange);}
-
-/* BOTTOM NAV */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);display:flex;padding:10px 0 18px;padding-bottom:max(18px,env(safe-area-inset-bottom));z-index:200;box-shadow:0 -2px 12px rgba(0,0,0,.06);}
 .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 0;transition:color .2s;color:#aaa;font-size:10px;font-weight:500;border:none;background:none;font-family:'Inter',sans-serif;}
 .nav-item.active{color:var(--orange);}
 .nav-item svg{width:20px;height:20px;}
-
-/* TOAST */
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--black);color:white;padding:12px 20px;border-radius:24px;font-size:13px;opacity:0;pointer-events:none;transition:all .3s;z-index:999;white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-
-/* REPORT MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;align-items:flex-end;justify-content:center;}
 .modal-overlay.open{display:flex;}
 .modal-sheet{background:var(--white);border-radius:20px 20px 0 0;padding:24px;width:100%;max-height:90vh;overflow-y:auto;}
 .modal-handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 20px;}
 .modal-title{font-family:'Sora',sans-serif;font-size:18px;font-weight:700;margin-bottom:4px;}
 .modal-sub{font-size:13px;color:var(--text-muted);margin-bottom:20px;}
-
 .alert-success{background:#D1FAE5;color:#065F46;border-radius:10px;padding:14px 16px;font-size:14px;display:none;margin-bottom:16px;}
-
 .filter-tab{padding:8px 16px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:var(--black);transition:all .2s;}
 .filter-tab.active{background:var(--black);color:var(--white);border-color:var(--black);}
-
 .cat-grid-item{background:var(--gray);border-radius:14px;padding:12px 6px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all .2s;}
 .cat-grid-item:active{transform:scale(0.95);}
 .active-cat-grid{border-color:var(--orange);background:#FFF5EE;}
 .cat-grid-icon{font-size:26px;margin-bottom:4px;}
-.cat-grid-label{font-size:11px;font-weight:400;color:var(--black);}
-
+.cat-grid-label{font-size:10px;font-weight:600;color:#333;margin-top:2px;}
 .listing-card{border:1.5px solid var(--border);border-radius:14px;overflow:hidden;background:var(--white);cursor:pointer;transition:box-shadow .2s;position:relative;}
 .listing-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08);}
-
-/* POST OPTIONS MENU */
-.post-options-btn{position:absolute;top:6px;right:6px;width:32px;height:32px;background:rgba(255,255,255,0.95);border:1.5px solid #ddd;border-radius:50%;cursor:pointer;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;z-index:5;color:#333;box-shadow:0 1px 4px rgba(0,0,0,.15);}
-.post-options-menu{position:absolute;top:36px;right:6px;background:white;border:1.5px solid var(--border);border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,.12);z-index:10;min-width:130px;display:none;}
-.post-options-menu.open{display:block;}
-.post-option-item{padding:10px 14px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .15s;}
-.post-option-item:hover{background:var(--gray);}
-.post-option-item.delete{color:#DC2626;}
-.post-option-item:first-child{border-radius:10px 10px 0 0;}
-.post-option-item:last-child{border-radius:0 0 10px 10px;}
-
-/* EDIT MODAL */
 .edit-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:400;align-items:flex-end;justify-content:center;}
 .edit-modal-overlay.open{display:flex;}
-
 @media(min-width:500px){.admin-grid{grid-template-columns:repeat(4,1fr);}}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo" onclick="showPage('home')">Find<span>Back</span></div>
   <div class="nav-right">
@@ -191,10 +145,9 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
   </div>
 </nav>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- ===== HOME PAGE ===== -->
+<!-- HOME PAGE -->
 <div class="page active" id="page-home">
   <div class="home-hero">
     <div class="emoji">🔍</div>
@@ -206,39 +159,35 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
     </div>
   </div>
   <div class="page-content">
-    <!-- Search Bar -->
     <div style="position:relative;margin:16px 0 12px;">
       <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;">🔍</span>
       <input id="search-input" type="text" placeholder="Search lost &amp; found items..." oninput="setSearch(this.value)" style="width:100%;padding:12px 14px 12px 42px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:var(--gray);">
     </div>
-
-    <!-- Category Grid -->
     <div style="margin-bottom:20px;">
       <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;">📂 Browse by Category</div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
-        <div onclick="setCatGrid('')" class="cat-grid-item active-cat-grid" id="catgrid-all"><div class="cat-grid-icon">🔍</div><div class="cat-grid-label">All</div></div>
-        <div onclick="setCatGrid('Wallet')" class="cat-grid-item" id="catgrid-Wallet"><div class="cat-grid-icon">👛</div><div class="cat-grid-label">Wallet</div></div>
-        <div onclick="setCatGrid('Phone')" class="cat-grid-item" id="catgrid-Phone"><div class="cat-grid-icon">📱</div><div class="cat-grid-label">Phone</div></div>
-        <div onclick="setCatGrid('Keys')" class="cat-grid-item" id="catgrid-Keys"><div class="cat-grid-icon">🔑</div><div class="cat-grid-label">Keys</div></div>
-        <div onclick="setCatGrid('Bag')" class="cat-grid-item" id="catgrid-Bag"><div class="cat-grid-icon">💼</div><div class="cat-grid-label">Bag</div></div>
-        <div onclick="setCatGrid('Jewellery')" class="cat-grid-item" id="catgrid-Jewellery"><div class="cat-grid-icon">💍</div><div class="cat-grid-label">Jewellery</div></div>
-        <div onclick="setCatGrid('Backpack')" class="cat-grid-item" id="catgrid-Backpack"><div class="cat-grid-icon">🎒</div><div class="cat-grid-label">Backpack</div></div>
-        <div onclick="setCatGrid('Laptop')" class="cat-grid-item" id="catgrid-Laptop"><div class="cat-grid-icon">💻</div><div class="cat-grid-label">Laptop</div></div>
-        <div onclick="setCatGrid('Pet')" class="cat-grid-item" id="catgrid-Pet"><div class="cat-grid-icon">🐾</div><div class="cat-grid-label">Pet</div></div>
-        <div onclick="setCatGrid('Glasses')" class="cat-grid-item" id="catgrid-Glasses"><div class="cat-grid-icon">👓</div><div class="cat-grid-label">Glasses</div></div>
-        <div onclick="setCatGrid('Documents')" class="cat-grid-item" id="catgrid-Documents"><div class="cat-grid-icon">🎫</div><div class="cat-grid-label">Documents</div></div>
-        <div onclick="setCatGrid('Watch')" class="cat-grid-item" id="catgrid-Watch"><div class="cat-grid-icon">⌚</div><div class="cat-grid-label">Watch</div></div>
-        <div onclick="setCatGrid('Purse')" class="cat-grid-item" id="catgrid-Purse"><div class="cat-grid-icon">👜</div><div class="cat-grid-label">Purse</div></div>
-        <div onclick="setCatGrid('Person')" class="cat-grid-item" id="catgrid-Person"><div class="cat-grid-icon">🧍</div><div class="cat-grid-label">Person</div></div>
-        <div onclick="setCatGrid('Other')" class="cat-grid-item" id="catgrid-Other"><div class="cat-grid-icon">📦</div><div class="cat-grid-label">Other</div></div>
-        <div onclick="setCatGrid('Animals')" class="cat-grid-item" id="catgrid-Animals"><div class="cat-grid-icon">🐕</div><div class="cat-grid-label">Animals</div></div>
+        <div onclick="setCatGrid('')" class="cat-grid-item active-cat-grid" id="catgrid-all"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="22" cy="22" r="14" fill="#FFF0E6" stroke="#E8722A" stroke-width="3"/><circle cx="22" cy="22" r="8" fill="#E8722A" opacity="0.2"/><line x1="32" y1="32" x2="42" y2="42" stroke="#E8722A" stroke-width="4" stroke-linecap="round"/><circle cx="22" cy="22" r="5" fill="#E8722A"/></svg></div><div class="cat-grid-label">All</div></div>
+        <div onclick="setCatGrid('Wallet')" class="cat-grid-item" id="catgrid-Wallet"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="14" width="40" height="26" rx="4" fill="#8B5E3C"/><rect x="4" y="14" width="40" height="8" rx="2" fill="#6B4226"/><rect x="28" y="25" width="14" height="10" rx="3" fill="#F5C842"/><circle cx="35" cy="30" r="2.5" fill="#E8A000"/><rect x="4" y="10" width="32" height="6" rx="2" fill="#A0714F"/></svg></div><div class="cat-grid-label">Wallet</div></div>
+        <div onclick="setCatGrid('Phone')" class="cat-grid-item" id="catgrid-Phone"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="3" width="24" height="42" rx="4" fill="#1A1A2E"/><rect x="14" y="7" width="20" height="32" rx="2" fill="#3B82F6" opacity="0.5"/><circle cx="24" cy="43" r="2" fill="#555"/><rect x="19" y="5" width="10" height="2" rx="1" fill="#555"/></svg></div><div class="cat-grid-label">Phone</div></div>
+        <div onclick="setCatGrid('Keys')" class="cat-grid-item" id="catgrid-Keys"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="20" r="11" fill="#F5C842" stroke="#E8A000" stroke-width="2.5"/><circle cx="16" cy="20" r="5" fill="#FFF" stroke="#E8A000" stroke-width="2"/><rect x="24" y="18" width="18" height="4" rx="2" fill="#E8A000"/><rect x="36" y="22" width="4" height="5" rx="1" fill="#E8A000"/><rect x="30" y="22" width="4" height="4" rx="1" fill="#E8A000"/></svg></div><div class="cat-grid-label">Keys</div></div>
+        <div onclick="setCatGrid('Bag')" class="cat-grid-item" id="catgrid-Bag"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="16" width="38" height="28" rx="3" fill="#6B4226"/><rect x="5" y="16" width="38" height="8" rx="2" fill="#8B5E3C"/><rect x="18" y="8" width="12" height="10" rx="4" fill="none" stroke="#6B4226" stroke-width="3"/><rect x="3" y="23" width="42" height="3" rx="1.5" fill="#5A3520"/><rect x="20" y="27" width="8" height="6" rx="1" fill="#F5C842"/></svg></div><div class="cat-grid-label">Bag</div></div>
+        <div onclick="setCatGrid('Jewellery')" class="cat-grid-item" id="catgrid-Jewellery"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="32" r="12" fill="none" stroke="#C084FC" stroke-width="3"/><path d="M16 20 L24 8 L32 20 Z" fill="#A855F7"/><path d="M18 20 L24 14 L30 20 L24 26 Z" fill="#C084FC"/><circle cx="24" cy="32" r="5" fill="#E9D5FF"/><circle cx="24" cy="32" r="2.5" fill="#A855F7"/></svg></div><div class="cat-grid-label">Jewellery</div></div>
+        <div onclick="setCatGrid('Backpack')" class="cat-grid-item" id="catgrid-Backpack"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="10" width="28" height="34" rx="6" fill="#2563EB"/><rect x="14" y="6" width="8" height="6" rx="2" fill="#1D4ED8"/><rect x="26" y="6" width="8" height="6" rx="2" fill="#1D4ED8"/><rect x="13" y="24" width="22" height="12" rx="3" fill="#1D4ED8"/><rect x="22" y="27" width="4" height="6" rx="1" fill="#60A5FA"/><rect x="10" y="14" width="4" height="18" rx="2" fill="#1E40AF"/><rect x="34" y="14" width="4" height="18" rx="2" fill="#1E40AF"/></svg></div><div class="cat-grid-label">Backpack</div></div>
+        <div onclick="setCatGrid('Laptop')" class="cat-grid-item" id="catgrid-Laptop"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="8" width="36" height="25" rx="3" fill="#374151"/><rect x="8" y="10" width="32" height="21" rx="2" fill="#1E293B"/><rect x="2" y="33" width="44" height="5" rx="2" fill="#4B5563"/><rect x="18" y="35" width="12" height="2" rx="1" fill="#9CA3AF"/><line x1="14" y1="18" x2="22" y2="18" stroke="#3B82F6" stroke-width="2" stroke-linecap="round"/><line x1="14" y1="22" x2="34" y2="22" stroke="#60A5FA" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="cat-grid-label">Laptop</div></div>
+        <div onclick="setCatGrid('Pet')" class="cat-grid-item" id="catgrid-Pet"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="24" cy="28" rx="12" ry="10" fill="#F97316"/><ellipse cx="14" cy="16" rx="5" ry="7" fill="#F97316" transform="rotate(-15 14 16)"/><ellipse cx="34" cy="16" rx="5" ry="7" fill="#F97316" transform="rotate(15 34 16)"/><circle cx="20" cy="24" r="2.5" fill="#1A1A1A"/><circle cx="28" cy="24" r="2.5" fill="#1A1A1A"/><ellipse cx="24" cy="30" rx="4" ry="2.5" fill="#FDA97B"/></svg></div><div class="cat-grid-label">Pet</div></div>
+        <div onclick="setCatGrid('Glasses')" class="cat-grid-item" id="catgrid-Glasses"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="15" cy="26" r="10" fill="none" stroke="#2563EB" stroke-width="3"/><circle cx="33" cy="26" r="10" fill="none" stroke="#2563EB" stroke-width="3"/><circle cx="15" cy="26" r="7" fill="#DBEAFE" opacity="0.6"/><circle cx="33" cy="26" r="7" fill="#DBEAFE" opacity="0.6"/><path d="M25 26 Q24 24 23 26" stroke="#2563EB" stroke-width="2.5" fill="none" stroke-linecap="round"/><line x1="2" y1="22" x2="5" y2="24" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round"/><line x1="43" y1="22" x2="46" y2="24" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="cat-grid-label">Glasses</div></div>
+        <div onclick="setCatGrid('Documents')" class="cat-grid-item" id="catgrid-Documents"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="4" width="32" height="40" rx="3" fill="#F0FDF4"/><rect x="8" y="4" width="32" height="40" rx="3" stroke="#16A34A" stroke-width="2"/><rect x="8" y="4" width="32" height="14" rx="3" fill="#16A34A"/><circle cx="19" cy="11" r="5" fill="#FFF" opacity="0.9"/><rect x="26" y="8" width="10" height="2" rx="1" fill="#FFF" opacity="0.8"/><rect x="26" y="12" width="8" height="2" rx="1" fill="#FFF" opacity="0.6"/><rect x="13" y="24" width="22" height="2" rx="1" fill="#16A34A" opacity="0.5"/><rect x="13" y="29" width="18" height="2" rx="1" fill="#16A34A" opacity="0.4"/><rect x="13" y="34" width="20" height="2" rx="1" fill="#16A34A" opacity="0.3"/></svg></div><div class="cat-grid-label">Documents</div></div>
+        <div onclick="setCatGrid('Watch')" class="cat-grid-item" id="catgrid-Watch"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="2" width="12" height="8" rx="2" fill="#4B5563"/><rect x="18" y="38" width="12" height="8" rx="2" fill="#4B5563"/><circle cx="24" cy="24" r="15" fill="#F5C842" stroke="#E8A000" stroke-width="2"/><circle cx="24" cy="24" r="12" fill="#1A1A2E"/><line x1="24" y1="24" x2="24" y2="16" stroke="#FFF" stroke-width="2" stroke-linecap="round"/><line x1="24" y1="24" x2="29" y2="24" stroke="#E8722A" stroke-width="2" stroke-linecap="round"/><circle cx="24" cy="24" r="1.5" fill="#E8722A"/></svg></div><div class="cat-grid-label">Watch</div></div>
+        <div onclick="setCatGrid('Purse')" class="cat-grid-item" id="catgrid-Purse"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 20 Q10 12 24 12 Q38 12 38 20 L40 40 Q40 44 36 44 L12 44 Q8 44 8 40 Z" fill="#EC4899"/><path d="M16 12 Q16 6 24 6 Q32 6 32 12" fill="none" stroke="#BE185D" stroke-width="3" stroke-linecap="round"/><rect x="18" y="24" width="12" height="8" rx="3" fill="#FDF2F8"/><circle cx="24" cy="28" r="2" fill="#EC4899"/></svg></div><div class="cat-grid-label">Purse</div></div>
+        <div onclick="setCatGrid('Person')" class="cat-grid-item" id="catgrid-Person"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="13" r="9" fill="#FED7AA" stroke="#EA580C" stroke-width="2"/><path d="M8 44 Q8 28 24 28 Q40 28 40 44" fill="#EA580C"/></svg></div><div class="cat-grid-label">Person</div></div>
+        <div onclick="setCatGrid('Car')" class="cat-grid-item" id="catgrid-Car"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="22" width="42" height="16" rx="3" fill="#DC2626"/><path d="M8 22 L13 12 L35 12 L40 22" fill="#EF4444"/><rect x="13" y="14" width="9" height="8" rx="1" fill="#BFDBFE" opacity="0.9"/><rect x="26" y="14" width="9" height="8" rx="1" fill="#BFDBFE" opacity="0.9"/><circle cx="12" cy="36" r="5" fill="#1A1A1A" stroke="#555" stroke-width="1.5"/><circle cx="12" cy="36" r="2.5" fill="#555"/><circle cx="36" cy="36" r="5" fill="#1A1A1A" stroke="#555" stroke-width="1.5"/><circle cx="36" cy="36" r="2.5" fill="#555"/><rect x="3" y="26" width="5" height="4" rx="1" fill="#FDE047"/><rect x="40" y="26" width="5" height="4" rx="1" fill="#F87171"/></svg></div><div class="cat-grid-label">Car</div></div>
+        <div onclick="setCatGrid('Bike')" class="cat-grid-item" id="catgrid-Bike"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="34" r="8" fill="none" stroke="#1A1A1A" stroke-width="3"/><circle cx="11" cy="34" r="3" fill="#555"/><circle cx="37" cy="34" r="8" fill="none" stroke="#1A1A1A" stroke-width="3"/><circle cx="37" cy="34" r="3" fill="#555"/><path d="M11 34 L22 18 L37 34" fill="none" stroke="#E8722A" stroke-width="3" stroke-linejoin="round"/><path d="M22 18 L30 18" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round"/><path d="M7 22 L15 22" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round"/><ellipse cx="27" cy="17" rx="5" ry="3" fill="#E8722A"/><rect x="26" y="8" width="3" height="10" rx="1" fill="#555"/><path d="M23 8 L32 8" stroke="#555" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="cat-grid-label">Bike</div></div>
+        <div onclick="setCatGrid('Cycle')" class="cat-grid-item" id="catgrid-Cycle"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="34" r="9" fill="none" stroke="#0D9488" stroke-width="3"/><circle cx="10" cy="34" r="3" fill="#0D9488"/><circle cx="38" cy="34" r="9" fill="none" stroke="#0D9488" stroke-width="3"/><circle cx="38" cy="34" r="3" fill="#0D9488"/><path d="M10 34 L24 16 L38 34" fill="none" stroke="#0D9488" stroke-width="3" stroke-linejoin="round"/><path d="M20 16 L28 16" stroke="#555" stroke-width="3" stroke-linecap="round"/><path d="M24 16 L24 12" stroke="#555" stroke-width="3" stroke-linecap="round"/><path d="M20 12 L28 12" stroke="#555" stroke-width="3" stroke-linecap="round"/><path d="M6 24 L14 24" stroke="#555" stroke-width="2.5" stroke-linecap="round"/></svg></div><div class="cat-grid-label">Cycle</div></div>
+        <div onclick="setCatGrid('Animals')" class="cat-grid-item" id="catgrid-Animals"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><ellipse cx="24" cy="28" rx="14" ry="10" fill="#E8722A"/><ellipse cx="11" cy="17" rx="5" ry="7" fill="#E8722A" transform="rotate(-20 11 17)"/><ellipse cx="37" cy="17" rx="5" ry="7" fill="#E8722A" transform="rotate(20 37 17)"/><ellipse cx="24" cy="26" rx="8" ry="6" fill="#FED7AA"/><circle cx="19" cy="24" r="2.5" fill="#111"/><circle cx="29" cy="24" r="2.5" fill="#111"/><line x1="10" y1="34" x2="6" y2="42" stroke="#E8722A" stroke-width="3" stroke-linecap="round"/><line x1="18" y1="37" x2="16" y2="44" stroke="#E8722A" stroke-width="3" stroke-linecap="round"/><line x1="30" y1="37" x2="32" y2="44" stroke="#E8722A" stroke-width="3" stroke-linecap="round"/><line x1="38" y1="34" x2="42" y2="42" stroke="#E8722A" stroke-width="3" stroke-linecap="round"/></svg></div><div class="cat-grid-label">Animals</div></div>
+        <div onclick="setCatGrid('Other')" class="cat-grid-item" id="catgrid-Other"><div style="width:36px;height:36px;margin:0 auto 6px;"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="16" width="36" height="28" rx="2" fill="#92400E"/><rect x="6" y="16" width="36" height="6" rx="1" fill="#78350F"/><path d="M6 16 L14 10 L34 10 L42 16" fill="#A16207"/><rect x="20" y="27" width="8" height="10" rx="1" fill="#F5C842" opacity="0.8"/><line x1="20" y1="32" x2="28" y2="32" stroke="#A16207" stroke-width="1.5"/></svg></div><div class="cat-grid-label">Other</div></div>
       </div>
     </div>
-
-    <!-- Active filter label -->
-    <div id="filter-label" style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;">🔍 All Posts</div>
-
-    <!-- Listings -->
+    <div id="filter-label"<div id="filter-label" style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;">🔍 All Posts</div>
     <div id="listings-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"></div>
     <div id="no-posts" style="text-align:center;padding:40px 0 20px;color:var(--text-muted);">
       <div style="font-size:48px;margin-bottom:12px;">🔍</div>
@@ -246,10 +195,9 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
       <p style="font-size:14px;">Be the first to post!</p>
     </div>
   </div>
-
   <footer>
     <div class="footer-brand">Find<span>Back</span> S1</div>
-    <div class="footer-tagline">Find what the world lost —India's trusted lost &amp; found platform.</div>
+    <div class="footer-tagline">Find what the world lost — India's trusted lost &amp; found platform.</div>
     <div class="footer-grid">
       <div class="footer-col">
         <h5>Company</h5>
@@ -262,14 +210,14 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
         <h5>Legal</h5>
         <a onclick="showPage('terms')">📜 Terms of Service</a>
         <a onclick="showPage('privacy')">🔒 Privacy Policy</a>
-        <a onclick="showPage('qrtag')">🏷️QR Smart Tag</a>
+        <a onclick="showPage('qrtag')">🏷️ QR Smart Tag</a>
         <a onclick="showPage('reward')">💰 Reward System</a>
       </div>
       <div class="footer-col">
         <h5>Account</h5>
         <a onclick="showPage('login')">🔑 Log In</a>
         <a onclick="showPage('register')">📝 Register</a>
-        <a onclick="showPage('admin')">🛡️Admin</a>
+        <a onclick="showPage('admin')">🛡️ Admin</a>
       </div>
       <div class="footer-col">
         <h5>Quick Links</h5>
@@ -290,36 +238,36 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
   </footer>
 </div>
 
-<!-- ===== ABOUT PAGE ===== -->
+<!-- ABOUT PAGE -->
 <div class="page" id="page-about">
   <div class="page-content">
-    <div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">←Back</div>
+    <div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div>
     <div class="page-title">About FindBack S1</div>
     <div class="page-subtitle">India's trusted lost &amp; found platform</div>
-    <div class="about-card"><h3>🎯 Our Mission</h3><p>FindBack S1 was built to solve a real problem —thousands of items are lost every day across India, and there was no single trusted place to report and reunite them. We're on a mission to change that, one item at a time.</p></div>
-    <div class="about-card"><h3>🌍 How It Works</h3><p>When you lose something, you post it on FindBack. When you find something, you post it too. Our platform intelligently matches lost and found posts so items can be returned to their rightful owners —quickly and safely.</p></div>
+    <div class="about-card"><h3>🎯 Our Mission</h3><p>FindBack S1 was built to solve a real problem — thousands of items are lost every day across India, and there was no single trusted place to report and reunite them.</p></div>
+    <div class="about-card"><h3>🌍 How It Works</h3><p>When you lose something, you post it on FindBack. When you find something, you post it too. Our platform intelligently matches lost and found posts so items can be returned to their rightful owners.</p></div>
     <div class="stat-row">
       <div class="stat-box"><div class="num">2024</div><div class="lbl">Founded</div></div>
       <div class="stat-box"><div class="num">India</div><div class="lbl">Region</div></div>
       <div class="stat-box"><div class="num">Free</div><div class="lbl">Always</div></div>
     </div>
-    <div class="about-card"><h3>🛡️Our Values</h3><p>We believe in transparency, community trust, and privacy. Your data is never sold. Our platform is and will always remain free to use for anyone who needs to find what they lost.</p></div>
-    <div class="about-card"><h3>👤 The Team</h3><p>FindBack S1 is built and maintained by a passionate solo founder from India, driven by the belief that technology can solve everyday human problems. This is Season 1 —just the beginning.</p></div>
+    <div class="about-card"><h3>🛡️ Our Values</h3><p>We believe in transparency, community trust, and privacy. Your data is never sold. Our platform is and will always remain free to use.</p></div>
+    <div class="about-card"><h3>👤 The Team</h3><p>FindBack S1 is built and maintained by a passionate founder from India, driven by the belief that technology can solve everyday human problems. This is Season 1 — just the beginning.</p></div>
   </div>
 </div>
 
-<!-- ===== CONTACT PAGE ===== -->
+<!-- CONTACT PAGE -->
 <div class="page" id="page-contact">
   <div class="page-content">
-    <div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">←Back</div>
+    <div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div>
     <div class="page-title">Contact Us</div>
-    <div class="page-subtitle">We're here to help —reach out anytime</div>
-    <a class="contact-method" href="/cdn-cgi/l/email-protection#b9caccc9c9d6cbcdf9dfd0d7dddbd8dad297d0d7"><div class="contact-icon">📧</div><div><h4>Email Support</h4><p><span class="__cf_email__" data-cfemail="0f7c7a7f7f607d7b4f6966616b6d6e6c64216661">[email&#160;protected]</span></p></div></a>
+    <div class="page-subtitle">We're here to help — reach out anytime</div>
+    <a class="contact-method" href="mailto:support@findback.in"><div class="contact-icon">📧</div><div><h4>Email Support</h4><p>support@findback.in</p></div></a>
     <a class="contact-method" href="https://wa.me/919999999999" target="_blank"><div class="contact-icon">💬</div><div><h4>WhatsApp</h4><p>Chat with us on WhatsApp</p></div></a>
     <a class="contact-method" href="#"><div class="contact-icon">🐦</div><div><h4>Twitter / X</h4><p>@FindBackS1</p></div></a>
     <div class="divider"></div>
     <div style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;margin-bottom:16px;">Send a Message</div>
-    <div id="contact-success" class="alert-success">✅Message sent! We'll get back to you soon.</div>
+    <div id="contact-success" class="alert-success">✅ Message sent! We'll get back to you soon.</div>
     <div class="contact-form">
       <div class="form-group"><label>👤 Your Name</label><div class="input-icon-wrap"><span class="icon">👤</span><input type="text" id="c-name" placeholder="Enter your name"></div></div>
       <div class="form-group"><label>📱 Email or Phone</label><div class="input-icon-wrap"><span class="icon">📱</span><input type="text" id="c-email" placeholder="Email or WhatsApp number"></div></div>
@@ -330,16 +278,16 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
   </div>
 </div>
 
-<!-- ===== CUSTOMERS PAGE ===== -->
+<!-- CUSTOMERS PAGE -->
 <div class="page" id="page-customers">
   <div class="page-content">
-    <div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">←Back</div>
+    <div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div>
     <div class="page-title">Our Users Love Us ❤️</div>
     <div class="page-subtitle">Real stories from people who got their items back</div>
-    <div class="customer-card"><div class="stars">★u2605★u2605★</div><h4>👜 Got my wallet back in 2 days!</h4><p>Lost my wallet at Delhi Metro. Posted on FindBack and someone found it and contacted me through the platform. Recovered everything —cards, cash, ID. This platform is a blessing.</p><div class="meta">—Rohit S., Delhi •👛 Lost Item: Wallet</div></div>
-    <div class="customer-card"><div class="stars">★u2605★u2605★</div><h4>📱 Found someone's phone, reunited via FindBack</h4><p>Found a phone near Bengaluru Bus Stand. Posted on FindBack Found section. Within 6 hours, the owner messaged me. Felt so good returning it. This app is needed in every city.</p><div class="meta">—Priya K., Bengaluru •📲 Found Item: Smartphone</div></div>
-    <div class="customer-card"><div class="stars">★u2605★u2605☆</div><h4>🐕 Recovered my lost dog</h4><p>Our pet dog went missing near our colony. Posted on FindBack Missing section with photo. A neighbor had sheltered him and saw our post! Got him back in 3 days. So relieved.</p><div class="meta">—Anita M., Pune •🐾 Missing: Pet Dog</div></div>
-    <div class="customer-card"><div class="stars">★u2605★u2605★</div><h4>🗝️Simple, fast, and actually works</h4><p>Other apps are cluttered. FindBack is clean and straightforward. Posted my lost keys, got a match the next morning. 10/10 would recommend to everyone in India.</p><div class="meta">—Vikram T., Mumbai •🔑 Lost Item: Keys</div></div>
+    <div class="customer-card"><div class="stars">★★★★★</div><h4>👜 Got my wallet back in 2 days!</h4><p>Lost my wallet at Delhi Metro. Posted on FindBack and someone found it and contacted me. Recovered everything — cards, cash, ID.</p><div class="meta">— Rohit S., Delhi • 👛 Lost Item: Wallet</div></div>
+    <div class="customer-card"><div class="stars">★★★★★</div><h4>📱 Found someone's phone, reunited via FindBack</h4><p>Found a phone near Bengaluru Bus Stand. Posted on FindBack Found section. Within 6 hours, the owner messaged me.</p><div class="meta">— Priya K., Bengaluru • 📲 Found Item: Smartphone</div></div>
+    <div class="customer-card"><div class="stars">★★★★☆</div><h4>🐕 Recovered my lost dog</h4><p>Our pet dog went missing near our colony. Posted on FindBack Missing section with photo. A neighbor had sheltered him and saw our post!</p><div class="meta">— Anita M., Pune • 🐾 Missing: Pet Dog</div></div>
+    <div class="customer-card"><div class="stars">★★★★★</div><h4>🗝️ Simple, fast, and actually works</h4><p>Other apps are cluttered. FindBack is clean and straightforward. Posted my lost keys, got a match the next morning.</p><div class="meta">— Vikram T., Mumbai • 🔑 Lost Item: Keys</div></div>
     <div style="background:var(--gray);border-radius:14px;padding:20px;text-align:center;margin-top:8px;">
       <div style="font-size:32px;margin-bottom:8px;">📣</div>
       <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:15px;margin-bottom:6px;">Share Your Story</div>
@@ -349,75 +297,60 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
   </div>
 </div>
 
-<!-- ===== TERMS ===== -->
+<!-- TERMS -->
 <div class="page" id="page-terms">
   <div class="page-content">
-    <div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">←Back</div>
+    <div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div>
     <div class="page-title">Terms of Service</div>
     <div class="legal-date">Last updated: January 1, 2025</div>
-    <div class="legal-section"><h3>📋 1. Acceptance of Terms</h3><p>By accessing or using FindBack S1 ("the Platform"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our platform.</p></div>
+    <div class="legal-section"><h3>📋 1. Acceptance of Terms</h3><p>By accessing or using FindBack S1, you agree to be bound by these Terms of Service.</p></div>
     <div class="divider"></div>
-    <div class="legal-section"><h3>🖥️2. Use of the Platform</h3><p>FindBack S1 is a free platform for reporting lost and found items across India. You agree to:</p><ul><li>✅Provide accurate and honest information in your posts</li><li>❌Not post false, misleading, or fraudulent claims</li><li>🤝 Respect the privacy and safety of other users</li><li>🚫 Not use the platform for commercial solicitation</li><li>⚠️ Not post illegal or harmful content</li></ul></div>
+    <div class="legal-section"><h3>🖥️ 2. Use of the Platform</h3><p>FindBack S1 is a free platform for reporting lost and found items across India. You agree to provide accurate information and not post false or fraudulent claims.</p></div>
     <div class="divider"></div>
-    <div class="legal-section"><h3>📝 3. User Content</h3><p>When you post content on FindBack S1, you grant us a non-exclusive, royalty-free license to display and distribute that content on our platform. You retain ownership of your content. You are solely responsible for the accuracy of your posts.</p></div>
+    <div class="legal-section"><h3>📝 3. User Content</h3><p>When you post content on FindBack S1, you grant us a non-exclusive license to display that content. You retain ownership of your content.</p></div>
     <div class="divider"></div>
-    <div class="legal-section"><h3>🚫 4. Prohibited Activities</h3><p>You must not:</p><ul><li>🤥 Claim items that do not belong to you</li><li>🎭 Impersonate other users or entities</li><li>💻 Attempt to hack, exploit, or disrupt the platform</li><li>😠 Harass or threaten other users</li><li>📨 Post spam, phishing links, or malicious content</li></ul></div>
+    <div class="legal-section"><h3>⚠️ 5. Disclaimers</h3><p>FindBack S1 is a directory platform. We do not verify all claims made by users and are not responsible for the outcome of item reunification.</p></div>
     <div class="divider"></div>
-    <div class="legal-section"><h3>⚠️ 5. Disclaimers</h3><p>FindBack S1 is a directory platform. We do not verify all claims made by users, and we are not responsible for the outcome of item reunification. We strongly recommend verifying ownership before handing over any found item.</p></div>
-    <div class="divider"></div>
-    <div class="legal-section"><h3>⚖️ 6. Limitation of Liability</h3><p>FindBack S1 and its founders shall not be liable for any indirect, incidental, or consequential damages arising from the use or inability to use the platform.</p></div>
-    <div class="divider"></div>
-    <div class="legal-section"><h3>🔄 7. Changes to Terms</h3><p>We reserve the right to update these terms at any time. Continued use of the platform after changes constitutes acceptance of the new terms.</p></div>
-    <div class="divider"></div>
-    <div class="legal-section"><h3>📬 8. Contact</h3><p>For questions about these terms, email us at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="89fafcf9f9e6fbfdc9efe0e7edebe8eae2a7e0e7">[email&#160;protected]</a></strong></p></div>
+    <div class="legal-section"><h3>📬 8. Contact</h3><p>For questions about these terms, email us at <strong>support@findback.in</strong></p></div>
   </div>
 </div>
 
-<!-- ===== PRIVACY ===== -->
+<!-- PRIVACY -->
 <div class="page" id="page-privacy">
   <div class="page-content">
-    <div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">←Back</div>
+    <div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div>
     <div class="page-title">Privacy Policy</div>
     <div class="legal-date">Last updated: January 1, 2025</div>
-    <div class="legal-section"><h3>📦 1. What We Collect</h3><p>When you use FindBack S1, we may collect:</p><ul><li>👤 Name and contact information (if you provide it)</li><li>📋 Content of your lost/found posts</li><li>📱 Device and browser information</li><li>📊 Usage patterns (pages viewed, time spent)</li></ul></div>
+    <div class="legal-section"><h3>📦 1. What We Collect</h3><p>Name and contact information, content of your lost/found posts, device information, and usage patterns.</p></div>
     <div class="divider"></div>
-    <div class="legal-section"><h3>🔧 2. How We Use Your Data</h3><p>We use your information to:</p><ul><li>📢 Display your lost/found posts on the platform</li><li>💬 Allow other users to contact you about your posts</li><li>⚡Improve the platform's performance and features</li><li>📣 Send important service updates (if you register)</li></ul></div>
+    <div class="legal-section"><h3>🚫 3. We Never Sell Your Data</h3><p>FindBack S1 does not sell, rent, or trade your personal information to any third party.</p></div>
     <div class="divider"></div>
-    <div class="legal-section"><h3>🚫 3. We Never Sell Your Data</h3><p>FindBack S1 does not sell, rent, or trade your personal information to any third party. Your data is used only to operate and improve this platform.</p></div>
-    <div class="divider"></div>
-    <div class="legal-section"><h3>🗄️4. Data Storage</h3><p>Your data may be stored on servers located in India or internationally. We take reasonable steps to protect your information from unauthorized access, loss, or misuse.</p></div>
-    <div class="divider"></div>
-    <div class="legal-section"><h3>🍪 5. Cookies</h3><p>We use cookies to keep you logged in and remember your preferences. You can disable cookies in your browser settings, though some features may not work correctly.</p></div>
-    <div class="divider"></div>
-    <div class="legal-section"><h3>⚖️ 6. Your Rights</h3><p>You have the right to:</p><ul><li>🗑️Request deletion of your account and posts</li><li>👁️Access the personal information we hold about you</li><li>✏️ Correct any inaccurate information</li></ul></div>
-    <div class="divider"></div>
-    <div class="legal-section"><h3>📬 7. Contact</h3><p>For privacy concerns, write to us at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a2d1d7d2d2cdd0d6e2c4cbccc6c0c3c1c98ccbcc">[email&#160;protected]</a></strong></p></div>
+    <div class="legal-section"><h3>📬 7. Contact</h3><p>For privacy concerns, write to us at <strong>support@findback.in</strong></p></div>
   </div>
 </div>
 
-<!-- ===== LOGIN PAGE ===== -->
+<!-- LOGIN PAGE -->
 <div class="page" id="page-login">
   <div class="page-content" style="display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 120px);">
-    <div style="margin-bottom:16px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">←Back</div>
+    <div style="margin-bottom:16px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div>
     <div class="auth-card">
       <div class="auth-logo"><div class="brand">Find<span>Back</span> S1</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Welcome back 👋</div></div>
-      <div id="login-success" class="alert-success">✅Logged in successfully!</div>
+      <div id="login-success" class="alert-success">✅ Logged in successfully!</div>
       <div class="form-group"><label>📧 Email</label><div class="input-icon-wrap"><span class="icon">📧</span><input type="email" id="l-email" placeholder="Enter email"></div></div>
       <div class="form-group"><label>🔒 Password</label><div class="input-icon-wrap"><span class="icon">🔒</span><input type="password" id="l-pass" placeholder="Enter password"></div></div>
-      <div style="text-align:right;margin:-8px 0 16px;"><a style="font-size:13px;color:var(--orange);text-decoration:none;cursor:pointer;">Forgot password?</a></div>
       <button class="btn-primary" style="width:100%" onclick="doLogin()">Log In</button>
       <div class="auth-switch">Don't have an account? <a onclick="showPage('register')">Register</a></div>
     </div>
   </div>
 </div>
 
-<!-- ===== REGISTER PAGE ===== -->
+<!-- REGISTER PAGE -->
 <div class="page" id="page-register">
   <div class="page-content" style="display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 120px);">
-    <div style="margin-bottom:16px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">←Back</div>
+    <div style="margin-bottom:16px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div>
     <div class="auth-card">
       <div class="auth-logo"><div class="brand">Find<span>Back</span> S1</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Create your free account</div></div>
-      <div id="reg-success" class="alert-success">✅Account created! Welcome to FindBack!</div>
+      <div id="reg-success" class="alert-success">✅ Account created! Welcome to FindBack!</div>
       <div class="form-group"><label>👤 Full Name</label><div class="input-icon-wrap"><span class="icon">👤</span><input type="text" id="r-name" placeholder="Your full name"></div></div>
       <div class="form-group"><label>📧 Email Address</label><div class="input-icon-wrap"><span class="icon">📧</span><input type="email" id="r-email" placeholder="your@email.com"></div></div>
       <div class="form-group"><label>📱 Phone Number</label><div class="input-icon-wrap"><span class="icon">📱</span><input type="tel" id="r-phone" placeholder="+91 XXXXX XXXXX"></div></div>
@@ -429,32 +362,29 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
   </div>
 </div>
 
-<!-- ===== ADMIN PAGE ===== -->
+<!-- ADMIN PAGE -->
 <div class="page" id="page-admin">
   <div class="page-content">
-    <div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">←Back</div>
+    <div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div>
     <div class="page-title">Admin Panel 🛡️</div>
-    <div class="page-subtitle">FindBack S1 Dashboard</div>
     <div id="admin-login-wall">
       <div class="auth-card" style="max-width:100%;">
-        <div style="text-align:center;margin-bottom:16px;"><div style="font-size:36px;">🔐</div><div style="font-family:'Sora',sans-serif;font-weight:700;margin-top:8px;">Admin Access Only</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Enter your admin credentials</div></div>
+        <div style="text-align:center;margin-bottom:16px;"><div style="font-size:36px;">🔐</div><div style="font-family:'Sora',sans-serif;font-weight:700;margin-top:8px;">Admin Access Only</div></div>
         <div class="form-group"><label>Admin Username</label><input type="text" id="a-user" placeholder="admin"></div>
-        <div class="form-group"><label>Admin Password</label><input type="password" id="a-pass" placeholder="•u2022•u2022•u2022•u2022"></div>
+        <div class="form-group"><label>Admin Password</label><input type="password" id="a-pass" placeholder="••••••••"></div>
         <button class="btn-primary" style="width:100%" onclick="adminLogin()">Enter Admin</button>
       </div>
     </div>
     <div id="admin-dashboard" style="display:none;">
       <div class="admin-grid">
         <div class="admin-stat"><div class="val" id="admin-total">0</div><div class="key">📋 Total Posts</div></div>
-        <div class="admin-stat"><div class="val" id="admin-lost">0</div><div class="key">😟 Lost Posts</div></div>
-        <div class="admin-stat"><div class="val" id="admin-found">0</div><div class="key">🎉 Found Posts</div></div>
+        <div class="admin-stat"><div class="val" id="admin-lost">0</div><div class="key">😟 Lost</div></div>
+        <div class="admin-stat"><div class="val" id="admin-found">0</div><div class="key">🎉 Found</div></div>
         <div class="admin-stat"><div class="val" id="admin-missing">0</div><div class="key">⚠️ Missing</div></div>
       </div>
       <div class="admin-actions">
         <button class="btn-sm btn-success" onclick="refreshAdminStats()">🔄 Refresh</button>
-        <button class="btn-sm btn-danger" onclick="toast('🗑️Cleared all flagged posts')">🚩 Clear Flagged</button>
       </div>
-      <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;">Recent Posts</div>
       <table class="admin-table">
         <thead><tr><th>Title</th><th>Type</th><th>Action</th></tr></thead>
         <tbody id="admin-posts-tbody"><tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:20px;">No posts yet</td></tr></tbody>
@@ -464,23 +394,22 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
   </div>
 </div>
 
-<!-- ===== REPORT MODAL ===== -->
+<!-- REPORT MODAL -->
 <div class="modal-overlay" id="report-modal">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <div class="modal-title" id="modal-title">Report Lost Item</div>
     <div class="modal-sub" id="modal-sub">Fill in details about the lost item</div>
-    <div id="modal-success" class="alert-success">✅Post submitted successfully! Others can now find it.</div>
-
+    <div id="modal-success" class="alert-success">✅ Post submitted successfully!</div>
     <div class="form-group">
-      <label>📸 Item Photos (upto 5) <span style="font-size:11px;color:var(--orange);font-weight:600;">• Max 50KB per photo</span></label>
+      <label>📸 Item Photos (up to 5) <span style="font-size:11px;color:var(--orange);font-weight:600;">• Max 250KB per photo</span></label>
       <div id="photo-upload-area" onclick="document.getElementById('m-photo').click()" style="border:2px dashed var(--border);border-radius:12px;padding:16px;text-align:center;cursor:pointer;background:var(--gray);">
-        <div id="photo-placeholder"><div style="font-size:32px;margin-bottom:6px;">📷</div><div style="font-size:13px;color:var(--text-muted);">Tap to add photos</div><div style="font-size:11px;color:#bbb;margin-top:3px;">Max 5 photos • 50KB each • JPG, PNG</div></div>
+        <div id="photo-placeholder"><div style="font-size:32px;margin-bottom:6px;">📷</div><div style="font-size:13px;color:var(--text-muted);">Tap to add photos</div><div style="font-size:11px;color:#bbb;margin-top:3px;">Max 5 photos • 250KB each • JPG, PNG</div></div>
         <div id="photos-preview" style="display:none;flex-wrap:wrap;gap:8px;justify-content:center;"></div>
       </div>
       <input type="file" id="m-photo" accept="image/*" multiple style="display:none;" onchange="previewPhotos(this)">
     </div>
-    <div class="form-group"><label>🏷️Item Name</label><input type="text" id="m-item" placeholder="e.g. 👛 Wallet, 📱 iPhone 14, 💼 Laptop bag"></div>
+    <div class="form-group"><label>🏷️ Item Name</label><input type="text" id="m-item" placeholder="e.g. Wallet, iPhone, Laptop bag"></div>
     <div class="form-group">
       <label>📂 Category</label>
       <select id="m-category">
@@ -495,10 +424,13 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
         <option value="Pet">🐾 Pet</option>
         <option value="Glasses">👓 Glasses</option>
         <option value="Documents">🎫 Documents</option>
-        <option value="Watch">⌚Watch</option>
+        <option value="Watch">⌚ Watch</option>
         <option value="Purse">👜 Purse</option>
         <option value="Person">🧍 Person</option>
         <option value="Animals">🐕 Animals</option>
+        <option value="Car">🚗 Car</option>
+        <option value="Bike">🏍️ Bike/Motorcycle</option>
+        <option value="Cycle">🚲 Cycle</option>
         <option value="Other">📦 Other</option>
       </select>
     </div>
@@ -509,22 +441,21 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
     <div class="form-group">
       <label>🏆 Reward Amount (Optional)</label>
       <div class="input-icon-wrap"><span class="icon">₹</span><input type="number" id="m-reward" placeholder="e.g. 500" min="0"></div>
-      <div style="font-size:11px;color:var(--text-muted);margin-top:4px;">💡 Reward offer karne se jaldi milne ke chances badhte hain!</div>
     </div>
     <button class="btn-primary" style="width:100%;margin-bottom:10px;" onclick="submitReport()">Submit Post</button>
     <button class="btn-outline" style="width:100%" onclick="closeModal()">Cancel</button>
   </div>
 </div>
 
-<!-- ===== EDIT MODAL ===== -->
+<!-- EDIT MODAL -->
 <div class="edit-modal-overlay" id="edit-modal">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <div class="modal-title">✏️ Edit Post</div>
     <div class="modal-sub">Update your post details</div>
-    <div id="edit-success" class="alert-success">✅Post updated successfully!</div>
+    <div id="edit-success" class="alert-success">✅ Post updated successfully!</div>
     <input type="hidden" id="e-postid">
-    <div class="form-group"><label>🏷️Item Name</label><input type="text" id="e-item" placeholder="Item name"></div>
+    <div class="form-group"><label>🏷️ Item Name</label><input type="text" id="e-item" placeholder="Item name"></div>
     <div class="form-group">
       <label>📂 Category</label>
       <select id="e-category">
@@ -539,10 +470,13 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
         <option value="Pet">🐾 Pet</option>
         <option value="Glasses">👓 Glasses</option>
         <option value="Documents">🎫 Documents</option>
-        <option value="Watch">⌚Watch</option>
+        <option value="Watch">⌚ Watch</option>
         <option value="Purse">👜 Purse</option>
         <option value="Person">🧍 Person</option>
         <option value="Animals">🐕 Animals</option>
+        <option value="Car">🚗 Car</option>
+        <option value="Bike">🏍️ Bike/Motorcycle</option>
+        <option value="Cycle">🚲 Cycle</option>
         <option value="Other">📦 Other</option>
       </select>
     </div>
@@ -556,7 +490,7 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
   </div>
 </div>
 
-<!-- ===== POST DETAIL PAGE ===== -->
+<!-- POST DETAIL PAGE -->
 <div class="page" id="page-detail">
   <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
     <span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span>
@@ -587,10 +521,10 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
   </div>
 </div>
 
-<!-- ===== PROFILE PAGE ===== -->
+<!-- PROFILE PAGE -->
 <div class="page" id="page-profile">
   <div class="page-content">
-    <div style="margin-bottom:16px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">←Back</div>
+    <div style="margin-bottom:16px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div>
     <div style="text-align:center;padding:24px 0 16px;">
       <div id="profile-avatar" style="width:72px;height:72px;border-radius:50%;background:var(--orange);color:white;font-size:32px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">U</div>
       <div id="profile-name" style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;">User</div>
@@ -600,7 +534,6 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
       <div style="background:var(--gray);border-radius:14px;padding:16px;text-align:center;"><div id="profile-posts-count" style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:var(--orange);">0</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px;">📋 My Posts</div></div>
       <div style="background:var(--gray);border-radius:14px;padding:16px;text-align:center;"><div style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:#059669;">S1</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px;">🏅 Member</div></div>
     </div>
-    <!-- My Posts List -->
     <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;">📋 My Posts</div>
     <div id="my-posts-list"></div>
     <button class="btn-primary" style="width:100%;margin-top:16px;margin-bottom:12px;" onclick="showPage('home');setTimeout(()=>openModal('lost'),100);">😟 Report Lost Item</button>
@@ -612,28 +545,22 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
   <button class="nav-item active" id="nav-home" onclick="showPage('home')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    Home
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home
   </button>
   <button class="nav-item" id="nav-lost" onclick="openModal('lost')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    Lost
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Lost
   </button>
   <button class="nav-item" id="nav-found" onclick="openModal('found')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    Found
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Found
   </button>
   <button class="nav-item" id="nav-missing" onclick="openModal('missing')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
-    Missing
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>Missing
   </button>
   <button class="nav-item" id="nav-map-btn" onclick="openMapView()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
-    Map
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>Map
   </button>
   <button class="nav-item" id="nav-alerts-btn" onclick="showPage('alerts');if(window.renderAlerts)window.renderAlerts()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-    Alerts
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>Alerts
   </button>
   <button class="nav-item" id="nav-login-btn" onclick="showPage('login')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -645,12 +572,10 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
   </button>
 </div>
 
-<!-- ===== SCRIPTS ===== -->
-
-<!-- Firebase Firestore + Posts -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
+<!-- FIREBASE SCRIPT -->
+<script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot, orderBy, query, serverTimestamp, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -665,68 +590,51 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
-
-window._allPosts = [];
 window._db = db;
 window._auth = auth;
+window._allPosts = [];
 
-// Real-time listener
 const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
 onSnapshot(q, (snapshot) => {
   window._allPosts = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
   window._renderAll();
   refreshAdminStats();
-  // If map page is open, refresh it
   const mapPage = document.getElementById('page-map');
   if (mapPage && mapPage.classList.contains('active')) renderMapPins();
 });
 
-// Auth state
 onAuthStateChanged(auth, (user) => {
   window._currentUser = user || null;
-  updateNavForUser(user);
-  setTimeout(() => { if (window._renderAll) window._renderAll(); }, 400);
-});
-
-function updateNavForUser(user) {
   const loginBtn = document.getElementById('nav-login-btn');
   const profileBtn = document.getElementById('nav-profile-btn');
   if (user) {
     if (loginBtn) loginBtn.style.display = 'none';
-    if (profileBtn) {
-      profileBtn.style.display = 'flex';
-      profileBtn.querySelector('.nav-label').textContent = user.displayName ? user.displayName.split(' ')[0] : 'Profile';
-    }
+    if (profileBtn) { profileBtn.style.display = 'flex'; profileBtn.querySelector('.nav-label').textContent = user.displayName ? user.displayName.split(' ')[0] : 'Profile'; }
   } else {
     if (loginBtn) loginBtn.style.display = 'flex';
     if (profileBtn) profileBtn.style.display = 'none';
   }
-}
+  setTimeout(() => { if (window._renderAll) window._renderAll(); }, 400);
+});
 
-// Submit new post
 window.submitToFirebase = async function() {
   const item = document.getElementById('m-item').value.trim();
   const loc  = document.getElementById('m-loc').value.trim();
   if (!item || !loc) { window.toast('⚠️ Item name aur location zaroori hai'); return; }
-  const date     = document.getElementById('m-date').value;
-  const desc     = document.getElementById('m-desc').value.trim();
-  const contact  = document.getElementById('m-contact').value.trim();
+  const date = document.getElementById('m-date').value;
+  const desc = document.getElementById('m-desc').value.trim();
+  const contact = document.getElementById('m-contact').value.trim();
   const category = document.getElementById('m-category').value;
-  const reward   = document.getElementById('m-reward').value.trim();
-  const type     = window.currentModal;
-  const photos   = window.currentPhotosData || [];
-  const photo    = photos.length ? photos[0] : null;
-  const uid      = window._currentUser ? window._currentUser.uid : null;
+  const reward = document.getElementById('m-reward').value.trim();
+  const type = window.currentModal;
+  const photos = window.currentPhotosData || [];
+  const uid = window._currentUser ? window._currentUser.uid : null;
   const authorName = window._currentUser ? (window._currentUser.displayName || 'Anonymous') : 'Anonymous';
   const btn = document.querySelector('#report-modal .btn-primary');
   btn.textContent = 'Submitting...'; btn.disabled = true;
   try {
-    // Don't store base64 photos in Firestore (causes invalid-argument error - too large)
-    // Store only text metadata; photos saved locally in browser
-    const photoCount = photos ? photos.length : 0;
-    await addDoc(collection(db, "posts"), { type, item, loc, date, desc, contact, category, reward, uid, authorName, photoCount, createdAt: serverTimestamp() });
+    await addDoc(collection(db, "posts"), { type, item, loc, date, desc, contact, category, reward, uid, authorName, photoCount: photos.length, createdAt: serverTimestamp() });
     document.getElementById('modal-success').style.display = 'block';
-    // Check area alerts for this new post
     if (window.checkAreaAlerts) window.checkAreaAlerts({ type, item, loc, category });
     setTimeout(() => {
       window.closeModal();
@@ -734,61 +642,47 @@ window.submitToFirebase = async function() {
       document.getElementById('photos-preview').innerHTML = '';
       document.getElementById('photos-preview').style.display = 'none';
       document.getElementById('photo-placeholder').style.display = 'block';
-      ['m-photo','m-item','m-loc','m-date','m-desc','m-contact','m-reward'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = '';
-      });
+      ['m-photo','m-item','m-loc','m-date','m-desc','m-contact','m-reward'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
       document.getElementById('m-category').value = '';
       btn.textContent = 'Submit Post'; btn.disabled = false;
     }, 1800);
   } catch(e) {
-    alert('Firebase Error: ' + (e.code || e.message || JSON.stringify(e))); window.toast('❌ ' + (e.code || e.message || 'Error'));
+    window.toast('❌ ' + (e.code || e.message || 'Error'));
     btn.textContent = 'Submit Post'; btn.disabled = false;
   }
 };
 
-// Delete post
 window.deletePost = async function(id) {
   if (!confirm('Yeh post delete karna chahte ho?')) return;
-  try {
-    await deleteDoc(doc(db, "posts", id));
-    window.toast('🗑️Post deleted!');
-    showPage('home');
-  } catch(e) {
-    window.toast('❌Delete failed.');
-  }
+  try { await deleteDoc(doc(db, "posts", id)); window.toast('🗑️ Post deleted!'); showPage('home'); }
+  catch(e) { window.toast('❌ Delete failed.'); }
 };
 
-// Update post
 window.submitEdit = async function() {
   const id = document.getElementById('e-postid').value;
   if (!id) return;
-  const item     = document.getElementById('e-item').value.trim();
-  const loc      = document.getElementById('e-loc').value.trim();
+  const item = document.getElementById('e-item').value.trim();
+  const loc  = document.getElementById('e-loc').value.trim();
   if (!item || !loc) { window.toast('⚠️ Item name aur location zaroori hai'); return; }
   const category = document.getElementById('e-category').value;
-  const date     = document.getElementById('e-date').value;
-  const desc     = document.getElementById('e-desc').value.trim();
-  const contact  = document.getElementById('e-contact').value.trim();
-  const reward   = document.getElementById('e-reward').value.trim();
+  const date = document.getElementById('e-date').value;
+  const desc = document.getElementById('e-desc').value.trim();
+  const contact = document.getElementById('e-contact').value.trim();
+  const reward = document.getElementById('e-reward').value.trim();
   const btn = document.querySelector('#edit-modal .btn-primary');
   btn.textContent = 'Updating...'; btn.disabled = true;
   try {
     await updateDoc(doc(db, "posts", id), { item, loc, category, date, desc, contact, reward });
     document.getElementById('edit-success').style.display = 'block';
-    window.toast('✅Post updated!');
+    window.toast('✅ Post updated!');
     setTimeout(() => { window.closeEditModal(); btn.textContent = 'Update Post'; btn.disabled = false; }, 1500);
-  } catch(e) {
-    window.toast('❌Update failed.');
-    btn.textContent = 'Update Post'; btn.disabled = false;
-  }
+  } catch(e) { window.toast('❌ Update failed.'); btn.textContent = 'Update Post'; btn.disabled = false; }
 };
 
-// Register
 window.doRegister = async function() {
-  const name  = document.getElementById('r-name').value.trim();
+  const name = document.getElementById('r-name').value.trim();
   const email = document.getElementById('r-email').value.trim();
-  const pass  = document.getElementById('r-pass').value.trim();
+  const pass = document.getElementById('r-pass').value.trim();
   const agree = document.getElementById('r-agree').checked;
   if (!name || !email || !pass) { window.toast('⚠️ Please fill all fields'); return; }
   if (!agree) { window.toast('⚠️ Please agree to Terms & Privacy Policy'); return; }
@@ -797,33 +691,26 @@ window.doRegister = async function() {
     await updateProfile(cred.user, { displayName: name });
     document.getElementById('reg-success').style.display = 'block';
     setTimeout(() => showPage('home'), 1500);
-  } catch(e) {
-    window.toast('❌' + (e.code === 'auth/email-already-in-use' ? 'Email already registered' : e.message));
-  }
+  } catch(e) { window.toast('❌ ' + (e.code === 'auth/email-already-in-use' ? 'Email already registered' : e.message)); }
 };
 
-// Login
 window.doLogin = async function() {
   const email = document.getElementById('l-email').value.trim();
-  const pass  = document.getElementById('l-pass').value.trim();
+  const pass = document.getElementById('l-pass').value.trim();
   if (!email || !pass) { window.toast('⚠️ Please enter email and password'); return; }
   try {
     await signInWithEmailAndPassword(auth, email, pass);
     document.getElementById('login-success').style.display = 'block';
     setTimeout(() => showPage('home'), 1200);
-  } catch(e) {
-    window.toast('❌' + (e.code === 'auth/invalid-credential' ? 'Wrong email or password' : e.message));
-  }
+  } catch(e) { window.toast('❌ ' + (e.code === 'auth/invalid-credential' ? 'Wrong email or password' : e.message)); }
 };
 
-// Logout
 window.doLogout = async function() {
   await signOut(auth);
   window.toast('👋 Logged out!');
   showPage('home');
 };
 
-// Load profile with my posts
 window.loadProfile = async function() {
   const user = window._currentUser;
   if (!user) { showPage('login'); return; }
@@ -832,10 +719,9 @@ window.loadProfile = async function() {
   document.getElementById('profile-avatar').textContent = (user.displayName || 'U')[0].toUpperCase();
   const myPosts = (window._allPosts || []).filter(p => p.uid === user.uid);
   document.getElementById('profile-posts-count').textContent = myPosts.length;
-  // Render my posts with edit/delete options
   const listEl = document.getElementById('my-posts-list');
   if (!myPosts.length) {
-    listEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:14px;">No posts yet. Start by reporting a lost or found item!</div>';
+    listEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:14px;">No posts yet.</div>';
   } else {
     listEl.innerHTML = myPosts.map(p => {
       const tc = p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7';
@@ -845,11 +731,11 @@ window.loadProfile = async function() {
         <div style="flex:1;cursor:pointer;" onclick="openDetail('${p.id}')">
           <span style="background:${tc};color:${tt};font-size:10px;padding:2px 8px;border-radius:20px;font-weight:700;">${tl}</span>
           <div style="font-size:14px;font-weight:600;margin-top:4px;">${p.item}</div>
-          <div style="font-size:12px;color:var(--text-muted);">📍 ${p.loc} •${p.date||''}</div>
+          <div style="font-size:12px;color:var(--text-muted);">📍 ${p.loc}</div>
         </div>
         <div style="display:flex;flex-direction:column;gap:6px;">
           <button onclick="openEditModal('${p.id}')" style="padding:6px 10px;background:var(--gray);border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">✏️ Edit</button>
-          <button onclick="deletePost('${p.id}')" style="padding:6px 10px;background:#FEE2E2;color:#DC2626;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">🗑️Delete</button>
+          <button onclick="deletePost('${p.id}')" style="padding:6px 10px;background:#FEE2E2;color:#DC2626;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">🗑️ Delete</button>
         </div>
       </div>`;
     }).join('');
@@ -857,7 +743,6 @@ window.loadProfile = async function() {
   showPage('profile');
 };
 
-// Open edit modal
 window.openEditModal = function(id) {
   const p = (window._allPosts || []).find(x => x.id === id);
   if (!p) return;
@@ -873,72 +758,47 @@ window.openEditModal = function(id) {
   document.getElementById('edit-modal').classList.add('open');
 };
 
-window.closeEditModal = function() {
-  document.getElementById('edit-modal').classList.remove('open');
-};
+window.closeEditModal = function() { document.getElementById('edit-modal').classList.remove('open'); };
 
-// Admin stats refresh
 window.refreshAdminStats = function() {
   const all = window._allPosts || [];
-  const el = document.getElementById('admin-total');
-  if (el) el.textContent = all.length;
-  const el2 = document.getElementById('admin-lost');
-  if (el2) el2.textContent = all.filter(p=>p.type==='lost').length;
-  const el3 = document.getElementById('admin-found');
-  if (el3) el3.textContent = all.filter(p=>p.type==='found').length;
-  const el4 = document.getElementById('admin-missing');
-  if (el4) el4.textContent = all.filter(p=>p.type==='missing').length;
+  const el = document.getElementById('admin-total'); if (el) el.textContent = all.length;
+  const el2 = document.getElementById('admin-lost'); if (el2) el2.textContent = all.filter(p=>p.type==='lost').length;
+  const el3 = document.getElementById('admin-found'); if (el3) el3.textContent = all.filter(p=>p.type==='found').length;
+  const el4 = document.getElementById('admin-missing'); if (el4) el4.textContent = all.filter(p=>p.type==='missing').length;
   const tbody = document.getElementById('admin-posts-tbody');
   if (tbody) {
-    if (!all.length) {
-      tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:20px;">No posts yet</td></tr>';
-    } else {
-      tbody.innerHTML = all.slice(0,20).map(p => {
-        const tc = p.type==='lost'?'tag-lost':p.type==='found'?'tag-found':'tag-pending';
-        const tl = p.type==='lost'?'Lost':p.type==='found'?'Found':'Missing';
-        return `<tr>
-          <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.item||'-'}</td>
-          <td><span class="tag ${tc}">${tl}</span></td>
-          <td><button onclick="deletePost('${p.id}')" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600;cursor:pointer;">🗑️Del</button></td>
-        </tr>`;
-      }).join('');
-    }
+    if (!all.length) { tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:20px;">No posts yet</td></tr>'; }
+    else { tbody.innerHTML = all.slice(0,20).map(p => { const tc=p.type==='lost'?'tag-lost':p.type==='found'?'tag-found':'tag-pending'; const tl=p.type==='lost'?'Lost':p.type==='found'?'Found':'Missing'; return `<tr><td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.item||'-'}</td><td><span class="tag ${tc}">${tl}</span></td><td><button onclick="deletePost('${p.id}')" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600;cursor:pointer;">🗑️</button></td></tr>`; }).join(''); }
   }
 };
 
-// Render listings
 window._renderAll = function() {
-  const container   = document.getElementById('listings-grid');
-  const noPosts     = document.getElementById('no-posts');
+  const container = document.getElementById('listings-grid');
+  const noPosts = document.getElementById('no-posts');
   const filterLabel = document.getElementById('filter-label');
-  const activeCat   = window.activeCat || '';
-  const allPosts    = window._allPosts || [];
-  let filtered = [...allPosts];
+  const activeCat = window.activeCat || '';
+  let filtered = [...(window._allPosts || [])];
   if (activeCat) filtered = filtered.filter(p => p.category && p.category.includes(activeCat));
   const sq = window.searchQuery || '';
   if (sq) filtered = filtered.filter(p => (p.item||'').toLowerCase().includes(sq) || (p.loc||'').toLowerCase().includes(sq) || (p.desc||'').toLowerCase().includes(sq));
-
   filterLabel.textContent = activeCat ? ('📂 ' + activeCat) : '🔍 All Posts';
-
   if (!filtered.length) { container.innerHTML = ''; noPosts.style.display = 'block'; return; }
   noPosts.style.display = 'none';
-  container.style.display = 'grid';
 
   function card(p) {
     const tc = p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':p.type==='person'?'#EDE9FE':'#FEF3C7';
     const tt = p.type==='lost'?'#DC2626':p.type==='found'?'#059669':p.type==='person'?'#7C3AED':'#D97706';
     const tl = p.type==='lost'?'😟 Lost':p.type==='found'?'🎉 Found':p.type==='person'?'🧍 Person':'⚠️ Missing';
-    const img = p.photo
-      ? `<img src="${p.photo}" style="width:100%;height:100px;object-fit:cover;">`
-      : `<div style="height:100px;background:var(--gray);display:flex;align-items:center;justify-content:center;font-size:32px;">${p.type==='lost'?'🔍':p.type==='found'?'📦':p.type==='person'?'🧍':'🆘'}</div>`;
+    const img = p.photo ? `<img src="${p.photo}" style="width:100%;height:100px;object-fit:cover;">` : `<div style="height:100px;background:var(--gray);display:flex;align-items:center;justify-content:center;font-size:32px;">${p.type==='lost'?'🔍':p.type==='found'?'📦':p.type==='person'?'🧍':'🆘'}</div>`;
     const curUid = window._currentUser ? window._currentUser.uid : null;
-    const isOwn = curUid && (p.uid === curUid || !p.uid);
+    const isOwn = curUid && p.uid === curUid;
     const eid = p.id.replace(/[^a-zA-Z0-9]/g,'_');
     const optionsBtn = isOwn ? `
-      <button id="optbtn-${eid}" style="position:absolute;top:6px;right:6px;width:34px;height:34px;background:rgba(255,255,255,0.97);border:1.5px solid #ccc;border-radius:50%;font-size:22px;font-weight:900;display:flex;align-items:center;justify-content:center;z-index:20;color:#333;box-shadow:0 2px 6px rgba(0,0,0,.18);cursor:pointer;-webkit-tap-highlight-color:transparent;" ontouchstart="window._optTap=true;event.preventDefault();event.stopPropagation();toggleOptions('${eid}');" onclick="event.stopPropagation();if(!window._optTap)toggleOptions('${eid}');window._optTap=false;">⋮</button>
+      <button id="optbtn-${eid}" style="position:absolute;top:6px;right:6px;width:34px;height:34px;background:rgba(255,255,255,0.97);border:1.5px solid #ccc;border-radius:50%;font-size:22px;font-weight:900;display:flex;align-items:center;justify-content:center;z-index:20;color:#333;box-shadow:0 2px 6px rgba(0,0,0,.18);cursor:pointer;" ontouchstart="window._optTap=true;event.preventDefault();event.stopPropagation();toggleOptions('${eid}');" onclick="event.stopPropagation();if(!window._optTap)toggleOptions('${eid}');window._optTap=false;">⋮</button>
       <div id="opts-${eid}" style="display:none;position:absolute;top:44px;right:6px;background:white;border:1.5px solid #ddd;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.15);z-index:30;min-width:140px;overflow:hidden;">
-        <div ontouchstart="event.stopPropagation();" onclick="event.stopPropagation();closeAllOptions();openEditModal('${p.id}');" style="padding:13px 16px;font-size:14px;font-weight:600;cursor:pointer;border-bottom:1px solid #eee;-webkit-tap-highlight-color:rgba(232,114,42,0.1);">✏️ Edit</div>
-        <div ontouchstart="event.stopPropagation();" onclick="event.stopPropagation();closeAllOptions();deletePost('${p.id}');" style="padding:13px 16px;font-size:14px;font-weight:600;cursor:pointer;color:#DC2626;-webkit-tap-highlight-color:rgba(220,38,38,0.1);">🗑️Delete</div>
+        <div ontouchstart="event.stopPropagation();" onclick="event.stopPropagation();closeAllOptions();openEditModal('${p.id}');" style="padding:13px 16px;font-size:14px;font-weight:600;cursor:pointer;border-bottom:1px solid #eee;">✏️ Edit</div>
+        <div ontouchstart="event.stopPropagation();" onclick="event.stopPropagation();closeAllOptions();deletePost('${p.id}');" style="padding:13px 16px;font-size:14px;font-weight:600;cursor:pointer;color:#DC2626;">🗑️ Delete</div>
       </div>` : '';
     return `<div style="border:1.5px solid var(--border);border-radius:14px;overflow:hidden;background:var(--white);position:relative;">
       ${optionsBtn}
@@ -950,61 +810,39 @@ window._renderAll = function() {
           ${p.category?`<div style="font-size:11px;color:var(--orange);">${p.category}</div>`:''}
           <div style="font-size:11px;color:var(--text-muted);">📍 ${p.loc}</div>
           <div style="font-size:10px;color:#bbb;">${p.date||''}</div>
-          ${p.reward?`<div style="margin-top:4px;background:#FEF9C3;color:#92400E;font-size:11px;font-weight:700;padding:2px 7px;border-radius:8px;display:inline-block;">🏆 ₹{p.reward}</div>`:''}
+          ${p.reward?`<div style="margin-top:4px;background:#FEF9C3;color:#92400E;font-size:11px;font-weight:700;padding:2px 7px;border-radius:8px;display:inline-block;">🏆 ₹${p.reward}</div>`:''}
         </div>
       </div>
     </div>`;
   }
 
-  function gridSection(title, bg, color, posts) {
-    if (!posts.length) return '';
-    return `<div style="grid-column:1/-1;margin:12px 0 6px;">
-      <span style="background:${bg};color:${color};padding:6px 14px;border-radius:10px;font-weight:700;font-size:14px;">${title} (${posts.length})</span>
-    </div>${posts.map(card).join('')}`;
-  }
-
-  const allCats = [
-    {key:'Wallet',icon:'👛'},{key:'Phone',icon:'📱'},{key:'Keys',icon:'🔑'},
-    {key:'Bag',icon:'💼'},{key:'Jewellery',icon:'💍'},{key:'Backpack',icon:'🎒'},
-    {key:'Laptop',icon:'💻'},{key:'Pet',icon:'🐾'},{key:'Glasses',icon:'👓'},
-    {key:'Documents',icon:'🎫'},{key:'Watch',icon:'⌚'},{key:'Purse',icon:'👜'},
-    {key:'Person',icon:'🧍'},{key:'Animals',icon:'🐕'},{key:'Other',icon:'📦'}
-  ];
-
+  const allCats = ['Wallet','Phone','Keys','Bag','Jewellery','Backpack','Laptop','Pet','Glasses','Documents','Watch','Purse','Person','Animals','Car','Bike','Cycle','Other'];
   let html = '';
   if (activeCat) {
-    html += gridSection('😟 Lost','#FEE2E2','#DC2626', filtered.filter(p=>p.type==='lost'));
-    html += gridSection('🎉 Found','#D1FAE5','#059669', filtered.filter(p=>p.type==='found'));
-    html += gridSection('⚠️ Missing','#FEF3C7','#D97706', filtered.filter(p=>p.type==='missing'));
-    html += gridSection('🧍 Person','#EDE9FE','#7C3AED', filtered.filter(p=>p.type==='person'));
+    const lost = filtered.filter(p=>p.type==='lost');
+    const found = filtered.filter(p=>p.type==='found');
+    const missing = filtered.filter(p=>p.type==='missing');
+    if (lost.length) html += `<div style="grid-column:1/-1;margin:8px 0 4px;"><span style="background:#FEE2E2;color:#DC2626;padding:4px 12px;border-radius:10px;font-weight:700;font-size:13px;">😟 Lost (${lost.length})</span></div>${lost.map(card).join('')}`;
+    if (found.length) html += `<div style="grid-column:1/-1;margin:8px 0 4px;"><span style="background:#D1FAE5;color:#059669;padding:4px 12px;border-radius:10px;font-weight:700;font-size:13px;">🎉 Found (${found.length})</span></div>${found.map(card).join('')}`;
+    if (missing.length) html += `<div style="grid-column:1/-1;margin:8px 0 4px;"><span style="background:#FEF3C7;color:#D97706;padding:4px 12px;border-radius:10px;font-weight:700;font-size:13px;">⚠️ Missing (${missing.length})</span></div>${missing.map(card).join('')}`;
   } else {
-    allCats.forEach(({key, icon}) => {
+    allCats.forEach(key => {
       const cats = filtered.filter(p => p.category && p.category.includes(key));
       if (!cats.length) return;
-      html += `<div style="grid-column:1/-1;margin:16px 0 8px;">
-        <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;">${icon} ${key} <span style="font-size:12px;color:var(--text-muted);font-weight:400;">(${cats.length})</span></div>
-      </div>${cats.map(card).join('')}`;
+      html += `<div style="grid-column:1/-1;margin:16px 0 8px;"><div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;">${key} <span style="font-size:12px;color:var(--text-muted);font-weight:400;">(${cats.length})</span></div></div>${cats.map(card).join('')}`;
     });
     const noCat = filtered.filter(p => !p.category);
-    if (noCat.length) {
-      html += `<div style="grid-column:1/-1;margin:16px 0 8px;">
-        <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;">📦 Other <span style="font-size:12px;color:var(--text-muted);font-weight:400;">(${noCat.length})</span></div>
-      </div>${noCat.map(card).join('')}`;
-    }
+    if (noCat.length) html += `<div style="grid-column:1/-1;margin:16px 0 8px;"><div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;">📦 Other (${noCat.length})</div></div>${noCat.map(card).join('')}`;
   }
-
   container.innerHTML = html || `<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--text-muted);">No posts found</div>`;
 };
-
 </script>
 
-<!-- Non-module JS -->
 <script>
 window.activeFilter = 'all';
 window.activeCat = '';
 window.currentPhotosData = [];
 
-// Toggle post options menu
 window.toggleOptions = function(id) {
   const menu = document.getElementById('opts-' + id);
   if (!menu) return;
@@ -1015,18 +853,13 @@ window.toggleOptions = function(id) {
 window.closeAllOptions = function() {
   document.querySelectorAll('[id^="opts-"]').forEach(m => { if(m.style) m.style.display = 'none'; });
 };
-document.addEventListener('touchstart', function(e) {
-  if (!e.target.closest('[id^="opts-"]') && !e.target.closest('[id^="optbtn-"]')) closeAllOptions();
-});
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('[id^="opts-"]') && !e.target.closest('[id^="optbtn-"]')) closeAllOptions();
-});
+document.addEventListener('touchstart', function(e) { if (!e.target.closest('[id^="opts-"]') && !e.target.closest('[id^="optbtn-"]')) closeAllOptions(); });
+document.addEventListener('click', function(e) { if (!e.target.closest('[id^="opts-"]') && !e.target.closest('[id^="optbtn-"]')) closeAllOptions(); });
 
 window.setCatGrid = function(cat) {
   window.activeCat = cat;
   document.querySelectorAll('.cat-grid-item').forEach(c => c.classList.remove('active-cat-grid'));
-  const activeId = cat ? 'catgrid-' + cat : 'catgrid-all';
-  const el = document.getElementById(activeId);
+  const el = document.getElementById(cat ? 'catgrid-' + cat : 'catgrid-all');
   if (el) el.classList.add('active-cat-grid');
   const grid = document.getElementById('listings-grid');
   if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1035,14 +868,10 @@ window.setCatGrid = function(cat) {
 
 function previewPhotos(input) {
   if (!input.files || !input.files.length) return;
-  const MAX_KB = 50;
+  const MAX_KB = 250;
   const allFiles = Array.from(input.files).slice(0, 5);
   const tooBig = allFiles.filter(f => f.size > MAX_KB * 1024);
-  if (tooBig.length) {
-    toast('❌ ' + tooBig.length + ' photo(s) 50KB se badi hain — chhoti photo select karo');
-    input.value = '';
-    return;
-  }
+  if (tooBig.length) { toast('❌ ' + tooBig.length + ' photo(s) 250KB se badi hain'); input.value = ''; return; }
   window.currentPhotosData = [];
   const preview = document.getElementById('photos-preview');
   const placeholder = document.getElementById('photo-placeholder');
@@ -1056,14 +885,9 @@ function previewPhotos(input) {
       const img = document.createElement('img');
       img.src = e.target.result;
       img.style.cssText = 'width:80px;height:80px;object-fit:cover;border-radius:8px;flex-shrink:0;';
-      const sizeKB = Math.round(file.size / 1024);
-      const sizeTag = document.createElement('div');
-      sizeTag.style.cssText = 'font-size:9px;color:#059669;text-align:center;margin-top:2px;font-weight:600;';
-      sizeTag.textContent = sizeKB + 'KB ✅';
       const wrap = document.createElement('div');
       wrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;';
       wrap.appendChild(img);
-      wrap.appendChild(sizeTag);
       preview.appendChild(wrap);
     };
     reader.readAsDataURL(file);
@@ -1071,46 +895,33 @@ function previewPhotos(input) {
 }
 window.previewPhotos = previewPhotos;
 
-window.setSearch = function(val) {
-  window.searchQuery = val.toLowerCase();
-  if (window._renderAll) window._renderAll();
-};
+window.setSearch = function(val) { window.searchQuery = val.toLowerCase(); if (window._renderAll) window._renderAll(); };
 
 window.openDetail = function(id) {
   const p = (window._allPosts || []).find(x => x.id === id);
   if (!p) return;
   const photos = p.photos || (p.photo ? [p.photo] : []);
   const photosEl = document.getElementById('detail-photos');
-  if (photos.length) {
-    photosEl.style.display = 'flex';
-    photosEl.innerHTML = photos.map(src => `<img src="${src}" style="height:220px;min-width:100%;object-fit:cover;border-radius:14px;flex-shrink:0;">`).join('');
-  } else {
-    const tc = p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7';
-    photosEl.style.display = 'flex';
-    photosEl.innerHTML = `<div style="height:180px;min-width:100%;background:${tc};border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:64px;">${p.type==='lost'?'🔍':p.type==='found'?'📦':'🆘'}</div>`;
-  }
-  const tc = p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':p.type==='person'?'#EDE9FE':'#FEF3C7';
-  const tt = p.type==='lost'?'#DC2626':p.type==='found'?'#059669':p.type==='person'?'#7C3AED':'#D97706';
-  const tl = p.type==='lost'?'😟 Lost':p.type==='found'?'🎉 Found':p.type==='person'?'🧍 Person':'⚠️ Missing';
+  const tc = p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7';
+  const tt = p.type==='lost'?'#DC2626':p.type==='found'?'#059669':'#D97706';
+  const tl = p.type==='lost'?'😟 Lost':p.type==='found'?'🎉 Found':'⚠️ Missing';
+  if (photos.length) { photosEl.style.display = 'flex'; photosEl.innerHTML = photos.map(src => `<img src="${src}" style="height:220px;min-width:100%;object-fit:cover;border-radius:14px;flex-shrink:0;">`).join(''); }
+  else { photosEl.style.display = 'flex'; photosEl.innerHTML = `<div style="height:180px;min-width:100%;background:${tc};border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:64px;">${p.type==='lost'?'🔍':p.type==='found'?'📦':'🆘'}</div>`; }
   document.getElementById('detail-badge').innerHTML = `<span style="background:${tc};color:${tt};padding:4px 12px;border-radius:20px;font-weight:700;font-size:13px;">${tl}</span>`;
   document.getElementById('detail-title').textContent = p.item || '';
   document.getElementById('detail-cat').textContent = p.category || '';
   document.getElementById('detail-loc').textContent = p.loc || '—';
   document.getElementById('detail-date').textContent = p.date || '—';
   document.getElementById('detail-desc').textContent = p.desc || 'No description provided.';
-  if (p.reward) {
-    document.getElementById('detail-reward-wrap').style.display = 'block';
-    document.getElementById('detail-reward').textContent = '₹' + p.reward;
-  } else {
-    document.getElementById('detail-reward-wrap').style.display = 'none';
-  }
+  if (p.reward) { document.getElementById('detail-reward-wrap').style.display = 'block'; document.getElementById('detail-reward').textContent = '₹' + p.reward; }
+  else { document.getElementById('detail-reward-wrap').style.display = 'none'; }
   const name = p.authorName || 'Anonymous';
   document.getElementById('detail-poster-avatar').textContent = name[0].toUpperCase();
   document.getElementById('detail-poster-name').textContent = name;
   document.getElementById('detail-poster-contact').textContent = p.contact || 'Contact not provided';
   const actions = document.getElementById('detail-actions');
   const phone = p.contact ? p.contact.replace(/\D/g,'') : '';
-  const waMsg = encodeURIComponent(`Hi, I saw your post on FindBack about "${p.item}" (${tl}). Can we talk?`);
+  const waMsg = encodeURIComponent('Hi, I saw your post on FindBack about "' + p.item + '" (' + tl + '). Can we talk?');
   let btns = '';
   if (phone.length >= 10) {
     btns += `<a href="https://wa.me/91${phone.slice(-10)}?text=${waMsg}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#25D366;color:white;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">💬 WhatsApp karo</a>`;
@@ -1120,20 +931,15 @@ window.openDetail = function(id) {
   }
   if (window._currentUser && window._currentUser.uid === p.uid) {
     btns += `<button onclick="openEditModal('${p.id}')" style="padding:14px;border:none;background:var(--gray);color:var(--black);border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">✏️ Edit Post</button>`;
-    btns += `<button onclick="deletePost('${p.id}')" style="padding:14px;border:none;background:#FEE2E2;color:#DC2626;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">🗑️Delete Post</button>`;
+    btns += `<button onclick="deletePost('${p.id}')" style="padding:14px;border:none;background:#FEE2E2;color:#DC2626;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">🗑️ Delete Post</button>`;
   }
-  // Anonymous message section
   const anonId = p.id.replace(/[^a-z0-9]/gi,'_');
   const anonSection = `<div id="anon-section-${anonId}" style="display:none;margin-top:4px;">
-    <textarea id="anon-msg-${anonId}" placeholder="Anonymous message likho... (Owner ko tumhara number nahi milega)" style="width:100%;padding:12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;resize:vertical;min-height:80px;outline:none;margin-bottom:8px;"></textarea>
+    <textarea id="anon-msg-${anonId}" placeholder="Anonymous message likho..." style="width:100%;padding:12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;resize:vertical;min-height:80px;outline:none;margin-bottom:8px;"></textarea>
     <button onclick="sendAnonymousMsg('${p.id}')" style="width:100%;padding:12px;background:#111;color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">📨 Anonymous Message Bhejo</button>
   </div>`;
-
-  // AI Match button (only for lost posts)
   const aiBtn = (p.type==='lost'||p.type==='found') ? `<button id="ai-match-btn-${anonId}" onclick="runAIMatch('${p.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:linear-gradient(135deg,#111,#333);color:white;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">🤖 AI Match Dhundo</button>` : '';
-
   const anonBtn = `<button onclick="toggleAnonMsg('${p.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#F5F5F5;color:#333;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">🔒 Anonymous Contact</button>${anonSection}`;
-
   actions.innerHTML = (btns || '<div style="color:var(--text-muted);text-align:center;padding-bottom:8px">No contact info provided</div>') + aiBtn + anonBtn;
   showPage('detail');
 };
@@ -1147,7 +953,6 @@ function showPage(id) {
   if (id === 'home') document.getElementById('nav-home').classList.add('active');
   if (id === 'map') { const b=document.getElementById('nav-map-btn'); if(b) b.classList.add('active'); }
   if (id === 'alerts') { const b=document.getElementById('nav-alerts-btn'); if(b) b.classList.add('active'); }
-  // Load dynamic content for new pages
   if (id === 'trust') setTimeout(() => { if(window.loadTrustScore) window.loadTrustScore(); }, 100);
   if (id === 'reward') setTimeout(() => { if(window.loadRewardPosts) window.loadRewardPosts(); }, 100);
   if (id === 'map') setTimeout(() => { if(window.initMap) window.initMap(); }, 100);
@@ -1156,12 +961,7 @@ window.showPage = showPage;
 
 function openModal(type) {
   window.currentModal = type;
-  const titles = {
-    lost:    ['😟 Report Lost Item',    'Fill in details about the item you lost'],
-    found:   ['🎉 Report Found Item',   'Fill in details about the item you found'],
-    missing: ['⚠️ Report Missing',      'Provide details to help locate them'],
-    person:  ['🧍 Report Missing Person','Provide details about the missing person']
-  };
+  const titles = { lost:['😟 Report Lost Item','Fill in details about the item you lost'], found:['🎉 Report Found Item','Fill in details about the item you found'], missing:['⚠️ Report Missing','Provide details to help locate them'] };
   const t = titles[type] || titles['lost'];
   document.getElementById('modal-title').textContent = t[0];
   document.getElementById('modal-sub').textContent = t[1];
@@ -1180,20 +980,15 @@ window.closeModal = function() {
   document.getElementById('nav-home').classList.add('active');
 };
 
-function submitReport() {
-  if (window.submitToFirebase) window.submitToFirebase();
-}
+function submitReport() { if (window.submitToFirebase) window.submitToFirebase(); }
 window.submitReport = submitReport;
 
 function sendContact() {
   const name = document.getElementById('c-name').value.trim();
-  const msg  = document.getElementById('c-msg').value.trim();
+  const msg = document.getElementById('c-msg').value.trim();
   if (!name || !msg) { toast('⚠️ Please fill name and message'); return; }
   document.getElementById('contact-success').style.display = 'block';
-  document.getElementById('c-name').value = '';
-  document.getElementById('c-email').value = '';
-  document.getElementById('c-subject').value = '';
-  document.getElementById('c-msg').value = '';
+  ['c-name','c-email','c-subject','c-msg'].forEach(id => { document.getElementById(id).value = ''; });
 }
 window.sendContact = sendContact;
 
@@ -1209,9 +1004,7 @@ async function adminLogin() {
     document.getElementById('admin-login-wall').style.display = 'none';
     document.getElementById('admin-dashboard').style.display = 'block';
     refreshAdminStats();
-  } else {
-    toast('❌Invalid admin credentials');
-  }
+  } else { toast('❌ Invalid admin credentials'); }
 }
 window.adminLogin = adminLogin;
 
@@ -1224,29 +1017,12 @@ function adminLogout() {
 window.adminLogout = adminLogout;
 
 function refreshAdminStats() {
-  if (window._allPosts) {
-    const all = window._allPosts;
-    const el = document.getElementById('admin-total');
-    if (el) el.textContent = all.length;
-    const el2 = document.getElementById('admin-lost');
-    if (el2) el2.textContent = all.filter(p=>p.type==='lost').length;
-    const el3 = document.getElementById('admin-found');
-    if (el3) el3.textContent = all.filter(p=>p.type==='found').length;
-    const el4 = document.getElementById('admin-missing');
-    if (el4) el4.textContent = all.filter(p=>p.type==='missing').length;
-    const tbody = document.getElementById('admin-posts-tbody');
-    if (tbody && all.length) {
-      tbody.innerHTML = all.slice(0,20).map(p => {
-        const tc = p.type==='lost'?'tag-lost':p.type==='found'?'tag-found':'tag-pending';
-        const tl = p.type==='lost'?'Lost':p.type==='found'?'Found':'Missing';
-        return `<tr>
-          <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.item||'-'}</td>
-          <td><span class="tag ${tc}">${tl}</span></td>
-          <td><button onclick="deletePost('${p.id}')" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:600;cursor:pointer;">🗑️Del</button></td>
-        </tr>`;
-      }).join('');
-    }
-  }
+  if (!window._allPosts) return;
+  const all = window._allPosts;
+  const el = document.getElementById('admin-total'); if (el) el.textContent = all.length;
+  const el2 = document.getElementById('admin-lost'); if (el2) el2.textContent = all.filter(p=>p.type==='lost').length;
+  const el3 = document.getElementById('admin-found'); if (el3) el3.textContent = all.filter(p=>p.type==='found').length;
+  const el4 = document.getElementById('admin-missing'); if (el4) el4.textContent = all.filter(p=>p.type==='missing').length;
 }
 window.refreshAdminStats = refreshAdminStats;
 
@@ -1258,66 +1034,26 @@ function toast(msg) {
 }
 window.toast = toast;
 
-// Close modals on overlay tap
-document.getElementById('report-modal').addEventListener('click', function(e) {
-  if (e.target === this) window.closeModal();
-});
-document.getElementById('edit-modal').addEventListener('click', function(e) {
-  if (e.target === this) window.closeEditModal();
-});
+document.getElementById('report-modal').addEventListener('click', function(e) { if (e.target === this) window.closeModal(); });
+document.getElementById('edit-modal').addEventListener('click', function(e) { if (e.target === this) window.closeEditModal(); });
 
-// ============================================================
-// 🤖 AI SMART MATCH ENGINE
-// ============================================================
+// AI MATCH ENGINE
 window.runAIMatch = async function(postId) {
   const post = (window._allPosts||[]).find(p=>p.id===postId);
   if (!post) return;
   const btn = document.getElementById('ai-match-btn-'+postId.replace(/[^a-z0-9]/gi,'_'));
   if (btn) { btn.textContent = '🤖 Matching...'; btn.disabled = true; }
-
   const oppositeType = post.type === 'lost' ? 'found' : 'lost';
   const candidates = (window._allPosts||[]).filter(p => p.type === oppositeType).slice(0,10);
-  if (!candidates.length) {
-    toast('😔 Abhi koi matching post nahi mili');
-    if (btn) { btn.textContent = '🤖 AI Match Dhundo'; btn.disabled = false; }
-    return;
-  }
-
-  const prompt = `You are a lost-and-found matching assistant for India.
-
-LOST/FOUND POST:
-Type: ${post.type}
-Item: ${post.item}
-Category: ${post.category||'unknown'}
-Location: ${post.loc}
-Date: ${post.date||'unknown'}
-Description: ${post.desc||'none'}
-
-CANDIDATE POSTS (${oppositeType}):
-${candidates.map((c,i)=>`${i+1}. ID:${c.id} | Item:${c.item} | Cat:${c.category||'?'} | Loc:${c.loc} | Date:${c.date||'?'} | Desc:${c.desc||'none'}`).join('\n')}
-
-Find the TOP 3 best matches. Consider: item name similarity, category, location proximity, date closeness.
-Respond ONLY in this JSON format (no markdown):
-{"matches":[{"id":"post_id","score":95,"reason":"Brief reason in Hindi/English"},{"id":"post_id","score":80,"reason":"..."},{"id":"post_id","score":60,"reason":"..."}]}`;
-
+  if (!candidates.length) { toast('😔 Abhi koi matching post nahi mili'); if (btn) { btn.textContent = '🤖 AI Match Dhundo'; btn.disabled = false; } return; }
+  const prompt = `You are a lost-and-found matching assistant for India.\n\nLOST/FOUND POST:\nType: ${post.type}\nItem: ${post.item}\nCategory: ${post.category||'unknown'}\nLocation: ${post.loc}\nDate: ${post.date||'unknown'}\nDescription: ${post.desc||'none'}\n\nCANDIDATE POSTS (${oppositeType}):\n${candidates.map((c,i)=>`${i+1}. ID:${c.id} | Item:${c.item} | Cat:${c.category||'?'} | Loc:${c.loc} | Date:${c.date||'?'} | Desc:${c.desc||'none'}`).join('\n')}\n\nFind the TOP 3 best matches. Respond ONLY in JSON:\n{"matches":[{"id":"post_id","score":95,"reason":"Brief reason"},{"id":"post_id","score":80,"reason":"..."}]}`;
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 500,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
+    const res = await fetch('https://api.anthropic.com/v1/messages', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:500, messages:[{role:'user',content:prompt}] }) });
     const data = await res.json();
     const text = data.content?.[0]?.text || '{}';
-    const clean = text.replace(/```json|```/g,'').trim();
-    const parsed = JSON.parse(clean);
+    const parsed = JSON.parse(text.replace(/```json|```/g,'').trim());
     showAIMatchResults(post, parsed.matches || [], candidates);
-  } catch(e) {
-    toast('❌AI Match error. Try again.');
-  }
+  } catch(e) { toast('❌ AI Match error. Try again.'); }
   if (btn) { btn.textContent = '🤖 AI Match Dhundo'; btn.disabled = false; }
 };
 
@@ -1325,18 +1061,8 @@ function showAIMatchResults(post, matches, candidates) {
   const overlay = document.getElementById('ai-match-overlay');
   const body = document.getElementById('ai-match-body');
   if (!overlay || !body) return;
-
-  if (!matches.length) {
-    body.innerHTML = '<div style="text-align:center;padding:40px 0;color:var(--text-muted)"><div style="font-size:48px">😔</div><p style="margin-top:12px">Koi match nahi mila abhi</p></div>';
-    overlay.style.display = 'flex';
-    return;
-  }
-
-  const matchedPosts = matches.map(m => {
-    const p = candidates.find(c=>c.id===m.id);
-    return p ? {...p, _score: m.score, _reason: m.reason} : null;
-  }).filter(Boolean);
-
+  if (!matches.length) { body.innerHTML = '<div style="text-align:center;padding:40px 0;color:var(--text-muted)"><div style="font-size:48px">😔</div><p style="margin-top:12px">Koi match nahi mila abhi</p></div>'; overlay.style.display = 'flex'; return; }
+  const matchedPosts = matches.map(m => { const p = candidates.find(c=>c.id===m.id); return p ? {...p, _score: m.score, _reason: m.reason} : null; }).filter(Boolean);
   body.innerHTML = matchedPosts.map(p => {
     const scoreColor = p._score>=80?'#059669':p._score>=60?'#D97706':'#777';
     const tc = p.type==='found'?'#D1FAE5':'#FEE2E2';
@@ -1345,92 +1071,45 @@ function showAIMatchResults(post, matches, candidates) {
       <div style="position:absolute;top:10px;right:10px;background:${scoreColor};color:white;border-radius:20px;padding:2px 10px;font-size:12px;font-weight:700;">${p._score}% Match</div>
       <span style="background:${tc};color:${tt};font-size:10px;padding:2px 8px;border-radius:20px;font-weight:700;">${p.type==='found'?'🎉 Found':'😟 Lost'}</span>
       <div style="font-size:15px;font-weight:700;margin:6px 0 4px;padding-right:70px">${p.item}</div>
-      <div style="font-size:12px;color:var(--text-muted)">📍 ${p.loc} •${p.date||''}</div>
+      <div style="font-size:12px;color:var(--text-muted)">📍 ${p.loc} • ${p.date||''}</div>
       <div style="margin-top:8px;background:#F0FFF4;border-radius:8px;padding:8px 10px;font-size:12px;color:#065F46;">🤖 ${p._reason}</div>
     </div>`;
   }).join('');
-
   overlay.style.display = 'flex';
 }
+window.closeAIMatch = function() { document.getElementById('ai-match-overlay').style.display = 'none'; };
 
-window.closeAIMatch = function() {
-  document.getElementById('ai-match-overlay').style.display = 'none';
-};
-
-// ============================================================
-// 📍 NEARBY MAP VIEW
-// ============================================================
+// MAP VIEW
 window.openMapView = function() {
   showPage('map');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  const mb = document.getElementById('nav-map-btn');
-  if(mb) mb.classList.add('active');
+  const mb = document.getElementById('nav-map-btn'); if(mb) mb.classList.add('active');
   setTimeout(initMap, 200);
 };
 
 let _mapRetries = 0;
 function initMap() {
   const posts = window._allPosts || [];
-  // Firebase se data load hone ka wait karo —max 5 seconds
-  if (!posts.length && _mapRetries < 10) {
-    _mapRetries++;
-    const mapEl = document.getElementById('map-container');
-    if (mapEl) mapEl.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-muted)"><div style="font-size:32px;margin-bottom:8px;">⏳</div><div style="font-size:13px;">Posts load ho rahe hain...</div></div>';
-    setTimeout(initMap, 500);
-    return;
-  }
+  if (!posts.length && _mapRetries < 10) { _mapRetries++; setTimeout(initMap, 500); return; }
   _mapRetries = 0;
   renderMapPins();
 }
 
 function renderMapPins() {
   const container = document.getElementById('map-posts-list');
-  const mapEl = document.getElementById('map-container');
   if (!container) return;
   const posts = (window._allPosts||[]).filter(p=>p.loc);
-
-  if (!posts.length) {
-    if (mapEl) mapEl.innerHTML = '';
-    container.innerHTML = `<div style="text-align:center;padding:48px 20px;color:var(--text-muted)">
-      <div style="font-size:52px;margin-bottom:12px;">🗺️</div>
-      <div style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:#333;margin-bottom:6px;">Koi posts abhi nahi hain</div>
-      <div style="font-size:13px;">Jab log posts karenge, yahan location se dikhenge</div>
-    </div>`;
-    return;
-  }
-
-  if (mapEl) mapEl.innerHTML = '';
-
-  // Stats bar
+  if (!posts.length) { container.innerHTML = `<div style="text-align:center;padding:48px 20px;color:var(--text-muted)"><div style="font-size:52px;margin-bottom:12px;">🗺️</div><div style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:#333;margin-bottom:6px;">Koi posts abhi nahi hain</div></div>`; return; }
   const lostCount = posts.filter(p=>p.type==='lost').length;
   const foundCount = posts.filter(p=>p.type==='found').length;
   const missingCount = posts.filter(p=>p.type==='missing').length;
-
-  // Group by location
   const byLoc = {};
-  posts.forEach(p => {
-    const key = p.loc.trim().toLowerCase();
-    if (!byLoc[key]) byLoc[key] = [];
-    byLoc[key].push(p);
-  });
-
+  posts.forEach(p => { const key = p.loc.trim().toLowerCase(); if (!byLoc[key]) byLoc[key] = []; byLoc[key].push(p); });
   container.innerHTML = `
     <div style="display:flex;gap:8px;margin-bottom:16px;">
-      <div style="flex:1;background:#FEE2E2;border-radius:10px;padding:10px;text-align:center;">
-        <div style="font-size:18px;font-weight:700;color:#DC2626;">${lostCount}</div>
-        <div style="font-size:10px;color:#DC2626;font-weight:600;">😟 Lost</div>
-      </div>
-      <div style="flex:1;background:#D1FAE5;border-radius:10px;padding:10px;text-align:center;">
-        <div style="font-size:18px;font-weight:700;color:#059669;">${foundCount}</div>
-        <div style="font-size:10px;color:#059669;font-weight:600;">🎉 Found</div>
-      </div>
-      <div style="flex:1;background:#FEF3C7;border-radius:10px;padding:10px;text-align:center;">
-        <div style="font-size:18px;font-weight:700;color:#D97706;">${missingCount}</div>
-        <div style="font-size:10px;color:#D97706;font-weight:600;">⚠️ Missing</div>
-      </div>
-    </div>
-    <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:10px;color:#333;">
-      📍 ${Object.keys(byLoc).length} Locations •${posts.length} Total Posts
+      <div style="flex:1;background:#FEE2E2;border-radius:10px;padding:10px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#DC2626;">${lostCount}</div><div style="font-size:10px;color:#DC2626;font-weight:600;">😟 Lost</div></div>
+      <div style="flex:1;background:#D1FAE5;border-radius:10px;padding:10px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#059669;">${foundCount}</div><div style="font-size:10px;color:#059669;font-weight:600;">🎉 Found</div></div>
+      <div style="flex:1;background:#FEF3C7;border-radius:10px;padding:10px;text-align:center;"><div style="font-size:18px;font-weight:700;color:#D97706;">${missingCount}</div><div style="font-size:10px;color:#D97706;font-weight:600;">⚠️ Missing</div></div>
     </div>
     ${Object.entries(byLoc).sort((a,b)=>b[1].length-a[1].length).map(([loc, ps]) => `
     <div style="border:1.5px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;background:white;">
@@ -1439,126 +1118,83 @@ function renderMapPins() {
         <span style="background:var(--orange);color:white;font-size:11px;padding:2px 9px;border-radius:20px;">${ps.length} post${ps.length>1?'s':''}</span>
       </div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;">
-        ${ps.map(p=>{
-          const tc=p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7';
-          const tt=p.type==='lost'?'#DC2626':p.type==='found'?'#059669':'#D97706';
-          const emoji=p.type==='lost'?'😟':p.type==='found'?'🎉':'⚠️';
-          return `<div onclick="openDetail('${p.id}')" style="background:${tc};color:${tt};padding:5px 11px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:rgba(0,0,0,.05);">${emoji} ${p.item}</div>`;
-        }).join('')}
+        ${ps.map(p=>{const tc=p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7';const tt=p.type==='lost'?'#DC2626':p.type==='found'?'#059669':'#D97706';const emoji=p.type==='lost'?'😟':p.type==='found'?'🎉':'⚠️';return `<div onclick="openDetail('${p.id}')" style="background:${tc};color:${tt};padding:5px 11px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;">${emoji} ${p.item}</div>`;}).join('')}
       </div>
     </div>`).join('')}`;
 }
 
-// ============================================================
-// 🔔 AREA ALERT SYSTEM
-// ============================================================
+// AREA ALERTS
 window._areaAlerts = JSON.parse(localStorage.getItem('fb_alerts')||'[]');
-
 window.saveAreaAlert = function() {
   const area = document.getElementById('alert-area').value.trim();
-  const cat  = document.getElementById('alert-cat').value;
+  const cat = document.getElementById('alert-cat').value;
   if (!area) { toast('⚠️ Area name daalo'); return; }
   const alert = { id: Date.now(), area, cat, created: new Date().toLocaleDateString('en-IN') };
   window._areaAlerts.push(alert);
   localStorage.setItem('fb_alerts', JSON.stringify(window._areaAlerts));
   renderAlerts();
   document.getElementById('alert-area').value = '';
-  document.getElementById('alert-cat').value = '';
-  toast('🔔 Alert set ho gaya! Jab bhi '+area+' mein post aayega, tumhe pata chalega.');
+  toast('🔔 Alert set ho gaya!');
 };
-
 window.deleteAlert = function(id) {
   window._areaAlerts = window._areaAlerts.filter(a=>a.id!==id);
   localStorage.setItem('fb_alerts', JSON.stringify(window._areaAlerts));
   renderAlerts();
 };
-
-window.renderAlerts = function renderAlerts() {
+window.renderAlerts = function() {
   const container = document.getElementById('alerts-list');
   if (!container) return;
-  if (!window._areaAlerts.length) {
-    container.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-muted);font-size:14px;">Koi alert set nahi hai</div>';
-    return;
-  }
+  if (!window._areaAlerts.length) { container.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-muted);font-size:14px;">Koi alert set nahi hai</div>'; return; }
   container.innerHTML = window._areaAlerts.map(a=>`
     <div style="border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;">
-      <div style="flex:1">
-        <div style="font-weight:700;font-size:14px;">📍 ${a.area}</div>
-        ${a.cat?`<div style="font-size:12px;color:var(--orange);margin-top:2px;">${a.cat}</div>`:''}
-        <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">${a.created} se active</div>
-      </div>
+      <div style="flex:1"><div style="font-weight:700;font-size:14px;">📍 ${a.area}</div>${a.cat?`<div style="font-size:12px;color:var(--orange);margin-top:2px;">${a.cat}</div>`:''}<div style="font-size:11px;color:var(--text-muted);margin-top:2px;">${a.created} se active</div></div>
       <button onclick="deleteAlert(${a.id})" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer;">🗑️</button>
-    </div>
-  `).join('');
-}
-
-// Check alerts on new post
+    </div>`).join('');
+};
 function checkAreaAlerts(newPost) {
-  const alerts = window._areaAlerts || [];
-  alerts.forEach(alert => {
+  (window._areaAlerts||[]).forEach(alert => {
     const locMatch = newPost.loc && newPost.loc.toLowerCase().includes(alert.area.toLowerCase());
     const catMatch = !alert.cat || (newPost.category && newPost.category.includes(alert.cat));
-    if (locMatch && catMatch) {
-      toast(`🔔 Alert! "${newPost.item}" posted in ${alert.area}!`);
-    }
+    if (locMatch && catMatch) toast('🔔 Alert! "' + newPost.item + '" posted in ' + alert.area + '!');
   });
 }
 window.checkAreaAlerts = checkAreaAlerts;
 
-// ============================================================
-// 🔒 ANONYMOUS CONTACT (Masked Message)
-// ============================================================
+// ANONYMOUS CONTACT
 window.sendAnonymousMsg = async function(postId) {
-  const msg = document.getElementById('anon-msg-'+postId.replace(/[^a-z0-9]/gi,'_'));
+  const anonId = postId.replace(/[^a-z0-9]/gi,'_');
+  const msg = document.getElementById('anon-msg-'+anonId);
   if (!msg || !msg.value.trim()) { toast('⚠️ Message likho pehle'); return; }
-
   const post = (window._allPosts||[]).find(p=>p.id===postId);
   if (!post) return;
-
-  // Store anonymous message in Firestore
   try {
-    const { getFirestore, collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-    const db = window._db;
-    await addDoc(collection(db, "messages"), {
-      postId,
-      toUid: post.uid || null,
-      fromAlias: "Anonymous User",
-      message: msg.value.trim(),
-      postItem: post.item,
-      createdAt: serverTimestamp()
-    });
-    toast('✅Anonymous message bhej diya! Owner ko notification milega.');
+    const { collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+    await addDoc(collection(window._db, "messages"), { postId, toUid: post.uid||null, fromAlias:"Anonymous User", message:msg.value.trim(), postItem:post.item, createdAt:serverTimestamp() });
+    toast('✅ Anonymous message bhej diya!');
     msg.value = '';
-    document.getElementById('anon-section-'+postId.replace(/[^a-z0-9]/gi,'_')).style.display='none';
-  } catch(e) {
-    toast('❌Message send failed. Try again.');
-  }
+    document.getElementById('anon-section-'+anonId).style.display='none';
+  } catch(e) { toast('❌ Message send failed.'); }
 };
-
 window.toggleAnonMsg = function(postId) {
   const id = postId.replace(/[^a-z0-9]/gi,'_');
   const el = document.getElementById('anon-section-'+id);
   if (el) el.style.display = el.style.display==='none'?'block':'none';
 };
-
 </script>
 
-<!-- ===== AI MATCH OVERLAY ===== -->
+<!-- AI MATCH OVERLAY -->
 <div id="ai-match-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;align-items:flex-end;justify-content:center;" onclick="if(event.target===this)closeAIMatch()">
   <div style="background:white;border-radius:20px 20px 0 0;padding:24px;width:100%;max-height:85vh;overflow-y:auto;">
     <div style="width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px;"></div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-      <div>
-        <div style="font-family:'Sora',sans-serif;font-size:18px;font-weight:700;">🤖 AI Match Results</div>
-        <div style="font-size:13px;color:var(--text-muted);margin-top:2px;">Claude AI ne yeh matches dhunde</div>
-      </div>
+      <div><div style="font-family:'Sora',sans-serif;font-size:18px;font-weight:700;">🤖 AI Match Results</div><div style="font-size:13px;color:var(--text-muted);margin-top:2px;">Claude AI ne yeh matches dhunde</div></div>
       <button onclick="closeAIMatch()" style="background:var(--gray);border:none;border-radius:50%;width:32px;height:32px;font-size:18px;cursor:pointer;">×</button>
     </div>
     <div id="ai-match-body"></div>
   </div>
 </div>
 
-<!-- ===== MAP PAGE ===== -->
+<!-- MAP PAGE -->
 <div class="page" id="page-map">
   <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
     <span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span>
@@ -1570,12 +1206,11 @@ window.toggleAnonMsg = function(postId) {
       <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;margin-bottom:4px;">Posts by Location</div>
       <div style="font-size:13px;color:#aaa;">Apne area ke saare posts ek jagah</div>
     </div>
-    <div id="map-container" style="min-height:60px;"></div>
     <div id="map-posts-list"></div>
   </div>
 </div>
 
-<!-- ===== ALERTS PAGE ===== -->
+<!-- ALERTS PAGE -->
 <div class="page" id="page-alerts">
   <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
     <span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span>
@@ -1583,15 +1218,13 @@ window.toggleAnonMsg = function(postId) {
   </div>
   <div style="padding:20px 20px 100px;">
     <div style="background:linear-gradient(135deg,#E8722A 0%,#f59342 100%);border-radius:16px;padding:20px;margin-bottom:20px;color:white;">
-      <div style="font-size:13px;opacity:.85;margin-bottom:4px;">🔔 Smart Notification System</div>
-      <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:18px;margin-bottom:6px;">Area Alert Set Karo</div>
-      <div style="font-size:13px;opacity:.85;">Jab bhi tumhare area mein koi post aaye —tum pehle jaano</div>
+      <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:18px;margin-bottom:6px;">🔔 Area Alert Set Karo</div>
+      <div style="font-size:13px;opacity:.85;">Jab bhi tumhare area mein koi post aaye — tum pehle jaano</div>
     </div>
-
     <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:20px;">
       <div class="form-group" style="margin-bottom:12px;">
         <label style="font-size:13px;font-weight:600;color:#333;display:block;margin-bottom:6px;">📍 Area / City Name</label>
-        <input id="alert-area" type="text" placeholder="e.g. Connaught Place, Andheri, Sector 18" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
+        <input id="alert-area" type="text" placeholder="e.g. Connaught Place, Andheri" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
       </div>
       <div class="form-group" style="margin-bottom:14px;">
         <label style="font-size:13px;font-weight:600;color:#333;display:block;margin-bottom:6px;">📂 Category (Optional)</label>
@@ -1601,8 +1234,6 @@ window.toggleAnonMsg = function(postId) {
           <option value="Phone">📱 Phone</option>
           <option value="Keys">🔑 Keys</option>
           <option value="Bag">💼 Bag</option>
-          <option value="Jewellery">💍 Jewellery</option>
-          <option value="Laptop">💻 Laptop</option>
           <option value="Pet">🐾 Pet</option>
           <option value="Documents">🎫 Documents</option>
           <option value="Other">📦 Other</option>
@@ -1610,16 +1241,12 @@ window.toggleAnonMsg = function(postId) {
       </div>
       <button onclick="saveAreaAlert()" class="btn-primary" style="width:100%;">🔔 Alert Set Karo</button>
     </div>
-
     <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;">Your Active Alerts</div>
-    <div id="alerts-list">
-      <div style="text-align:center;padding:24px;color:var(--text-muted);font-size:14px;">Koi alert set nahi hai</div>
-    </div>
+    <div id="alerts-list"><div style="text-align:center;padding:24px;color:var(--text-muted);font-size:14px;">Koi alert set nahi hai</div></div>
   </div>
 </div>
 
-
-<!-- ===== POLICE FIR PAGE ===== -->
+<!-- POLICE FIR PAGE -->
 <div class="page" id="page-fir">
   <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
     <span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span>
@@ -1627,81 +1254,51 @@ window.toggleAnonMsg = function(postId) {
   </div>
   <div style="padding:20px 20px 110px;">
     <div style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);border-radius:16px;padding:20px;margin-bottom:20px;color:white;">
-      <div style="font-size:13px;opacity:.7;margin-bottom:4px;">🇮🇳 India Police Help</div>
-      <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;">FIR Draft Banao —Free</div>
-      <div style="font-size:13px;opacity:.8;line-height:1.6;">Details bharo →PDF ready →Police station le jaao. Sab kuch pre-filled milega.</div>
+      <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;">FIR Draft Banao — Free</div>
+      <div style="font-size:13px;opacity:.8;line-height:1.6;">Details bharo → PDF ready → Police station le jaao.</div>
     </div>
-
     <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
       <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;">📋 Item Details</div>
-      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🏷️Item Name</label>
-        <input id="fir-item" type="text" placeholder="e.g. Samsung Galaxy S23, Leather Wallet" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
-      </div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🏷️ Item Name</label><input id="fir-item" type="text" placeholder="e.g. Samsung Galaxy S23, Leather Wallet" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📂 Category</label>
         <select id="fir-cat" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;">
-          <option value="">-- Select --</option>
-          <option>Mobile Phone</option><option>Wallet / Purse</option><option>Laptop / Tablet</option>
-          <option>Jewellery</option><option>Documents / ID</option><option>Bag / Backpack</option>
-          <option>Keys</option><option>Watch</option><option>Cash</option><option>Other</option>
+          <option value="">-- Select --</option><option>Mobile Phone</option><option>Wallet / Purse</option><option>Laptop / Tablet</option><option>Jewellery</option><option>Documents / ID</option><option>Bag / Backpack</option><option>Keys</option><option>Watch</option><option>Cash</option><option>Other</option>
         </select>
       </div>
-      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📝 Description (Color, Brand, Model)</label>
-        <textarea id="fir-desc" placeholder="e.g. Black Samsung phone, IMEI: 123456789, 6.1 inch screen, cracked back cover" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;resize:vertical;min-height:80px;"></textarea>
-      </div>
-      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">💰 Approximate Value (₹</label>
-        <input id="fir-value" type="number" placeholder="e.g. 15000" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
-      </div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📝 Description</label><textarea id="fir-desc" placeholder="Color, Brand, Model, IMEI etc." style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;resize:vertical;min-height:80px;"></textarea></div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">💰 Approximate Value (₹)</label><input id="fir-value" type="number" placeholder="e.g. 15000" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
     </div>
-
     <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
       <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;">📍 Incident Details</div>
-      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📍 Location where lost</label>
-        <input id="fir-loc" type="text" placeholder="e.g. Connaught Place Metro, Gate No. 2, New Delhi" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
-      </div>
-      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📅 Date & Time</label>
-        <input id="fir-date" type="datetime-local" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
-      </div>
-      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🔍 How it was lost (optional)</label>
-        <textarea id="fir-how" placeholder="e.g. I was travelling in Metro from Rajiv Chowk to Kashmere Gate. When I reached my destination, I realized my bag was missing from the overhead rack." style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;resize:vertical;min-height:70px;"></textarea>
-      </div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📍 Location where lost</label><input id="fir-loc" type="text" placeholder="e.g. Connaught Place Metro, Gate No. 2" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📅 Date & Time</label><input id="fir-date" type="datetime-local" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🔍 How it was lost (optional)</label><textarea id="fir-how" placeholder="Describe the circumstances..." style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;resize:vertical;min-height:70px;"></textarea></div>
     </div>
-
     <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
       <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;">👤 Your Details</div>
-      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">👤 Full Name</label>
-        <input id="fir-name" type="text" placeholder="As per Aadhaar / ID" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
-      </div>
-      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📱 Mobile Number</label>
-        <input id="fir-phone" type="tel" placeholder="+91 XXXXX XXXXX" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
-      </div>
-      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🏠 Address</label>
-        <input id="fir-addr" type="text" placeholder="Your current address" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
-      </div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">👤 Full Name</label><input id="fir-name" type="text" placeholder="As per Aadhaar / ID" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📱 Mobile Number</label><input id="fir-phone" type="tel" placeholder="+91 XXXXX XXXXX" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🏠 Address</label><input id="fir-addr" type="text" placeholder="Your current address" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🪪 ID Proof Type</label>
         <select id="fir-idtype" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;">
-          <option>Aadhaar Card</option><option>PAN Card</option><option>Passport</option>
-          <option>Voter ID</option><option>Driving Licence</option>
+          <option>Aadhaar Card</option><option>PAN Card</option><option>Passport</option><option>Voter ID</option><option>Driving Licence</option>
         </select>
       </div>
     </div>
-
     <button onclick="generateFIR()" class="btn-primary" style="width:100%;margin-bottom:10px;font-size:16px;padding:14px;">📄 FIR Draft Generate Karo</button>
     <div style="background:#EFF6FF;border-radius:12px;padding:14px;font-size:12px;color:#1D4ED8;line-height:1.7;">
-      💡 <strong>Note:</strong> Yeh ek draft hai jo police station mein submit karne ke liye hai. Online FIR ke liye apne state ke police portal pe jaayein.
-      <br>🔗 <a href="https://www.digitalpolice.gov.in" target="_blank" style="color:#1D4ED8;font-weight:700;">digitalpolice.gov.in</a> —National Police Portal
+      💡 <strong>Note:</strong> Yeh ek draft hai jo police station mein submit karne ke liye hai.<br>
+      🔗 <a href="https://www.digitalpolice.gov.in" target="_blank" style="color:#1D4ED8;font-weight:700;">digitalpolice.gov.in</a> — National Police Portal
     </div>
   </div>
 </div>
 
-<!-- ===== FIR PREVIEW MODAL ===== -->
+<!-- FIR PREVIEW MODAL -->
 <div id="fir-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:600;align-items:flex-end;justify-content:center;" onclick="if(event.target===this)document.getElementById('fir-modal').style.display='none'">
   <div style="background:white;border-radius:20px 20px 0 0;padding:24px;width:100%;max-height:90vh;overflow-y:auto;">
     <div style="width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px;"></div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-      <div>
-        <div style="font-family:'Sora',sans-serif;font-size:17px;font-weight:700;">📄 FIR Draft Ready!</div>
-        <div style="font-size:12px;color:var(--text-muted);">Copy karke police station mein submit karo</div>
-      </div>
+      <div><div style="font-family:'Sora',sans-serif;font-size:17px;font-weight:700;">📄 FIR Draft Ready!</div><div style="font-size:12px;color:var(--text-muted);">Copy karke police station mein submit karo</div></div>
       <button onclick="document.getElementById('fir-modal').style.display='none'" style="background:var(--gray);border:none;border-radius:50%;width:32px;height:32px;font-size:18px;cursor:pointer;">×</button>
     </div>
     <div id="fir-preview" style="background:#F8FAFC;border:1.5px solid #CBD5E1;border-radius:12px;padding:16px;font-size:13px;line-height:1.9;white-space:pre-wrap;font-family:monospace;color:#1e293b;margin-bottom:16px;"></div>
@@ -1710,66 +1307,40 @@ window.toggleAnonMsg = function(postId) {
   </div>
 </div>
 
-<!-- ===== QR TAG PAGE ===== -->
+<!-- QR TAG PAGE -->
 <div class="page" id="page-qrtag">
   <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
     <span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span>
-    <span style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;">🏷️QR Smart Tag</span>
+    <span style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;">🏷️ QR Smart Tag</span>
   </div>
   <div style="padding:20px 20px 110px;">
     <div style="background:linear-gradient(135deg,#E8722A 0%,#c45a1a 100%);border-radius:16px;padding:22px;margin-bottom:20px;color:white;text-align:center;">
       <div style="font-size:40px;margin-bottom:8px;">🏷️</div>
       <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;">Smart QR Tag</div>
-      <div style="font-size:13px;opacity:.85;line-height:1.6;">Apne items pe lagao —Koi bhi scan kare aur seedha tumse contact kare. Number share karne ki zaroorat nahi!</div>
+      <div style="font-size:13px;opacity:.85;">Apne items pe lagao — Koi bhi scan kare aur seedha tumse contact kare.</div>
     </div>
-
     <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
-      <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;">📋 Tag Details</div>
-      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">👤 Owner Name (Optional)</label>
-        <input id="qr-name" type="text" placeholder="e.g. Samarendra (First name only for privacy)" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
-      </div>
-      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🏷️Item Name</label>
-        <input id="qr-item" type="text" placeholder="e.g. My Laptop Bag, Bike Helmet, School Bag" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
-      </div>
-      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📱 Contact (Optional —stays private)</label>
-        <input id="qr-contact" type="text" placeholder="Phone or email —finder ko securely milega" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
-      </div>
-      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">💬 Message for Finder</label>
-        <textarea id="qr-msg" placeholder="e.g. Agar yeh item mila hai toh please contact karen. Reward milega! 🙏" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;resize:vertical;min-height:70px;"></textarea>
-      </div>
-      <button onclick="generateQR()" class="btn-primary" style="width:100%;font-size:15px;padding:13px;">🏷️QR Tag Generate Karo</button>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">👤 Owner Name (Optional)</label><input id="qr-name" type="text" placeholder="e.g. Samarendra" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🏷️ Item Name</label><input id="qr-item" type="text" placeholder="e.g. My Laptop Bag" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📱 Contact (Optional)</label><input id="qr-contact" type="text" placeholder="Phone or email" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">💬 Message for Finder</label><textarea id="qr-msg" placeholder="e.g. Agar yeh item mila hai toh please contact karen. 🙏" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;resize:vertical;min-height:70px;"></textarea></div>
+      <button onclick="generateQR()" class="btn-primary" style="width:100%;">🏷️ QR Tag Generate Karo</button>
     </div>
-
     <div id="qr-result" style="display:none;">
       <div style="background:white;border:2px solid var(--orange);border-radius:16px;padding:20px;text-align:center;margin-bottom:16px;">
         <div id="qr-code-display" style="margin-bottom:16px;"></div>
         <div id="qr-item-label" style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;margin-bottom:4px;"></div>
         <div id="qr-owner-label" style="font-size:13px;color:var(--text-muted);margin-bottom:12px;"></div>
-        <div style="background:#FFF5EE;border-radius:10px;padding:10px;font-size:12px;color:#E8722A;font-weight:600;">
-          📱 Scan karne pe FindBack contact page khulega
-        </div>
       </div>
       <div style="display:flex;gap:10px;">
         <button onclick="shareQR()" style="flex:1;padding:13px;background:#25D366;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">💬 Share</button>
-        <button onclick="printQR()" style="flex:1;padding:13px;background:var(--gray);color:var(--black);border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">🖨️Print</button>
-      </div>
-    </div>
-
-    <div style="margin-top:20px;">
-      <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px;">📌 Kahan lagaein?</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <div style="background:var(--gray);border-radius:10px;padding:12px;text-align:center;font-size:13px;">💼 Bags</div>
-        <div style="background:var(--gray);border-radius:10px;padding:12px;text-align:center;font-size:13px;">💻 Laptop</div>
-        <div style="background:var(--gray);border-radius:10px;padding:12px;text-align:center;font-size:13px;">🪖 Helmet</div>
-        <div style="background:var(--gray);border-radius:10px;padding:12px;text-align:center;font-size:13px;">🎒 School Bag</div>
-        <div style="background:var(--gray);border-radius:10px;padding:12px;text-align:center;font-size:13px;">📱 Phone Case</div>
-        <div style="background:var(--gray);border-radius:10px;padding:12px;text-align:center;font-size:13px;">🚲 Cycle / Bike</div>
+        <button onclick="printQR()" style="flex:1;padding:13px;background:var(--gray);color:var(--black);border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">🖨️ Print</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ===== TRUST SCORE PAGE ===== -->
+<!-- TRUST SCORE PAGE -->
 <div class="page" id="page-trust">
   <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
     <span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span>
@@ -1781,57 +1352,19 @@ window.toggleAnonMsg = function(postId) {
       <div id="trust-name" style="font-family:'Sora',sans-serif;font-size:18px;font-weight:700;margin-bottom:4px;">Login karo</div>
       <div id="trust-badge" style="font-size:13px;opacity:.7;margin-bottom:16px;">Trust score dekhne ke liye</div>
       <div style="display:flex;justify-content:center;gap:24px;">
-        <div style="text-align:center;">
-          <div id="trust-score" style="font-family:'Sora',sans-serif;font-size:36px;font-weight:700;color:var(--orange);">--</div>
-          <div style="font-size:11px;opacity:.7;">Trust Score</div>
-        </div>
-        <div style="text-align:center;">
-          <div id="trust-returns" style="font-family:'Sora',sans-serif;font-size:36px;font-weight:700;color:#4CAF50;">0</div>
-          <div style="font-size:11px;opacity:.7;">Items Returned</div>
-        </div>
-        <div style="text-align:center;">
-          <div id="trust-posts" style="font-family:'Sora',sans-serif;font-size:36px;font-weight:700;color:#64B5F6;">0</div>
-          <div style="font-size:11px;opacity:.7;">Total Posts</div>
-        </div>
+        <div style="text-align:center;"><div id="trust-score" style="font-family:'Sora',sans-serif;font-size:36px;font-weight:700;color:var(--orange);">--</div><div style="font-size:11px;opacity:.7;">Trust Score</div></div>
+        <div style="text-align:center;"><div id="trust-posts" style="font-family:'Sora',sans-serif;font-size:36px;font-weight:700;color:#64B5F6;">0</div><div style="font-size:11px;opacity:.7;">Total Posts</div></div>
       </div>
     </div>
-
     <div id="trust-level-card" style="border-radius:14px;padding:16px;margin-bottom:16px;text-align:center;background:#FFF5EE;border:2px solid var(--orange);">
       <div id="trust-level-icon" style="font-size:36px;margin-bottom:6px;">🆕</div>
       <div id="trust-level-name" style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;">New Member</div>
       <div id="trust-level-desc" style="font-size:12px;color:var(--text-muted);margin-top:4px;">Post karo aur items return karo score badhane ke liye</div>
     </div>
-
-    <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px;">🏆 Trust Levels</div>
-    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
-      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--gray);border-radius:10px;">
-        <span style="font-size:24px;">🆕</span><div><div style="font-weight:600;font-size:13px;">New Member</div><div style="font-size:11px;color:var(--text-muted);">0-9 score</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:#EFF6FF;border-radius:10px;">
-        <span style="font-size:24px;">✅</span><div><div style="font-weight:600;font-size:13px;">Trusted User</div><div style="font-size:11px;color:#3B82F6;">10-29 score •1+ item returned</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:#F0FDF4;border-radius:10px;">
-        <span style="font-size:24px;">⭐</span><div><div style="font-weight:600;font-size:13px;">Star Finder</div><div style="font-size:11px;color:#16A34A;">30-59 score •3+ items returned</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:#FFF7ED;border-radius:10px;">
-        <span style="font-size:24px;">🏅</span><div><div style="font-weight:600;font-size:13px;">Hero Finder</div><div style="font-size:11px;color:#EA580C;">60-89 score •5+ items returned</div></div>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:linear-gradient(135deg,#FEF9C3,#FEF08A);border-radius:10px;border:1.5px solid #EAB308;">
-        <span style="font-size:24px;">👑</span><div><div style="font-weight:600;font-size:13px;">Legend</div><div style="font-size:11px;color:#A16207;">90+ score •10+ items returned</div></div>
-      </div>
-    </div>
-
-    <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px;">📈 Score kaise badhaye?</div>
-    <div style="background:var(--gray);border-radius:14px;padding:16px;">
-      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;"><span>📝 Post karo</span><span style="color:#059669;font-weight:700;">+2 points</span></div>
-      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;"><span>🎉 Item return karo</span><span style="color:#059669;font-weight:700;">+10 points</span></div>
-      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;"><span>⭐Good review milo</span><span style="color:#059669;font-weight:700;">+5 points</span></div>
-      <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:13px;"><span>🔒 Verified contact add</span><span style="color:#059669;font-weight:700;">+3 points</span></div>
-    </div>
   </div>
 </div>
 
-<!-- ===== REWARD ESCROW PAGE ===== -->
+<!-- REWARD PAGE -->
 <div class="page" id="page-reward">
   <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
     <span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span>
@@ -1841,77 +1374,48 @@ window.toggleAnonMsg = function(postId) {
     <div style="background:linear-gradient(135deg,#065F46 0%,#047857 100%);border-radius:16px;padding:22px;margin-bottom:20px;color:white;text-align:center;">
       <div style="font-size:40px;margin-bottom:8px;">💰</div>
       <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;">Safe Reward System</div>
-      <div style="font-size:13px;opacity:.85;line-height:1.6;">Reward offer karo —Finder ko milega sirf item return karne ke baad. Dono parties 100% safe.</div>
+      <div style="font-size:13px;opacity:.85;">Reward offer karo — Finder ko milega sirf item return karne ke baad.</div>
     </div>
-
-    <div style="background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:14px;padding:16px;margin-bottom:16px;">
-      <div style="font-size:13px;font-weight:700;color:#15803D;margin-bottom:8px;">🛡️Yeh kaise kaam karta hai:</div>
-      <div style="font-size:13px;color:#166534;line-height:1.9;">
-        1️⃣ Owner reward amount set kare post mein<br>
-        2️⃣ Finder item return kare<br>
-        3️⃣ Owner confirm kare<br>
-        4️⃣ Finder ko UPI se payment jaaye<br>
-        ✅<strong>Fraud impossible —dono safe</strong>
-      </div>
-    </div>
-
     <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
-      <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;">💰 Reward Amount Calculator</div>
-      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Item ki Value (₹</label>
-        <input id="rew-value" type="number" placeholder="e.g. 15000" oninput="calcReward()" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
-      </div>
+      <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;">💰 Reward Calculator</div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Item ki Value (₹)</label><input id="rew-value" type="number" placeholder="e.g. 15000" oninput="calcReward()" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
       <div id="reward-suggestions" style="display:none;margin-top:8px;">
         <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Suggested reward amounts:</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;" id="reward-chips"></div>
       </div>
     </div>
-
-    <div style="background:#FFF5EE;border:1.5px solid var(--orange);border-radius:14px;padding:16px;margin-bottom:16px;">
-      <div style="font-size:13px;font-weight:700;color:var(--orange);margin-bottom:8px;">💡 Reward Tips:</div>
-      <div style="font-size:13px;color:#92400E;line-height:1.8;">
-        •<strong>5-10%</strong> of item value = Standard reward<br>
-        •<strong>10-20%</strong> = High priority —jaldi milega<br>
-        •Documents/IDs ke liye ₹00-500 kaafi hai<br>
-        •Pet ke liye ₹00-2000 set karo
-      </div>
-    </div>
-
     <div style="background:var(--gray);border-radius:14px;padding:16px;">
       <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px;">🏆 Top Reward Posts</div>
-      <div id="top-reward-posts">
-        <div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">Reward posts load ho rahe hain...</div>
-      </div>
+      <div id="top-reward-posts"><div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">Loading...</div></div>
     </div>
   </div>
 </div>
 
 <script>
-// ============================================================
-// 👮 POLICE FIR GENERATOR
-// ============================================================
+// FIR GENERATOR — FIXED VERSION
 window.generateFIR = function() {
-  const item    = document.getElementById('fir-item').value.trim();
-  const cat     = document.getElementById('fir-cat').value;
-  const desc    = document.getElementById('fir-desc').value.trim();
-  const value   = document.getElementById('fir-value').value.trim();
-  const loc     = document.getElementById('fir-loc').value.trim();
-  const date    = document.getElementById('fir-date').value;
-  const how     = document.getElementById('fir-how').value.trim();
-  const name    = document.getElementById('fir-name').value.trim();
-  const phone   = document.getElementById('fir-phone').value.trim();
-  const addr    = document.getElementById('fir-addr').value.trim();
-  const idtype  = document.getElementById('fir-idtype').value;
+  const item   = document.getElementById('fir-item').value.trim();
+  const cat    = document.getElementById('fir-cat').value;
+  const desc   = document.getElementById('fir-desc').value.trim();
+  const value  = document.getElementById('fir-value').value.trim();
+  const loc    = document.getElementById('fir-loc').value.trim();
+  const date   = document.getElementById('fir-date').value;
+  const how    = document.getElementById('fir-how').value.trim();
+  const name   = document.getElementById('fir-name').value.trim();
+  const phone  = document.getElementById('fir-phone').value.trim();
+  const addr   = document.getElementById('fir-addr').value.trim();
+  const idtype = document.getElementById('fir-idtype').value;
 
   if (!item || !loc || !name || !phone) {
     toast('⚠️ Item name, location, aapka naam aur phone zaroori hai');
     return;
   }
 
-  const dateStr = date ? new Date(date).toLocaleString('en-IN') : new Date().toLocaleString('en-IN');
+  const dateStr  = date ? new Date(date).toLocaleString('en-IN') : new Date().toLocaleString('en-IN');
   const todayStr = new Date().toLocaleDateString('en-IN');
+  const line     = '─'.repeat(32);
 
-  const firText = `
-TO,
+  const firText = `TO,
 The Station House Officer,
 [Nearest Police Station Name]
 [City], [State]
@@ -1922,27 +1426,34 @@ Respected Sir/Madam,
 
 I, ${name}, resident of ${addr || '[Your Address]'}, am writing to report the loss of my ${cat || item} under the following circumstances:
 
-━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━nLOST ITEM DETAILS
-━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━nItem         : ${item}
+${line}
+LOST ITEM DETAILS
+${line}
+Item         : ${item}
 Category     : ${cat || 'Not specified'}
 Description  : ${desc || 'Not specified'}
-Approx. Value: ₹{value || 'Not specified'}
+Approx. Value: ${value ? '₹' + value : 'Not specified'}
 
-━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━nINCIDENT DETAILS
-━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━nDate & Time  : ${dateStr}
+${line}
+INCIDENT DETAILS
+${line}
+Date & Time  : ${dateStr}
 Location     : ${loc}
 Circumstances: ${how || 'The item was misplaced/stolen at the above mentioned location.'}
 
-━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━nCOMPLAINANT DETAILS
-━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━nName         : ${name}
+${line}
+COMPLAINANT DETAILS
+${line}
+Name         : ${name}
 Mobile       : ${phone}
 Address      : ${addr || '[Your Address]'}
 ID Proof     : ${idtype}
 
-━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━u2501━n
-I humbly request you to kindly register an FIR and take necessary action in this matter. I am ready to cooperate fully with the police investigation.
+${line}
 
-I also hereby declare that all the information provided above is true to the best of my knowledge.
+I humbly request you to kindly register an FIR and take necessary action. I am ready to cooperate fully with the police investigation.
+
+I hereby declare that all the information provided above is true to the best of my knowledge.
 
 Thanking you,
 
@@ -1953,8 +1464,7 @@ Signature: _______________
 Name: ${name}
 Mobile: ${phone}
 
-[Note: Also listed on FindBack —India's Lost & Found Platform]
-`.trim();
+[Note: Also listed on FindBack — India's Lost & Found Platform]`;
 
   window._lastFIR = firText;
   document.getElementById('fir-preview').textContent = firText;
@@ -1963,7 +1473,7 @@ Mobile: ${phone}
 
 window.copyFIR = function() {
   if (navigator.clipboard && window._lastFIR) {
-    navigator.clipboard.writeText(window._lastFIR).then(() => toast('✅FIR draft copied! Paste karke print karo.'));
+    navigator.clipboard.writeText(window._lastFIR).then(() => toast('✅ FIR draft copied!'));
   } else {
     const ta = document.createElement('textarea');
     ta.value = window._lastFIR || '';
@@ -1971,7 +1481,7 @@ window.copyFIR = function() {
     ta.select();
     document.execCommand('copy');
     document.body.removeChild(ta);
-    toast('✅Copied!');
+    toast('✅ Copied!');
   }
 };
 
@@ -1980,114 +1490,59 @@ window.shareFIRWhatsApp = function() {
   window.open('https://wa.me/?text=' + msg, '_blank');
 };
 
-// ============================================================
-// 🏷️QR TAG GENERATOR
-// ============================================================
+// QR TAG
 window.generateQR = function() {
   const name    = document.getElementById('qr-name').value.trim();
   const item    = document.getElementById('qr-item').value.trim();
   const contact = document.getElementById('qr-contact').value.trim();
   const msg     = document.getElementById('qr-msg').value.trim();
-
   if (!item) { toast('⚠️ Item name daalo'); return; }
-
-  // Generate unique tag ID
   const tagId = 'FB' + Date.now().toString(36).toUpperCase();
-
-  // QR data - a findback contact URL
-  const qrData = encodeURIComponent(`https://findback.in/tag/${tagId}?item=${encodeURIComponent(item)}&owner=${encodeURIComponent(name)}&contact=${encodeURIComponent(contact)}&msg=${encodeURIComponent(msg)}`);
-
-  // Use QR code API
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qrData}&color=111111&bgcolor=ffffff&qzone=2`;
-
-  const result = document.getElementById('qr-result');
+  const qrData = encodeURIComponent('https://lukyjamatia-tech.github.io/tag/' + tagId + '?item=' + encodeURIComponent(item) + '&owner=' + encodeURIComponent(name) + '&contact=' + encodeURIComponent(contact) + '&msg=' + encodeURIComponent(msg));
+  const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + qrData + '&color=111111&bgcolor=ffffff&qzone=2';
   const display = document.getElementById('qr-code-display');
-
-  display.innerHTML = `
-    <img src="${qrUrl}" alt="QR Code" style="width:180px;height:180px;border-radius:12px;border:3px solid var(--orange);" onerror="this.parentElement.innerHTML='<div style=\'font-size:48px\'>📱</div><div style=\'font-size:11px;color:var(--text-muted)\'>QR image load failed —share link use karo</div>'">
-    <div style="margin-top:10px;font-size:11px;color:var(--text-muted);">Tag ID: ${tagId}</div>
-  `;
-
-  document.getElementById('qr-item-label').textContent = '🏷️' + item;
+  display.innerHTML = '<img src="' + qrUrl + '" alt="QR Code" style="width:180px;height:180px;border-radius:12px;border:3px solid var(--orange);"><div style="margin-top:10px;font-size:11px;color:var(--text-muted);">Tag ID: ' + tagId + '</div>';
+  document.getElementById('qr-item-label').textContent = '🏷️ ' + item;
   document.getElementById('qr-owner-label').textContent = name ? ('👤 ' + name + ' ka item') : 'FindBack Tagged Item';
-  result.style.display = 'block';
-  result.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
+  document.getElementById('qr-result').style.display = 'block';
   window._lastQRData = { tagId, item, name, contact, msg, qrUrl };
-  toast('✅QR Tag ready! Print karo ya share karo.');
+  toast('✅ QR Tag ready!');
 };
 
 window.shareQR = function() {
   if (!window._lastQRData) return;
   const d = window._lastQRData;
-  const text = '\uD83C\uDFF7\uFE0F FindBack QR Tag\n\nItem: ' + d.item +
-    (d.name ? '\nOwner: ' + d.name : '') +
-    (d.msg ? '\nMessage: ' + d.msg : '') +
-    '\n\nAgar yeh item mile toh please scan karein ya contact karein.\n\nPowered by FindBack — India\'s Lost & Found Platform';
-  if (navigator.share) {
-    navigator.share({ title: 'FindBack QR Tag', text });
-  } else {
-    const wa = encodeURIComponent(text);
-    window.open('https://wa.me/?text=' + wa, '_blank');
-  }
+  const text = '🏷️ FindBack QR Tag\n\nItem: ' + d.item + (d.name ? '\nOwner: ' + d.name : '') + (d.msg ? '\nMessage: ' + d.msg : '') + '\n\nAgar yeh item mile toh scan karein.\n\nFindBack — India\'s Lost & Found Platform';
+  if (navigator.share) { navigator.share({ title: 'FindBack QR Tag', text }); }
+  else { window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank'); }
 };
 
 window.printQR = function() {
   if (!window._lastQRData) return;
   const d = window._lastQRData;
   const w = window.open('', '_blank');
-  const printHTML = [
-    '<html><head><title>FindBack QR Tag - ' + d.item + '</title>',
-    '<style>body{font-family:sans-serif;text-align:center;padding:20px;}',
-    '.tag{border:3px solid #E8722A;border-radius:16px;padding:20px;display:inline-block;max-width:300px;}',
-    'h2{color:#E8722A;} .brand{font-size:12px;color:#777;margin-top:12px;}</style>',
-    '</head><body><div class="tag">',
-    '<h2>&#127991;&#65039; FindBack Smart Tag</h2>',
-    '<img src="' + d.qrUrl + '" style="width:180px;height:180px;">',
-    '<h3>' + d.item + '</h3>',
-    d.name ? '<p>Owner: <b>' + d.name + '</b></p>' : '',
-    d.msg ? '<p style="font-size:13px;color:#555;">' + d.msg + '</p>' : '',
-    '<p style="font-size:12px;color:#E8722A;font-weight:bold;">&#128241; Scan to contact owner</p>',
-    '<div class="brand">FindBack —Find what the world lost</div>',
-    '</div></body></html>'
-  ].join('');
-  w.document.write(printHTML);
+  w.document.write('<html><head><title>FindBack QR Tag</title><style>body{font-family:sans-serif;text-align:center;padding:20px;}.tag{border:3px solid #E8722A;border-radius:16px;padding:20px;display:inline-block;max-width:300px;}h2{color:#E8722A;}</style></head><body><div class="tag"><h2>🏷️ FindBack Smart Tag</h2><img src="' + d.qrUrl + '" style="width:180px;height:180px;"><h3>' + d.item + '</h3>' + (d.name ? '<p>Owner: <b>' + d.name + '</b></p>' : '') + (d.msg ? '<p style="font-size:13px;color:#555;">' + d.msg + '</p>' : '') + '<p style="font-size:12px;color:#E8722A;font-weight:bold;">📱 Scan to contact owner</p></div></body></html>');
   w.document.close();
   setTimeout(() => w.print(), 300);
 };
 
-// ============================================================
-// 🤝 TRUST SCORE SYSTEM
-// ============================================================
+// TRUST SCORE
 window.loadTrustScore = function() {
   const user = window._currentUser;
   const posts = window._allPosts || [];
-
-  if (!user) {
-    document.getElementById('trust-name').textContent = 'Login karo';
-    document.getElementById('trust-badge').textContent = 'Trust score dekhne ke liye';
-    document.getElementById('trust-score').textContent = '--';
-    return;
-  }
-
+  if (!user) { document.getElementById('trust-name').textContent = 'Login karo'; document.getElementById('trust-score').textContent = '--'; return; }
   const myPosts = posts.filter(p => p.uid === user.uid);
-  const postCount = myPosts.length;
-  // Base score: 2 per post + 10 per return (simulated here)
-  const baseScore = postCount * 2;
-  const score = Math.min(99, baseScore);
-
+  const score = Math.min(99, myPosts.length * 2);
   document.getElementById('trust-avatar').textContent = (user.displayName||'U')[0].toUpperCase();
   document.getElementById('trust-name').textContent = user.displayName || 'User';
   document.getElementById('trust-score').textContent = score;
-  document.getElementById('trust-posts').textContent = postCount;
-
+  document.getElementById('trust-posts').textContent = myPosts.length;
   let level, icon, desc, bg;
-  if (score >= 90)      { level='Legend';       icon='👑'; desc='Top 1% finder —aap hero ho!'; bg='linear-gradient(135deg,#FEF9C3,#FEF08A)'; }
-  else if (score >= 60) { level='Hero Finder';  icon='🏅'; desc='Bahut trusted user —great work!'; bg='#FFF7ED'; }
+  if (score >= 90)      { level='Legend';       icon='👑'; desc='Top 1% finder!'; bg='linear-gradient(135deg,#FEF9C3,#FEF08A)'; }
+  else if (score >= 60) { level='Hero Finder';  icon='🏅'; desc='Bahut trusted user!'; bg='#FFF7ED'; }
   else if (score >= 30) { level='Star Finder';  icon='⭐'; desc='Community ka trusted member'; bg='#F0FDF4'; }
   else if (score >= 10) { level='Trusted User'; icon='✅'; desc='Acha start! Aur posts karo'; bg='#EFF6FF'; }
   else                  { level='New Member';   icon='🆕'; desc='Post karo aur score badhao'; bg='#FFF5EE'; }
-
   document.getElementById('trust-level-icon').textContent = icon;
   document.getElementById('trust-level-name').textContent = level;
   document.getElementById('trust-level-desc').textContent = desc;
@@ -2095,50 +1550,31 @@ window.loadTrustScore = function() {
   document.getElementById('trust-badge').textContent = icon + ' ' + level;
 };
 
-// ============================================================
-// 💰 REWARD CALCULATOR
-// ============================================================
+// REWARD CALCULATOR
 window.calcReward = function() {
   const val = parseInt(document.getElementById('rew-value').value) || 0;
   if (!val) { document.getElementById('reward-suggestions').style.display='none'; return; }
-
   const chips = [
-    { pct: 5,  label: '5% —Standard', amount: Math.round(val*0.05) },
-    { pct: 10, label: '10% —Good',    amount: Math.round(val*0.10) },
-    { pct: 15, label: '15% —Priority',amount: Math.round(val*0.15) },
-    { pct: 20, label: '20% —Urgent!', amount: Math.round(val*0.20) },
+    { pct:5,  label:'5% — Standard', amount:Math.round(val*0.05) },
+    { pct:10, label:'10% — Good',    amount:Math.round(val*0.10) },
+    { pct:15, label:'15% — Priority',amount:Math.round(val*0.15) },
+    { pct:20, label:'20% — Urgent!', amount:Math.round(val*0.20) },
   ];
-
   document.getElementById('reward-chips').innerHTML = chips.map(c =>
-    `<div onclick="toast('✅₹{c.amount} reward —Post mein add karo!')"
-      style="background:#D1FAE5;color:#065F46;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;">
-      ₹{c.amount} (${c.label})
-    </div>`
+    '<div onclick="toast(\'✅ ₹' + c.amount + ' reward — Post mein add karo!\')" style="background:#D1FAE5;color:#065F46;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;">₹' + c.amount + ' (' + c.label + ')</div>'
   ).join('');
   document.getElementById('reward-suggestions').style.display='block';
 };
 
-// Load top reward posts
 window.loadRewardPosts = function() {
-  const posts = (window._allPosts||[]).filter(p=>p.reward && parseInt(p.reward)>0)
-    .sort((a,b)=>parseInt(b.reward)-parseInt(a.reward)).slice(0,5);
+  const posts = (window._allPosts||[]).filter(p=>p.reward && parseInt(p.reward)>0).sort((a,b)=>parseInt(b.reward)-parseInt(a.reward)).slice(0,5);
   const el = document.getElementById('top-reward-posts');
   if (!el) return;
-  if (!posts.length) {
-    el.innerHTML = '<div style="text-align:center;padding:16px;color:var(--text-muted);font-size:13px;">Koi reward posts nahi hain abhi</div>';
-    return;
-  }
+  if (!posts.length) { el.innerHTML = '<div style="text-align:center;padding:16px;color:var(--text-muted);font-size:13px;">Koi reward posts nahi hain abhi</div>'; return; }
   el.innerHTML = posts.map(p => {
     const tc=p.type==='lost'?'#FEE2E2':'#D1FAE5';
     const tt=p.type==='lost'?'#DC2626':'#059669';
-    return `<div onclick="openDetail('${p.id}')" style="display:flex;align-items:center;gap:10px;padding:10px;background:white;border-radius:10px;margin-bottom:8px;cursor:pointer;border:1.5px solid var(--border);">
-      <div style="background:#FEF9C3;color:#92400E;font-weight:800;font-size:15px;padding:6px 12px;border-radius:10px;min-width:70px;text-align:center;">₹{p.reward}</div>
-      <div style="flex:1;">
-        <div style="font-size:13px;font-weight:700;">${p.item}</div>
-        <div style="font-size:11px;color:var(--text-muted);">📍 ${p.loc}</div>
-      </div>
-      <span style="background:${tc};color:${tt};font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;">${p.type==='lost'?'Lost':'Found'}</span>
-    </div>`;
+    return '<div onclick="openDetail(\'' + p.id + '\')" style="display:flex;align-items:center;gap:10px;padding:10px;background:white;border-radius:10px;margin-bottom:8px;cursor:pointer;border:1.5px solid var(--border);"><div style="background:#FEF9C3;color:#92400E;font-weight:800;font-size:15px;padding:6px 12px;border-radius:10px;min-width:70px;text-align:center;">₹' + p.reward + '</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;">' + p.item + '</div><div style="font-size:11px;color:var(--text-muted);">📍 ' + p.loc + '</div></div><span style="background:' + tc + ';color:' + tt + ';font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;">' + (p.type==='lost'?'Lost':'Found') + '</span></div>';
   }).join('');
 };
 </script>
