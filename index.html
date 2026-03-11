@@ -1771,6 +1771,26 @@ window.setCatGrid = function(cat) {
       <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;">FIR Draft Banao — Free</div>
       <div style="font-size:13px;opacity:.8;line-height:1.6;">Details bharo → PDF ready → Police station le jaao.</div>
     </div>
+    <!-- Language Selector -->
+    <div style="background:#FFF8F0;border:2px solid #FFD4A8;border-radius:14px;padding:14px 16px;margin-bottom:16px;">
+      <label style="font-size:13px;font-weight:700;display:block;margin-bottom:8px;color:#111;">🌐 FIR Language चुनें / Select Language</label>
+      <select id="fir-lang" onchange="updateFIRLangUI()" style="width:100%;padding:11px 14px;border:1.5px solid #FFD4A8;border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;font-weight:600;">
+        <option value="en">🇮🇳 English (Default)</option>
+        <option value="hi">हिंदी — Hindi</option>
+        <option value="bn">বাংলা — Bengali</option>
+        <option value="te">తెలుగు — Telugu</option>
+        <option value="mr">मराठी — Marathi</option>
+        <option value="ta">தமிழ் — Tamil</option>
+        <option value="gu">ગુજરાતી — Gujarati</option>
+        <option value="kn">ಕನ್ನಡ — Kannada</option>
+        <option value="ml">മലയാളം — Malayalam</option>
+        <option value="pa">ਪੰਜਾਬੀ — Punjabi</option>
+        <option value="or">ଓଡ଼ିଆ — Odia</option>
+        <option value="as">অসমীয়া — Assamese</option>
+        <option value="ur">اردو — Urdu</option>
+      </select>
+      <div id="fir-lang-note" style="font-size:11px;color:#C07A3A;margin-top:6px;font-weight:500;">✅ FIR draft aapki chosen language mein generate hoga</div>
+    </div>
     <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
       <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;">📋 Item Details</div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🏷️ Item Name</label><input id="fir-item" type="text" placeholder="e.g. Samsung Galaxy S23, Leather Wallet" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
@@ -1983,7 +2003,213 @@ var INDIA_POLICE_DATA={"Andhra Pradesh":{"Anantapur":["Anantapur Town PS","Hindu
 window.onFirStateChange=function(){var state=document.getElementById('fir-state').value;var dd=document.getElementById('fir-district');var pd=document.getElementById('fir-ps');var pv=document.getElementById('fir-ps-preview');dd.innerHTML='<option value="">-- District Select Karo --</option>';pd.innerHTML='<option value="">-- PS Select Karo --</option>';dd.disabled=true;pd.disabled=true;if(pv)pv.style.display='none';if(!state)return;var d=Object.keys(INDIA_POLICE_DATA[state]).sort();for(var i=0;i<d.length;i++){var o=document.createElement('option');o.value=d[i];o.textContent=d[i];dd.appendChild(o);}dd.disabled=false;};
 window.onFirDistrictChange=function(){var state=document.getElementById('fir-state').value;var dist=document.getElementById('fir-district').value;var pd=document.getElementById('fir-ps');var pv=document.getElementById('fir-ps-preview');pd.innerHTML='<option value="">-- Police Station Select Karo --</option>';pd.disabled=true;if(pv)pv.style.display='none';if(!state||!dist)return;var st=INDIA_POLICE_DATA[state][dist]||[];for(var i=0;i<st.length;i++){var o=document.createElement('option');o.value=st[i];o.textContent=st[i];pd.appendChild(o);}pd.disabled=false;};
 window.onFirPSChange=function(){var state=document.getElementById('fir-state').value;var dist=document.getElementById('fir-district').value;var ps=document.getElementById('fir-ps').value;var pv=document.getElementById('fir-ps-preview');if(!ps){if(pv)pv.style.display='none';return;}var pt=document.getElementById('fir-ps-preview-text');var at=document.getElementById('fir-ps-address-text');if(pt)pt.textContent=ps;if(at)at.textContent=dist+', '+state;if(pv)pv.style.display='block';};
-window.generateFIR=function(){var stEl=document.getElementById('fir-state'),dtEl=document.getElementById('fir-district'),psEl=document.getElementById('fir-ps');var state=stEl?stEl.value:'',dist=dtEl?dtEl.value:'',ps=psEl?psEl.value:'';var item=document.getElementById('fir-item').value.trim();var cat=document.getElementById('fir-cat').value;var desc=document.getElementById('fir-desc').value.trim();var val=document.getElementById('fir-value').value.trim();var loc=document.getElementById('fir-loc').value.trim();var dt=document.getElementById('fir-date').value;var how=document.getElementById('fir-how').value.trim();var name=document.getElementById('fir-name').value.trim();var phone=document.getElementById('fir-phone').value.trim();var addr=document.getElementById('fir-addr').value.trim();var idtype=document.getElementById('fir-idtype').value;if(!item||!loc||!name||!phone){toast('Item, location, naam aur phone zaroori hai');return;}if(!ps){toast('Police station select karo');return;}var dateStr=dt?new Date(dt).toLocaleString('en-IN'):new Date().toLocaleString('en-IN');var today=new Date().toLocaleDateString('en-IN');var L='--------------------------------';var NL='\n';var txt='TO,'+NL+'The Station House Officer,'+NL+ps+','+NL+dist+', '+state+NL+NL+'SUBJECT: Application for FIR - Loss of '+(cat||item)+NL+NL+'Respected Sir/Madam,'+NL+NL+'I, '+name+', resident of '+(addr||'[Address]')+', wish to report the loss of my '+(cat||item)+'.'+NL+NL+L+NL+'LOST ITEM DETAILS'+NL+L+NL+'Item         : '+item+NL+'Category     : '+(cat||'Not specified')+NL+'Description  : '+(desc||'Not specified')+NL+'Value (Approx): '+(val?'Rs.'+val:'Not specified')+NL+NL+L+NL+'INCIDENT DETAILS'+NL+L+NL+'Date & Time  : '+dateStr+NL+'Location     : '+loc+NL+'Circumstances: '+(how||'Item misplaced at above location.')+NL+NL+L+NL+'COMPLAINANT DETAILS'+NL+L+NL+'Name         : '+name+NL+'Mobile       : '+phone+NL+'Address      : '+(addr||'[Address]')+NL+'ID Proof     : '+idtype+NL+NL+L+NL+NL+'I request FIR registration and necessary action.'+NL+NL+'Date : '+today+NL+'Place: '+dist+', '+state+NL+NL+'Signature: _______________'+NL+'Name: '+name+NL+'Mobile: '+phone+NL+NL+'[Also listed on FindBack - India Lost and Found Platform]';window._lastFIR=txt;document.getElementById('fir-preview').textContent=txt;document.getElementById('fir-modal').style.display='flex';};
+// ── FIR Language Templates ──────────────────────────────────
+var FIR_LANG={
+  en:{
+    to:'TO,',sho:'The Station House Officer,',sub:'SUBJECT: Application for FIR - Loss of ',
+    resp:'Respected Sir/Madam,',
+    body1:'I, {name}, resident of {addr}, wish to report the loss of my {cat}.',
+    sec1:'LOST ITEM DETAILS',item:'Item',cat:'Category',desc:'Description',val:'Value (Approx)',
+    sec2:'INCIDENT DETAILS',date:'Date & Time',loc:'Location',circ:'Circumstances',def_circ:'Item misplaced at above location.',
+    sec3:'COMPLAINANT DETAILS',name:'Name',mobile:'Mobile',addr:'Address',id:'ID Proof',
+    close:'I request FIR registration and necessary action.',
+    sig:'Signature: _______________',footer:'[Also listed on FindBack - India Lost and Found Platform]',
+    notspec:'Not specified',date_lbl:'Date',place_lbl:'Place'
+  },
+  hi:{
+    to:'सेवा में,',sho:'थाना प्रभारी,',sub:'विषय: FIR दर्ज करने हेतु प्रार्थना पत्र — खोई वस्तु: ',
+    resp:'महोदय/महोदया,',
+    body1:'मैं, {name}, निवासी {addr}, अपनी {cat} खो जाने की सूचना देना चाहता/चाहती हूँ।',
+    sec1:'खोई वस्तु का विवरण',item:'वस्तु',cat:'श्रेणी',desc:'विवरण',val:'अनुमानित मूल्य',
+    sec2:'घटना का विवरण',date:'दिनांक एवं समय',loc:'स्थान',circ:'परिस्थितियाँ',def_circ:'उपरोक्त स्थान पर वस्तु खो गई।',
+    sec3:'शिकायतकर्ता का विवरण',name:'नाम',mobile:'मोबाइल',addr:'पता',id:'पहचान पत्र',
+    close:'मैं FIR दर्ज करने और आवश्यक कार्रवाई का अनुरोध करता/करती हूँ।',
+    sig:'हस्ताक्षर: _______________',footer:'[FindBack — India Lost and Found Platform पर भी दर्ज]',
+    notspec:'अनिर्दिष्ट',date_lbl:'दिनांक',place_lbl:'स्थान'
+  },
+  bn:{
+    to:'বরাবর,',sho:'ভারপ্রাপ্ত কর্মকর্তা,',sub:'বিষয়: FIR দায়ের করার আবেদন — হারানো বস্তু: ',
+    resp:'মহাশয়/মহাশয়া,',
+    body1:'আমি, {name}, বাসিন্দা {addr}, আমার {cat} হারিয়ে যাওয়ার রিপোর্ট করতে চাই।',
+    sec1:'হারানো বস্তুর বিবরণ',item:'বস্তু',cat:'বিভাগ',desc:'বিবরণ',val:'আনুমানিক মূল্য',
+    sec2:'ঘটনার বিবরণ',date:'তারিখ ও সময়',loc:'স্থান',circ:'পরিস্থিতি',def_circ:'উপরোক্ত স্থানে বস্তুটি হারিয়ে গেছে।',
+    sec3:'অভিযোগকারীর বিবরণ',name:'নাম',mobile:'মোবাইল',addr:'ঠিকানা',id:'পরিচয় পত্র',
+    close:'আমি FIR নিবন্ধন ও প্রয়োজনীয় ব্যবস্থার অনুরোধ করছি।',
+    sig:'স্বাক্ষর: _______________',footer:'[FindBack — India Lost and Found Platform-এ নিবন্ধিত]',
+    notspec:'অনির্দিষ্ট',date_lbl:'তারিখ',place_lbl:'স্থান'
+  },
+  te:{
+    to:'సేవలో,',sho:'స్టేషన్ హౌస్ ఆఫీసర్,',sub:'విషయం: FIR నమోదు కోసం దరఖాస్తు — పోగొట్టుకున్న వస్తువు: ',
+    resp:'అయ్యా/అమ్మా,',
+    body1:'నేను, {name}, నివాసి {addr}, నా {cat} పోయినట్లు నివేదించాలనుకుంటున్నాను.',
+    sec1:'పోగొట్టుకున్న వస్తువు వివరాలు',item:'వస్తువు',cat:'వర్గం',desc:'వివరణ',val:'అంచనా విలువ',
+    sec2:'సంఘటన వివరాలు',date:'తేదీ & సమయం',loc:'స్థానం',circ:'పరిస్థితులు',def_circ:'పైన పేర్కొన్న స్థానంలో వస్తువు పోయింది.',
+    sec3:'ఫిర్యాదుదారు వివరాలు',name:'పేరు',mobile:'మొబైల్',addr:'చిరునామా',id:'గుర్తింపు రుజువు',
+    close:'FIR నమోదు మరియు అవసరమైన చర్య తీసుకోవాలని కోరుతున్నాను.',
+    sig:'సంతకం: _______________',footer:'[FindBack — India Lost and Found Platform లో నమోదు చేయబడింది]',
+    notspec:'పేర్కొనలేదు',date_lbl:'తేదీ',place_lbl:'స్థానం'
+  },
+  mr:{
+    to:'सेवेत,',sho:'ठाणे अधिकारी,',sub:'विषय: FIR नोंदणीसाठी अर्ज — हरवलेली वस्तू: ',
+    resp:'महोदय/महोदया,',
+    body1:'मी, {name}, रहिवासी {addr}, माझी {cat} हरवल्याची तक्रार नोंदवू इच्छितो/इच्छिते.',
+    sec1:'हरवलेल्या वस्तूचा तपशील',item:'वस्तू',cat:'श्रेणी',desc:'वर्णन',val:'अंदाजे मूल्य',
+    sec2:'घटनेचा तपशील',date:'दिनांक व वेळ',loc:'ठिकाण',circ:'परिस्थिती',def_circ:'वर नमूद ठिकाणी वस्तू हरवली.',
+    sec3:'तक्रारदाराचा तपशील',name:'नाव',mobile:'मोबाईल',addr:'पत्ता',id:'ओळखपत्र',
+    close:'FIR नोंदणी व आवश्यक कारवाईची विनंती आहे.',
+    sig:'स्वाक्षरी: _______________',footer:'[FindBack — India Lost and Found Platform वर नोंदणीकृत]',
+    notspec:'अनिर्दिष्ट',date_lbl:'दिनांक',place_lbl:'ठिकाण'
+  },
+  ta:{
+    to:'அன்புடன்,',sho:'காவல் நிலைய அதிகாரி,',sub:'பொருள்: FIR பதிவு கோரிக்கை — தொலைந்த பொருள்: ',
+    resp:'ஐயா/அம்மா,',
+    body1:'நான், {name}, வசிப்பிடம் {addr}, என்னுடைய {cat} தொலைந்துவிட்டதாக புகார் அளிக்கிறேன்.',
+    sec1:'தொலைந்த பொருளின் விவரம்',item:'பொருள்',cat:'வகை',desc:'விவரணை',val:'தோராயமான மதிப்பு',
+    sec2:'சம்பவ விவரம்',date:'தேதி & நேரம்',loc:'இடம்',circ:'சூழ்நிலை',def_circ:'மேலே குறிப்பிட்ட இடத்தில் பொருள் தொலைந்தது.',
+    sec3:'புகார்தாரர் விவரம்',name:'பெயர்',mobile:'மொபைல்',addr:'முகவரி',id:'அடையாள சான்று',
+    close:'FIR பதிவு செய்து தேவையான நடவடிக்கை எடுக்குமாறு கேட்டுக்கொள்கிறேன்.',
+    sig:'கையொப்பம்: _______________',footer:'[FindBack — India Lost and Found Platform இல் பதிவு செய்யப்பட்டது]',
+    notspec:'குறிப்பிடப்படவில்லை',date_lbl:'தேதி',place_lbl:'இடம்'
+  },
+  gu:{
+    to:'સેવામાં,',sho:'સ્ટેશન હાઉસ ઓફિસર,',sub:'વિષય: FIR નોંધણી માટે અરજી — ખોવાઈ ગયેલી વસ્તુ: ',
+    resp:'મહોદય/મહોદયા,',
+    body1:'હું, {name}, રહેવાસી {addr}, મારી {cat} ખોવાઈ જવાની ફરિયાદ નોંધાવવા માગું છું.',
+    sec1:'ખોવાઈ ગયેલ વસ્તુની વિગત',item:'વસ્તુ',cat:'કેટેગરી',desc:'વર્ણન',val:'અંદાજિત મૂલ્ય',
+    sec2:'ઘટનાની વિગત',date:'તારીખ અને સમય',loc:'સ્થળ',circ:'સંજોગો',def_circ:'ઉપર જણાવેલ સ્થળે વસ્તુ ખોવાઈ ગઈ.',
+    sec3:'ફરિયાદીની વિગત',name:'નામ',mobile:'મોબાઈલ',addr:'સરનામું',id:'ઓળખ પ્રમાણ',
+    close:'FIR નોંધણી અને જરૂરી કાર્યવાહી માટે વિનંતી છે.',
+    sig:'સહી: _______________',footer:'[FindBack — India Lost and Found Platform પર નોંધાયેલ]',
+    notspec:'અનિર્દિષ્ટ',date_lbl:'તારીખ',place_lbl:'સ્થળ'
+  },
+  kn:{
+    to:'ಸೇವೆಗೆ,',sho:'ಠಾಣಾಧಿಕಾರಿ,',sub:'ವಿಷಯ: FIR ದಾಖಲಿಸಲು ಅರ್ಜಿ — ಕಳೆದುಹೋದ ವಸ್ತು: ',
+    resp:'ಮಾನ್ಯರೇ,',
+    body1:'ನಾನು, {name}, ನಿವಾಸಿ {addr}, ನನ್ನ {cat} ಕಳೆದುಹೋಗಿದ್ದಕ್ಕೆ ದೂರು ನೀಡಲು ಬಯಸುತ್ತೇನೆ.',
+    sec1:'ಕಳೆದುಹೋದ ವಸ್ತುವಿನ ವಿವರ',item:'ವಸ್ತು',cat:'ವರ್ಗ',desc:'ವಿವರಣೆ',val:'ಅಂದಾಜು ಮೌಲ್ಯ',
+    sec2:'ಘಟನೆಯ ವಿವರ',date:'ದಿನಾಂಕ ಮತ್ತು ಸಮಯ',loc:'ಸ್ಥಳ',circ:'ಸಂದರ್ಭಗಳು',def_circ:'ಮೇಲೆ ತಿಳಿಸಿದ ಸ್ಥಳದಲ್ಲಿ ವಸ್ತು ಕಳೆದುಹೋಯಿತು.',
+    sec3:'ದೂರುದಾರರ ವಿವರ',name:'ಹೆಸರು',mobile:'ಮೊಬೈಲ್',addr:'ವಿಳಾಸ',id:'ಗುರುತಿನ ಪ್ರಮಾಣ',
+    close:'FIR ದಾಖಲಿಸಲು ಮತ್ತು ಅಗತ್ಯ ಕ್ರಮ ಕೈಗೊಳ್ಳಲು ವಿನಂತಿಸುತ್ತೇನೆ.',
+    sig:'ಸಹಿ: _______________',footer:'[FindBack — India Lost and Found Platform ನಲ್ಲಿ ನೋಂದಾಯಿಸಲಾಗಿದೆ]',
+    notspec:'ನಿರ್ದಿಷ್ಟಪಡಿಸಿಲ್ಲ',date_lbl:'ದಿನಾಂಕ',place_lbl:'ಸ್ಥಳ'
+  },
+  ml:{
+    to:'സേവനത്തിൽ,',sho:'സ്റ്റേഷൻ ഹൗസ് ഓഫീസർ,',sub:'വിഷയം: FIR രജിസ്ട്രേഷനായി അപേക്ഷ — നഷ്ടപ്പെട്ട വസ്തു: ',
+    resp:'മഹോദയ/മഹോദയ,',
+    body1:'ഞാൻ, {name}, താമസക്കാരൻ {addr}, എന്റെ {cat} നഷ്ടപ്പെട്ടതായി റിപ്പോർട്ട് ചെയ്യുന്നു.',
+    sec1:'നഷ്ടപ്പെട്ട വസ്തുവിന്റെ വിവരം',item:'വസ്തു',cat:'വിഭാഗം',desc:'വിവരണം',val:'ഏകദേശ മൂല്യം',
+    sec2:'സംഭവ വിവരം',date:'തീയതി & സമയം',loc:'സ്ഥലം',circ:'സാഹചര്യങ്ങൾ',def_circ:'മേൽ പറഞ്ഞ സ്ഥലത്ത് വസ്തു നഷ്ടപ്പെട്ടു.',
+    sec3:'പരാതിക്കാരന്റെ വിവരം',name:'പേര്',mobile:'മൊബൈൽ',addr:'വിലാസം',id:'തിരിച്ചറിയൽ രേഖ',
+    close:'FIR രജിസ്ട്രേഷനും ആവശ്യമായ നടപടിക്കും അഭ്യർഥിക്കുന്നു.',
+    sig:'ഒപ്പ്: _______________',footer:'[FindBack — India Lost and Found Platform-ൽ രജിസ്റ്റർ ചെയ്തിട്ടുണ്ട്]',
+    notspec:'വ്യക്തമാക്കിയിട്ടില്ല',date_lbl:'തീയതി',place_lbl:'സ്ഥലം'
+  },
+  pa:{
+    to:'ਸੇਵਾ ਵਿੱਚ,',sho:'ਸਟੇਸ਼ਨ ਹਾਊਸ ਅਫ਼ਸਰ,',sub:'ਵਿਸ਼ਾ: FIR ਦਰਜ ਕਰਨ ਲਈ ਅਰਜ਼ੀ — ਗੁੰਮ ਹੋਈ ਵਸਤੂ: ',
+    resp:'ਮਹੋਦਯ/ਮਹੋਦਯਾ,',
+    body1:'ਮੈਂ, {name}, ਨਿਵਾਸੀ {addr}, ਆਪਣੀ {cat} ਗੁੰਮ ਹੋਣ ਦੀ ਸ਼ਿਕਾਇਤ ਦਰਜ ਕਰਵਾਉਣਾ ਚਾਹੁੰਦਾ/ਚਾਹੁੰਦੀ ਹਾਂ।',
+    sec1:'ਗੁੰਮ ਹੋਈ ਵਸਤੂ ਦਾ ਵੇਰਵਾ',item:'ਵਸਤੂ',cat:'ਸ਼੍ਰੇਣੀ',desc:'ਵੇਰਵਾ',val:'ਅਨੁਮਾਨਿਤ ਕੀਮਤ',
+    sec2:'ਘਟਨਾ ਦਾ ਵੇਰਵਾ',date:'ਤਾਰੀਖ਼ ਅਤੇ ਸਮਾਂ',loc:'ਸਥਾਨ',circ:'ਹਾਲਾਤ',def_circ:'ਉਪਰੋਕਤ ਸਥਾਨ ਤੇ ਵਸਤੂ ਗੁੰਮ ਹੋਈ।',
+    sec3:'ਸ਼ਿਕਾਇਤਕਰਤਾ ਦਾ ਵੇਰਵਾ',name:'ਨਾਮ',mobile:'ਮੋਬਾਈਲ',addr:'ਪਤਾ',id:'ਪਛਾਣ ਪੱਤਰ',
+    close:'FIR ਦਰਜ ਕਰਨ ਅਤੇ ਲੋੜੀਂਦੀ ਕਾਰਵਾਈ ਦੀ ਬੇਨਤੀ ਹੈ।',
+    sig:'ਦਸਤਖ਼ਤ: _______________',footer:'[FindBack — India Lost and Found Platform ਤੇ ਦਰਜ]',
+    notspec:'ਅਨਿਰਧਾਰਿਤ',date_lbl:'ਤਾਰੀਖ਼',place_lbl:'ਸਥਾਨ'
+  },
+  or:{
+    to:'ସେବାରେ,',sho:'ଷ୍ଟେସନ ହାଉସ ଅଫିସର,',sub:'ବିଷୟ: FIR ଦାଖଲ ନିମିତ୍ତ ଆବେଦନ — ହଜିଯାଇଥିବା ବସ୍ତୁ: ',
+    resp:'ମହୋଦୟ/ମହୋଦୟା,',
+    body1:'ମୁଁ, {name}, ବାସିନ୍ଦା {addr}, ମୋର {cat} ହଜିଯାଇଥିବା ସୂଚନା ଦେବାକୁ ଚାହୁଁଛି।',
+    sec1:'ହଜି ଯାଇଥିବା ବସ୍ତୁର ବିବରଣୀ',item:'ବସ୍ତୁ',cat:'ବର୍ଗ',desc:'ବିବରଣ',val:'ଆନୁମାନିକ ମୂଲ୍ୟ',
+    sec2:'ଘଟଣାର ବିବରଣୀ',date:'ତାରିଖ ଓ ସମୟ',loc:'ସ୍ଥାନ',circ:'ପରିସ୍ଥିତି',def_circ:'ଉପରୋକ୍ତ ସ୍ଥାନରେ ବସ୍ତୁ ହଜି ଗଲା।',
+    sec3:'ଅଭିଯୋଗକାରୀଙ୍କ ବିବରଣୀ',name:'ନାମ',mobile:'ମୋବାଇଲ',addr:'ଠିକଣା',id:'ପରିଚୟ ପ୍ରମାଣ',
+    close:'FIR ଦାଖଲ ଏବଂ ଆବଶ୍ୟକ ପଦକ୍ଷେପ ଗ୍ରହଣ ନିମିତ୍ତ ଅନୁରୋଧ।',
+    sig:'ସ୍ୱାକ୍ଷର: _______________',footer:'[FindBack — India Lost and Found Platform ରେ ନଥିଭୁକ୍ତ]',
+    notspec:'ଅନିର୍ଦ୍ଦିଷ୍ଟ',date_lbl:'ତାରିଖ',place_lbl:'ସ୍ଥାନ'
+  },
+  as:{
+    to:'সেৱাত,',sho:'থানা বিষয়া,',sub:'বিষয়: FIR দাখিল কৰিবলৈ আবেদন — হেৰুৱা সামগ্ৰী: ',
+    resp:'মহোদয়/মহোদয়া,',
+    body1:'মই, {name}, বাসিন্দা {addr}, মোৰ {cat} হেৰুওৱাৰ বিষয়ে অভিযোগ দাখিল কৰিব বিচাৰো।',
+    sec1:'হেৰুৱা সামগ্ৰীৰ বিৱৰণ',item:'সামগ্ৰী',cat:'শ্ৰেণী',desc:'বিৱৰণ',val:'আনুমানিক মূল্য',
+    sec2:'ঘটনাৰ বিৱৰণ',date:'তাৰিখ আৰু সময়',loc:'ঠাই',circ:'পৰিস্থিতি',def_circ:'ওপৰত উল্লেখ কৰা ঠাইত সামগ্ৰী হেৰাল।',
+    sec3:'অভিযোগকাৰীৰ বিৱৰণ',name:'নাম',mobile:'মোবাইল',addr:'ঠিকনা',id:'পৰিচয় প্ৰমাণ',
+    close:'FIR দাখিল আৰু প্ৰয়োজনীয় পদক্ষেপ ল\'বলৈ অনুৰোধ জনাইছো।',
+    sig:'চহী: _______________',footer:'[FindBack — India Lost and Found Platform ত নথিভুক্ত]',
+    notspec:'অনিৰ্দিষ্ট',date_lbl:'তাৰিখ',place_lbl:'ঠাই'
+  },
+  ur:{
+    to:'خدمت میں،',sho:'تھانہ انچارج،',sub:'موضوع: FIR درج کروانے کی درخواست — گمشدہ چیز: ',
+    resp:'جناب/محترمہ،',
+    body1:'میں، {name}، رہائشی {addr}، اپنی {cat} گم ہو جانے کی اطلاع دینا چاہتا/چاہتی ہوں۔',
+    sec1:'گمشدہ چیز کی تفصیل',item:'چیز',cat:'زمرہ',desc:'تفصیل',val:'تخمینہ قیمت',
+    sec2:'واقعے کی تفصیل',date:'تاریخ اور وقت',loc:'مقام',circ:'حالات',def_circ:'مذکورہ مقام پر چیز گم ہوئی۔',
+    sec3:'شکایت کنندہ کی تفصیل',name:'نام',mobile:'موبائل',addr:'پتہ',id:'شناختی ثبوت',
+    close:'FIR درج کرنے اور ضروری کارروائی کی درخواست ہے۔',
+    sig:'دستخط: _______________',footer:'[FindBack — India Lost and Found Platform پر درج]',
+    notspec:'غیر متعین',date_lbl:'تاریخ',place_lbl:'مقام'
+  }
+};
+
+window.updateFIRLangUI=function(){
+  var lang=document.getElementById('fir-lang').value;
+  var names={en:'English',hi:'हिंदी',bn:'বাংলা',te:'తెలుగు',mr:'मराठी',ta:'தமிழ்',gu:'ગુજરાતી',kn:'ಕನ್ನಡ',ml:'മലയാളം',pa:'ਪੰਜਾਬੀ',or:'ଓଡ଼ିଆ',as:'অসমীয়া',ur:'اردو'};
+  document.getElementById('fir-lang-note').textContent='✅ FIR '+names[lang]+' mein generate hoga';
+};
+
+window.generateFIR=function(){
+  var stEl=document.getElementById('fir-state'),dtEl=document.getElementById('fir-district'),psEl=document.getElementById('fir-ps');
+  var state=stEl?stEl.value:'',dist=dtEl?dtEl.value:'',ps=psEl?psEl.value:'';
+  var item=document.getElementById('fir-item').value.trim();
+  var cat=document.getElementById('fir-cat').value;
+  var desc=document.getElementById('fir-desc').value.trim();
+  var val=document.getElementById('fir-value').value.trim();
+  var loc=document.getElementById('fir-loc').value.trim();
+  var dt=document.getElementById('fir-date').value;
+  var how=document.getElementById('fir-how').value.trim();
+  var name=document.getElementById('fir-name').value.trim();
+  var phone=document.getElementById('fir-phone').value.trim();
+  var addr=document.getElementById('fir-addr').value.trim();
+  var idtype=document.getElementById('fir-idtype').value;
+  var lang=document.getElementById('fir-lang')?document.getElementById('fir-lang').value:'en';
+  if(!item||!loc||!name||!phone){toast('Item, location, naam aur phone zaroori hai');return;}
+  if(!ps){toast('Police station select karo');return;}
+  var L=lang==='ur'?'────────────────────────────────':'--------------------------------';
+  var NL='\n';
+  var T=FIR_LANG[lang]||FIR_LANG['en'];
+  var dateStr=dt?new Date(dt).toLocaleString('en-IN'):new Date().toLocaleString('en-IN');
+  var today=new Date().toLocaleDateString('en-IN');
+  var body1=T.body1.replace('{name}',name).replace('{addr}',addr||'['+T.addr+']').replace('{cat}',cat||item);
+  var txt=
+    T.to+NL+T.sho+NL+ps+','+NL+dist+', '+state+NL+NL+
+    T.sub+(cat||item)+NL+NL+
+    T.resp+NL+NL+
+    body1+NL+NL+
+    L+NL+T.sec1+NL+L+NL+
+    T.item+'         : '+item+NL+
+    T.cat+'      : '+(cat||T.notspec)+NL+
+    T.desc+'      : '+(desc||T.notspec)+NL+
+    T.val+': '+(val?'₹'+val:T.notspec)+NL+NL+
+    L+NL+T.sec2+NL+L+NL+
+    T.date+'  : '+dateStr+NL+
+    T.loc+'         : '+loc+NL+
+    T.circ+': '+(how||T.def_circ)+NL+NL+
+    L+NL+T.sec3+NL+L+NL+
+    T.name+'         : '+name+NL+
+    T.mobile+'       : '+phone+NL+
+    T.addr+'         : '+(addr||'['+T.addr+']')+NL+
+    T.id+'     : '+idtype+NL+NL+
+    L+NL+NL+
+    T.close+NL+NL+
+    T.date_lbl+' : '+today+NL+
+    T.place_lbl+': '+dist+', '+state+NL+NL+
+    T.sig+NL+
+    T.name+': '+name+NL+
+    T.mobile+': '+phone+NL+NL+
+    T.footer;
+  window._lastFIR=txt;
+  document.getElementById('fir-preview').textContent=txt;
+  document.getElementById('fir-modal').style.display='flex';
+};
 </script>
 <script>
 // TRUST SCORE
