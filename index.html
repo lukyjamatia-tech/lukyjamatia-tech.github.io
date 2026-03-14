@@ -175,6 +175,21 @@ window.addEventListener('unhandledrejection', function(e) {
     <div class="emoji">🔍</div>
     <h1>Find what the world lost.</h1>
     <p>India's most trusted lost &amp; found platform</p>
+    <!-- LIVE STATS -->
+    <div id="hero-stats" style="display:flex;gap:12px;justify-content:center;margin-top:20px;flex-wrap:wrap;">
+      <div style="background:rgba(255,255,255,0.7);border-radius:12px;padding:10px 16px;text-align:center;min-width:80px;">
+        <div id="stat-lost" style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#DC2626;">0</div>
+        <div style="font-size:10px;color:#777;font-weight:600;">😟 Lost</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.7);border-radius:12px;padding:10px 16px;text-align:center;min-width:80px;">
+        <div id="stat-found" style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#059669;">0</div>
+        <div style="font-size:10px;color:#777;font-weight:600;">🎉 Found</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.7);border-radius:12px;padding:10px 16px;text-align:center;min-width:80px;">
+        <div id="stat-resolved" style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#E8722A;">0</div>
+        <div style="font-size:10px;color:#777;font-weight:600;">✅ Reunited</div>
+      </div>
+    </div>
     <div class="home-btns">
       <button class="btn-primary" onclick="openModal('lost')">😟 Report Lost</button>
       <button class="btn-outline" onclick="openModal('found')">🎉 Report Found</button>
@@ -301,6 +316,7 @@ window.addEventListener('unhandledrejection', function(e) {
         <a onclick="showPage('about')">🏢 About Us</a>
         <a onclick="showPage('contact')">📞 Contact</a>
         <a onclick="showPage('customers')">❤️ Customers</a>
+        <a onclick="showPage('success')">🌟 Success Stories</a>
         <a onclick="showPage('trust')">🤝 Trust Score</a>
       </div>
       <div class="footer-col">
@@ -1082,7 +1098,10 @@ window.openDetail = function(id) {
 
   const anonBtn = `<button onclick="toggleAnonMsg('${p.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#F5F5F5;color:#333;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">\ud83d\udd12 Anonymous Contact</button>${anonSection}`;
 
-  actions.innerHTML = (btns || '<div style="color:var(--text-muted);text-align:center;padding-bottom:8px">No contact info provided</div>') + aiBtn + anonBtn;
+  // 📸 SHARE BUTTON
+  const shareBtn = `<button onclick="sharePost('${p.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">📤 Share This Post</button>`;
+
+  actions.innerHTML = (btns || '<div style="color:var(--text-muted);text-align:center;padding-bottom:8px">No contact info provided</div>') + shareBtn + aiBtn + anonBtn;
   showPage('detail');
 };
 
@@ -1906,6 +1925,32 @@ window.setCatGrid = function(cat) {
 </div>
 
 <!-- TRUST SCORE PAGE -->
+<!-- SUCCESS WALL PAGE -->
+<div class="page" id="page-success">
+  <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
+    <span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span>
+    <span style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;">🌟 Success Stories</span>
+  </div>
+  <div style="padding:20px 20px 110px;">
+    <div style="background:linear-gradient(135deg,#059669 0%,#047857 100%);border-radius:16px;padding:22px;margin-bottom:20px;color:white;text-align:center;">
+      <div style="font-size:40px;margin-bottom:8px;">🎊</div>
+      <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;">Reunited Stories</div>
+      <div style="font-size:13px;opacity:.85;">Yeh log apna khoaya hua paya — FindBack ki wajah se!</div>
+    </div>
+    <div id="success-stats-row" style="display:flex;gap:10px;margin-bottom:20px;">
+      <div style="flex:1;background:#D1FAE5;border-radius:12px;padding:14px;text-align:center;">
+        <div id="sw-resolved-count" style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:#059669;">0</div>
+        <div style="font-size:11px;color:#065F46;font-weight:600;">Items Reunited</div>
+      </div>
+      <div style="flex:1;background:#FEF3C7;border-radius:12px;padding:14px;text-align:center;">
+        <div id="sw-total-count" style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:#D97706;">0</div>
+        <div style="font-size:11px;color:#92400E;font-weight:600;">Total Posts</div>
+      </div>
+    </div>
+    <div id="success-wall-list"></div>
+  </div>
+</div>
+
 <div class="page" id="page-trust">
   <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
     <span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span>
@@ -2598,6 +2643,131 @@ document.addEventListener('DOMContentLoaded', function() {
 .edit-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:400;align-items:flex-end;justify-content:center;}
 .edit-modal-overlay.open{display:flex;}
 </style>
+
+<script>
+// ============================================================
+// 📊 LIVE STATS COUNTER
+// ============================================================
+function updateHeroStats() {
+  var posts = window._allPosts || [];
+  var lost = posts.filter(function(p){ return p.type==='lost'; }).length;
+  var found = posts.filter(function(p){ return p.type==='found'; }).length;
+  var resolved = posts.filter(function(p){ return p.status==='resolved'; }).length;
+
+  function animateCount(el, target) {
+    if (!el) return;
+    var current = 0;
+    var step = Math.max(1, Math.floor(target / 20));
+    var timer = setInterval(function() {
+      current += step;
+      if (current >= target) { current = target; clearInterval(timer); }
+      el.textContent = current;
+    }, 50);
+  }
+
+  animateCount(document.getElementById('stat-lost'), lost);
+  animateCount(document.getElementById('stat-found'), found);
+  animateCount(document.getElementById('stat-resolved'), resolved);
+}
+window.updateHeroStats = updateHeroStats;
+
+// Hook into Firebase listener — update stats when posts load
+var _origRenderAll = window._renderAll;
+window._renderAll = function() {
+  if (_origRenderAll) _origRenderAll();
+  updateHeroStats();
+  loadSuccessWall();
+};
+
+// ============================================================
+// 🌟 SUCCESS STORIES WALL
+// ============================================================
+function loadSuccessWall() {
+  var posts = window._allPosts || [];
+  var resolved = posts.filter(function(p){ return p.status === 'resolved'; });
+
+  // Update stats
+  var swCount = document.getElementById('sw-resolved-count');
+  var swTotal = document.getElementById('sw-total-count');
+  if (swCount) swCount.textContent = resolved.length;
+  if (swTotal) swTotal.textContent = posts.length;
+
+  var container = document.getElementById('success-wall-list');
+  if (!container) return;
+
+  if (!resolved.length) {
+    container.innerHTML = '<div style="text-align:center;padding:48px 20px;color:var(--text-muted);">'
+      + '<div style="font-size:52px;margin-bottom:12px;">🌱</div>'
+      + '<div style="font-family:\'Sora\',sans-serif;font-size:16px;font-weight:700;color:#333;margin-bottom:6px;">Abhi koi success story nahi</div>'
+      + '<div style="font-size:13px;">Jab koi item wapas milega, yahan dikhega!</div>'
+      + '</div>';
+    return;
+  }
+
+  container.innerHTML = resolved.map(function(p) {
+    var typeColor = p.type==='lost' ? '#DC2626' : '#059669';
+    var typeLabel = p.type==='lost' ? 'Lost & Found' : 'Found & Returned';
+    var name = p.authorName || 'Anonymous';
+    var date = p.resolvedAt ? new Date(p.resolvedAt.seconds ? p.resolvedAt.seconds*1000 : p.resolvedAt).toLocaleDateString('en-IN') : '';
+    return '<div style="background:white;border:2px solid #D1FAE5;border-radius:16px;padding:18px;margin-bottom:14px;position:relative;overflow:hidden;">'
+      + '<div style="position:absolute;top:0;right:0;background:#D1FAE5;padding:4px 12px;border-radius:0 16px 0 12px;font-size:11px;font-weight:700;color:#065F46;">✅ REUNITED</div>'
+      + '<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">'
+      + '<div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#059669,#047857);color:white;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;">' + name[0].toUpperCase() + '</div>'
+      + '<div><div style="font-weight:700;font-size:15px;">' + name + '</div>'
+      + '<div style="font-size:12px;color:#059669;font-weight:600;">' + typeLabel + '</div></div>'
+      + '</div>'
+      + '<div style="font-family:\'Sora\',sans-serif;font-size:17px;font-weight:700;margin-bottom:6px;">🎊 ' + (p.item || 'Item') + ' wapas mila!</div>'
+      + '<div style="font-size:13px;color:#555;line-height:1.6;margin-bottom:10px;">'
+      + (p.desc ? p.desc.substring(0, 100) + (p.desc.length > 100 ? '...' : '') : 'Item successfully reunited with owner.')
+      + '</div>'
+      + '<div style="display:flex;gap:8px;flex-wrap:wrap;">'
+      + '<span style="background:#F0FDF4;color:#065F46;font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600;">📍 ' + (p.loc || 'India') + '</span>'
+      + (p.category ? '<span style="background:#FFF5EE;color:#E8722A;font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600;">' + p.category + '</span>' : '')
+      + (date ? '<span style="background:#F5F5F5;color:#777;font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600;">📅 ' + date + '</span>' : '')
+      + '</div>'
+      + '</div>';
+  }).join('');
+}
+window.loadSuccessWall = loadSuccessWall;
+
+// Load success wall when page is shown
+var _origShowPage = window.showPage;
+window.showPage = function(id) {
+  if (_origShowPage) _origShowPage(id);
+  if (id === 'success') setTimeout(loadSuccessWall, 100);
+};
+
+// ============================================================
+// 📤 SHARE POST
+// ============================================================
+window.sharePost = function(postId) {
+  var p = (window._allPosts || []).find(function(x){ return x.id === postId; });
+  if (!p) return;
+
+  var typeEmoji = p.type==='lost' ? '😟' : p.type==='found' ? '🎉' : '⚠️';
+  var typeText = p.type==='lost' ? 'LOST' : p.type==='found' ? 'FOUND' : 'MISSING';
+  var url = 'https://lukyjamatia-tech.github.io';
+
+  var text = typeEmoji + ' ' + typeText + ': ' + (p.item || 'Item') + '\n\n'
+    + '📍 ' + (p.loc || '') + '\n'
+    + (p.date ? '📅 ' + p.date + '\n' : '')
+    + (p.desc ? '📝 ' + p.desc.substring(0, 80) + (p.desc.length > 80 ? '...' : '') + '\n' : '')
+    + (p.reward ? '🏆 Reward: ₹' + p.reward + '\n' : '')
+    + '\n🔍 View on FindBack: ' + url
+    + '\n\n_FindBack — India\'s Lost & Found Platform_';
+
+  if (navigator.share) {
+    navigator.share({
+      title: typeEmoji + ' ' + typeText + ': ' + (p.item || 'Item'),
+      text: text,
+      url: url
+    }).catch(function(){});
+  } else {
+    // Fallback: WhatsApp
+    window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+  }
+};
+</script>
 
 </body>
 </html>
