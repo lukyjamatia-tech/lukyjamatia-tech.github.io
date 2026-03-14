@@ -284,7 +284,7 @@ window.addEventListener('unhandledrejection', function(e) {
   <div id="catcount-Other" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div>
 </div>
       </div></div>
-    <div id="filter-label"<div id="filter-label" style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;">🔍 All Posts</div>
+    <div id="filter-label" style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;">🔍 All Posts</div>
     <div id="listings-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"></div>
     <div id="no-posts" style="text-align:center;padding:40px 0 20px;color:var(--text-muted);">
       <div style="font-size:48px;margin-bottom:12px;">🔍</div>
@@ -2264,6 +2264,340 @@ window.loadRewardPosts = function() {
   }).join('');
 };
 </script>
+
+<!-- LANGUAGE SELECTOR SCREEN -->
+<div id="lang-select-screen" style="display:none;position:fixed;inset:0;background:var(--white);z-index:9999;flex-direction:column;align-items:center;justify-content:center;padding:32px;">
+  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:64px;height:64px;margin-bottom:16px;">
+    <path d="M50 50 C50 44 48 36 44 28 C41 22 38 17 38 14 C38 10 41 8 44 9 C47 10 49 14 50 20 C51 26 52 34 54 40 C56 46 56 50 50 50Z" fill="#FF6B00"/>
+    <path d="M50 50 C44 52 37 54 30 56 C23 58 17 59 14 57 C11 55 11 51 13 49 C15 47 19 47 25 48 C31 49 38 49 43 48 C48 47 52 46 50 50Z" fill="#FF6B00"/>
+    <path d="M50 50 C54 46 60 42 66 40 C72 38 78 37 81 39 C84 41 83 45 81 47 C79 49 75 49 69 50 C63 51 57 52 53 53 C49 54 47 54 50 50Z" fill="#FF6B00"/>
+    <circle cx="50" cy="50" r="6.5" fill="#111"/><circle cx="50" cy="50" r="3.5" fill="#FF6B00"/>
+  </svg>
+  <div style="font-family:'Sora',sans-serif;font-size:26px;font-weight:800;margin-bottom:6px;">Find<span style="color:#E8722A;">Back</span></div>
+  <div style="font-size:14px;color:#777;margin-bottom:36px;text-align:center;">India's Lost & Found Platform</div>
+  <div style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;margin-bottom:6px;text-align:center;">🌐 Choose Language / भाषा चुनें</div>
+  <div style="font-size:13px;color:#999;margin-bottom:24px;text-align:center;">You can change this anytime / बाद में बदल सकते हैं</div>
+  <div style="display:flex;flex-direction:column;gap:14px;width:100%;max-width:320px;">
+    <button onclick="selectLang('en')" style="padding:18px 24px;background:#111;color:white;border:none;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:12px;">
+      <span style="font-size:24px;">🇬🇧</span>
+      <div style="text-align:left;"><div>English</div><div style="font-size:12px;font-weight:400;opacity:.7;">Continue in English</div></div>
+    </button>
+    <button onclick="selectLang('hi')" style="padding:18px 24px;background:#E8722A;color:white;border:none;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:12px;">
+      <span style="font-size:24px;">🇮🇳</span>
+      <div style="text-align:left;"><div>हिंदी</div><div style="font-size:12px;font-weight:400;opacity:.7;">हिंदी में जारी रखें</div></div>
+    </button>
+  </div>
+</div>
+
+<!-- LOGIN REQUIRED MODAL -->
+<div id="login-required-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:800;align-items:flex-end;justify-content:center;">
+  <div style="background:white;border-radius:20px 20px 0 0;padding:28px 24px;width:100%;max-width:500px;">
+    <div style="width:40px;height:4px;background:#e0e0e0;border-radius:2px;margin:0 auto 20px;"></div>
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:48px;margin-bottom:10px;">🔐</div>
+      <div id="login-req-title" style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;margin-bottom:6px;">Login Required</div>
+      <div id="login-req-sub" style="font-size:14px;color:#777;">Please login or create an account to post</div>
+    </div>
+    <button onclick="closeLoginRequired();showPage('login');" style="width:100%;padding:14px;background:#E8722A;color:white;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:10px;" id="login-req-btn">🔑 Login</button>
+    <button onclick="closeLoginRequired();showPage('register');" style="width:100%;padding:14px;background:#F5F5F5;color:#111;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:10px;" id="register-req-btn">📝 Create Account</button>
+    <button onclick="closeLoginRequired();" style="width:100%;padding:12px;background:transparent;color:#999;border:none;font-size:14px;cursor:pointer;font-family:'Inter',sans-serif;" id="cancel-req-btn">Cancel / रद्द करें</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// 🌐 LANGUAGE SYSTEM
+// ============================================================
+var APP_LANG = localStorage.getItem('fb_lang') || null;
+
+var LANG_STRINGS = {
+  en: {
+    live:'Live', hero_title:'Find what the world lost.', hero_sub:"India's most trusted lost & found platform",
+    btn_lost:'😟 Report Lost', btn_found:'🎉 Report Found',
+    search_placeholder:'Search lost & found items...',
+    stab_all:'🔍 All', stab_active:'🔴 Active', stab_resolved:'✅ Resolved', stab_expired:'⏳ Expired',
+    all_posts:'🔍 All Posts', no_posts_title:'No posts yet', no_posts_sub:'Be the first to post!',
+    nav_home:'Home', nav_lost:'Lost', nav_found:'Found', nav_missing:'Missing', nav_map:'Map', nav_alerts:'Alerts', nav_login:'Login',
+    modal_lost_title:'😟 Report Lost Item', modal_lost_sub:'Fill in details about the item you lost',
+    modal_found_title:'🎉 Report Found Item', modal_found_sub:'Fill in details about the item you found',
+    modal_missing_title:'⚠️ Report Missing', modal_missing_sub:'Provide details to help locate them',
+    ph_item:'e.g. Wallet, iPhone, Laptop bag', ph_loc:'Where was it lost/found?',
+    ph_desc:'Add any identifying details, color, brand, etc.', ph_contact:'How can people reach you?', ph_reward:'e.g. 500',
+    btn_submit:'Submit Post', btn_cancel:'Cancel',
+    footer_tagline:"Find what the world lost — India's trusted lost & found platform.",
+    login_req_title:'Login Required', login_req_sub:'Please login or register to post items',
+    login_btn:'🔑 Login', register_btn:'📝 Create Account',
+  },
+  hi: {
+    live:'लाइव', hero_title:'खोई हुई चीज़ें वापस पाएं।', hero_sub:'भारत का सबसे विश्वसनीय खोया-पाया प्लेटफॉर्म',
+    btn_lost:'😟 खोया हुआ दर्ज करें', btn_found:'🎉 मिला हुआ दर्ज करें',
+    search_placeholder:'खोई-पाई चीज़ें खोजें...',
+    stab_all:'🔍 सभी', stab_active:'🔴 सक्रिय', stab_resolved:'✅ हल हो गया', stab_expired:'⏳ समाप्त',
+    all_posts:'🔍 सभी पोस्ट', no_posts_title:'अभी कोई पोस्ट नहीं', no_posts_sub:'पहली पोस्ट करने वाले बनें!',
+    nav_home:'होम', nav_lost:'खोया', nav_found:'मिला', nav_missing:'गायब', nav_map:'नक्शा', nav_alerts:'अलर्ट', nav_login:'लॉगिन',
+    modal_lost_title:'😟 खोई वस्तु दर्ज करें', modal_lost_sub:'खोई हुई वस्तु की जानकारी भरें',
+    modal_found_title:'🎉 मिली वस्तु दर्ज करें', modal_found_sub:'मिली हुई वस्तु की जानकारी भरें',
+    modal_missing_title:'⚠️ गायब की रिपोर्ट करें', modal_missing_sub:'ढूंढने में मदद के लिए जानकारी दें',
+    ph_item:'जैसे: बटुआ, फोन, लैपटॉप बैग', ph_loc:'कहाँ खोया/मिला?',
+    ph_desc:'रंग, ब्रांड, पहचान आदि लिखें', ph_contact:'लोग आपसे कैसे संपर्क करें?', ph_reward:'जैसे: 500',
+    btn_submit:'पोस्ट सबमिट करें', btn_cancel:'रद्द करें',
+    footer_tagline:'खोई हुई चीज़ें वापस पाएं — भारत का विश्वसनीय खोया-पाया प्लेटफॉर्म।',
+    login_req_title:'लॉगिन जरूरी है', login_req_sub:'पोस्ट करने के लिए लॉगिन या रजिस्टर करें',
+    login_btn:'🔑 लॉगिन करें', register_btn:'📝 खाता बनाएं',
+  }
+};
+
+function t(key) {
+  var lang = APP_LANG || 'en';
+  return (LANG_STRINGS[lang] && LANG_STRINGS[lang][key]) || (LANG_STRINGS['en'][key]) || key;
+}
+window.t = t;
+
+window.selectLang = function(lang) {
+  APP_LANG = lang;
+  localStorage.setItem('fb_lang', lang);
+  window.APP_LANG = lang;
+  var screen = document.getElementById('lang-select-screen');
+  if (screen) screen.style.display = 'none';
+  applyLanguage();
+};
+
+window.toggleLanguage = function() {
+  APP_LANG = APP_LANG === 'en' ? 'hi' : 'en';
+  window.APP_LANG = APP_LANG;
+  localStorage.setItem('fb_lang', APP_LANG);
+  applyLanguage();
+  window.toast(APP_LANG === 'hi' ? '🇮🇳 हिंदी भाषा चुनी गई!' : '🇬🇧 English selected!');
+};
+
+function applyLanguage() {
+  var isHi = APP_LANG === 'hi';
+  var btn = document.getElementById('lang-toggle-btn');
+  if (btn) btn.textContent = isHi ? '🇬🇧 English' : '🇮🇳 हिंदी';
+
+  var h1 = document.querySelector('.home-hero h1');
+  if (h1) h1.textContent = t('hero_title');
+  var hp = document.querySelector('.home-hero p');
+  if (hp) hp.textContent = t('hero_sub');
+  var heroBtns = document.querySelectorAll('.home-btns button');
+  if (heroBtns[0]) heroBtns[0].textContent = t('btn_lost');
+  if (heroBtns[1]) heroBtns[1].textContent = t('btn_found');
+  var si = document.getElementById('search-input');
+  if (si) si.placeholder = t('search_placeholder');
+
+  var ids = {
+    'stab-all': 'stab_all', 'stab-active': 'stab_active',
+    'stab-resolved': 'stab_resolved', 'stab-expired': 'stab_expired'
+  };
+  Object.keys(ids).forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = t(ids[id]);
+  });
+
+  var fl = document.getElementById('filter-label');
+  if (fl) fl.textContent = t('all_posts');
+  var npTitle = document.querySelector('#no-posts h3');
+  if (npTitle) npTitle.textContent = t('no_posts_title');
+  var npSub = document.querySelector('#no-posts p');
+  if (npSub) npSub.textContent = t('no_posts_sub');
+
+  var navMap = [
+    ['nav-home','nav_home'],['nav-lost','nav_lost'],['nav-found','nav_found'],
+    ['nav-missing','nav_missing'],['nav-map-btn','nav_map'],['nav-alerts-btn','nav_alerts']
+  ];
+  navMap.forEach(function(pair) {
+    var el = document.getElementById(pair[0]);
+    if (el) {
+      var nodes = Array.from(el.childNodes).filter(function(n){ return n.nodeType===3; });
+      if (nodes.length) nodes[nodes.length-1].textContent = t(pair[1]);
+    }
+  });
+  var ll = document.querySelector('#nav-login-btn .nav-label');
+  if (ll) ll.textContent = t('nav_login');
+
+  var mItem = document.getElementById('m-item'); if(mItem) mItem.placeholder = t('ph_item');
+  var mLoc  = document.getElementById('m-loc');  if(mLoc)  mLoc.placeholder  = t('ph_loc');
+  var mDesc = document.getElementById('m-desc'); if(mDesc) mDesc.placeholder = t('ph_desc');
+  var mCont = document.getElementById('m-contact'); if(mCont) mCont.placeholder = t('ph_contact');
+  var mRew  = document.getElementById('m-reward'); if(mRew) mRew.placeholder = t('ph_reward');
+
+  var sb = document.querySelector('#report-modal .btn-primary');
+  if (sb && !sb.disabled) sb.textContent = t('btn_submit');
+  var cb = document.querySelector('#report-modal .btn-outline');
+  if (cb) cb.textContent = t('btn_cancel');
+
+  var ft = document.querySelector('.footer-tagline');
+  if (ft) ft.textContent = t('footer_tagline');
+
+  // Login required modal
+  var lrt = document.getElementById('login-req-title');
+  if (lrt) lrt.textContent = t('login_req_title');
+  var lrs = document.getElementById('login-req-sub');
+  if (lrs) lrs.textContent = t('login_req_sub');
+  var lrb = document.getElementById('login-req-btn');
+  if (lrb) lrb.textContent = t('login_btn');
+  var rrb = document.getElementById('register-req-btn');
+  if (rrb) rrb.textContent = t('register_btn');
+}
+window.applyLanguage = applyLanguage;
+
+// Show language screen on first visit
+window.addEventListener('load', function() {
+  if (!localStorage.getItem('fb_lang')) {
+    var screen = document.getElementById('lang-select-screen');
+    if (screen) screen.style.display = 'flex';
+  } else {
+    APP_LANG = localStorage.getItem('fb_lang');
+    window.APP_LANG = APP_LANG;
+    setTimeout(applyLanguage, 100);
+  }
+});
+
+// ============================================================
+// 🔒 LOGIN REQUIRED BEFORE POSTING
+// ============================================================
+window.closeLoginRequired = function() {
+  document.getElementById('login-required-modal').style.display = 'none';
+};
+
+// Override openModal to check login
+var _origOpenModal = window.openModal;
+window.openModal = function(type) {
+  if (!window._currentUser) {
+    // Show login required modal
+    var modal = document.getElementById('login-required-modal');
+    if (modal) modal.style.display = 'flex';
+    applyLanguage(); // ensure language is applied
+    return;
+  }
+  if (_origOpenModal) _origOpenModal(type);
+  // Update modal title/sub in current language
+  var titles = {
+    lost:    [t('modal_lost_title'),    t('modal_lost_sub')],
+    found:   [t('modal_found_title'),   t('modal_found_sub')],
+    missing: [t('modal_missing_title'), t('modal_missing_sub')],
+  };
+  var tt = titles[type] || titles['lost'];
+  var titleEl = document.getElementById('modal-title');
+  var subEl = document.getElementById('modal-sub');
+  if (titleEl) titleEl.textContent = tt[0];
+  if (subEl) subEl.textContent = tt[1];
+};
+
+// Close login required modal on overlay tap
+document.getElementById('login-required-modal').addEventListener('click', function(e) {
+  if (e.target === this) window.closeLoginRequired();
+});
+
+// ============================================================
+// 🔴 STATUS FILTER
+// ============================================================
+window.activeStatusFilter = 'all';
+window.setStatusFilter = function(status) {
+  window.activeStatusFilter = status;
+  window._pagination = window._pagination || { page: 1, perPage: 100 };
+  window._pagination.page = 1;
+  document.querySelectorAll('.status-tab').forEach(function(t){ t.classList.remove('active'); });
+  var el = document.getElementById('stab-' + status);
+  if (el) el.classList.add('active');
+  if (window._renderAll) window._renderAll();
+};
+
+// ============================================================
+// ✅ MARK AS RESOLVED
+// ============================================================
+window.markResolved = async function(id) {
+  if (!confirm('Item wapas mil gaya? Post ko Resolved mark karna chahte ho?')) return;
+  try {
+    const { doc, updateDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+    await updateDoc(doc(window._db, "posts", id), { status: 'resolved', resolvedAt: new Date() });
+    window.toast('✅ Post Resolved mark ho gaya! Congrats!');
+    setTimeout(() => window.openDetail && window.openDetail(id), 800);
+  } catch(e) { window.toast('❌ Update failed.'); }
+};
+
+// ============================================================
+// 👁️ I'VE SEEN THIS
+// ============================================================
+window.toggleSeenSection = function(postId) {
+  var id = postId.replace(/[^a-z0-9]/gi, '_');
+  var el = document.getElementById('seen-section-' + id);
+  if (el) el.style.display = el.style.display === 'block' ? 'none' : 'block';
+};
+window.submitSeenThis = async function(postId) {
+  var id = postId.replace(/[^a-z0-9]/gi, '_');
+  var loc = document.getElementById('seen-loc-' + id);
+  var time = document.getElementById('seen-time-' + id);
+  var detail = document.getElementById('seen-detail-' + id);
+  if (!loc || !loc.value.trim()) { window.toast('⚠️ Location daalo kahan dekha'); return; }
+  var post = (window._allPosts || []).find(function(p){ return p.id === postId; });
+  if (!post) return;
+  try {
+    const { collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+    await addDoc(collection(window._db, "seen_tips"), { postId, toUid: post.uid||null, postItem: post.item, seenAt: loc.value.trim(), seenWhen: time?time.value.trim():'', details: detail?detail.value.trim():'', createdAt: serverTimestamp() });
+    window.toast('✅ Tip bhej di! Owner ko pata chalega.');
+    loc.value=''; if(time)time.value=''; if(detail)detail.value='';
+    var el = document.getElementById('seen-section-' + id); if(el) el.style.display='none';
+  } catch(e) { window.toast('❌ Tip send nahi hui.'); }
+};
+
+// ============================================================
+// ✅ CLAIM VERIFICATION
+// ============================================================
+window.toggleClaimSection = function(postId) {
+  var id = postId.replace(/[^a-z0-9]/gi, '_');
+  var el = document.getElementById('claim-section-' + id);
+  if (el) el.style.display = el.style.display === 'block' ? 'none' : 'block';
+};
+window.submitClaim = async function(postId) {
+  var id = postId.replace(/[^a-z0-9]/gi, '_');
+  var q1 = document.getElementById('claim-q1-' + id);
+  var q2 = document.getElementById('claim-q2-' + id);
+  var q3 = document.getElementById('claim-q3-' + id);
+  if (!q1||!q1.value.trim()||!q2||!q2.value.trim()||!q3||!q3.value.trim()) { window.toast('⚠️ Teeno fields fill karo'); return; }
+  var post = (window._allPosts||[]).find(function(p){ return p.id===postId; });
+  if (!post) return;
+  var claimant = window._currentUser?(window._currentUser.displayName||'Anonymous'):'Anonymous';
+  var contact = window._currentUser?window._currentUser.email:'Not provided';
+  try {
+    const { collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+    await addDoc(collection(window._db, "claims"), { postId, toUid:post.uid||null, postItem:post.item, claimantName:claimant, claimantContact:contact, answer1:q1.value.trim(), answer2:q2.value.trim(), answer3:q3.value.trim(), createdAt:serverTimestamp() });
+    window.toast('✅ Claim bhej diya!');
+    q1.value=''; q2.value=''; q3.value='';
+    var el=document.getElementById('claim-section-'+id); if(el) el.style.display='none';
+  } catch(e) { window.toast('❌ Claim send nahi hua.'); }
+};
+</script>
+
+<!-- STATUS FILTER BAR (added to home page) -->
+<script>
+// Inject status filter bar into home page after DOM loads
+document.addEventListener('DOMContentLoaded', function() {
+  var fl = document.getElementById('filter-label');
+  if (fl && !document.getElementById('stab-all')) {
+    var bar = document.createElement('div');
+    bar.className = 'status-filter-bar';
+    bar.style.cssText = 'display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px;';
+    bar.innerHTML = '<button class="status-tab active" id="stab-all" onclick="setStatusFilter(\'all\')">🔍 All</button>'
+      + '<button class="status-tab" id="stab-active" onclick="setStatusFilter(\'active\')">🔴 Active</button>'
+      + '<button class="status-tab" id="stab-resolved" onclick="setStatusFilter(\'resolved\')">✅ Resolved</button>'
+      + '<button class="status-tab" id="stab-expired" onclick="setStatusFilter(\'expired\')">⏳ Expired</button>';
+    fl.parentNode.insertBefore(bar, fl);
+  }
+});
+</script>
+
+<style>
+.status-tab{padding:7px 16px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;color:#555;transition:all .2s;flex-shrink:0;}
+.status-tab.active{background:var(--black);color:var(--white);border-color:var(--black);}
+.seen-btn{display:flex;align-items:center;gap:6px;padding:10px 14px;background:#F0F9FF;color:#0369A1;border:1.5px solid #BAE6FD;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;width:100%;justify-content:center;font-family:'Inter',sans-serif;}
+.claim-btn{display:flex;align-items:center;gap:6px;padding:10px 14px;background:#F0FDF4;color:#065F46;border:1.5px solid #6EE7B7;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;width:100%;justify-content:center;font-family:'Inter',sans-serif;}
+.claim-section{background:#F0FDF4;border:1.5px solid #6EE7B7;border-radius:12px;padding:16px;margin-top:8px;display:none;}
+.seen-section{background:#F0F9FF;border:1.5px solid #BAE6FD;border-radius:12px;padding:16px;margin-top:8px;display:none;}
+.resolve-btn{display:flex;align-items:center;gap:6px;padding:10px 14px;background:#D1FAE5;color:#065F46;border:1.5px solid #6EE7B7;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;width:100%;justify-content:center;font-family:'Inter',sans-serif;}
+.edit-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:400;align-items:flex-end;justify-content:center;}
+.edit-modal-overlay.open{display:flex;}
+</style>
 
 </body>
 </html>
