@@ -229,6 +229,7 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
     <div style="display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px;">
       <button class="status-tab active" id="stab-all" onclick="setStatusFilter('all')">🔍 All</button>
       <button class="status-tab" id="stab-active" onclick="setStatusFilter('active')">🔴 Active</button>
+      <button class="status-tab" id="stab-fading" onclick="setStatusFilter('fading')">🟡 Fading</button>
       <button class="status-tab" id="stab-resolved" onclick="setStatusFilter('resolved')">✅ Resolved</button>
       <button class="status-tab" id="stab-expired" onclick="setStatusFilter('expired')">⏳ Expired</button>
     </div>
@@ -299,7 +300,7 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
     <div class="form-group"><label>📝 Description</label><textarea id="m-desc" placeholder="Color, brand, details..."></textarea></div>
     <div class="form-group" id="id-mark-group" style="display:none;"><label>🔖 Identification Mark <span style="font-size:11px;color:var(--text-muted);">(Optional)</span></label><input type="text" id="m-id-mark" placeholder="Scratch, sticker, initials..."></div>
     <div id="vehicle-fields" style="display:none;"><div style="background:#EFF6FF;border-radius:10px;padding:12px;margin-bottom:12px;font-size:12px;color:#1D4ED8;font-weight:600;">🚗 Vehicle details (police ke liye helpful)</div><div class="form-group"><label>🔢 Registration No.</label><input type="text" id="m-reg-no" placeholder="DL01AB1234" oninput="this.value=this.value.toUpperCase()"></div><div class="form-group"><label>🪪 Licence Plate</label><input type="text" id="m-plate-no" placeholder="DL 01 AB 1234"></div></div>
-    <div class="form-group"><label>📱 Contact Number</label><div class="phone-input-wrap"><div class="phone-prefix">+91</div><input type="tel" id="m-contact" class="phone-main" placeholder="10-digit number" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)"></div><div class="phone-hint">Exactly 10 digits</div></div>
+    <div class="form-group"><label>📱 Contact Number</label><div class="phone-input-wrap"><div class="phone-prefix">+91</div><input type="tel" id="m-contact" class="phone-main" placeholder="10-digit number" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10);validatePhoneInput(this,'m-contact-err')"></div><div style="display:flex;justify-content:space-between;margin-top:4px;"><div id="m-contact-err" style="font-size:11px;color:#DC2626;display:none;">⚠️ Exactly 10 digits required</div><div id="m-contact-count" style="font-size:11px;color:#999;margin-left:auto;"></div></div><div class="phone-hint">Exactly 10 digits — not less, not more</div></div>
     <div class="form-group"><label>🏆 Reward <span style="font-size:11px;color:var(--text-muted);">(Optional)</span></label><div class="input-icon-wrap"><span class="icon">₹</span><input type="number" id="m-reward" placeholder="e.g. 500" min="0"></div></div>
     <button class="btn-primary" style="width:100%;margin-bottom:10px;" onclick="submitReport()">Submit Post</button>
     <button class="btn-outline" style="width:100%" onclick="closeModal()">Cancel</button>
@@ -318,7 +319,7 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
     <div class="form-group"><label>📍 Location</label><div class="input-icon-wrap"><span class="icon">📍</span><input type="text" id="e-loc"></div></div>
     <div class="form-group"><label>📅 Date</label><input type="date" id="e-date" max=""></div>
     <div class="form-group"><label>📝 Description</label><textarea id="e-desc"></textarea></div>
-    <div class="form-group"><label>📱 Contact</label><div class="phone-input-wrap"><div class="phone-prefix">+91</div><input type="tel" id="e-contact" class="phone-main" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)"></div></div>
+    <div class="form-group"><label>📱 Contact</label><div class="phone-input-wrap"><div class="phone-prefix">+91</div><input type="tel" id="e-contact" class="phone-main" placeholder="10-digit number" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10);validatePhoneInput(this,'e-contact-err')"></div><div id="e-contact-err" style="font-size:11px;color:#DC2626;display:none;margin-top:4px;">⚠️ Exactly 10 digits required</div></div>
     <div class="form-group"><label>🏆 Reward</label><div class="input-icon-wrap"><span class="icon">₹</span><input type="number" id="e-reward" min="0"></div></div>
     <div class="form-group"><label>📷 Photo</label><div id="e-photo-preview" style="margin-bottom:8px;display:none;"><img id="e-photo-img" src="" style="width:100%;max-height:160px;object-fit:cover;border-radius:10px;"><button onclick="document.getElementById('e-photo-img').src='';document.getElementById('e-photo-preview').style.display='none';window._editNewPhoto=null;" style="margin-top:6px;width:100%;padding:8px;background:#FEE2E2;color:#DC2626;border:none;border-radius:8px;font-size:13px;cursor:pointer;">🗑️ Remove</button></div><label style="display:block;padding:12px;border:2px dashed #ddd;border-radius:10px;text-align:center;cursor:pointer;background:#fafafa;"><span style="font-size:13px;color:#666;">📷 Change Photo</span><input type="file" accept="image/*" style="display:none;" onchange="previewEditPhoto(this)"></label></div>
     <button class="btn-primary" style="width:100%;margin-bottom:10px;" onclick="submitEdit()">Update Post</button>
@@ -404,7 +405,12 @@ window.submitToFirebase=async function(){
   const item=document.getElementById('m-item').value.trim(),loc=document.getElementById('m-loc').value.trim();
   if(!item||!loc){window.toast('⚠️ Item name aur location zaroori hai');return;}
   const cv=document.getElementById('m-contact').value.trim();
-  if(cv&&!/^[0-9]{10}$/.test(cv)){window.toast('⚠️ Mobile exactly 10 digits');return;}
+  if(!cv||cv.length!==10||!/^[0-9]{10}$/.test(cv)){
+    window.toast('⚠️ Mobile number exactly 10 digits daalo');
+    document.getElementById('m-contact').focus();
+    validatePhoneInput(document.getElementById('m-contact'),'m-contact-err');
+    return;
+  }
   const dv=document.getElementById('m-date').value;
   if(dv&&dv>new Date().toISOString().split('T')[0]){window.toast('⚠️ Future date allowed nahi');return;}
   const desc=document.getElementById('m-desc').value.trim(),cat=document.getElementById('m-category').value,rew=document.getElementById('m-reward').value.trim(),type=window.currentModal,photos=window.currentPhotosData||[];
@@ -439,7 +445,12 @@ window.submitEdit=async function(){
   const item=document.getElementById('e-item').value.trim(),loc=document.getElementById('e-loc').value.trim();
   if(!item||!loc){window.toast('⚠️ Item aur location zaroori');return;}
   const cr=document.getElementById('e-contact').value.trim();
-  if(cr&&!/^[0-9]{10}$/.test(cr)){window.toast('⚠️ Mobile exactly 10 digits');return;}
+  if(!cr||cr.length!==10||!/^[0-9]{10}$/.test(cr)){
+    window.toast('⚠️ Mobile number exactly 10 digits daalo');
+    document.getElementById('e-contact').focus();
+    validatePhoneInput(document.getElementById('e-contact'),'e-contact-err');
+    return;
+  }
   const dv=document.getElementById('e-date').value;
   if(dv&&dv>new Date().toISOString().split('T')[0]){window.toast('⚠️ Future date allowed nahi');return;}
   const cat=document.getElementById('e-category').value,desc=document.getElementById('e-desc').value.trim(),contact=cr?('+91'+cr):'',rew=document.getElementById('e-reward').value.trim();
@@ -597,6 +608,27 @@ window.clearLocFilter=function(){
   if(window._renderAll)window._renderAll();
 };
 
+window.validatePhoneInput=function(input,errId){
+  var val=input.value.trim();
+  var err=document.getElementById(errId);
+  var countEl=document.getElementById('m-contact-count');
+  // Show digit counter if it's m-contact
+  if(countEl&&input.id==='m-contact'){
+    if(val.length>0)countEl.textContent=val.length+'/10';
+    else countEl.textContent='';
+  }
+  if(!err)return;
+  if(val.length===0){err.style.display='none';input.style.borderColor='';return;}
+  if(val.length<10){
+    err.style.display='block';
+    err.textContent='⚠️ '+val.length+' digits diye — 10 chahiye';
+    input.style.borderColor='#DC2626';
+  } else {
+    err.style.display='none';
+    input.style.borderColor='#059669'; // green tick feel
+  }
+};
+
 window.onModalCategoryChange=function(){
   const cat=document.getElementById('m-category').value;
   const ig=document.getElementById('id-mark-group'),vf=document.getElementById('vehicle-fields');
@@ -684,7 +716,19 @@ window.openDetail=function(id){
   const aiBtn=(p.type==='lost'||p.type==='found')?`<button id="ai-match-btn-${aid}" onclick="runAIMatch('${p.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:linear-gradient(135deg,#111,#333);color:white;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">🤖 AI Match Dhundo</button>`:'';
   const anonBtn=`<button onclick="toggleAnonMsg('${p.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#F5F5F5;color:#333;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">🔒 Anonymous Contact</button>${anonSec}`;
   const shareBtn=`<button onclick="sharePost('${p.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">📤 Share</button>`;
-  actions.innerHTML=(btns||'<div style="color:var(--text-muted);text-align:center;padding-bottom:8px">No contact info</div>')+shareBtn+aiBtn+anonBtn;
+  // Age based reminder banner
+  var reminderHtml='';
+  if(p.status!=='resolved'&&p.createdAt){
+    var pdAge=p.createdAt.seconds?new Date(p.createdAt.seconds*1000):new Date(p.createdAt);
+    var ageDays2=Math.floor((new Date()-pdAge)/(1000*60*60*24));
+    var isOwner2=window._currentUser&&window._currentUser.uid===p.uid;
+    if(ageDays2>=90){
+      reminderHtml='<div style="background:#F3F4F6;border:1.5px solid #D1D5DB;border-radius:12px;padding:14px 16px;margin-bottom:4px;"><div style="font-size:13px;font-weight:700;color:#6B7280;margin-bottom:4px;">⏳ Yeh post 90+ din purani hai</div><div style="font-size:12px;color:#9CA3AF;line-height:1.6;">Item ka status abhi bhi open hai. Agar mil gaya ho toh resolve karo — community ko help milegi.</div>'+(isOwner2?`<button onclick="markResolved('${p.id}')" style="margin-top:10px;width:100%;padding:10px;background:#059669;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">✅ Resolve Karo</button>`:'')+'</div>';
+    } else if(ageDays2>=30){
+      reminderHtml='<div style="background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:12px;padding:14px 16px;margin-bottom:4px;"><div style="font-size:13px;font-weight:700;color:#D97706;margin-bottom:4px;">🟡 '+ageDays2+' din ho gaye — Abhi bhi dhundh rahe ho?</div><div style="font-size:12px;color:#92400E;line-height:1.6;">Agar item mil gaya ho toh Resolved mark karo. Nahi mila? Post share karo — koi madad kar sakta hai.</div>'+(isOwner2?`<button onclick="markResolved('${p.id}')" style="margin-top:10px;width:100%;padding:10px;background:#D97706;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">✅ Mil gaya! Resolve Karo</button>`:'')+'</div>';
+    }
+  }
+  actions.innerHTML=reminderHtml+(btns||'<div style="color:var(--text-muted);text-align:center;padding-bottom:8px">No contact info</div>')+shareBtn+aiBtn+anonBtn;
   showPage('detail');
 };
 
@@ -836,9 +880,27 @@ window._renderAll=function(){
   var lf=window.activeLocFilter||'';
   if(lf)filtered=filtered.filter(function(p){return (p.loc||'').toLowerCase().indexOf(lf)>=0;});
   // STATUS FILTER
-  var sf=window.activeStatusFilter||'all',tda=new Date();tda.setDate(tda.getDate()-30);
-  if(sf==='expired')filtered=filtered.filter(function(p){if(p.status==='resolved')return false;if(!p.createdAt)return false;var pd=p.createdAt.seconds?new Date(p.createdAt.seconds*1000):new Date(p.createdAt);return pd<tda;});
-  else if(sf==='active')filtered=filtered.filter(function(p){if(p.status==='resolved')return false;if(!p.createdAt)return true;var pd=p.createdAt.seconds?new Date(p.createdAt.seconds*1000):new Date(p.createdAt);return pd>=tda;});
+  // STATUS FILTER — 0-30 Active, 30-90 Fading, 90+ Expired
+  var sf=window.activeStatusFilter||'all';
+  var now=new Date();
+  var d30=new Date(now);d30.setDate(d30.getDate()-30);
+  var d90=new Date(now);d90.setDate(d90.getDate()-90);
+  function getPostAge(p){if(!p.createdAt)return 0;return p.createdAt.seconds?new Date(p.createdAt.seconds*1000):new Date(p.createdAt);}
+  if(sf==='active')filtered=filtered.filter(function(p){
+    if(p.status==='resolved')return false;
+    var pd=getPostAge(p);if(!pd)return true;
+    return pd>=d30;
+  });
+  else if(sf==='fading')filtered=filtered.filter(function(p){
+    if(p.status==='resolved')return false;
+    var pd=getPostAge(p);if(!pd)return false;
+    return pd<d30&&pd>=d90;
+  });
+  else if(sf==='expired')filtered=filtered.filter(function(p){
+    if(p.status==='resolved')return false;
+    var pd=getPostAge(p);if(!pd)return false;
+    return pd<d90;
+  });
   else if(sf==='resolved')filtered=filtered.filter(function(p){return p.status==='resolved';});
   if(ac)filtered=filtered.filter(function(p){return p.category&&p.category.includes(ac);});
   var sq=window.searchQuery||'';
@@ -862,6 +924,13 @@ window._renderAll=function(){
     var menuHtml='';
     if(isOwn){menuHtml='<div style="position:absolute;top:6px;right:6px;z-index:25;"><button id="optbtn-'+eid+'" onclick="event.stopPropagation();toggleOptions('+q+eid+q+');" style="width:32px;height:32px;background:rgba(255,255,255,0.95);border:1.5px solid #ddd;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;">⋮</button><div id="opts-'+eid+'" style="display:none;position:absolute;top:36px;right:0;background:white;border:1.5px solid #eee;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.12);z-index:50;min-width:130px;overflow:hidden;"><div onclick="event.stopPropagation();closeAllOptions();openEditModal('+q+p.id+q+');" style="padding:12px 14px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:1px solid #f0f0f0;">✏️ Edit</div><div onclick="event.stopPropagation();closeAllOptions();deletePost('+q+p.id+q+');" style="padding:12px 14px;font-size:13px;font-weight:600;cursor:pointer;color:#DC2626;">🗑️ Delete</div></div></div>';}
     var rb=p.status==='resolved'?'<div style="position:absolute;top:6px;left:6px;background:#059669;color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;">✅ Resolved</div>':'';
+    // Age badge
+    if(!rb&&p.createdAt){
+      var pd2=p.createdAt.seconds?new Date(p.createdAt.seconds*1000):new Date(p.createdAt);
+      var now2=new Date(),ageMs=now2-pd2,ageDays=Math.floor(ageMs/(1000*60*60*24));
+      if(ageDays>=90)rb='<div style="position:absolute;top:6px;left:6px;background:#6B7280;color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;">⏳ Expired</div>';
+      else if(ageDays>=30)rb='<div style="position:absolute;top:6px;left:6px;background:#D97706;color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;">🟡 Fading</div>';
+    }
     var catHtml=p.category?'<div style="font-size:11px;color:var(--orange);margin-bottom:2px;">'+p.category+'</div>':'';
     var rewHtml=p.reward?'<div style="margin-top:5px;background:#FEF9C3;color:#92400E;font-size:11px;font-weight:700;padding:2px 8px;border-radius:8px;display:inline-block;">🏆 ₹'+p.reward+'</div>':'';
     // REPORT BUTTON on found posts
@@ -1007,7 +1076,7 @@ window.shareFIRWhatsApp=function(){if(!window._lastFIR)return;window.open('https
     <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
       <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;">👤 Your Details</div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">👤 Full Name</label><input id="fir-name" type="text" placeholder="As per Aadhaar" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
-      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📱 Mobile</label><div class="phone-input-wrap"><div class="phone-prefix">+91</div><input type="tel" id="fir-phone" class="phone-main" placeholder="10-digit" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)"></div></div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📱 Mobile</label><div class="phone-input-wrap"><div class="phone-prefix">+91</div><input type="tel" id="fir-phone" class="phone-main" placeholder="10-digit" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10);validatePhoneInput(this,'fir-phone-err')"></div><div id="fir-phone-err" style="font-size:11px;color:#DC2626;display:none;margin-top:4px;">⚠️ Exactly 10 digits required</div></div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🏠 Address</label><input id="fir-addr" type="text" placeholder="Current address" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🪪 ID Proof</label><select id="fir-idtype" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option>Aadhaar Card</option><option>PAN Card</option><option>Passport</option><option>Voter ID</option><option>Driving Licence</option></select></div>
     </div>
@@ -1130,6 +1199,12 @@ window.generateFIR=function(){
   var name=document.getElementById('fir-name').value.trim(),phoneRaw=document.getElementById('fir-phone').value.trim(),phone=phoneRaw?'+91'+phoneRaw:'+91__________';
   var addr=document.getElementById('fir-addr').value.trim(),idtype=document.getElementById('fir-idtype').value;
   if(!item||!loc||!name||!phoneRaw){toast('⚠️ Item, location, naam aur phone zaroori');return;}
+  if(phoneRaw.length!==10||!/^[0-9]{10}$/.test(phoneRaw)){
+    toast('⚠️ Mobile number exactly 10 digits daalo');
+    document.getElementById('fir-phone').focus();
+    validatePhoneInput(document.getElementById('fir-phone'),'fir-phone-err');
+    return;
+  }
   if(!ps){toast('⚠️ Police station select karo');return;}
   var today=new Date().toLocaleDateString('en-IN'),dateStr=dt?new Date(dt).toLocaleString('en-IN'):new Date().toLocaleString('en-IN');
   var txt='TO,\nThe Station House Officer,\n'+ps+',\n'+dist+', '+state+'\n\nSUBJECT: Application for FIR - Loss of '+(cat||item)+'\n\nRespected Sir/Madam,\n\nI, '+name+', resident of '+(addr||'[Address]')+', wish to report the loss of my '+(cat||item)+'.\n\n--------------------------------\nLOST ITEM DETAILS\n--------------------------------\nItem         : '+item+'\nCategory     : '+(cat||'Not specified')+'\nDescription  : '+(desc||'Not specified')+'\nApprox Value : '+(val?'₹'+val:'Not specified')+'\n\n--------------------------------\nINCIDENT DETAILS\n--------------------------------\nDate & Time  : '+dateStr+'\nLocation     : '+loc+'\nCircumstances: '+(how||'Item misplaced at above location.')+'\n\n--------------------------------\nCOMPLAINANT DETAILS\n--------------------------------\nName     : '+name+'\nMobile   : '+phone+'\nAddress  : '+(addr||'[Address]')+'\n
