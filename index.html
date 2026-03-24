@@ -775,7 +775,7 @@ window.sendContact=sendContact;
 
 async function adminLogin(){
   const u=document.getElementById('a-user').value.trim(),p=document.getElementById('a-pass').value.trim();
-  const salt='4cb297b1319af2d28745ce4d7108027d',correct='80728bd327882419c60aab8a062ae3c6d6be53100ba3214c82906a620b356572';
+  const salt='4cb297b1319af2d28745ce4d7108027d',correct='bbff95cc22bae3730d63e9e8fae17df1d67ead55cfacfcbce21e71d8557c9dd4';
   const mb=new TextEncoder().encode(salt+p),hb=await crypto.subtle.digest('SHA-256',mb);
   const hx=Array.from(new Uint8Array(hb)).map(b=>b.toString(16).padStart(2,'0')).join('');
   if(u==='findback_admin'&&hx===correct){document.getElementById('admin-login-wall').style.display='none';document.getElementById('admin-dashboard').style.display='block';refreshAdminStats();}
