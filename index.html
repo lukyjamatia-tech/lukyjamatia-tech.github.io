@@ -374,6 +374,10 @@ const db=getFirestore(app);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){disableNetwork(db).catch(()=>{});}else{enableNetwork(db).catch(()=>{});}});
 const auth=getAuth(app);
 window._db=db;window._auth=auth;window._allPosts=[];
+window._fbCreateUser=createUserWithEmailAndPassword;
+window._fbSignIn=signInWithEmailAndPassword;
+window._fbUpdateProfile=updateProfile;
+window._fbSignOut=signOut;
 const q=query(collection(db,"posts"),orderBy("createdAt","desc"));
 let _unsub=null;
 function startListener(){
@@ -1244,11 +1248,13 @@ function ngoDoSignup(){
   org=org.trim();email=email.trim();pass=pass.trim();
   if(!org){if(errEl){errEl.textContent='⚠️ Organization name daalo';errEl.style.display='block';}return;}
   if(!email){if(errEl){errEl.textContent='⚠️ Email daalo';errEl.style.display='block';}return;}
-  if(pass.length<6){if(errEl){errEl.textContent='⚠️ Password kam se kam 6 characters ka hona chahiye';errEl.style.display='block';}return;}
+  if(pass.length<6){if(errEl){errEl.textContent='⚠️ Password kam se kam 6 characters';errEl.style.display='block';}return;}
   var auth=window._auth;
-  if(!auth){if(errEl){errEl.textContent='❌ App load nahi hua, refresh karo';errEl.style.display='block';}return;}
-  import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js").then(function(m){
-    return m.createUserWithEmailAndPassword(auth,email,pass).then(function(c){return m.updateProfile(c.user,{displayName:org});});
+  var createUser=window._fbCreateUser;
+  var updateProf=window._fbUpdateProfile;
+  if(!auth||!createUser){if(errEl){errEl.textContent='❌ App load nahi hua, refresh karo';errEl.style.display='block';}return;}
+  createUser(auth,email,pass).then(function(cred){
+    return updateProf(cred.user,{displayName:org});
   }).then(function(){
     if(okEl){okEl.textContent='✅ Account ban gaya! Ab login karo.';okEl.style.display='block';}
     document.getElementById('ngo-s-org').value='';
@@ -1256,9 +1262,9 @@ function ngoDoSignup(){
     document.getElementById('ngo-s-pass').value='';
     setTimeout(function(){ngoSwitchTab('login');if(okEl)okEl.style.display='none';},1800);
   }).catch(function(e){
-    var msg=e.code==='auth/email-already-in-use'?'❌ Ye email already registered hai':
+    var msg=e.code==='auth/email-already-in-use'?'❌ Email already registered hai':
             e.code==='auth/invalid-email'?'❌ Valid email daalo':
-            e.code==='auth/weak-password'?'❌ Password kam se kam 6 characters ka hona chahiye':
+            e.code==='auth/weak-password'?'❌ Password kam se kam 6 characters':
             '❌ '+e.message;
     if(errEl){errEl.textContent=msg;errEl.style.display='block';}
   });
@@ -1314,7 +1320,33 @@ function ngoLogout(){if(window._ngoLogoutFn)window._ngoLogoutFn();}
               <button onclick="ngoTogglePw('ngo-s-pass',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#aaa;">👁️</button>
             </div>
           </div>
-          <button class="btn-primary" style="width:100%" onclick="ngoDoSignup()">Create Account</button>
+          <button class="btn-primary" style="width:100%" onclick="(function(){
+  var org=document.getElementById('ngo-s-org').value.trim();
+  var email=document.getElementById('ngo-s-email').value.trim();
+  var pass=document.getElementById('ngo-s-pass').value.trim();
+  var err=document.getElementById('ngo-signup-err');
+  var ok=document.getElementById('ngo-signup-ok');
+  err.style.display='none';ok.style.display='none';
+  if(!org){err.textContent='⚠️ Organization name daalo';err.style.display='block';return;}
+  if(!email){err.textContent='⚠️ Email daalo';err.style.display='block';return;}
+  if(pass.length<6){err.textContent='⚠️ Password 6+ characters chahiye';err.style.display='block';return;}
+  if(!window._auth||!window._fbCreateUser){err.textContent='❌ App load nahi hua, refresh karo';err.style.display='block';return;}
+  window._fbCreateUser(window._auth,email,pass).then(function(c){
+    return window._fbUpdateProfile(c.user,{displayName:org});
+  }).then(function(){
+    ok.textContent='✅ Account ban gaya! Ab login karo.';ok.style.display='block';
+    document.getElementById('ngo-s-org').value='';
+    document.getElementById('ngo-s-email').value='';
+    document.getElementById('ngo-s-pass').value='';
+    setTimeout(function(){ngoSwitchTab('login');ok.style.display='none';},1800);
+  }).catch(function(e){
+    var msg=e.code==='auth/email-already-in-use'?'❌ Email already registered':
+            e.code==='auth/invalid-email'?'❌ Valid email daalo':
+            e.code==='auth/weak-password'?'❌ Password 6+ characters chahiye':
+            '❌ '+e.message;
+    err.textContent=msg;err.style.display='block';
+  });
+})()">Create Account</button>
           <div style="text-align:center;margin-top:12px;font-size:13px;color:var(--text-muted);">Already account hai? <a onclick="ngoSwitchTab('login')" style="color:var(--orange);font-weight:700;cursor:pointer;">Login karo</a></div>
         </div>
       </div>
@@ -1439,35 +1471,7 @@ window._ngoToggleFn = function(inputId, btn) {
 };
 window.ngoTogglePw = window._ngoToggleFn;
 
-window._ngoSignupFn = function() {
-  var org = document.getElementById('ngo-s-org').value.trim();
-  var email = document.getElementById('ngo-s-email').value.trim();
-  var pass = document.getElementById('ngo-s-pass').value.trim();
-  var errEl = document.getElementById('ngo-signup-err');
-  var okEl = document.getElementById('ngo-signup-ok');
-  errEl.style.display = 'none'; okEl.style.display = 'none';
-  if (!org) { errEl.textContent = '⚠️ Organization name daalo'; errEl.style.display = 'block'; return; }
-  if (!email) { errEl.textContent = '⚠️ Email daalo'; errEl.style.display = 'block'; return; }
-  if (pass.length < 6) { errEl.textContent = '⚠️ Password kam se kam 6 characters ka hona chahiye'; errEl.style.display = 'block'; return; }
-  var auth = window._auth;
-  if (!auth) { errEl.textContent = '❌ App load nahi hua, refresh karo'; errEl.style.display = 'block'; return; }
-  import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js").then(function(m) {
-    return m.createUserWithEmailAndPassword(auth, email, pass).then(function(cred) {
-      return m.updateProfile(cred.user, { displayName: org });
-    });
-  }).then(function() {
-    okEl.style.display = 'block';
-    document.getElementById('ngo-s-org').value = '';
-    document.getElementById('ngo-s-email').value = '';
-    document.getElementById('ngo-s-pass').value = '';
-    setTimeout(function() { ngoSwitchTab('login'); okEl.style.display = 'none'; }, 1800);
-  }).catch(function(e) {
-    var msg = e.code === 'auth/email-already-in-use' ? '❌ Ye email already registered hai' :
-              e.code === 'auth/invalid-email' ? '❌ Valid email daalo' : '❌ ' + e.message;
-    errEl.textContent = msg; errEl.style.display = 'block';
-  });
-};
-window.ngoDoSignup = window._ngoSignupFn;
+// ngoDoSignup already defined above as global function
 
 window._ngoLoginFn = function() {
   var email = document.getElementById('ngo-l-email').value.trim();
@@ -1476,10 +1480,9 @@ window._ngoLoginFn = function() {
   errEl.style.display = 'none';
   if (!email || !pass) { errEl.textContent = '⚠️ Email aur password daalo'; errEl.style.display = 'block'; return; }
   var auth = window._auth;
-  if (!auth) { errEl.textContent = '❌ App load nahi hua, refresh karo'; errEl.style.display = 'block'; return; }
-  import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js").then(function(m) {
-    return m.signInWithEmailAndPassword(auth, email, pass);
-  }).then(function(cred) {
+  var signIn = window._fbSignIn;
+  if (!auth || !signIn) { errEl.textContent = '❌ App load nahi hua, refresh karo'; errEl.style.display = 'block'; return; }
+  signIn(auth, email, pass).then(function(cred) {
     var org = cred.user.displayName || email;
     document.getElementById('ngo-login-wall').style.display = 'none';
     document.getElementById('ngo-dashboard').style.display = 'block';
@@ -1500,9 +1503,7 @@ window._ngoLogoutFn = function() {
   document.getElementById('ngo-login-wall').style.display = 'block';
   document.getElementById('ngo-dashboard').style.display = 'none';
   sessionStorage.removeItem('ngo_org');
-  if (window._auth) {
-    import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js").then(function(m){ m.signOut(window._auth); });
-  }
+  if (window._auth && window._fbSignOut) { window._fbSignOut(window._auth).catch(function(){}); }
 };
 window.ngoLogout = window._ngoLogoutFn;
 
