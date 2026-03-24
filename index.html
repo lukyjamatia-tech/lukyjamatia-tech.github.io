@@ -247,7 +247,7 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
     <div class="footer-grid">
       <div class="footer-col"><h5>Company</h5><a onclick="showPage('about')">🏢 About Us</a><a onclick="showPage('contact')">📞 Contact</a><a onclick="showPage('customers')">❤️ Customers</a><a onclick="showPage('success')">🌟 Success Stories</a><a onclick="showPage('trust')">🤝 Trust Score</a></div>
       <div class="footer-col"><h5>Legal</h5><a onclick="showPage('terms')">📜 Terms</a><a onclick="showPage('privacy')">🔒 Privacy</a><a onclick="showPage('qrtag')">🏷️ QR Tag</a><a onclick="showPage('reward')">💰 Reward</a></div>
-      <div class="footer-col"><h5>Account</h5><a onclick="showPage('login')">🔑 Log In</a><a onclick="showPage('register')">📝 Register</a><a onclick="showPage('admin')">🛡️ Admin</a></div>
+      <div class="footer-col"><h5>Account</h5><a onclick="showPage('login')">🔑 Log In</a><a onclick="showPage('register')">📝 Register</a><a onclick="showPage('admin')">🛡️ Admin</a><a onclick="showPage('ngo')">🏛️ NGO/Police</a></div>
       <div class="footer-col"><h5>Quick Links</h5><a onclick="openModal('lost')">😟 Report Lost</a><a onclick="openModal('found')">🎉 Report Found</a><a onclick="openModal('missing')">⚠️ Report Missing</a><a onclick="showPage('fir')">👮 FIR Help</a></div>
     </div>
     <div class="footer-bottom"><p>©2025 FindBack S1. All rights reserved.</p><div class="footer-bottom-links"><a onclick="showPage('terms')">Terms</a><a onclick="showPage('privacy')">Privacy</a><a onclick="showPage('contact')">Contact</a></div></div>
@@ -696,7 +696,7 @@ window.openDetail=function(id){
   const tc=p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7',tt=p.type==='lost'?'#DC2626':p.type==='found'?'#059669':'#D97706',tl=p.type==='lost'?'😟 Lost':p.type==='found'?'🎉 Found':'⚠️ Missing';
   document.getElementById('detail-badge').innerHTML=`<span style="background:${tc};color:${tt};padding:4px 12px;border-radius:20px;font-weight:700;font-size:13px;">${tl}</span>`;
   document.getElementById('detail-title').textContent=p.item||'';document.getElementById('detail-cat').textContent=p.category||'';
-  document.getElementById('detail-loc').textContent=p.loc||'—';document.getElementById('detail-date').textContent=p.date||'—';
+  document.getElementById('detail-loc').textContent=p.loc||'—';document.getElementById('detail-date').textContent=p.date||'-';
   let descText=p.desc||'No description.';
   if(p.idMark)descText+='\n\n🔖 ID Mark: '+p.idMark;if(p.regNo)descText+='\n🔢 Reg: '+p.regNo;if(p.plateNo)descText+='\n🪪 Plate: '+p.plateNo;
   document.getElementById('detail-desc').textContent=descText;
@@ -739,6 +739,7 @@ function showPage(id){
   if(id==='map'){const b=document.getElementById('nav-map-btn');if(b)b.classList.add('active');}
   if(id==='alerts'){const b=document.getElementById('nav-alerts-btn');if(b)b.classList.add('active');}
   if(id==='trust')setTimeout(()=>{if(window.loadTrustScore)window.loadTrustScore();},100);
+    if(id==='ngo')setTimeout(()=>{if(window.ngoLoadDashboard&&document.getElementById('ngo-dashboard')&&document.getElementById('ngo-dashboard').style.display!=='none')window.ngoLoadDashboard();},100);
   if(id==='reward')setTimeout(()=>{if(window.loadRewardPosts)window.loadRewardPosts();},100);
   if(id==='map')setTimeout(()=>{if(window.initMap)window.initMap();},100);
   if(id==='success')setTimeout(loadSuccessWall,100);}catch(e){console.warn('showPage err:',e);}
@@ -1021,6 +1022,7 @@ window.loadRewardPosts=function(){const posts=(window._allPosts||[]).filter(p=>p
 document.addEventListener('DOMContentLoaded',function(){var today=new Date().toISOString().split('T')[0];var d1=document.getElementById('m-date');if(d1)d1.setAttribute('max',today);var d2=document.getElementById('e-date');if(d2)d2.setAttribute('max',today);});
 window.closeLoginRequired=function(){var m=document.getElementById('login-required-modal');if(m)m.style.display='none';};
 window.copyFIR=function(){if(!window._lastFIR)return;navigator.clipboard?navigator.clipboard.writeText(window._lastFIR).then(()=>toast('📋 Copied!')).catch(()=>toast('❌ Failed')):toast('❌ Not supported');};
+window._firFnsLoaded=true;
 window.shareFIRWhatsApp=function(){if(!window._lastFIR)return;window.open('https://wa.me/?text='+encodeURIComponent(window._lastFIR),'_blank');};
 </script>
 <!-- MAP PAGE -->
@@ -1062,9 +1064,9 @@ window.shareFIRWhatsApp=function(){if(!window._lastFIR)return;window.open('https
     </div>
     <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
       <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:6px;">🏛️ Police Station</div>
-      <div class="form-group" style="margin-bottom:10px;"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">State/UT</label><select id="fir-state" onchange="onFirStateChange()" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option value="">-- Select State --</option></select></div>
-      <div class="form-group" style="margin-bottom:10px;"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">District</label><select id="fir-district" onchange="onFirDistrictChange()" disabled style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option value="">-- Select State First --</option></select></div>
-      <div class="form-group" style="margin-bottom:0;"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Police Station</label><select id="fir-ps" onchange="onFirPSChange()" disabled style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option value="">-- Select District --</option></select></div>
+      <div class="form-group" style="margin-bottom:10px;"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">State/UT</label><select id="fir-state" onchange="if(window.onFirStateChange)window.onFirStateChange();else setTimeout(function(){if(window.onFirStateChange)window.onFirStateChange();},500)" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option value="">-- Select State --</option></select></div>
+      <div class="form-group" style="margin-bottom:10px;"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">District</label><select id="fir-district" onchange="if(window.onFirDistrictChange)window.onFirDistrictChange();" disabled style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option value="">-- Select State First --</option></select></div>
+      <div class="form-group" style="margin-bottom:0;"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Police Station</label><select id="fir-ps" onchange="if(window.onFirPSChange)window.onFirPSChange();" disabled style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option value="">-- Select District --</option></select></div>
       <div id="fir-ps-preview" style="display:none;margin-top:12px;background:#EFF6FF;border-radius:10px;padding:12px;border-left:3px solid #2563EB;"><div style="font-size:11px;color:#1D4ED8;font-weight:700;margin-bottom:4px;">✅ Selected:</div><div id="fir-ps-preview-text" style="font-size:13px;font-weight:700;"></div><div id="fir-ps-address-text" style="font-size:12px;color:#64748b;margin-top:2px;"></div></div>
     </div>
     <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
@@ -1080,7 +1082,7 @@ window.shareFIRWhatsApp=function(){if(!window._lastFIR)return;window.open('https
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🏠 Address</label><input id="fir-addr" type="text" placeholder="Current address" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🪪 ID Proof</label><select id="fir-idtype" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option>Aadhaar Card</option><option>PAN Card</option><option>Passport</option><option>Voter ID</option><option>Driving Licence</option></select></div>
     </div>
-    <button onclick="generateFIR()" class="btn-primary" style="width:100%;margin-bottom:10px;font-size:16px;padding:14px;">📄 FIR Draft Generate Karo</button>
+    <button onclick="if(window.generateFIR)window.generateFIR();else toast('❌ Page refresh karo')" class="btn-primary" style="width:100%;margin-bottom:10px;font-size:16px;padding:14px;">📄 FIR Draft Generate Karo</button>
     <div style="background:#EFF6FF;border-radius:12px;padding:14px;font-size:12px;color:#1D4ED8;line-height:1.7;">💡 Yeh ek draft hai. <a href="https://www.digitalpolice.gov.in" target="_blank" style="color:#1D4ED8;font-weight:700;">digitalpolice.gov.in</a></div>
   </div>
 </div>
@@ -1182,14 +1184,23 @@ window.addEventListener('load',function(){
   var today=new Date().toISOString().split('T')[0];var d1=document.getElementById('m-date');if(d1)d1.setAttribute('max',today);var d2=document.getElementById('e-date');if(d2)d2.setAttribute('max',today);
 });
 </script>
+
+<script>
+// Safe wrappers for FIR functions - defined early so inline onchange works
+function onFirStateChange(){if(window.onFirStateChange&&window._firFnsLoaded)window.onFirStateChange();else setTimeout(function(){if(window.onFirStateChange)window.onFirStateChange();},300);}
+function onFirDistrictChange(){if(window.onFirDistrictChange)window.onFirDistrictChange();}
+function onFirPSChange(){if(window.onFirPSChange)window.onFirPSChange();}
+function generateFIR(){if(window.generateFIR)window.generateFIR();else toast('❌ Page refresh karo');}
+function updateFIRLangUI(){if(window.updateFIRLangUI)window.updateFIRLangUI();}
+</script>
 <!-- FIR DATA -->
 <script>
 var INDIA_POLICE_DATA={"Andhra Pradesh":{"Visakhapatnam":["Visakhapatnam Town PS","Gajuwaka PS","Seethammadhara PS","MVP Colony PS"],"Guntur":["Guntur Town PS","Narasaraopet PS","Tenali PS"],"Krishna":["Vijayawada One Town PS","Governorpet PS","Patamata PS"],"Kurnool":["Kurnool Town PS","Nandyal PS","Adoni PS"],"Chittoor":["Chittoor Town PS","Tirupati Urban PS","Madanapalle PS"]},"Assam":{"Kamrup Metropolitan":["Dispur PS","Jalukbari PS","Pan Bazar PS","Beltola PS","Noonmati PS","Azara PS"],"Dibrugarh":["Dibrugarh PS","Chabua PS"],"Jorhat":["Jorhat PS","Mariani PS"],"Silchar":["Silchar PS","Sonai PS"],"Nagaon":["Nagaon PS","Raha PS"]},"Bihar":{"Patna":["Kotwali PS","Gardanibagh PS","Danapur PS","Bankipur PS","Boring Road PS","Rajiv Nagar PS"],"Gaya":["Gaya Town PS","Bodh Gaya PS"],"Muzaffarpur":["Muzaffarpur Town PS","Muzaffarpur Sadar PS"],"Bhagalpur":["Bhagalpur Town PS","Kahalgaon PS"],"Nalanda":["Bihar Sharif PS","Rajgir PS"]},"Delhi":{"Central Delhi":["Connaught Place PS","Karol Bagh PS","Paharganj PS","Daryaganj PS","Sadar Bazar PS"],"South Delhi":["Hauz Khas PS","Malviya Nagar PS","Kalkaji PS","Saket PS","Greater Kailash PS","Mehrauli PS"],"North Delhi":["Civil Lines PS","Subzi Mandi PS","Timarpur PS","Mukherjee Nagar PS"],"East Delhi":["Preet Vihar PS","Vivek Vihar PS","Mayur Vihar PS","Laxmi Nagar PS"],"West Delhi":["Janakpuri PS","Uttam Nagar PS","Vikaspuri PS","Punjabi Bagh PS"],"South West Delhi":["Dwarka Sector 10 PS","Dwarka Sector 23 PS","Palam PS","Najafgarh PS"],"North West Delhi":["Rohini PS","Pitampura PS","Shalimar Bagh PS","Ashok Vihar PS"],"New Delhi":["New Delhi PS","Parliament Street PS","Tilak Marg PS"],"North East Delhi":["Seelampur PS","Shahdara PS","Bhajanpura PS"],"Outer Delhi":["Narela PS","Alipur PS","Bawana PS"]},"Gujarat":{"Ahmedabad":["Navrangpura PS","Satellite PS","Vastrapur PS","Chandkheda PS","Bopal PS","Narol PS","Maninagar PS"],"Surat":["Surat City PS","Adajan PS","Katargam PS","Varachha PS"],"Vadodara":["Vadodara City PS","Sayajigunj PS","Fatehgunj PS"],"Rajkot":["Rajkot A Division PS","Rajkot B Division PS","Gondal PS"],"Gandhinagar":["Gandhinagar Sector 21 PS","Gandhinagar Sector 7 PS","Mansa PS"]},"Haryana":{"Gurugram":["DLF Phase 1 PS","Sushant Lok PS","Sector 40 PS","Manesar PS","Palam Vihar PS","Badshahpur PS"],"Faridabad":["NIT Faridabad PS","Ballabhgarh PS","Tigaon PS"],"Ambala":["Ambala City PS","Ambala Cantonment PS"],"Hisar":["Hisar City PS","Hansi PS"],"Rohtak":["Rohtak City PS","Bahadurgarh PS"],"Panipat":["Panipat PS","Samalkha PS"],"Panchkula":["Panchkula PS","Kalka PS"]},"Jharkhand":{"Ranchi":["Kotwali PS","Doranda PS","Hindpiri PS","Bariatu PS","Lalpur PS"],"Dhanbad":["Dhanbad PS","Jharia PS","Sindri PS"],"Bokaro":["Chas PS","Bokaro Steel City PS"],"Jamshedpur":["Bistupur PS","Sakchi PS","Telco PS"]},"Karnataka":{"Bengaluru Urban":["Cubbon Park PS","Shivajinagar PS","Whitefield PS","Koramangala PS","Indiranagar PS","Jayanagar PS","JP Nagar PS","Yelahanka PS","Electronic City PS","HSR Layout PS","Marathahalli PS"],"Mysuru":["Mysuru North PS","Mysuru South PS","Nazarbad PS"],"Hubballi-Dharwad":["Hubballi Town PS","Dharwad PS"],"Mangaluru":["Mangaluru North PS","Mangaluru South PS","Urva PS"],"Belagavi":["Belagavi City PS","Angol PS"]},"Kerala":{"Thiruvananthapuram":["Fort PS","Cantonment PS","Karamana PS","Peroorkada PS","Nemom PS"],"Ernakulam":["Ernakulam Town PS","Fort Kochi PS","Aluva PS","Thrippunithura PS"],"Kozhikode":["Kozhikode Town PS","West Hill PS","Nadakkavu PS","Vadakara PS"],"Thrissur":["Thrissur Town PS","Ollur PS","Irinjalakuda PS"],"Kannur":["Kannur PS","Thalassery PS"]},"Madhya Pradesh":{"Bhopal":["TT Nagar PS","Kotwali PS","Habibganj PS","Govindpura PS","MP Nagar PS"],"Indore":["Vijay Nagar PS","Palasia PS","Central Kotwali PS","Lasudia PS","Banganga PS"],"Jabalpur":["Kotwali PS","Omti PS","Wright Town PS"],"Gwalior":["City Kotwali PS","Thatipur PS","Morar PS"],"Ujjain":["Ujjain PS","Mahidpur PS"]},"Maharashtra":{"Mumbai City":["Colaba PS","Cuffe Parade PS","Marine Drive PS","Azad Maidan PS","Nagpada PS"],"Mumbai Suburban":["Bandra PS","Andheri PS","Borivali PS","Kandivali PS","Malad PS","Goregaon PS","Kurla PS","Ghatkopar PS"],"Pune":["Shivajinagar PS","Deccan PS","Kothrud PS","Hadapsar PS","Kondhwa PS","Viman Nagar PS"],"Nagpur":["Kotwali PS","Lakadganj PS","Sitabuldi PS","Sadar PS"],"Thane":["Thane PS","Ulhasnagar PS","Kalyan PS","Bhiwandi PS"],"Nashik":["Nashik Road PS","Cidco PS","Panchavati PS","Malegaon PS"],"Aurangabad":["Aurangabad City PS","CIDCO PS"],"Solapur":["Solapur PS","Pandharpur PS"],"Kolhapur":["Kolhapur PS","Ichalkaranji PS"]},"Manipur":{"Imphal West":["Imphal PS","Lamphel PS","Singjamei PS","Patsoi PS","Sekmai PS","Lamlong PS"],"Imphal East":["Porompat PS","Heingang PS","Lamlai PS","Pangei PS"],"Thoubal":["Thoubal PS","Kakching PS","Wangoi PS","Lilong PS"],"Bishnupur":["Bishnupur PS","Moirang PS","Nambol PS"],"Churachandpur":["Churachandpur PS","Saikot PS","Henglep PS"],"Senapati":["Senapati PS","Mao PS"],"Ukhrul":["Ukhrul PS","Chingai PS"],"Chandel":["Chandel PS","Moreh PS"],"Tamenglong":["Tamenglong PS","Nungba PS"],"Kangpokpi":["Kangpokpi PS","Saikul PS"],"Jiribam":["Jiribam PS"]},"Odisha":{"Khordha":["Bhubaneswar Town PS","Kharavela Nagar PS","Saheed Nagar PS","Nayapalli PS"],"Cuttack":["Cuttack Town PS","Mangalabag PS","Malgodown PS"],"Sundargarh":["Sundargarh PS","Rourkela PS","Civil Township PS"],"Sambalpur":["Sambalpur PS","Burla PS"]},"Punjab":{"Amritsar":["Kotwali PS","Islamabad PS","Sultanwind PS","Cantonment PS"],"Ludhiana":["Division No. 1 PS","Division No. 2 PS","Sarabha Nagar PS","Dugri PS"],"Jalandhar":["Kotwali PS","Sadar PS","Model Town PS"],"Patiala":["Patiala PS","Rajpura PS"],"Mohali":["Mohali PS","Kharar PS","Derabassi PS"],"Chandigarh":["Sector 17 PS","Sector 26 PS","Sector 36 PS","Manimajra PS"]},"Rajasthan":{"Jaipur":["Kotwali PS","Bani Park PS","Malviya Nagar PS","Mansarovar PS","Vaishali Nagar PS","Civil Lines PS"],"Jodhpur":["Kotwali PS","Sardarpura PS","Sojati Gate PS"],"Kota":["Kota North PS","Kota South PS"],"Udaipur":["Kotwali PS","Sukhadia Circle PS","Ambamata PS","Hiran Magri PS"],"Ajmer":["Kotwali PS","Civil Lines PS","Beawar PS"],"Bikaner":["Bikaner PS","Nokha PS"],"Alwar":["Alwar PS","Bharatpur PS"]},"Tamil Nadu":{"Chennai":["Anna Nagar PS","T Nagar PS","Adyar PS","Velachery PS","Tambaram PS","Egmore PS","Royapettah PS","Mylapore PS","Nungambakkam PS","Kodambakkam PS","Porur PS","Ambattur PS"],"Coimbatore":["Town South PS","RS Puram PS","Saibaba Colony PS","Peelamedu PS"],"Madurai":["Town PS","KK Nagar PS","Goripalayam PS"],"Tiruchirappalli":["Ariyamangalam PS","Woraiyur PS","Srirangam PS"],"Salem":["Salem Town PS","Fairlands PS"],"Tirunelveli":["Tirunelveli PS","Palayamkottai PS"]},"Telangana":{"Hyderabad":["Banjara Hills PS","Jubilee Hills PS","Madhapur PS","Cyberabad PS","Kukatpally PS","LB Nagar PS","Uppal PS","Malkajgiri PS","Secunderabad PS","Begumpet PS"],"Warangal Urban":["Warangal Town PS","Hanamkonda PS","Kazipet PS"],"Karimnagar":["Karimnagar PS","Peddapalli PS"],"Nizamabad":["Nizamabad Town PS","Armoor PS"],"Medchal-Malkajgiri":["Medchal PS","Dundigal PS","Alwal PS"],"Rangareddy":["Shamshabad PS","Rajendranagar PS","Chevella PS"]},"Uttar Pradesh":{"Lucknow":["Hazratganj PS","Gomtinagar PS","Vibhuti Khand PS","Kaiserbagh PS","Chowk PS","Alambagh PS","Mahanagar PS","Indira Nagar PS","Aliganj PS"],"Kanpur Nagar":["Kotwali PS","Govind Nagar PS","Kalyanpur PS","Kidwai Nagar PS"],"Agra":["Kotwali PS","Taj Ganj PS","Kamla Nagar PS"],"Varanasi":["Lanka PS","Sigra PS","Kotwali PS","Bhelupur PS"],"Prayagraj":["Kotwali PS","Civil Lines PS","Kareli PS","Naini PS"],"Meerut":["Kotwali PS","Civil Lines PS","Brahmpuri PS"],"Ghaziabad":["Kotwali PS","Kavi Nagar PS","Nandgram PS","Indirapuram PS"],"Gautam Buddh Nagar":["Sector 20 PS","Sector 24 PS","Greater Noida PS","Dadri PS"],"Gorakhpur":["Kotwali PS","Basharatpur PS","Cantonment PS"],"Mathura":["Kotwali PS","Civil Lines PS","Vrindavan PS"]},"Uttarakhand":{"Dehradun":["Kotwali PS","Rajpur Road PS","Prem Nagar PS","Raipur PS","Rishikesh PS"],"Haridwar":["Haridwar City PS","Roorkee PS","Jwalapur PS"],"Nainital":["Nainital Kotwali PS","Haldwani PS","Kathgodam PS"],"Udham Singh Nagar":["Rudrapur PS","Kashipur PS","Bajpur PS"]},"West Bengal":{"Kolkata":["Lalbazar PS","Park Street PS","Gariahat PS","Lake PS","New Market PS","Bowbazar PS","Shyambazar PS","Dum Dum PS","Salt Lake PS","Kasba PS","Behala PS","Jadavpur PS"],"North 24 Parganas":["Barasat PS","Baranagar PS","Rajarhat PS","Bongaon PS"],"South 24 Parganas":["Diamond Harbour PS","Baruipur PS","Canning PS"],"Howrah":["Howrah PS","Liluah PS","Shibpur PS","Uluberia PS"],"Hooghly":["Chinsurah PS","Serampore PS","Chandannagar PS"],"Paschim Bardhaman":["Asansol PS","Durgapur PS","Raniganj PS"],"Darjeeling":["Darjeeling PS","Siliguri PS","Bhaktinagar PS"],"Murshidabad":["Berhampore PS","Lalbag PS","Jangipur PS"]},"Jammu & Kashmir":{"Srinagar":["Kothi Bagh PS","Rajouri Kadal PS","Nowhatta PS","Saddar PS"],"Jammu":["Jammu Sadar PS","Bakshi Nagar PS","Gandhi Nagar PS","Bahu PS"],"Anantnag":["Anantnag PS","Kulgam PS"],"Baramulla":["Baramulla PS","Sopore PS"],"Budgam":["Budgam PS","Beerwah PS"],"Kupwara":["Kupwara PS","Handwara PS"]},"Chandigarh":{"Chandigarh":["Sector 17 PS","Sector 26 PS","Sector 36 PS","Manimajra PS","Industrial Area PS","Sector 11 PS"]}};
 
-(function(){var sel=document.getElementById('fir-state');if(!sel)return;var st=Object.keys(INDIA_POLICE_DATA).sort();for(var i=0;i<st.length;i++){var o=document.createElement('option');o.value=st[i];o.textContent=st[i];sel.appendChild(o);}})();
+(function(){var sel=document.getElementById('fir-state');if(!sel)return;var st=Object.keys(window.INDIA_POLICE_DATA||{}).sort();for(var i=0;i<st.length;i++){var o=document.createElement('option');o.value=st[i];o.textContent=st[i];sel.appendChild(o);}})();
 
-window.onFirStateChange=function(){var state=document.getElementById('fir-state').value,dd=document.getElementById('fir-district'),pd=document.getElementById('fir-ps'),pv=document.getElementById('fir-ps-preview');dd.innerHTML='<option value="">-- District --</option>';pd.innerHTML='<option value="">-- PS --</option>';dd.disabled=true;pd.disabled=true;if(pv)pv.style.display='none';if(!state)return;var d=Object.keys(INDIA_POLICE_DATA[state]||{}).sort();for(var i=0;i<d.length;i++){var o=document.createElement('option');o.value=d[i];o.textContent=d[i];dd.appendChild(o);}dd.disabled=false;};
-window.onFirDistrictChange=function(){var state=document.getElementById('fir-state').value,dist=document.getElementById('fir-district').value,pd=document.getElementById('fir-ps'),pv=document.getElementById('fir-ps-preview');pd.innerHTML='<option value="">-- Police Station --</option>';pd.disabled=true;if(pv)pv.style.display='none';if(!state||!dist)return;var st=(INDIA_POLICE_DATA[state]||{})[dist]||[];for(var i=0;i<st.length;i++){var o=document.createElement('option');o.value=st[i];o.textContent=st[i];pd.appendChild(o);}pd.disabled=false;};
+window.onFirStateChange=function(){var state=document.getElementById('fir-state').value,dd=document.getElementById('fir-district'),pd=document.getElementById('fir-ps'),pv=document.getElementById('fir-ps-preview');dd.innerHTML='<option value="">-- District --</option>';pd.innerHTML='<option value="">-- PS --</option>';dd.disabled=true;pd.disabled=true;if(pv)pv.style.display='none';if(!state)return;var d=Object.keys((window.INDIA_POLICE_DATA||{})[state]||{}).sort();for(var i=0;i<d.length;i++){var o=document.createElement('option');o.value=d[i];o.textContent=d[i];dd.appendChild(o);}dd.disabled=false;};
+window.onFirDistrictChange=function(){var state=document.getElementById('fir-state').value,dist=document.getElementById('fir-district').value,pd=document.getElementById('fir-ps'),pv=document.getElementById('fir-ps-preview');pd.innerHTML='<option value="">-- Police Station --</option>';pd.disabled=true;if(pv)pv.style.display='none';if(!state||!dist)return;var st=((window.INDIA_POLICE_DATA||{})[state]||{})[dist]||[];for(var i=0;i<st.length;i++){var o=document.createElement('option');o.value=st[i];o.textContent=st[i];pd.appendChild(o);}pd.disabled=false;};
 window.onFirPSChange=function(){var state=document.getElementById('fir-state').value,dist=document.getElementById('fir-district').value,ps=document.getElementById('fir-ps').value,pv=document.getElementById('fir-ps-preview');if(!ps){if(pv)pv.style.display='none';return;}document.getElementById('fir-ps-preview-text').textContent=ps;document.getElementById('fir-ps-address-text').textContent=dist+', '+state;if(pv)pv.style.display='block';};
 window.updateFIRLangUI=function(){var lang=document.getElementById('fir-lang').value,names={en:'English',hi:'हिंदी',bn:'বাংলা',te:'తెలుగు',mr:'मराठी',ta:'தமிழ்',gu:'ગુજરાતી',kn:'ಕನ್ನಡ',ml:'മലയാളം',pa:'ਪੰਜਾਬੀ',or:'ଓଡ଼ିଆ',as:'অসমীয়া',ur:'اردو'};document.getElementById('fir-lang-note').textContent='✅ FIR '+names[lang]+' mein';};
 window.generateFIR=function(){
@@ -1207,4 +1218,395 @@ window.generateFIR=function(){
   }
   if(!ps){toast('⚠️ Police station select karo');return;}
   var today=new Date().toLocaleDateString('en-IN'),dateStr=dt?new Date(dt).toLocaleString('en-IN'):new Date().toLocaleString('en-IN');
-  var txt='TO,\nThe Station House Officer,\n'+ps+',\n'+dist+', '+state+'\n\nSUBJECT: Application for FIR - Loss of '+(cat||item)+'\n\nRespected Sir/Madam,\n\nI, '+name+', resident of '+(addr||'[Address]')+', wish to report the loss of my '+(cat||item)+'.\n\n--------------------------------\nLOST ITEM DETAILS\n--------------------------------\nItem         : '+item+'\nCategory     : '+(cat||'Not specified')+'\nDescription  : '+(desc||'Not specified')+'\nApprox Value : '+(val?'₹'+val:'Not specified')+'\n\n--------------------------------\nINCIDENT DETAILS\n--------------------------------\nDate & Time  : '+dateStr+'\nLocation     : '+loc+'\nCircumstances: '+(how||'Item misplaced at above location.')+'\n\n--------------------------------\nCOMPLAINANT DETAILS\n--------------------------------\nName     : '+name+'\nMobile   : '+phone+'\nAddress  : '+(addr||'[Address]')+'\n
+  var txt='TO,\nThe Station House Officer,\n'+ps+',\n'+dist+', '+state+'\n\nSUBJECT: Application for FIR - Loss of '+(cat||item)+'\n\nRespected Sir/Madam,\n\nI, '+name+', resident of '+(addr||'[Address]')+', wish to report the loss of my '+(cat||item)+'.\n\n--------------------------------\nLOST ITEM DETAILS\n--------------------------------\nItem         : '+item+'\nCategory     : '+(cat||'Not specified')+'\nDescription  : '+(desc||'Not specified')+'\nApprox Value : '+(val?'₹'+val:'Not specified')+'\n\n--------------------------------\nINCIDENT DETAILS\n--------------------------------\nDate & Time  : '+dateStr+'\nLocation     : '+loc+'\nCircumstances: '+(how||'Item misplaced at above location.')+'\n\n--------------------------------\nCOMPLAINANT DETAILS\n--------------------------------\nName     : '+name+'\nMobile   : '+phone+'\nAddress  : '+(addr||'[Address]')+'\nID Proof : '+idtype+'\n\n--------------------------------\n\nI request FIR registration and necessary action.\n\nDate : '+today+'\nPlace: '+dist+', '+state+'\n\nSignature: _______________\nName: '+name+'\nMobile: '+phone+'\n\n[Also listed on FindBack - India Lost and Found Platform]';
+  window._lastFIR=txt;
+  document.getElementById('fir-preview').textContent=txt;
+  document.getElementById('fir-modal').style.display='flex';
+};
+window.copyFIR=function(){if(!window._lastFIR)return;navigator.clipboard?navigator.clipboard.writeText(window._lastFIR).then(()=>toast('📋 Copied!')).catch(()=>toast('❌ Failed')):toast('❌ Not supported');};
+window._firFnsLoaded=true;
+window.shareFIRWhatsApp=function(){if(!window._lastFIR)return;window.open('https://wa.me/?text='+encodeURIComponent(window._lastFIR),'_blank');};
+</script>
+
+<!-- NGO/POLICE DASHBOARD PAGE -->
+<div class="page" id="page-ngo">
+  <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
+    <span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span>
+    <span style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;">🏛️ NGO / Police Dashboard</span>
+  </div>
+  <div style="padding:20px 20px 110px;">
+    <!-- Login Wall -->
+    <div id="ngo-login-wall">
+      <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;padding:24px;margin-bottom:20px;color:white;text-align:center;">
+        <div style="font-size:40px;margin-bottom:8px;">🏛️</div>
+        <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;">NGO / Police Access</div>
+        <div style="font-size:13px;opacity:.8;">Authorized personnel only</div>
+      </div>
+      <div class="auth-card" style="max-width:100%;">
+        <div class="form-group"><label>Organization Name</label><input type="text" id="ngo-org" placeholder="e.g. Delhi Police / HelpAge India"></div>
+        <div class="form-group"><label>Access Code</label><input type="password" id="ngo-code" placeholder="Enter access code"></div>
+        <button class="btn-primary" style="width:100%" onclick="ngoLogin()">Enter Dashboard</button>
+        <div style="margin-top:12px;font-size:12px;color:var(--text-muted);text-align:center;">Contact <strong>support@findback.in</strong> for access</div>
+      </div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div id="ngo-dashboard" style="display:none;">
+      <!-- Header -->
+      <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;padding:18px;margin-bottom:16px;color:white;display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;" id="ngo-org-name">Organization</div>
+          <div style="font-size:12px;opacity:.7;margin-top:2px;">Dashboard Active</div>
+        </div>
+        <button onclick="ngoLogout()" style="background:rgba(255,255,255,.15);color:white;border:none;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;">🚪 Logout</button>
+      </div>
+
+      <!-- Stats Grid -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+        <div style="background:#FEE2E2;border-radius:12px;padding:14px;text-align:center;">
+          <div id="ngo-stat-lost" style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:#DC2626;">0</div>
+          <div style="font-size:11px;color:#DC2626;font-weight:600;">😟 Lost</div>
+        </div>
+        <div style="background:#D1FAE5;border-radius:12px;padding:14px;text-align:center;">
+          <div id="ngo-stat-found" style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:#059669;">0</div>
+          <div style="font-size:11px;color:#059669;font-weight:600;">🎉 Found</div>
+        </div>
+        <div style="background:#FEF3C7;border-radius:12px;padding:14px;text-align:center;">
+          <div id="ngo-stat-missing" style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:#D97706;">0</div>
+          <div style="font-size:11px;color:#D97706;font-weight:600;">⚠️ Missing</div>
+        </div>
+        <div style="background:#EDE9FE;border-radius:12px;padding:14px;text-align:center;">
+          <div id="ngo-stat-resolved" style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:#7C3AED;">0</div>
+          <div style="font-size:11px;color:#7C3AED;font-weight:600;">✅ Resolved</div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+        <button onclick="ngoExportCSV()" style="flex:1;padding:10px;background:#059669;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;min-width:120px;">📥 Export CSV</button>
+        <button onclick="ngoExportReport()" style="flex:1;padding:10px;background:#2563EB;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;min-width:120px;">📄 PDF Report</button>
+        <button onclick="document.getElementById('ngo-bulk-section').style.display=document.getElementById('ngo-bulk-section').style.display==='none'?'block':'none'" style="flex:1;padding:10px;background:#D97706;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;min-width:120px;">📤 Bulk Upload</button>
+      </div>
+
+      <!-- Bulk CSV Upload -->
+      <div id="ngo-bulk-section" style="display:none;background:#FFF8F0;border:2px solid #FFD4A8;border-radius:14px;padding:16px;margin-bottom:16px;">
+        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:8px;">📤 Bulk Upload via CSV</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">CSV format: type, item, location, date, description, contact</div>
+        <div style="background:#f5f5f5;border-radius:8px;padding:10px;font-size:11px;font-family:monospace;color:#333;margin-bottom:10px;">lost,Wallet,Delhi,2025-01-01,Brown leather,9XXXXXXXXX<br>found,Phone,Mumbai,2025-01-02,Samsung S23,8XXXXXXXXX</div>
+        <label style="display:block;padding:14px;border:2px dashed #FFD4A8;border-radius:10px;text-align:center;cursor:pointer;background:white;">
+          <span style="font-size:13px;color:#D97706;font-weight:600;">📂 CSV File Choose Karo</span>
+          <input type="file" accept=".csv" style="display:none;" onchange="ngoBulkUpload(this)">
+        </label>
+        <div id="ngo-bulk-status" style="margin-top:8px;font-size:12px;color:#059669;display:none;"></div>
+      </div>
+
+      <!-- Area Analytics -->
+      <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
+        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px;">📍 Area-wise Analytics</div>
+        <div id="ngo-area-stats"></div>
+      </div>
+
+      <!-- Priority Missing Persons -->
+      <div style="background:#FEF2F2;border:2px solid #FECACA;border-radius:14px;padding:16px;margin-bottom:16px;">
+        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#DC2626;margin-bottom:12px;">🚨 Priority: Missing Persons</div>
+        <div id="ngo-missing-list"></div>
+      </div>
+
+      <!-- Resolved Cases -->
+      <div style="background:#F0FDF4;border:2px solid #BBF7D0;border-radius:14px;padding:16px;margin-bottom:16px;">
+        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#059669;margin-bottom:12px;">✅ Resolved Cases</div>
+        <div id="ngo-resolved-list"></div>
+      </div>
+
+      <!-- All Posts Table -->
+      <div style="background:white;border:1.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px;">
+        <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;">📋 All Posts</div>
+          <div style="display:flex;gap:8px;">
+            <select id="ngo-filter-type" onchange="ngoRenderPosts()" style="padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-family:'Inter',sans-serif;outline:none;">
+              <option value="">All Types</option>
+              <option value="lost">😟 Lost</option>
+              <option value="found">🎉 Found</option>
+              <option value="missing">⚠️ Missing</option>
+            </select>
+          </div>
+        </div>
+        <div id="ngo-posts-table" style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:12px;">
+            <thead><tr style="background:#f8f8f8;">
+              <th style="padding:10px 12px;text-align:left;font-weight:700;color:#333;">Item</th>
+              <th style="padding:10px 12px;text-align:left;font-weight:700;color:#333;">Type</th>
+              <th style="padding:10px 12px;text-align:left;font-weight:700;color:#333;">Location</th>
+              <th style="padding:10px 12px;text-align:left;font-weight:700;color:#333;">Date</th>
+              <th style="padding:10px 12px;text-align:left;font-weight:700;color:#333;">Action</th>
+            </tr></thead>
+            <tbody id="ngo-posts-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── NGO/POLICE DASHBOARD ──
+var NGO_ACCESS_CODE = 'findback_ngo_2025';
+
+window.ngoLogin = function() {
+  var org = document.getElementById('ngo-org').value.trim();
+  var code = document.getElementById('ngo-code').value.trim();
+  if (!org) { toast('⚠️ Organization name daalo'); return; }
+  if (code !== NGO_ACCESS_CODE) { toast('❌ Invalid access code'); return; }
+  document.getElementById('ngo-login-wall').style.display = 'none';
+  document.getElementById('ngo-dashboard').style.display = 'block';
+  document.getElementById('ngo-org-name').textContent = org;
+  sessionStorage.setItem('ngo_org', org);
+  ngoLoadDashboard();
+};
+
+window.ngoLogout = function() {
+  document.getElementById('ngo-login-wall').style.display = 'block';
+  document.getElementById('ngo-dashboard').style.display = 'none';
+  sessionStorage.removeItem('ngo_org');
+};
+
+window.ngoLoadDashboard = function() {
+  var posts = window._allPosts || [];
+  // Stats
+  document.getElementById('ngo-stat-lost').textContent = posts.filter(function(p){return p.type==='lost';}).length;
+  document.getElementById('ngo-stat-found').textContent = posts.filter(function(p){return p.type==='found';}).length;
+  document.getElementById('ngo-stat-missing').textContent = posts.filter(function(p){return p.type==='missing';}).length;
+  document.getElementById('ngo-stat-resolved').textContent = posts.filter(function(p){return p.status==='resolved';}).length;
+  // Area analytics
+  ngoRenderAreaStats();
+  // Missing persons priority
+  ngoRenderMissing();
+  // Resolved cases
+  ngoRenderResolved();
+  // Posts table
+  ngoRenderPosts();
+};
+
+window.ngoRenderAreaStats = function() {
+  var posts = window._allPosts || [];
+  var areaMap = {};
+  posts.forEach(function(p) {
+    if (!p.loc) return;
+    var area = p.loc.split(',')[0].trim();
+    if (!areaMap[area]) areaMap[area] = {lost:0,found:0,missing:0,resolved:0};
+    if (p.type==='lost') areaMap[area].lost++;
+    else if (p.type==='found') areaMap[area].found++;
+    else if (p.type==='missing') areaMap[area].missing++;
+    if (p.status==='resolved') areaMap[area].resolved++;
+  });
+  var areas = Object.entries(areaMap).sort(function(a,b){
+    return (b[1].lost+b[1].found+b[1].missing)-(a[1].lost+a[1].found+a[1].missing);
+  }).slice(0,8);
+  var el = document.getElementById('ngo-area-stats');
+  if (!areas.length) { el.innerHTML = '<div style="text-align:center;padding:16px;color:var(--text-muted);font-size:13px;">Koi posts nahi hain abhi</div>'; return; }
+  el.innerHTML = areas.map(function(e) {
+    var area = e[0], s = e[1];
+    var total = s.lost + s.found + s.missing;
+    var resolvedPct = total > 0 ? Math.round(s.resolved/total*100) : 0;
+    return '<div style="margin-bottom:12px;">' +
+      '<div style="display:flex;justify-content:space-between;margin-bottom:4px;">' +
+        '<span style="font-size:13px;font-weight:600;">📍 '+area+'</span>' +
+        '<span style="font-size:11px;color:var(--text-muted);">'+total+' posts • '+resolvedPct+'% resolved</span>' +
+      '</div>' +
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;">' +
+        (s.lost?'<span style="background:#FEE2E2;color:#DC2626;font-size:10px;padding:2px 8px;border-radius:12px;font-weight:700;">'+s.lost+' Lost</span>':'') +
+        (s.found?'<span style="background:#D1FAE5;color:#059669;font-size:10px;padding:2px 8px;border-radius:12px;font-weight:700;">'+s.found+' Found</span>':'') +
+        (s.missing?'<span style="background:#FEF3C7;color:#D97706;font-size:10px;padding:2px 8px;border-radius:12px;font-weight:700;">'+s.missing+' Missing</span>':'') +
+        (s.resolved?'<span style="background:#EDE9FE;color:#7C3AED;font-size:10px;padding:2px 8px;border-radius:12px;font-weight:700;">'+s.resolved+' Resolved</span>':'') +
+      '</div>' +
+      '<div style="height:6px;background:#f0f0f0;border-radius:3px;overflow:hidden;">' +
+        '<div style="height:100%;background:linear-gradient(90deg,#059669,#34D399);width:'+resolvedPct+'%;border-radius:3px;transition:width .5s;"></div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+};
+
+window.ngoRenderMissing = function() {
+  var posts = (window._allPosts||[]).filter(function(p){return p.type==='missing'&&p.status!=='resolved';});
+  var el = document.getElementById('ngo-missing-list');
+  if (!posts.length) { el.innerHTML = '<div style="text-align:center;padding:12px;color:var(--text-muted);font-size:13px;">🎉 Koi open missing case nahi</div>'; return; }
+  el.innerHTML = posts.map(function(p) {
+    var age = '';
+    if (p.createdAt) {
+      var d = p.createdAt.seconds ? new Date(p.createdAt.seconds*1000) : new Date(p.createdAt);
+      var days = Math.floor((new Date()-d)/(1000*60*60*24));
+      age = days + ' din pehle';
+    }
+    var phone = p.contact||'';
+    return '<div style="background:white;border:1.5px solid #FECACA;border-radius:10px;padding:12px;margin-bottom:8px;">' +
+      '<div style="display:flex;align-items:center;gap:10px;">' +
+        '<div style="width:36px;height:36px;border-radius:50%;background:#FEE2E2;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🆘</div>' +
+        '<div style="flex:1;">' +
+          '<div style="font-size:13px;font-weight:700;">'+p.item+'</div>' +
+          '<div style="font-size:11px;color:var(--text-muted);">📍 '+p.loc+(age?' • '+age:'')+'</div>' +
+        '</div>' +
+        (phone?'<a href="tel:'+phone+'" style="background:#DC2626;color:white;border:none;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;text-decoration:none;flex-shrink:0;">📞 Call</a>':'') +
+      '</div>' +
+    '</div>';
+  }).join('');
+};
+
+window.ngoRenderResolved = function() {
+  var posts = (window._allPosts||[]).filter(function(p){return p.status==='resolved';}).slice(0,5);
+  var el = document.getElementById('ngo-resolved-list');
+  if (!posts.length) { el.innerHTML = '<div style="text-align:center;padding:12px;color:var(--text-muted);font-size:13px;">Koi resolved case nahi abhi</div>'; return; }
+  el.innerHTML = posts.map(function(p) {
+    return '<div style="background:white;border:1.5px solid #BBF7D0;border-radius:10px;padding:10px;margin-bottom:8px;display:flex;align-items:center;gap:10px;">' +
+      '<span style="font-size:20px;">✅</span>' +
+      '<div>' +
+        '<div style="font-size:13px;font-weight:700;">'+p.item+'</div>' +
+        '<div style="font-size:11px;color:var(--text-muted);">📍 '+p.loc+' • '+p.authorName+'</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+};
+
+window.ngoRenderPosts = function() {
+  var typeFilter = document.getElementById('ngo-filter-type') ? document.getElementById('ngo-filter-type').value : '';
+  var posts = window._allPosts||[];
+  if (typeFilter) posts = posts.filter(function(p){return p.type===typeFilter;});
+  posts = posts.slice(0,50);
+  var tbody = document.getElementById('ngo-posts-tbody');
+  if (!posts.length) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-muted);">Koi posts nahi</td></tr>'; return; }
+  tbody.innerHTML = posts.map(function(p) {
+    var tc = p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7';
+    var tt = p.type==='lost'?'#DC2626':p.type==='found'?'#059669':'#D97706';
+    var tl = p.type==='lost'?'Lost':p.type==='found'?'Found':'Missing';
+    var phone = p.contact||'';
+    return '<tr style="border-bottom:1px solid #f5f5f5;">' +
+      '<td style="padding:10px 12px;font-weight:600;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+p.item+'</td>' +
+      '<td style="padding:10px 12px;"><span style="background:'+tc+';color:'+tt+';font-size:10px;padding:2px 7px;border-radius:12px;font-weight:700;">'+tl+'</span>'+(p.status==='resolved'?' <span style="background:#EDE9FE;color:#7C3AED;font-size:10px;padding:2px 6px;border-radius:10px;">✅</span>':'')+'</td>' +
+      '<td style="padding:10px 12px;font-size:11px;color:var(--text-muted);max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+p.loc+'</td>' +
+      '<td style="padding:10px 12px;font-size:11px;color:var(--text-muted);">'+(p.date||'-')+'</td>' +
+      '<td style="padding:10px 12px;">' +
+        (phone?'<a href="tel:'+phone+'" style="background:#25D366;color:white;border:none;border-radius:6px;padding:4px 8px;font-size:10px;font-weight:700;text-decoration:none;margin-right:4px;">📞</a>':'') +
+        '<button onclick="openDetail(\"'+p.id+'\"" style="background:var(--gray);border:none;border-radius:6px;padding:4px 8px;font-size:10px;font-weight:700;cursor:pointer;">👁️</button>' +
+      '</td>' +
+    '</tr>';
+  }).join('');
+};
+
+window.ngoExportCSV = function() {
+  var posts = window._allPosts||[];
+  if (!posts.length) { toast('❌ Koi posts nahi'); return; }
+  var csv = 'Type,Item,Category,Location,Date,Description,Contact,Status,Posted By\n';
+  posts.forEach(function(p) {
+    csv += [
+      p.type||'', p.item||'', p.category||'', p.loc||'', p.date||'',
+      (p.desc||'').replace(/,/g,' ').replace(/\n/g,' '),
+      p.contact||'', p.status||'active', p.authorName||''
+    ].map(function(v){return '"'+v+'"';}).join(',') + '\n';
+  });
+  var blob = new Blob([csv], {type:'text/csv'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'FindBack_Export_'+new Date().toLocaleDateString('en-IN').replace(/\//g,'-')+'.csv';
+  a.click(); URL.revokeObjectURL(url);
+  toast('📥 CSV download ho raha hai!');
+};
+
+window.ngoExportReport = function() {
+  var posts = window._allPosts||[];
+  var lost = posts.filter(function(p){return p.type==='lost';}).length;
+  var found = posts.filter(function(p){return p.type==='found';}).length;
+  var missing = posts.filter(function(p){return p.type==='missing';}).length;
+  var resolved = posts.filter(function(p){return p.status==='resolved';}).length;
+  var org = sessionStorage.getItem('ngo_org')||'Organization';
+  var areaMap = {};
+  posts.forEach(function(p){
+    if(!p.loc)return;
+    var area=p.loc.split(',')[0].trim();
+    if(!areaMap[area])areaMap[area]=0;
+    areaMap[area]++;
+  });
+  var topAreas = Object.entries(areaMap).sort(function(a,b){return b[1]-a[1];}).slice(0,5);
+  var w = window.open('','_blank');
+  w.document.write('<!DOCTYPE html><html><head><title>FindBack Report</title><style>body{font-family:Arial,sans-serif;padding:30px;color:#333;}h1{color:#E8722A;}h2{color:#333;border-bottom:2px solid #E8722A;padding-bottom:6px;}table{width:100%;border-collapse:collapse;margin-top:12px;}th{background:#E8722A;color:white;padding:10px;text-align:left;}td{padding:8px 10px;border-bottom:1px solid #eee;}.stat-box{display:inline-block;background:#f5f5f5;border-radius:8px;padding:14px 20px;margin:6px;text-align:center;}.stat-num{font-size:28px;font-weight:bold;color:#E8722A;}.stat-lbl{font-size:12px;color:#777;}</style></head><body>');
+  w.document.write('<h1>🔍 FindBack — Official Report</h1>');
+  w.document.write('<p><strong>Organization:</strong> '+org+' &nbsp;|&nbsp; <strong>Generated:</strong> '+new Date().toLocaleDateString("en-IN")+'</p>');
+  w.document.write('<h2>📊 Summary</h2>');
+  w.document.write('<div class="stat-box"><div class="stat-num">'+posts.length+'</div><div class="stat-lbl">Total Posts</div></div>');
+  w.document.write('<div class="stat-box"><div class="stat-num">'+lost+'</div><div class="stat-lbl">😟 Lost</div></div>');
+  w.document.write('<div class="stat-box"><div class="stat-num">'+found+'</div><div class="stat-lbl">🎉 Found</div></div>');
+  w.document.write('<div class="stat-box"><div class="stat-num">'+missing+'</div><div class="stat-lbl">⚠️ Missing</div></div>');
+  w.document.write('<div class="stat-box"><div class="stat-num">'+resolved+'</div><div class="stat-lbl">✅ Resolved</div></div>');
+  w.document.write('<h2>📍 Top Areas</h2><table><tr><th>Area</th><th>Posts</th></tr>');
+  topAreas.forEach(function(e){w.document.write('<tr><td>'+e[0]+'</td><td>'+e[1]+'</td></tr>');});
+  w.document.write('</table>');
+  w.document.write('<h2>🚨 Open Missing Persons</h2><table><tr><th>Name/Item</th><th>Location</th><th>Date</th><th>Contact</th></tr>');
+  posts.filter(function(p){return p.type==='missing'&&p.status!=='resolved';}).forEach(function(p){
+    w.document.write('<tr><td>'+p.item+'</td><td>'+p.loc+'</td><td>'+(p.date||'-')+'</td><td>'+(p.contact||'-')+'</td></tr>');
+  });
+  w.document.write('</table><br><p style="color:#999;font-size:12px;">Generated by FindBack S1 - India Lost and Found Platform</p></body></html>');
+  w.document.close();
+  setTimeout(function(){w.print();},400);
+  toast('📄 Report generate ho raha hai!');
+};
+
+window.ngoBulkUpload = function(input) {
+  if (!input.files||!input.files[0]) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var lines = e.target.result.split('\n').filter(function(l){return l.trim();});
+    var count = 0, errors = 0;
+    var db = window._db;
+    if (!db) { toast('❌ Firebase not ready'); return; }
+    var statusEl = document.getElementById('ngo-bulk-status');
+    statusEl.style.display = 'block';
+    statusEl.textContent = 'Processing...';
+    var promises = [];
+    lines.forEach(function(line) {
+      var parts = line.split(',');
+      if (parts.length < 3) { errors++; return; }
+      var type = parts[0].trim().toLowerCase();
+      if (!['lost','found','missing'].includes(type)) { errors++; return; }
+      var item = (parts[1]||'').trim();
+      var loc = (parts[2]||'').trim();
+      var date = (parts[3]||'').trim();
+      var desc = (parts[4]||'').trim();
+      var contact = (parts[5]||'').trim();
+      if (!item||!loc) { errors++; return; }
+      count++;
+      import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js").then(function(m){
+        return m.addDoc(m.collection(db,"posts"),{
+          type:type, item:item, loc:loc, date:date, desc:desc,
+          contact:contact?'+91'+contact.replace(/\D/g,'').slice(-10):'',
+          authorName:sessionStorage.getItem('ngo_org')||'NGO Upload',
+          category:'Other', createdAt:m.serverTimestamp(), uid:'ngo_bulk'
+        });
+      });
+    });
+    Promise.all(promises).then(function(){
+      statusEl.textContent = '✅ '+count+' posts uploaded!'+(errors?' ('+errors+' errors)':'');
+      toast('✅ '+count+' posts uploaded!');
+      setTimeout(ngoLoadDashboard, 1500);
+    }).catch(function(){
+      statusEl.textContent = '⚠️ Kuch posts upload nahi hue';
+    });
+  };
+  reader.readAsText(input.files[0]);
+};
+
+// Auto-restore NGO session
+window.addEventListener('load', function(){
+  var org = sessionStorage.getItem('ngo_org');
+  if (org) {
+    document.getElementById('ngo-login-wall').style.display='none';
+    document.getElementById('ngo-dashboard').style.display='block';
+    document.getElementById('ngo-org-name').textContent=org;
+  }
+});
+
+// Refresh NGO dashboard when posts update
+var _origRenderAll = window._renderAll;
+window._renderAll = function(){
+  if(_origRenderAll) _origRenderAll();
+  var dash = document.getElementById('ngo-dashboard');
+  if(dash && dash.style.display!=='none') ngoLoadDashboard();
+};
+</script>
