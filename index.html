@@ -280,7 +280,7 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
     </div>
   </div>
   <!-- LOCATION FILTER BAR -->
-  <div class="loc-filter-bar" id="loc-filter-bar">
+  <div class="loc-filter-bar" id="loc-filter-bar" style="display:none;">
     <div class="loc-filter-bar-top">
       <span style="font-size:16px;flex-shrink:0;">📍</span>
       <span style="font-size:12px;font-weight:600;color:#555;flex:1;">Filter by Area:</span>
@@ -501,11 +501,12 @@ function startListener(){
   if(window.showSkeletonCards && (!window._allPosts || window._allPosts.length === 0))window.showSkeletonCards();
   _unsub=onSnapshot(q,(snap)=>{
     window._allPosts=snap.docs.map(d=>({id:d.id,...d.data()}));
+    // Update stats immediately when data arrives
+    if(window.updateHeroStats)window.updateHeroStats();
     if(window.updateCatCounts)window.updateCatCounts();
     if(window.buildLocChips)window.buildLocChips();
     if(window._renderAll)window._renderAll();
     refreshAdminStats();
-    // Refresh NGO dashboard if open
     var ngoDash=document.getElementById('ngo-dashboard');
     if(ngoDash&&ngoDash.style.display!=='none'&&window.ngoLoadDashboard)window.ngoLoadDashboard();
     const mp=document.getElementById('page-map');if(mp&&mp.classList.contains('active'))renderMapPins();
@@ -519,12 +520,17 @@ onAuthStateChanged(auth,(user)=>{
   if(user){
     if(lb)lb.style.display='none';
     if(pb){pb.style.display='flex';pb.querySelector('.nav-label').textContent=user.displayName?user.displayName.split(' ')[0]:'Profile';}
-    // Location chips update after login
     if(window.buildLocChips)window.buildLocChips();
+    var locBar=document.getElementById('loc-filter-bar');
+    if(locBar)locBar.style.display='block';
   }else{
     if(lb)lb.style.display='flex';if(pb)pb.style.display='none';
+    // Clear location filter on logout
+    window.activeLocFilter='';
+    if(window.buildLocChips)window.buildLocChips();
+    var locBar=document.getElementById('loc-filter-bar');
+    if(locBar)locBar.style.display='none';
   }
-  // Re-render so ownership buttons appear correctly
   if(window._renderAll)window._renderAll();
 });
 window.submitToFirebase=async function(){
@@ -618,7 +624,17 @@ window.doLogin=async function(){
   try{await signInWithEmailAndPassword(auth,email,pass);document.getElementById('login-success').style.display='block';setTimeout(()=>showPage('home'),1200);}
   catch(e){window.toast('❌ '+(e.code==='auth/invalid-credential'?'Wrong email or password':e.message));}
 };
-window.doLogout=async function(){await signOut(auth);window.toast('👋 Logged out!');showPage('home');};
+window.doLogout=async function(){
+  await signOut(auth);
+  // Clear all filters on logout
+  window.activeLocFilter='';
+  window.activeCat='';
+  window.activeStatusFilter='all';
+  window.searchQuery='';
+  var si=document.getElementById('search-input');if(si)si.value='';
+  window.toast('👋 Logged out!');
+  showPage('home');
+};
 // Bind to safe wrappers
 window._doLoginFn=window.doLogin;
 window._doRegisterFn=window.doRegister;
@@ -685,6 +701,11 @@ window.activeLocFilter='';
 // Build location chips from current posts
 window.buildLocChips=function(){
   var row=document.getElementById('loc-chips-row');if(!row)return;
+  // Only show location chips when logged in
+  if(!window._currentUser){
+    row.innerHTML='<div class="loc-chip all-chip active" id="loc-chip-all" onclick="clearLocFilter()">🌍 All Areas</div>';
+    return;
+  }
   var posts=window._allPosts||[];
   // Extract unique locations, normalize
   var locMap={};
