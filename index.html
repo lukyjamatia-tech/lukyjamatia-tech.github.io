@@ -311,11 +311,11 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
     <div id="modal-success" class="alert-success">✅ Post submitted!</div>
     <div class="form-group">
       <label>📸 Photos (up to 5) <span style="font-size:11px;color:var(--orange);">• Max 250KB each</span></label>
-      <div id="photo-upload-area" onclick="document.getElementById('m-photo').click()" style="border:2px dashed var(--border);border-radius:12px;padding:16px;text-align:center;cursor:pointer;background:var(--gray);">
-        <div id="photo-placeholder"><div style="font-size:32px;margin-bottom:6px;">📷</div><div style="font-size:13px;color:var(--text-muted);">Tap to add photos</div></div>
-        <div id="photos-preview" style="display:none;flex-wrap:wrap;gap:8px;justify-content:center;"></div>
+      <div id="photos-grid" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px;">
+        <!-- Photo slots rendered by JS -->
       </div>
-      <input type="file" id="m-photo" accept="image/*" multiple style="display:none;" onchange="previewPhotos(this)">
+      <input type="file" id="m-photo" accept="image/*" style="display:none;" onchange="addPhotoFromInput(this)">
+      <div id="photo-count-label" style="font-size:11px;color:var(--text-muted);margin-top:4px;">0 / 5 photos</div>
     </div>
     <div class="form-group"><label>🏷️ Item Name</label><input type="text" id="m-item" placeholder="e.g. Wallet, iPhone, Bag"></div>
     <div class="form-group"><label>📂 Category</label><select id="m-category" onchange="onModalCategoryChange()"><option value="">-- Select --</option><option value="Wallet">👛 Wallet</option><option value="Phone">📱 Phone</option><option value="Keys">🔑 Keys</option><option value="Bag">💼 Bag</option><option value="Jewellery">💍 Jewellery</option><option value="Backpack">🎒 Backpack</option><option value="Laptop">💻 Laptop</option><option value="Pet">🐾 Pet</option><option value="Glasses">👓 Glasses</option><option value="Documents">🎫 Documents</option><option value="Watch">⌚ Watch</option><option value="Purse">👜 Purse</option><option value="Person">🧍 Person</option><option value="Animals">🐕 Animals</option><option value="Car">🚗 Car</option><option value="Bike">🏍️ Bike</option><option value="Cycle">🚲 Cycle</option><option value="Other">📦 Other</option></select></div>
@@ -452,7 +452,8 @@ window.submitToFirebase=async function(){
     if(window.checkAreaAlerts)window.checkAreaAlerts({type,item,loc,category:cat});
     setTimeout(()=>{
       window.closeModal();window.currentPhotosData=[];
-      document.getElementById('photos-preview').innerHTML='';document.getElementById('photos-preview').style.display='none';document.getElementById('photo-placeholder').style.display='block';
+      var pg=document.getElementById('photos-grid');if(pg)pg.innerHTML='';
+      renderPhotoGrid();
       ['m-photo','m-item','m-loc','m-date','m-desc','m-reward','m-id-mark','m-reg-no','m-plate-no'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
       document.getElementById('m-category').value='';document.getElementById('m-contact').value='';
       document.getElementById('id-mark-group').style.display='none';document.getElementById('vehicle-fields').style.display='none';
@@ -690,25 +691,85 @@ window.closeAllOptions=function(){document.querySelectorAll('[id^="opts-"]').for
 document.addEventListener('touchstart',function(e){if(!e.target.closest('[id^="opts-"]')&&!e.target.closest('[id^="optbtn-"]'))closeAllOptions();});
 document.addEventListener('click',function(e){if(!e.target.closest('[id^="opts-"]')&&!e.target.closest('[id^="optbtn-"]'))closeAllOptions();});
 
-function previewPhotos(input){
-  if(!input.files||!input.files.length)return;
-  const files=Array.from(input.files).slice(0,5);window.currentPhotosData=[];
-  const preview=document.getElementById('photos-preview'),placeholder=document.getElementById('photo-placeholder');
-  preview.innerHTML='';preview.style.display='flex';placeholder.style.display='none';
-  files.forEach(file=>{
-    const reader=new FileReader();
-    reader.onload=function(e){
-      const image=new Image();
-      image.onload=function(){
-        const canvas=document.createElement('canvas');const MAX=600;let w=image.width,h=image.height;
-        if(w>h){if(w>MAX){h=h*MAX/w;w=MAX;}}else{if(h>MAX){w=w*MAX/h;h=MAX;}}
-        canvas.width=w;canvas.height=h;canvas.getContext('2d').drawImage(image,0,0,w,h);
-        const compressed=canvas.toDataURL('image/jpeg',0.6);window.currentPhotosData.push(compressed);
-        const img=document.createElement('img');img.src=compressed;img.style.cssText='width:80px;height:80px;object-fit:cover;border-radius:8px;flex-shrink:0;';preview.appendChild(img);
-      };image.src=e.target.result;
-    };reader.readAsDataURL(file);
+// Photo upload system — add one at a time, up to 5
+window.currentPhotosData = [];
+
+function renderPhotoGrid(){
+  var grid = document.getElementById('photos-grid');
+  if(!grid) return;
+  var count = window.currentPhotosData.length;
+  var label = document.getElementById('photo-count-label');
+  if(label) label.textContent = count + ' / 5 photos';
+  
+  // Clear grid
+  grid.innerHTML = '';
+  
+  // Show existing photos with remove button
+  window.currentPhotosData.forEach(function(src, i){
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative;width:80px;height:80px;';
+    
+    var img = document.createElement('img');
+    img.src = src;
+    img.style.cssText = 'width:80px;height:80px;object-fit:cover;border-radius:10px;display:block;';
+    wrap.appendChild(img);
+    
+    var rmBtn = document.createElement('button');
+    rmBtn.textContent = '×';
+    rmBtn.style.cssText = 'position:absolute;top:-6px;right:-6px;width:22px;height:22px;background:#DC2626;color:white;border:none;border-radius:50%;font-size:14px;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;';
+    rmBtn.onclick = (function(idx){ return function(){ window.removePhoto(idx); }; })(i);
+    wrap.appendChild(rmBtn);
+    
+    grid.appendChild(wrap);
   });
+  
+  // Add button if less than 5
+  if(count < 5){
+    var addDiv = document.createElement('div');
+    addDiv.style.cssText = 'width:80px;height:80px;border:2px dashed var(--border);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--gray);flex-shrink:0;';
+    addDiv.innerHTML = '<div style="font-size:24px;">📷</div><div style="font-size:10px;color:var(--text-muted);margin-top:2px;">Add</div>';
+    addDiv.onclick = function(){ document.getElementById('m-photo').click(); };
+    grid.appendChild(addDiv);
+  }
 }
+
+
+window.removePhoto = function(idx){
+  window.currentPhotosData.splice(idx, 1);
+  renderPhotoGrid();
+};
+
+window.addPhotoFromInput = function(input){
+  if(!input.files || !input.files[0]) return;
+  if(window.currentPhotosData.length >= 5){
+    window.toast('⚠️ Maximum 5 photos allowed');
+    return;
+  }
+  var file = input.files[0];
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var image = new Image();
+    image.onload = function(){
+      var canvas = document.createElement('canvas');
+      var MAX = 600;
+      var w = image.width, h = image.height;
+      if(w > h){ if(w > MAX){ h = h*MAX/w; w = MAX; } }
+      else { if(h > MAX){ w = w*MAX/h; h = MAX; } }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(image, 0, 0, w, h);
+      var compressed = canvas.toDataURL('image/jpeg', 0.6);
+      window.currentPhotosData.push(compressed);
+      renderPhotoGrid();
+    };
+    image.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+  // Reset input so same file can be added again
+  input.value = '';
+};
+
+// Keep for backward compat
+function previewPhotos(input){ addPhotoFromInput(input); }
 window.previewEditPhoto=function(input){
   if(!input.files||!input.files.length)return;
   const reader=new FileReader();
@@ -794,6 +855,7 @@ function openModal(type){
   const today=new Date().toISOString().split('T')[0];const md=document.getElementById('m-date');if(md)md.setAttribute('max',today);
   const vf=document.getElementById('vehicle-fields'),im=document.getElementById('id-mark-group');if(vf)vf.style.display='none';if(im)im.style.display='none';
   document.getElementById('report-modal').classList.add('open');
+  setTimeout(function(){if(window.currentPhotosData&&window.currentPhotosData.length===0)renderPhotoGrid();},50);
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   if(type==='lost')document.getElementById('nav-lost').classList.add('active');
   else if(type==='found')document.getElementById('nav-found').classList.add('active');
