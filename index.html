@@ -1174,57 +1174,88 @@ window.updateCatCounts=function(){
 };
 
 window._renderAll=function(){
-  var container=document.getElementById('listings-grid'),noPosts=document.getElementById('no-posts'),fl=document.getElementById('filter-label');
+  var container=document.getElementById('listings-grid');
+  var noPosts=document.getElementById('no-posts');
+  var fl=document.getElementById('filter-label');
   if(!container)return;
-  // Clear skeleton immediately
-  if(container.querySelector('.skeleton'))container.innerHTML='';
-  var ac=window.activeCat||'',filtered=(window._allPosts||[]).slice();
-  // LOCATION FILTER
+
+  var posts=window._allPosts||[];
+  var ac=window.activeCat||'';
   var lf=window.activeLocFilter||'';
-  if(lf)filtered=filtered.filter(function(p){return (p.loc||'').toLowerCase().indexOf(lf)>=0;});
-  // STATUS FILTER
-  // STATUS FILTER — 0-30 Active, 30-90 Fading, 90+ Expired
   var sf=window.activeStatusFilter||'all';
-  var now=new Date();
-  var d30=new Date(now);d30.setDate(d30.getDate()-30);
-  var d90=new Date(now);d90.setDate(d90.getDate()-90);
-  function getPostAge(p){if(!p.createdAt)return 0;return p.createdAt.seconds?new Date(p.createdAt.seconds*1000):new Date(p.createdAt);}
-  if(sf==='active')filtered=filtered.filter(function(p){
-    if(p.status==='resolved')return false;
-    var pd=getPostAge(p);if(!pd)return true;
-    return pd>=d30;
-  });
-  else if(sf==='fading')filtered=filtered.filter(function(p){
-    if(p.status==='resolved')return false;
-    var pd=getPostAge(p);if(!pd)return false;
-    return pd<d30&&pd>=d90;
-  });
-  else if(sf==='expired')filtered=filtered.filter(function(p){
-    if(p.status==='resolved')return false;
-    var pd=getPostAge(p);if(!pd)return false;
-    return pd<d90;
-  });
-  else if(sf==='resolved')filtered=filtered.filter(function(p){return p.status==='resolved';});
-  if(ac)filtered=filtered.filter(function(p){return p.category&&(p.category.includes(ac)||ac.includes(p.category)||p.category.toLowerCase()===ac.toLowerCase());});
   var sq=window.searchQuery||'';
-  if(sq)filtered=filtered.filter(function(p){return (p.item||'').toLowerCase().indexOf(sq)>=0||(p.loc||'').toLowerCase().indexOf(sq)>=0||(p.desc||'').toLowerCase().indexOf(sq)>=0;});
-  fl.textContent=ac?('📂 '+ac):lf?('📍 '+lf):'🔍 All Posts';
-  // Posts visible to all users
+
+  // Start with all posts
+  var filtered=posts.slice();
+
+  // Location filter
+  if(lf) filtered=filtered.filter(function(p){
+    return (p.loc||'').toLowerCase().indexOf(lf)>=0;
+  });
+
+  // Status filter
+  var now=new Date();
+  var d30=new Date(now); d30.setDate(d30.getDate()-30);
+  var d90=new Date(now); d90.setDate(d90.getDate()-90);
+  function getAge(p){
+    if(!p.createdAt)return null;
+    return p.createdAt.seconds?new Date(p.createdAt.seconds*1000):new Date(p.createdAt);
+  }
+  if(sf==='active') filtered=filtered.filter(function(p){
+    if(p.status==='resolved')return false;
+    var d=getAge(p); if(!d)return true;
+    return d>=d30;
+  });
+  else if(sf==='fading') filtered=filtered.filter(function(p){
+    if(p.status==='resolved')return false;
+    var d=getAge(p); if(!d)return false;
+    return d<d30&&d>=d90;
+  });
+  else if(sf==='expired') filtered=filtered.filter(function(p){
+    if(p.status==='resolved')return false;
+    var d=getAge(p); if(!d)return false;
+    return d<d90;
+  });
+  else if(sf==='resolved') filtered=filtered.filter(function(p){return p.status==='resolved';});
+
+  // Category filter
+  if(ac) filtered=filtered.filter(function(p){
+    if(!p.category)return false;
+    return p.category.toLowerCase().indexOf(ac.toLowerCase())>=0||ac.toLowerCase().indexOf(p.category.toLowerCase())>=0;
+  });
+
+  // Search filter
+  if(sq) filtered=filtered.filter(function(p){
+    return (p.item||'').toLowerCase().indexOf(sq)>=0
+      ||(p.loc||'').toLowerCase().indexOf(sq)>=0
+      ||(p.desc||'').toLowerCase().indexOf(sq)>=0;
+  });
+
+  // Update filter label
+  if(fl) fl.textContent=ac?('📂 '+ac):lf?('📍 '+lf):'🔍 All Posts';
+
+  // Show no-posts if empty
   if(!filtered.length){
     container.innerHTML='';
-    if(ac){
-      noPosts.innerHTML='<div style="text-align:center;padding:40px 0;"><div style="font-size:48px;margin-bottom:12px;">🔍</div><h3 style="font-family:\'Sora\',sans-serif;font-size:18px;margin-bottom:6px;">No '+ac+' posts</h3><p style="font-size:14px;color:var(--text-muted);">No lost or found items in this category yet.</p></div>';
-    } else {
-      noPosts.innerHTML='<div style="text-align:center;padding:40px 0;"><div style="font-size:48px;margin-bottom:12px;">🔍</div><h3 style="font-family:\'Sora\',sans-serif;font-size:18px;margin-bottom:6px;">No posts yet</h3><p style="font-size:14px;color:var(--text-muted);">Be the first to post!</p></div>';
-    }
-    noPosts.style.display='block';removePagination();return;
+    noPosts.style.display='block';
+    if(noPosts.querySelector('h3'))noPosts.querySelector('h3').textContent=ac?'No '+ac+' posts':'No posts yet';
+    removePagination();
+    updateHeroStats();
+    return;
   }
   noPosts.style.display='none';
+
+  // Pagination
   var fkey=ac+sq+sf+lf;
   if(window._lastFilter!==fkey){window._pagination.page=1;window._lastFilter=fkey;}
-  var pp=window._pagination.perPage,tp=Math.ceil(filtered.length/pp),page=Math.max(1,Math.min(window._pagination.page,tp));
-  window._pagination.page=page;var ps=(page-1)*pp,pe=ps+pp,pagePosts=filtered.slice(ps,pe);
+  var perPage=window._pagination.perPage||100;
+  var totalPages=Math.max(1,Math.ceil(filtered.length/perPage));
+  var page=Math.max(1,Math.min(window._pagination.page||1,totalPages));
+  window._pagination.page=page;
+  var start=(page-1)*perPage;
+  var pagePosts=filtered.slice(start,start+perPage);
 
+  // Card builder
   function card(p){
     var tc=p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':p.type==='person'?'#EDE9FE':'#FEF3C7';
     var tt=p.type==='lost'?'#DC2626':p.type==='found'?'#059669':p.type==='person'?'#7C3AED':'#D97706';
@@ -1233,79 +1264,97 @@ window._renderAll=function(){
     var imgHtml=p.photo
       ?'<img src="'+p.photo+'" style="width:100%;height:110px;object-fit:cover;display:block;">'
       :'<div style="height:110px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:36px;">'+photoEmoji+'</div>';
-    var curUid=window._currentUser?window._currentUser.uid:null,isOwn=curUid&&p.uid===curUid;
-    var eid=p.id.replace(/[^a-zA-Z0-9]/g,'_'),q="'";
+    var curUid=window._currentUser?window._currentUser.uid:null;
+    var isOwn=curUid&&p.uid===curUid;
+    var eid=p.id.replace(/[^a-zA-Z0-9]/g,'_');
+    var q="'";
     var menuHtml='';
-    if(isOwn){menuHtml='<div style="position:absolute;top:6px;right:6px;z-index:25;"><div style="display:flex;gap:4px;"><button onclick="event.stopPropagation();openEditModal('+q+p.id+q+');" style="width:28px;height:28px;background:rgba(255,255,255,.95);border:none;border-radius:8px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.15);">✏️</button><button onclick="event.stopPropagation();deletePost('+q+p.id+q+');" style="width:28px;height:28px;background:rgba(254,226,226,.95);border:none;border-radius:8px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.15);">🗑️</button></div></div>';}
-    var rb=p.status==='resolved'?'<div style="position:absolute;top:6px;left:6px;background:#059669;color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;">✅ Resolved</div>':'';
-    // Age badge
-    if(!rb&&p.createdAt){
-      var pd2=p.createdAt.seconds?new Date(p.createdAt.seconds*1000):new Date(p.createdAt);
-      var now2=new Date(),ageMs=now2-pd2,ageDays=Math.floor(ageMs/(1000*60*60*24));
-      if(ageDays>=90)rb='<div style="position:absolute;top:6px;left:6px;background:#6B7280;color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;">⏳ Expired</div>';
-      else if(ageDays>=30)rb='<div style="position:absolute;top:6px;left:6px;background:#D97706;color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;">🟡 Fading</div>';
+    if(isOwn){
+      menuHtml='<div style="position:absolute;top:6px;right:6px;z-index:25;display:flex;gap:4px;">'
+        +'<button onclick="event.stopPropagation();openEditModal('+q+p.id+q+');" style="width:28px;height:28px;background:rgba(255,255,255,.95);border:none;border-radius:8px;font-size:14px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.15);">✏️</button>'
+        +'<button onclick="event.stopPropagation();deletePost('+q+p.id+q+');" style="width:28px;height:28px;background:rgba(254,226,226,.95);border:none;border-radius:8px;font-size:14px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.15);">🗑️</button>'
+        +'</div>';
     }
+    var ageBadge='';
+    if(p.status==='resolved'){
+      ageBadge='<div style="position:absolute;top:6px;left:6px;background:#059669;color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;">✅ Resolved</div>';
+    } else if(p.createdAt){
+      var pd=p.createdAt.seconds?new Date(p.createdAt.seconds*1000):new Date(p.createdAt);
+      var ageDays=Math.floor((now-pd)/86400000);
+      if(ageDays>=90) ageBadge='<div style="position:absolute;top:6px;left:6px;background:#6B7280;color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;">⏳ Expired</div>';
+      else if(ageDays>=30) ageBadge='<div style="position:absolute;top:6px;left:6px;background:#D97706;color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;">🟡 Fading</div>';
+    }
+    var isLiked=window._likedPosts&&window._likedPosts[p.id];
+    var likeBtn='<button class="like-btn'+(isLiked?' liked':'')+'" onclick="event.stopPropagation();haptic();toggleLike('+q+p.id+q+',this);" style="position:absolute;bottom:40px;right:6px;background:none;border:none;font-size:16px;cursor:pointer;z-index:10;">'+(isLiked?'❤️':'🤍')+'</button>';
     var catHtml=p.category?'<div style="font-size:11px;color:var(--orange);margin-bottom:2px;">'+p.category+'</div>':'';
-    var rewHtml=p.reward?'<div style="margin-top:5px;background:#FEF9C3;color:#92400E;font-size:11px;font-weight:700;padding:2px 8px;border-radius:8px;display:inline-block;">🏆 ₹'+p.reward+'</div>':'';
-    // REPORT BUTTON on found posts
-    var reportHtml=p.type==='found'?'<div style="padding:4px 8px;text-align:right;border-top:1px solid #f5f5f5;"><button onclick="event.stopPropagation();reportPost('+q+p.id+q+')" style="background:none;border:none;font-size:10px;color:#ccc;cursor:pointer;font-family:\'Inter\',sans-serif;">🚩 Report</button></div>':'';
-    return '<div style="border:1.5px solid var(--border);border-radius:16px;background:var(--white);position:relative;overflow:visible;transition:transform .15s,box-shadow .15s;">'+menuHtml+rb+likeHtml
+    var rewHtml=p.reward?'<div style="margin-top:4px;background:#FEF9C3;color:#92400E;font-size:11px;font-weight:700;padding:2px 7px;border-radius:8px;display:inline-block;">🏆 ₹'+p.reward+'</div>':'';
+    var reportBtn=p.type==='found'?'<div style="padding:3px 8px;text-align:right;border-top:1px solid #f5f5f5;"><button onclick="event.stopPropagation();reportPost('+q+p.id+q+')" style="background:none;border:none;font-size:10px;color:#ccc;cursor:pointer;">🚩 Report</button></div>':'';
+    return '<div style="border:1.5px solid var(--border);border-radius:16px;background:var(--white);position:relative;overflow:visible;transition:transform .15s;">'
+      +menuHtml+ageBadge+likeBtn
       +'<div onclick="openDetail('+q+p.id+q+')" style="cursor:pointer;">'
-      +'<div style="border-radius:12px 12px 0 0;overflow:hidden;">'+imgHtml+'</div>'
-      +'<div style="padding:10px;"><span style="background:'+tc+';color:'+tt+';font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;">'+tl+'</span>'
+      +'<div style="border-radius:14px 14px 0 0;overflow:hidden;">'+imgHtml+'</div>'
+      +'<div style="padding:10px;">'
+      +'<span style="background:'+tc+';color:'+tt+';font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;">'+tl+'</span>'
       +'<div style="font-size:13px;font-weight:600;margin:5px 0 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+p.item+'</div>'
-      +catHtml+'<div style="font-size:11px;color:var(--text-muted);">📍 '+p.loc+'</div>'
-      +'<div style="font-size:10px;color:#bbb;">'+(p.date||'')+'</div>'+rewHtml+'</div></div>'+reportHtml+'</div>';
+      +catHtml
+      +'<div style="font-size:11px;color:var(--text-muted);">📍 '+p.loc+'</div>'
+      +'<div style="font-size:10px;color:#bbb;">'+(p.date||'')+'</div>'
+      +rewHtml
+      +'</div></div>'+reportBtn+'</div>';
   }
 
-  var ih='',allCats=['Wallet','Phone','Keys','Bag','Jewellery','Backpack','Laptop','Pet','Glasses','Documents','Watch','Purse','Person','Animals','Car','Bike','Cycle','Other','Missing Person','Cash'];
+  // Build HTML
+  var ih='';
+
   if(ac){
-    var lp=pagePosts.filter(function(p){return p.type==='lost';}),fp=pagePosts.filter(function(p){return p.type==='found';}),mp=pagePosts.filter(function(p){return p.type==='missing';});
-    var tl2=filtered.filter(function(p){return p.type==='lost';}).length,tf=filtered.filter(function(p){return p.type==='found';}).length,tm=filtered.filter(function(p){return p.type==='missing';}).length;
-    ih+='<div style="grid-column:1/-1;background:linear-gradient(135deg,#FFF5EE,#FFF);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:4px;"><div style="font-size:16px;font-weight:800;color:#333;margin-bottom:8px;">'+ac+'</div><div style="display:flex;gap:8px;flex-wrap:wrap;">'+(tl2>0?'<span style="background:#FEE2E2;color:#DC2626;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;">😟 '+tl2+'</span>':'')+(tf>0?'<span style="background:#D1FAE5;color:#059669;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;">🎉 '+tf+'</span>':'')+(tm>0?'<span style="background:#FEF3C7;color:#D97706;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;">⚠️ '+tm+'</span>':'')+'</div></div>';
-    if(lp.length){ih+='<div style="grid-column:1/-1;margin:12px 0 6px;"><span style="background:#FEE2E2;color:#DC2626;padding:5px 14px;border-radius:10px;font-weight:700;font-size:13px;">😟 Lost</span></div>';ih+=lp.map(card).join('');}
-    if(fp.length){ih+='<div style="grid-column:1/-1;margin:12px 0 6px;"><span style="background:#D1FAE5;color:#059669;padding:5px 14px;border-radius:10px;font-weight:700;font-size:13px;">🎉 Found</span></div>';ih+=fp.map(card).join('');}
-    if(mp.length){ih+='<div style="grid-column:1/-1;margin:12px 0 6px;"><span style="background:#FEF3C7;color:#D97706;padding:5px 14px;border-radius:10px;font-weight:700;font-size:13px;">⚠️ Missing</span></div>';ih+=mp.map(card).join('');}
-    // Catch-all: posts that don't match any type
-    var otherPosts=pagePosts.filter(function(p){return p.type!=='lost'&&p.type!=='found'&&p.type!=='missing';});
-    if(otherPosts.length){ih+=otherPosts.map(card).join('');}
-    // If nothing rendered but filtered has posts, show them all
-    if(!lp.length&&!fp.length&&!mp.length&&!otherPosts.length&&pagePosts.length){ih+=pagePosts.map(card).join('');}
-  }else{
+    // Category selected — show Lost/Found/Missing sections
+    var lp=pagePosts.filter(function(p){return p.type==='lost';});
+    var fp=pagePosts.filter(function(p){return p.type==='found';});
+    var mp=pagePosts.filter(function(p){return p.type==='missing';});
+    var tl2=filtered.filter(function(p){return p.type==='lost';}).length;
+    var tf=filtered.filter(function(p){return p.type==='found';}).length;
+    var tm=filtered.filter(function(p){return p.type==='missing';}).length;
+    ih+='<div style="grid-column:1/-1;background:linear-gradient(135deg,#FFF5EE,#FFF);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:4px;">'
+      +'<div style="font-size:16px;font-weight:800;color:#333;margin-bottom:8px;">'+ac+'</div>'
+      +'<div style="display:flex;gap:8px;flex-wrap:wrap;">'
+      +(tl2>0?'<span style="background:#FEE2E2;color:#DC2626;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;">😟 '+tl2+'</span>':'')
+      +(tf>0?'<span style="background:#D1FAE5;color:#059669;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;">🎉 '+tf+'</span>':'')
+      +(tm>0?'<span style="background:#FEF3C7;color:#D97706;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;">⚠️ '+tm+'</span>':'')
+      +'</div></div>';
+    if(lp.length){ih+='<div style="grid-column:1/-1;margin:10px 0 6px;"><span style="background:#FEE2E2;color:#DC2626;padding:5px 14px;border-radius:10px;font-weight:700;font-size:13px;">😟 Lost</span></div>'+lp.map(card).join('');}
+    if(fp.length){ih+='<div style="grid-column:1/-1;margin:10px 0 6px;"><span style="background:#D1FAE5;color:#059669;padding:5px 14px;border-radius:10px;font-weight:700;font-size:13px;">🎉 Found</span></div>'+fp.map(card).join('');}
+    if(mp.length){ih+='<div style="grid-column:1/-1;margin:10px 0 6px;"><span style="background:#FEF3C7;color:#D97706;padding:5px 14px;border-radius:10px;font-weight:700;font-size:13px;">⚠️ Missing</span></div>'+mp.map(card).join('');}
+    if(!lp.length&&!fp.length&&!mp.length) ih+=pagePosts.map(card).join('');
+  } else {
+    // All posts — group by category
+    var allCats=['Wallet','Phone','Keys','Bag','Jewellery','Backpack','Laptop','Pet','Glasses','Documents','Watch','Purse','Person','Animals','Car','Bike','Cycle','Other'];
+    var rendered={};
     allCats.forEach(function(key){
-      var cats=pagePosts.filter(function(p){return p.category&&p.category.includes(key);});if(!cats.length)return;
-      var cl=cats.filter(function(p){return p.type==='lost';}).length,cf=cats.filter(function(p){return p.type==='found';}).length;
-      ih+='<div style="grid-column:1/-1;margin:16px 0 8px;display:flex;align-items:center;gap:8px;"><div style="font-size:15px;font-weight:700;">'+key+'</div>'+(cl>0?'<span style="background:#FEE2E2;color:#DC2626;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+cl+' L</span>':'')+(cf>0?'<span style="background:#D1FAE5;color:#059669;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+cf+' F</span>':'')+'</div>'+cats.map(card).join('');
+      var cats=pagePosts.filter(function(p){return p.category&&(p.category===key||p.category.indexOf(key)>=0||key.indexOf(p.category)>=0);});
+      if(!cats.length)return;
+      cats.forEach(function(p){rendered[p.id]=true;});
+      var cl=cats.filter(function(p){return p.type==='lost';}).length;
+      var cf=cats.filter(function(p){return p.type==='found';}).length;
+      ih+='<div style="grid-column:1/-1;margin:14px 0 8px;display:flex;align-items:center;gap:8px;">'
+        +'<div style="font-size:15px;font-weight:700;">'+key+'</div>'
+        +(cl>0?'<span style="background:#FEE2E2;color:#DC2626;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+cl+' L</span>':'')
+        +(cf>0?'<span style="background:#D1FAE5;color:#059669;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+cf+' F</span>':'')
+        +'</div>'+cats.map(card).join('');
     });
-    // Posts with no category OR unrecognized category
-    var knownCats=['Wallet','Phone','Keys','Bag','Jewellery','Backpack','Laptop','Pet','Glasses','Documents','Watch','Purse','Person','Animals','Car','Bike','Cycle','Other','Missing Person','Cash'];
-    var nc=pagePosts.filter(function(p){return !p.category||!knownCats.some(function(k){return p.category.includes(k)||k.includes(p.category);});});
-    if(nc.length){ih+='<div style="grid-column:1/-1;margin:16px 0 8px;"><div style="font-size:15px;font-weight:700;">📦 Other</div></div>'+nc.map(card).join('');}
+    // Show unrendered posts (no category or unknown)
+    var remaining=pagePosts.filter(function(p){return !rendered[p.id];});
+    if(remaining.length){
+      ih+='<div style="grid-column:1/-1;margin:14px 0 8px;"><div style="font-size:15px;font-weight:700;">📦 Other</div></div>'+remaining.map(card).join('');
+    }
+    // If nothing grouped (shouldn't happen but safety net)
+    if(!ih) ih=pagePosts.map(card).join('');
   }
-  // Fallback: if grouping produced nothing but posts exist, show all flat
-  if(!ih && pagePosts.length > 0){
-    ih = pagePosts.map(card).join('');
-  }
+
   container.innerHTML=ih||'<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--text-muted);">No posts found</div>';
-  renderPagination(page,tp,filtered.length,ps,Math.min(pe,filtered.length));
+  renderPagination(page,totalPages,filtered.length,start,Math.min(start+perPage,filtered.length));
   updateHeroStats();
 };
 
-function renderPagination(page,tp,total,from,to){
-  var ex=document.getElementById('pagination-bar');if(ex)ex.remove();if(tp<=1)return;
-  var bar=document.createElement('div');bar.id='pagination-bar';bar.style.cssText='grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:12px;margin:16px 0 24px;';
-  var info=document.createElement('div');info.style.cssText='font-size:12px;color:var(--text-muted);';info.textContent=(from+1)+'-'+to+' of '+total;bar.appendChild(info);
-  var row=document.createElement('div');row.style.cssText='display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;';
-  function mb2(label,pg,isActive,isDis){var btn=document.createElement('button');btn.textContent=label;btn.disabled=isDis||false;btn.style.cssText='padding:8px 14px;border-radius:20px;border:1.5px solid '+(isActive?'var(--orange)':'var(--border)')+';background:'+(isActive?'var(--orange)':isDis?'#f5f5f5':'white')+';color:'+(isActive?'white':isDis?'#bbb':'var(--orange)')+';font-weight:700;font-size:13px;cursor:'+(isActive||isDis?'default':'pointer')+';min-width:36px;';if(!isActive&&!isDis)btn.onclick=function(){window._pagination.page=pg;window._renderAll();var g=document.getElementById('listings-grid');if(g)window.scrollTo({top:g.offsetTop-80,behavior:'smooth'});};return btn;}
-  row.appendChild(mb2('← Prev',page-1,false,page===1));
-  var sp=Math.max(1,page-2),ep=Math.min(tp,sp+4);sp=Math.max(1,ep-4);
-  if(sp>1){row.appendChild(mb2('1',1,false,false));if(sp>2){var d=document.createElement('span');d.textContent='...';d.style.cssText='font-size:13px;color:#bbb;padding:0 4px;';row.appendChild(d);}}
-  for(var i=sp;i<=ep;i++)row.appendChild(mb2(String(i),i,i===page,false));
-  if(ep<tp){if(ep<tp-1){var d2=document.createElement('span');d2.textContent='...';d2.style.cssText='font-size:13px;color:#bbb;padding:0 4px;';row.appendChild(d2);}row.appendChild(mb2(String(tp),tp,false,false));}
-  row.appendChild(mb2('Next →',page+1,false,page===tp));
-  bar.appendChild(row);var g=document.getElementById('listings-grid');if(g&&g.parentNode)g.parentNode.insertBefore(bar,g.nextSibling);
-}
-function removePagination(){var b=document.getElementById('pagination-bar');if(b)b.remove();}
 
 window.setCatGrid=function(cat){
   window.activeCat=cat;window._pagination.page=1;
