@@ -1,0 +1,63 @@
+{
+  "name": "FindBack S1 — India Lost & Found",
+  "short_name": "FindBack",
+  "description": "India's most trusted lost & found platform. Report lost items, find what you lost, reunite with your belongings.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#E8722A",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-IN",
+  "categories": ["utilities", "social"],
+  "icons": [
+    {
+      "src": "https://api.qrserver.com/v1/create-qr-code/?size=72x72&data=FindBack&color=E8722A&bgcolor=111111",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://api.qrserver.com/v1/create-qr-code/?size=96x96&data=FindBack&color=E8722A&bgcolor=111111",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://api.qrserver.com/v1/create-qr-code/?size=128x128&data=FindBack&color=E8722A&bgcolor=111111",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://api.qrserver.com/v1/create-qr-code/?size=192x192&data=FindBack&color=E8722A&bgcolor=111111",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://api.qrserver.com/v1/create-qr-code/?size=512x512&data=FindBack&color=E8722A&bgcolor=111111",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Report Lost",
+      "short_name": "Lost",
+      "description": "Report a lost item",
+      "url": "/?action=lost",
+      "icons": [{ "src": "https://api.qrserver.com/v1/create-qr-code/?size=96x96&data=Lost&color=DC2626&bgcolor=FEE2E2", "sizes": "96x96" }]
+    },
+    {
+      "name": "Report Found",
+      "short_name": "Found",
+      "description": "Report a found item",
+      "url": "/?action=found",
+      "icons": [{ "src": "https://api.qrserver.com/v1/create-qr-code/?size=96x96&data=Found&color=059669&bgcolor=D1FAE5", "sizes": "96x96" }]
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}
