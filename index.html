@@ -503,7 +503,11 @@ function startListener(){
     window._allPosts=snap.docs.map(d=>({id:d.id,...d.data()}));
     if(window.updateCatCounts)window.updateCatCounts();
     if(window.buildLocChips)window.buildLocChips();
-    window._renderAll();refreshAdminStats();
+    if(window._renderAll)window._renderAll();
+    refreshAdminStats();
+    // Refresh NGO dashboard if open
+    var ngoDash=document.getElementById('ngo-dashboard');
+    if(ngoDash&&ngoDash.style.display!=='none'&&window.ngoLoadDashboard)window.ngoLoadDashboard();
     const mp=document.getElementById('page-map');if(mp&&mp.classList.contains('active'))renderMapPins();
   },(err)=>{console.warn('FB err:',err.code);setTimeout(()=>{try{startListener();}catch(e){}},3000);});
   }catch(e){console.warn('FB listener err:',e);setTimeout(()=>{try{startListener();}catch(e2){}},3000);}
@@ -543,7 +547,7 @@ window.submitToFirebase=async function(){
   const btn=document.querySelector('#report-modal .btn-primary');
   if(btn){btn.textContent='Submitting...';btn.disabled=true;}
   try{
-    const photo=(photos[0]&&photos[0].length<700000)?photos[0]:null;
+    const photo=(photos[0]&&photos[0].length<900000)?photos[0]:(photos[0]?photos[0].substring(0,900000):null);
     await addDoc(collection(db,"posts"),{type,item,loc,date:dv,desc,contact,category:cat,reward:rew,uid,authorName,photo,photoCount:photos.length,idMark,regNo,plateNo,createdAt:serverTimestamp()});
     document.getElementById('modal-success').style.display='block';
     if(window.checkAreaAlerts)window.checkAreaAlerts({type,item,loc,category:cat});
@@ -848,13 +852,19 @@ window.addPhotoFromInput = function(input){
     var image = new Image();
     image.onload = function(){
       var canvas = document.createElement('canvas');
-      var MAX = 600;
+      var MAX = 500;
       var w = image.width, h = image.height;
-      if(w > h){ if(w > MAX){ h = h*MAX/w; w = MAX; } }
-      else { if(h > MAX){ w = w*MAX/h; h = MAX; } }
+      if(w > h){ if(w > MAX){ h = Math.round(h*MAX/w); w = MAX; } }
+      else { if(h > MAX){ w = Math.round(w*MAX/h); h = MAX; } }
       canvas.width = w; canvas.height = h;
       canvas.getContext('2d').drawImage(image, 0, 0, w, h);
-      var compressed = canvas.toDataURL('image/jpeg', 0.6);
+      var compressed = canvas.toDataURL('image/jpeg', 0.5);
+      // If still too large, compress more
+      if(compressed.length > 500000){
+        canvas.width = Math.round(w*0.7); canvas.height = Math.round(h*0.7);
+        canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+        compressed = canvas.toDataURL('image/jpeg', 0.4);
+      }
       window.currentPhotosData.push(compressed);
       renderPhotoGrid();
     };
@@ -887,9 +897,15 @@ window.setSearch=function(val){window.searchQuery=val.toLowerCase();if(window._r
 
 window.openDetail=function(id){
   const p=(window._allPosts||[]).find(x=>x.id===id);if(!p)return;
-  const photos=p.photos||(p.photo?[p.photo]:[]),photosEl=document.getElementById('detail-photos');
-  if(photos.length){photosEl.style.display='flex';photosEl.innerHTML=photos.map(src=>`<img src="${src}" style="height:220px;min-width:100%;object-fit:cover;border-radius:14px;flex-shrink:0;">`).join('');}
-  else{const tc=p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7';photosEl.style.display='flex';photosEl.innerHTML=`<div style="height:180px;min-width:100%;background:${tc};border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:64px;">${p.type==='lost'?'🔍':p.type==='found'?'📦':'🆘'}</div>`;}
+  const photos=Array.isArray(p.photos)&&p.photos.length?p.photos:(p.photo?[p.photo]:[]),photosEl=document.getElementById('detail-photos');
+  if(photos.length){
+    photosEl.style.display='flex';
+    photosEl.innerHTML=photos.map(src=>`<img src="${src}" style="height:220px;min-width:100%;object-fit:cover;border-radius:14px;flex-shrink:0;" onerror="this.outerHTML='<div style=\"height:220px;min-width:100%;background:#f3f4f6;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:64px;\">📷</div>'">`).join('');
+  } else{
+    const tc=p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7';
+    photosEl.style.display='flex';
+    photosEl.innerHTML=`<div style="height:180px;min-width:100%;background:${tc};border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:64px;">${p.type==='lost'?'🔍':p.type==='found'?'📦':'🆘'}</div>`;
+  }
   const tc=p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7',tt=p.type==='lost'?'#DC2626':p.type==='found'?'#059669':'#D97706',tl=p.type==='lost'?'😟 Lost':p.type==='found'?'🎉 Found':'⚠️ Missing';
   document.getElementById('detail-badge').innerHTML=`<span style="background:${tc};color:${tt};padding:4px 12px;border-radius:20px;font-weight:700;font-size:13px;">${tl}</span>`;
   document.getElementById('detail-title').textContent=p.item||'';document.getElementById('detail-cat').textContent=p.category||'';
@@ -1204,8 +1220,10 @@ window._renderAll=function(){
     var tc=p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':p.type==='person'?'#EDE9FE':'#FEF3C7';
     var tt=p.type==='lost'?'#DC2626':p.type==='found'?'#059669':p.type==='person'?'#7C3AED':'#D97706';
     var tl=p.type==='lost'?'😟 Lost':p.type==='found'?'🎉 Found':p.type==='person'?'🧍 Person':'⚠️ Missing';
-    var imgHtml=p.photo?'<img src="'+p.photo+'" style="width:100%;height:110px;object-fit:cover;display:block;">'
-      :'<div style="height:110px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:36px;">'+(p.type==='lost'?'🔍':p.type==='found'?'📦':p.type==='person'?'🧍':'🆘')+'</div>';
+    var photoEmoji=p.type==='lost'?'🔍':p.type==='found'?'📦':p.type==='person'?'🧍':'🆘';
+    var imgHtml=p.photo
+      ?'<img src="'+p.photo+'" style="width:100%;height:110px;object-fit:cover;display:block;">'
+      :'<div style="height:110px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:36px;">'+photoEmoji+'</div>';
     var curUid=window._currentUser?window._currentUser.uid:null,isOwn=curUid&&p.uid===curUid;
     var eid=p.id.replace(/[^a-zA-Z0-9]/g,'_'),q="'";
     var menuHtml='';
@@ -1543,13 +1561,7 @@ window.addEventListener('load',function(){
     if(on)on.textContent=org;
   }
 });
-// Auto-refresh NGO dashboard when posts update
-var _origRA=window._renderAll;
-window._renderAll=function(){
-  if(_origRA)_origRA();
-  var dash=document.getElementById('ngo-dashboard');
-  if(dash&&dash.style.display!=='none'&&window.ngoLoadDashboard)window.ngoLoadDashboard();
-};
+// NGO dashboard auto-refresh is handled in the Firebase listener directly
 </script>
 
 w
