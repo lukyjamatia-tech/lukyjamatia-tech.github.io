@@ -18,10 +18,10 @@ nav{background:var(--black);padding:14px 20px;display:flex;align-items:center;ju
 .live-badge{display:flex;align-items:center;gap:5px;font-size:12px;color:#aaa;}
 .live-dot{width:7px;height:7px;background:#4CAF50;border-radius:50%;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.s1-badge{background:var(--black);border:1px solid #444;color:var(--white);font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;}
+.s1-badge{background:linear-gradient(135deg,#E8722A,#c45a1a);border:none;color:var(--white);font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;box-shadow:0 2px 8px rgba(232,114,42,.4);}
 .page{display:none;flex:1;flex-direction:column;}
 .page.active{display:flex;}
-.home-hero{background:var(--gray);padding:60px 24px;text-align:center;}
+.home-hero{background:linear-gradient(160deg,#fff8f0 0%,#fff5ee 40%,#ffeedd 100%);padding:60px 24px;text-align:center;}
 .home-hero .emoji{font-size:56px;margin-bottom:16px;}
 .home-hero h1{font-family:'Sora',sans-serif;font-size:26px;font-weight:700;margin-bottom:8px;}
 .home-hero p{color:var(--text-muted);font-size:15px;}
@@ -29,7 +29,8 @@ nav{background:var(--black);padding:14px 20px;display:flex;align-items:center;ju
 .btn-primary{background:var(--orange);color:white;border:none;padding:12px 24px;border-radius:10px;font-weight:600;font-size:15px;cursor:pointer;font-family:'Inter',sans-serif;transition:opacity .2s;}
 .btn-primary:hover{opacity:.88;}
 .btn-outline{background:transparent;color:var(--orange);border:2px solid var(--orange);padding:12px 24px;border-radius:10px;font-weight:600;font-size:15px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;}
-.btn-outline:hover{background:var(--orange);color:white;}
+.btn-outline:hover{background:var(--orange);color:white;transform:translateY(-1px);box-shadow:0 4px 12px rgba(232,114,42,.3);}
+.btn-outline:active{transform:translateY(0);}
 .page-content{padding:32px 24px 100px;flex:1;max-width:680px;width:100%;margin:0 auto;}
 .page-title{font-family:'Sora',sans-serif;font-size:24px;font-weight:700;margin-bottom:6px;}
 .page-subtitle{color:var(--text-muted);font-size:14px;margin-bottom:28px;}
@@ -106,20 +107,25 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);display:flex;padding:10px 0 18px;padding-bottom:max(18px,env(safe-area-inset-bottom));z-index:200;box-shadow:0 -2px 12px rgba(0,0,0,.06);}
 .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 0;transition:color .2s;color:#aaa;font-size:10px;font-weight:500;border:none;background:none;font-family:'Inter',sans-serif;}
 .nav-item.active{color:var(--orange);}
+.nav-item.active svg{filter:drop-shadow(0 0 4px rgba(232,114,42,.5));}
+.nav-item{transition:color .15s,transform .1s;}
+.nav-item:active{transform:scale(0.88);}
 .nav-item svg{width:20px;height:20px;}
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--black);color:white;padding:12px 20px;border-radius:24px;font-size:13px;opacity:0;pointer-events:none;transition:all .3s;z-index:999;white-space:nowrap;}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:linear-gradient(135deg,#1a1a1a,#333);color:white;padding:12px 20px;border-radius:24px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:all .3s cubic-bezier(0.34,1.56,0.64,1);z-index:999;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.3);}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;align-items:flex-end;justify-content:center;}
 .modal-overlay.open{display:flex;}
 .modal-sheet{background:var(--white);border-radius:20px 20px 0 0;padding:24px;width:100%;max-height:90vh;overflow-y:auto;}
-.modal-handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 20px;}
+.modal-handle{width:48px;height:5px;background:linear-gradient(90deg,#E8722A,#f59342);border-radius:3px;margin:0 auto 20px;}
 .modal-title{font-family:'Sora',sans-serif;font-size:18px;font-weight:700;margin-bottom:4px;}
 .modal-sub{font-size:13px;color:var(--text-muted);margin-bottom:20px;}
 .alert-success{background:#D1FAE5;color:#065F46;border-radius:10px;padding:14px 16px;font-size:14px;display:none;margin-bottom:16px;}
 .cat-grid-item{background:var(--gray);border-radius:14px;padding:12px 6px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all .2s;}
 .cat-grid-item:active{transform:scale(0.95);}
 .active-cat-grid{border-color:var(--orange);background:#FFF5EE;}
-.cat-grid-label{font-size:10px;font-weight:600;color:#333;margin-top:2px;}
+.cat-grid-label{font-size:10px;font-weight:700;color:#333;margin-top:2px;}
+.cat-grid-item{transition:transform .15s,border-color .2s,background .2s;}
+.cat-grid-item:active{transform:scale(0.92);}
 .edit-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:400;align-items:flex-end;justify-content:center;}
 .edit-modal-overlay.open{display:flex;}
 .phone-input-wrap{display:flex;gap:8px;align-items:stretch;}
@@ -143,6 +149,88 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
 .loc-filter-btn.clear{background:#F5F5F5;color:#555;padding:7px 12px;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;flex-shrink:0;}
 .loc-active-badge{display:inline-flex;align-items:center;gap:5px;background:#FFF0E6;border:1.5px solid var(--orange);color:var(--orange);font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;cursor:pointer;}
 @media(min-width:500px){.admin-grid{grid-template-columns:repeat(4,1fr);}}
+
+/* ── DARK MODE ── */
+body.dark-mode{--white:#0F0F0F;--black:#F0F0F0;--gray:#1E1E1E;--border:#333;--text-muted:#888;}
+body.dark-mode nav{background:#000;}
+body.dark-mode .modal-sheet{background:#1a1a1a;}
+body.dark-mode .auth-card{background:#1a1a1a;}
+body.dark-mode .home-hero{background:linear-gradient(160deg,#1a1208 0%,#1a1a1a 100%);}
+body.dark-mode .bottom-nav{background:#111;border-color:#222;}
+body.dark-mode .loc-filter-bar{background:#111;border-color:#222;}
+body.dark-mode .cat-grid-item{background:#1E1E1E;}
+body.dark-mode .active-cat-grid{background:#2d1f0e;}
+body.dark-mode input,body.dark-mode textarea,body.dark-mode select{background:#1E1E1E;color:#F0F0F0;border-color:#333;}
+body.dark-mode .status-tab{background:#1E1E1E;color:#888;border-color:#333;}
+body.dark-mode .status-tab.active{background:#E8722A;color:white;}
+body.dark-mode footer{background:#0F0F0F;border-color:#222;}
+body.dark-mode .customer-card{border-color:#333;}
+body.dark-mode .about-card{background:#1E1E1E;}
+body.dark-mode .page-content{background:#0F0F0F;}
+body.dark-mode .admin-stat{background:#1E1E1E;}
+body.dark-mode #page-ngo .auth-card{background:#1a1a1a;}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideInBottom{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes pulse-ring{0%{transform:scale(.95);box-shadow:0 0 0 0 rgba(232,114,42,.4)}70%{transform:scale(1);box-shadow:0 0 0 10px rgba(232,114,42,0)}100%{transform:scale(.95);box-shadow:0 0 0 0 rgba(232,114,42,0)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes float{0%,100%{transform:translateY(0px)}50%{transform:translateY(-8px)}}
+@keyframes confetti-fall{0%{transform:translateY(-100vh) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+@keyframes countUp{from{opacity:0;transform:scale(0.5)}to{opacity:1;transform:scale(1)}}
+@keyframes newPostGlow{0%{box-shadow:0 0 0 0 rgba(232,114,42,.6)}100%{box-shadow:0 0 20px 0 rgba(232,114,42,0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes heroFloat{0%,100%{transform:translateY(0)}33%{transform:translateY(-6px)}66%{transform:translateY(3px)}}
+
+.page.active{animation:fadeInUp .3s ease;}
+.modal-sheet{animation:slideInBottom .3s cubic-bezier(0.34,1.56,0.64,1);}
+.post-card-new{animation:newPostGlow .8s ease-out;}
+
+/* ── SKELETON LOADING ── */
+.skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px;}
+body.dark-mode .skeleton{background:linear-gradient(90deg,#2a2a2a 25%,#333 50%,#2a2a2a 75%);background-size:200% 100%;}
+
+/* ── BETTER CARDS ── */
+.post-card{border:1.5px solid var(--border);border-radius:16px;background:var(--white);position:relative;overflow:visible;transition:transform .2s,box-shadow .2s;}
+.post-card:active{transform:scale(0.97);}
+.post-card-lost{border-left:3px solid #DC2626;}
+.post-card-found{border-left:3px solid #059669;}
+.post-card-missing{border-left:3px solid #D97706;}
+
+/* ── HERO FLOATING EMOJIS ── */
+.hero-float-emoji{position:absolute;font-size:24px;opacity:0.15;animation:heroFloat 3s ease-in-out infinite;pointer-events:none;}
+
+/* ── CONFETTI ── */
+.confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;pointer-events:none;z-index:9999;animation:confetti-fall 3s ease-in forwards;}
+
+/* ── GRADIENT BUTTONS ── */
+.btn-primary{background:linear-gradient(135deg,#E8722A,#c45a1a);box-shadow:0 4px 15px rgba(232,114,42,.3);}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(232,114,42,.4);}
+.btn-primary:active{transform:translateY(0);}
+
+/* ── CARD PHOTO BLUR BG ── */
+.card-img-wrap{position:relative;overflow:hidden;border-radius:12px 12px 0 0;}
+.card-img-blur-bg{position:absolute;inset:0;filter:blur(15px);transform:scale(1.2);opacity:0.3;}
+.card-img-main{position:relative;z-index:1;width:100%;height:110px;object-fit:cover;}
+
+/* ── SMOOTH SCROLLBAR ── */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-thumb{background:var(--orange);border-radius:2px;}
+
+/* ── LIKE BUTTON ── */
+.like-btn{position:absolute;bottom:8px;right:8px;background:none;border:none;font-size:18px;cursor:pointer;transition:transform .2s;z-index:10;}
+.like-btn:active{transform:scale(1.4);}
+.like-btn.liked{animation:pulse-ring .6s ease;}
+
+/* ── DARK MODE TOGGLE ── */
+.dark-toggle{background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:4px 8px;font-size:16px;cursor:pointer;line-height:1;}
+
+/* ── STAT BOXES GLOW ── */
+.stat-hero-box{transition:transform .2s;}
+.stat-hero-box:active{transform:scale(0.95);}
+
+/* ── VERIFIED BADGE ── */
+.verified-badge{display:inline-flex;align-items:center;gap:3px;background:linear-gradient(135deg,#1D4ED8,#3B82F6);color:white;font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;}
 </style>
 <script>
 window.onerror=function(msg,src,line){console.warn('FB err:',msg,line);return true;};
@@ -163,6 +251,7 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
   <div class="nav-right">
     <div class="live-badge"><div class="live-dot"></div> Live</div>
     <button id="lang-toggle-btn" onclick="toggleLang()" style="background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:0.3px;">EN</button>
+    <button class="dark-toggle" id="dark-toggle-btn" onclick="toggleDarkMode()" title="Dark Mode">🌙</button>
     <div class="s1-badge">S1</div>
   </div>
 </nav>
@@ -170,14 +259,20 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
 
 <!-- HOME PAGE -->
 <div class="page active" id="page-home">
-  <div class="home-hero">
-    <div class="emoji">🔍</div>
+  <div class="home-hero" style="position:relative;overflow:hidden;">
+    <div class="hero-float-emoji" style="top:10%;left:5%;animation-delay:0s;">📱</div>
+    <div class="hero-float-emoji" style="top:15%;right:8%;animation-delay:.5s;">👛</div>
+    <div class="hero-float-emoji" style="bottom:20%;left:10%;animation-delay:1s;">🔑</div>
+    <div class="hero-float-emoji" style="bottom:15%;right:12%;animation-delay:1.5s;">💍</div>
+    <div class="hero-float-emoji" style="top:40%;left:2%;animation-delay:.8s;">🎒</div>
+    <div class="hero-float-emoji" style="top:35%;right:3%;animation-delay:1.2s;">💻</div>
+    <div class="emoji" style="animation:float 3s ease-in-out infinite;">🔍</div>
     <h1>Find what the world lost.</h1>
     <p>India's most trusted lost &amp; found platform</p>
     <div id="hero-stats" style="display:flex;gap:12px;justify-content:center;margin-top:20px;flex-wrap:wrap;">
-      <div style="background:rgba(255,255,255,0.7);border-radius:12px;padding:10px 16px;text-align:center;min-width:80px;"><div id="stat-lost" style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#DC2626;">0</div><div style="font-size:10px;color:#777;font-weight:600;">😟 Lost</div></div>
-      <div style="background:rgba(255,255,255,0.7);border-radius:12px;padding:10px 16px;text-align:center;min-width:80px;"><div id="stat-found" style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#059669;">0</div><div style="font-size:10px;color:#777;font-weight:600;">🎉 Found</div></div>
-      <div style="background:rgba(255,255,255,0.7);border-radius:12px;padding:10px 16px;text-align:center;min-width:80px;"><div id="stat-resolved" style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#E8722A;">0</div><div style="font-size:10px;color:#777;font-weight:600;">✅ Reunited</div></div>
+      <div class="stat-hero-box" style="background:rgba(255,255,255,0.85);border-radius:14px;padding:10px 16px;text-align:center;min-width:80px;box-shadow:0 4px 12px rgba(0,0,0,.1);"><div id="stat-lost" style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#DC2626;">0</div><div style="font-size:10px;color:#777;font-weight:600;">😟 Lost</div></div>
+      <div class="stat-hero-box" style="background:rgba(255,255,255,0.85);border-radius:14px;padding:10px 16px;text-align:center;min-width:80px;box-shadow:0 4px 12px rgba(0,0,0,.1);"><div id="stat-found" style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#059669;">0</div><div style="font-size:10px;color:#777;font-weight:600;">🎉 Found</div></div>
+      <div class="stat-hero-box" style="background:rgba(255,255,255,0.85);border-radius:14px;padding:10px 16px;text-align:center;min-width:80px;box-shadow:0 4px 12px rgba(0,0,0,.1);"><div id="stat-resolved" style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#E8722A;">0</div><div style="font-size:10px;color:#777;font-weight:600;">✅ Reunited</div></div>
     </div>
     <div class="home-btns">
       <button class="btn-primary" onclick="openModal('lost')">😟 Report Lost</button>
@@ -206,25 +301,25 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
     <div style="margin-bottom:20px;">
       <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;">📂 Browse by Category</div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;" id="cat-grid-container">
-        <div onclick="setCatGrid('')" class="cat-grid-item active-cat-grid" id="catgrid-all" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">🔍</div><div class="cat-grid-label">All</div><div id="catcount-all" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
-        <div onclick="setCatGrid('Wallet')" class="cat-grid-item" id="catgrid-Wallet" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">👛</div><div class="cat-grid-label">Wallet</div><div id="catcount-Wallet" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
-        <div onclick="setCatGrid('Phone')" class="cat-grid-item" id="catgrid-Phone" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">📱</div><div class="cat-grid-label">Phone</div><div id="catcount-Phone" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
-        <div onclick="setCatGrid('Keys')" class="cat-grid-item" id="catgrid-Keys" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">🔑</div><div class="cat-grid-label">Keys</div><div id="catcount-Keys" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
-        <div onclick="setCatGrid('Bag')" class="cat-grid-item" id="catgrid-Bag" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">💼</div><div class="cat-grid-label">Bag</div><div id="catcount-Bag" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
-        <div onclick="setCatGrid('Jewellery')" class="cat-grid-item" id="catgrid-Jewellery" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">💍</div><div class="cat-grid-label">Jewellery</div><div id="catcount-Jewellery" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
-        <div onclick="setCatGrid('Backpack')" class="cat-grid-item" id="catgrid-Backpack" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">🎒</div><div class="cat-grid-label">Backpack</div><div id="catcount-Backpack" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
-        <div onclick="setCatGrid('Laptop')" class="cat-grid-item" id="catgrid-Laptop" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">💻</div><div class="cat-grid-label">Laptop</div><div id="catcount-Laptop" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
-        <div onclick="setCatGrid('Pet')" class="cat-grid-item" id="catgrid-Pet" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">🐾</div><div class="cat-grid-label">Pet</div><div id="catcount-Pet" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
-        <div onclick="setCatGrid('Glasses')" class="cat-grid-item" id="catgrid-Glasses" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">👓</div><div class="cat-grid-label">Glasses</div><div id="catcount-Glasses" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
-        <div onclick="setCatGrid('Documents')" class="cat-grid-item" id="catgrid-Documents" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">🎫</div><div class="cat-grid-label">Documents</div><div id="catcount-Documents" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
-        <div onclick="setCatGrid('Watch')" class="cat-grid-item" id="catgrid-Watch" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">⌚</div><div class="cat-grid-label">Watch</div><div id="catcount-Watch" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
-        <div onclick="setCatGrid('Purse')" class="cat-grid-item" id="catgrid-Purse" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">👜</div><div class="cat-grid-label">Purse</div><div id="catcount-Purse" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
-        <div onclick="setCatGrid('Person')" class="cat-grid-item" id="catgrid-Person" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">🧍</div><div class="cat-grid-label">Person</div><div id="catcount-Person" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
-        <div onclick="setCatGrid('Car')" class="cat-grid-item" id="catgrid-Car" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">🚗</div><div class="cat-grid-label">Car</div><div id="catcount-Car" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
-        <div onclick="setCatGrid('Bike')" class="cat-grid-item" id="catgrid-Bike" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">🏍️</div><div class="cat-grid-label">Bike</div><div id="catcount-Bike" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
-        <div onclick="setCatGrid('Cycle')" class="cat-grid-item" id="catgrid-Cycle" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">🚲</div><div class="cat-grid-label">Cycle</div><div id="catcount-Cycle" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
-        <div onclick="setCatGrid('Animals')" class="cat-grid-item" id="catgrid-Animals" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">🐕</div><div class="cat-grid-label">Animals</div><div id="catcount-Animals" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
-        <div onclick="setCatGrid('Other')" class="cat-grid-item" id="catgrid-Other" style="padding:10px 4px 8px;"><div style="font-size:24px;margin-bottom:4px;">📦</div><div class="cat-grid-label">Other</div><div id="catcount-Other" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('')" class="cat-grid-item active-cat-grid" id="catgrid-all" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">🔍</span></div></div><div class="cat-grid-label">All</div><div id="catcount-all" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('Wallet')" class="cat-grid-item" id="catgrid-Wallet" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1627123424574-724758594e93?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">👛</span></div></div><div class="cat-grid-label">Wallet</div><div id="catcount-Wallet" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('Phone')" class="cat-grid-item" id="catgrid-Phone" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">📱</span></div></div><div class="cat-grid-label">Phone</div><div id="catcount-Phone" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('Keys')" class="cat-grid-item" id="catgrid-Keys" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">🔑</span></div></div><div class="cat-grid-label">Keys</div><div id="catcount-Keys" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('Bag')" class="cat-grid-item" id="catgrid-Bag" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">💼</span></div></div><div class="cat-grid-label">Bag</div><div id="catcount-Bag" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('Jewellery')" class="cat-grid-item" id="catgrid-Jewellery" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">💍</span></div></div><div class="cat-grid-label">Jewellery</div><div id="catcount-Jewellery" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('Backpack')" class="cat-grid-item" id="catgrid-Backpack" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1622560480654-d96214fdc887?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">🎒</span></div></div><div class="cat-grid-label">Backpack</div><div id="catcount-Backpack" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('Laptop')" class="cat-grid-item" id="catgrid-Laptop" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">💻</span></div></div><div class="cat-grid-label">Laptop</div><div id="catcount-Laptop" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('Pet')" class="cat-grid-item" id="catgrid-Pet" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">🐾</span></div></div><div class="cat-grid-label">Pet</div><div id="catcount-Pet" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('Glasses')" class="cat-grid-item" id="catgrid-Glasses" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">👓</span></div></div><div class="cat-grid-label">Glasses</div><div id="catcount-Glasses" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('Documents')" class="cat-grid-item" id="catgrid-Documents" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">📄</span></div></div><div class="cat-grid-label">Documents</div><div id="catcount-Documents" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('Watch')" class="cat-grid-item" id="catgrid-Watch" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">⌚</span></div></div><div class="cat-grid-label">Watch</div><div id="catcount-Watch" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('Purse')" class="cat-grid-item" id="catgrid-Purse" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">👜</span></div></div><div class="cat-grid-label">Purse</div><div id="catcount-Purse" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('Person')" class="cat-grid-item" id="catgrid-Person" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">🧍</span></div></div><div class="cat-grid-label">Person</div><div id="catcount-Person" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('Car')" class="cat-grid-item" id="catgrid-Car" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">🚗</span></div></div><div class="cat-grid-label">Car</div><div id="catcount-Car" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('Bike')" class="cat-grid-item" id="catgrid-Bike" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">🏍️</span></div></div><div class="cat-grid-label">Bike</div><div id="catcount-Bike" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('Cycle')" class="cat-grid-item" id="catgrid-Cycle" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">🚲</span></div></div><div class="cat-grid-label">Cycle</div><div id="catcount-Cycle" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('Animals')" class="cat-grid-item" id="catgrid-Animals" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">🐕</span></div></div><div class="cat-grid-label">Animals</div><div id="catcount-Animals" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
+        <div onclick="setCatGrid('Other')" class="cat-grid-item" id="catgrid-Other" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1589782182703-2aaa69037b5b?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">📦</span></div></div><div class="cat-grid-label">Other</div><div id="catcount-Other" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
       </div>
     </div>
     <div style="display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px;">
@@ -402,6 +497,8 @@ const q=query(collection(db,"posts"),orderBy("createdAt","desc"));
 let _unsub=null;
 function startListener(){
   try{if(_unsub){try{_unsub();}catch(e){}}
+  // Show skeleton while loading
+  if(window.showSkeletonCards)window.showSkeletonCards();
   _unsub=onSnapshot(q,(snap)=>{
     window._allPosts=snap.docs.map(d=>({id:d.id,...d.data()}));
     if(window.updateCatCounts)window.updateCatCounts();
@@ -566,7 +663,7 @@ window.reportPost=function(postId){
 };
 window.markResolved=async function(id){
   if(!confirm((window.APP_LANG==='hi')?'Resolved mark karna chahte ho?':'Mark as resolved?'))return;
-  try{const{doc:d,updateDoc:up}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");await up(d(window._db,"posts",id),{status:'resolved',resolvedAt:new Date()});window.toast('✅ Resolved!');}catch(e){window.toast('❌ Failed.');}
+  try{const{doc:d,updateDoc:up}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");await up(d(window._db,"posts",id),{status:'resolved',resolvedAt:new Date()});window.toast('✅ Resolved! 🎉');if(window.launchConfetti)window.launchConfetti();}catch(e){window.toast('❌ Failed.');}
 };
 </script>
 
@@ -847,6 +944,7 @@ function showPage(id){
 window.showPage=showPage;
 
 function openModal(type){
+  if(window.haptic)window.haptic();
   if(!window._currentUser){const m=document.getElementById('login-required-modal');if(m)m.style.display='flex';return;}
   window.currentModal=type;
   const titles={lost:['😟 Report Lost Item','Details about the lost item'],found:['🎉 Report Found Item','Details about found item'],missing:['⚠️ Report Missing','Help locate them'],person:['🧍 Missing Person','Details about the person']};
@@ -890,6 +988,81 @@ window.refreshAdminStats=refreshAdminStats;
 
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
 window.toast=toast;
+
+// ── DARK MODE ──
+window.toggleDarkMode=function(){
+  var isDark=document.body.classList.toggle('dark-mode');
+  localStorage.setItem('fb_dark',isDark?'1':'0');
+  var btn=document.getElementById('dark-toggle-btn');
+  if(btn)btn.textContent=isDark?'☀️':'🌙';
+};
+
+// ── CONFETTI on resolve ──
+window.launchConfetti=function(){
+  var colors=['#E8722A','#059669','#DC2626','#3B82F6','#F59E0B','#8B5CF6','#EC4899'];
+  for(var i=0;i<60;i++){
+    (function(){
+      var el=document.createElement('div');
+      el.className='confetti-piece';
+      el.style.left=Math.random()*100+'vw';
+      el.style.background=colors[Math.floor(Math.random()*colors.length)];
+      el.style.width=(Math.random()*10+5)+'px';
+      el.style.height=(Math.random()*10+5)+'px';
+      el.style.animationDelay=Math.random()*2+'s';
+      el.style.animationDuration=(Math.random()*2+2)+'s';
+      el.style.borderRadius=Math.random()>0.5?'50%':'2px';
+      document.body.appendChild(el);
+      setTimeout(function(){el.remove();},4000);
+    })();
+  }
+};
+
+// ── LIKE SYSTEM ──
+window._likedPosts=JSON.parse(localStorage.getItem('fb_likes')||'{}');
+window.toggleLike=function(postId,btn){
+  if(window._likedPosts[postId]){
+    delete window._likedPosts[postId];
+    if(btn)btn.textContent='🤍';
+    btn.classList.remove('liked');
+  } else {
+    window._likedPosts[postId]=1;
+    if(btn){btn.textContent='❤️';btn.classList.add('liked');}
+    toast('❤️ Saved!');
+  }
+  localStorage.setItem('fb_likes',JSON.stringify(window._likedPosts));
+};
+
+// ── SKELETON LOADER ──
+window.showSkeletonCards=function(){
+  var container=document.getElementById('listings-grid');
+  if(!container)return;
+  var html='';
+  for(var i=0;i<6;i++){
+    html+='<div style="border-radius:16px;overflow:hidden;border:1.5px solid var(--border);">'
+      +'<div class="skeleton" style="height:110px;"></div>'
+      +'<div style="padding:10px;">'
+      +'<div class="skeleton" style="height:16px;width:60%;margin-bottom:8px;"></div>'
+      +'<div class="skeleton" style="height:12px;width:80%;margin-bottom:6px;"></div>'
+      +'<div class="skeleton" style="height:12px;width:40%;"></div>'
+      +'</div></div>';
+  }
+  container.innerHTML=html;
+  document.getElementById('no-posts').style.display='none';
+};
+
+// ── HAPTIC FEEDBACK ──
+window.haptic=function(){
+  if(navigator.vibrate)navigator.vibrate(30);
+};
+
+// ── APPLY DARK MODE ON LOAD ──
+window.addEventListener('load',function(){
+  if(localStorage.getItem('fb_dark')==='1'){
+    document.body.classList.add('dark-mode');
+    var btn=document.getElementById('dark-toggle-btn');
+    if(btn)btn.textContent='☀️';
+  }
+});
 
 document.addEventListener('DOMContentLoaded',function(){
   const rm=document.getElementById('report-modal');if(rm)rm.addEventListener('click',function(e){if(e.target===this)window.closeModal();});
@@ -935,6 +1108,7 @@ window.renderMapPins=renderMapPins;
 
 // ALERTS
 window._areaAlerts=JSON.parse(localStorage.getItem('fb_alerts')||'[]');
+window._likedPosts=JSON.parse(localStorage.getItem('fb_likes')||'{}');
 window.saveAreaAlert=function(){const area=document.getElementById('alert-area').value.trim(),cat=document.getElementById('alert-cat').value;if(!area){toast('⚠️ Enter area name');return;}const al={id:Date.now(),area,cat,created:new Date().toLocaleDateString('en-IN')};window._areaAlerts.push(al);localStorage.setItem('fb_alerts',JSON.stringify(window._areaAlerts));renderAlerts();document.getElementById('alert-area').value='';document.getElementById('alert-cat').value='';toast('🔔 Alert set!');};
 window.deleteAlert=function(id){window._areaAlerts=window._areaAlerts.filter(a=>a.id!==id);localStorage.setItem('fb_alerts',JSON.stringify(window._areaAlerts));renderAlerts();};
 window.renderAlerts=function(){const c=document.getElementById('alerts-list');if(!c)return;if(!window._areaAlerts.length){c.innerHTML='<div style="text-align:center;padding:24px;color:var(--text-muted);font-size:14px;">No alerts</div>';return;}c.innerHTML=window._areaAlerts.map(a=>`<div style="border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;"><div style="flex:1"><div style="font-weight:700;font-size:14px;">📍 ${a.area}</div>${a.cat?`<div style="font-size:12px;color:var(--orange);">${a.cat}</div>`:''}<div style="font-size:11px;color:var(--text-muted);">${a.created}</div></div><button onclick="deleteAlert(${a.id})" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;">🗑️</button></div>`).join('');};
@@ -1044,7 +1218,7 @@ window._renderAll=function(){
     var rewHtml=p.reward?'<div style="margin-top:5px;background:#FEF9C3;color:#92400E;font-size:11px;font-weight:700;padding:2px 8px;border-radius:8px;display:inline-block;">🏆 ₹'+p.reward+'</div>':'';
     // REPORT BUTTON on found posts
     var reportHtml=p.type==='found'?'<div style="padding:4px 8px;text-align:right;border-top:1px solid #f5f5f5;"><button onclick="event.stopPropagation();reportPost('+q+p.id+q+')" style="background:none;border:none;font-size:10px;color:#ccc;cursor:pointer;font-family:\'Inter\',sans-serif;">🚩 Report</button></div>':'';
-    return '<div style="border:1.5px solid var(--border);border-radius:14px;background:var(--white);position:relative;overflow:visible;">'+menuHtml+rb
+    return '<div style="border:1.5px solid var(--border);border-radius:16px;background:var(--white);position:relative;overflow:visible;transition:transform .15s,box-shadow .15s;">'+menuHtml+rb+likeHtml
       +'<div onclick="openDetail('+q+p.id+q+')" style="cursor:pointer;">'
       +'<div style="border-radius:12px 12px 0 0;overflow:hidden;">'+imgHtml+'</div>'
       +'<div style="padding:10px;"><span style="background:'+tc+';color:'+tt+';font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;">'+tl+'</span>'
@@ -1379,6 +1553,43 @@ window.loadRewardPosts=function(){const posts=(window._allPosts||[]).filter(p=>p
 document.addEventListener('DOMContentLoaded',function(){var today=new Date().toISOString().split('T')[0];var d1=document.getElementById('m-date');if(d1)d1.setAttribute('max',today);var d2=document.getElementById('e-date');if(d2)d2.setAttribute('max',today);});
 window.closeLoginRequired=function(){var m=document.getElementById('login-required-modal');if(m)m.style.display='none';};
 
+// ── SWIPE GESTURES on modals ──
+(function(){
+  var startY=0;
+  document.addEventListener('touchstart',function(e){
+    startY=e.touches[0].clientY;
+  },{passive:true});
+  document.addEventListener('touchend',function(e){
+    var endY=e.changedTouches[0].clientY;
+    var diff=endY-startY;
+    // Swipe down > 80px on modal = close
+    if(diff>80){
+      var modal=document.getElementById('report-modal');
+      if(modal&&modal.classList.contains('open'))window.closeModal();
+      var editModal=document.getElementById('edit-modal');
+      if(editModal&&editModal.classList.contains('open'))window.closeEditModal();
+    }
+  },{passive:true});
+})();
+
+// ── PULL TO REFRESH hint ──
+var _pullStartY=0,_pulling=false;
+document.addEventListener('touchstart',function(e){
+  if(window.scrollY===0)_pullStartY=e.touches[0].clientY;
+},{passive:true});
+document.addEventListener('touchend',function(e){
+  if(_pullStartY>0){
+    var diff=e.changedTouches[0].clientY-_pullStartY;
+    if(diff>100&&window.scrollY===0){
+      toast('🔄 Refreshing...');
+      setTimeout(function(){
+        if(window._renderAll)window._renderAll();
+      },500);
+    }
+  }
+  _pullStartY=0;
+},{passive:true});
+
 window.switchAuthTab=function(tab){
   var lf=document.getElementById('auth-login-form');
   var sf=document.getElementById('auth-signup-form');
@@ -1456,7 +1667,7 @@ window.shareFIRWhatsApp=function(){if(!window._lastFIR)return;window.open('https
     <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
       <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;">📋 Item Details</div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🏷️ Item</label><input id="fir-item" type="text" placeholder="Samsung Galaxy, Wallet..." style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
-      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📂 Category</label><select id="fir-cat" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option value="">-- Select --</option><option>Mobile Phone</option><option>Wallet / Purse</option><option>Laptop / Tablet</option><option>Jewellery</option><option>Documents / ID</option><option>Bag / Backpack</option><option>Keys</option><option>Watch</option><option>Cash</option><option>Other</option></select></div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📂 Category</label><<select id="fir-cat" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option value="">-- Select --</option><option>Mobile Phone</option><option>Wallet</option><option>Purse</option><option>Laptop / Tablet</option><option>Jewellery</option><option>Documents / ID</option><option>Bag</option><option>Backpack</option><option>Keys</option><option>Watch</option><option>Glasses</option><option>Pet / Animal</option><option>Bicycle / Cycle</option><option>Bike / Scooter</option><option>Car / Vehicle</option><option>Missing Person</option><option>Cash</option><option>Other</option></select></div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📝 Description</label><textarea id="fir-desc" placeholder="Color, Brand, IMEI..." style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;resize:vertical;min-height:80px;"></textarea></div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">💰 Value (₹)</label><input id="fir-value" type="number" placeholder="15000" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
     </div>
