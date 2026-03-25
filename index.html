@@ -183,6 +183,18 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
       <button class="btn-outline" onclick="openModal('found')">🎉 Report Found</button>
     </div>
   </div>
+  <!-- NGO/POLICE BANNER (shown when logged in) -->
+  <div id="ngo-home-banner" style="display:none;background:linear-gradient(135deg,#1a1a2e,#16213e);padding:12px 20px;color:white;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="font-size:28px;">🏛️</div>
+      <div style="flex:1;">
+        <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:14px;" id="ngo-banner-name">Organization</div>
+        <div style="font-size:11px;opacity:.7;">Official Dashboard Active</div>
+      </div>
+      <button onclick="showPage('ngo')" style="background:#E8722A;color:white;border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;">Open Dashboard →</button>
+    </div>
+    <div id="ngo-banner-stats" style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;"></div>
+  </div>
   <!-- LOCATION FILTER BAR -->
   <div class="loc-filter-bar" id="loc-filter-bar">
     <div class="loc-filter-bar-top">
@@ -270,253 +282,13 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
 <div class="page" id="page-privacy"><div class="page-content"><div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div><div class="page-title">Privacy Policy</div><div class="legal-date">Last updated: January 1, 2025</div><div class="legal-section"><h3>📦 1. What We Collect</h3><p>Name, contact info, post content, device info, and usage patterns.</p></div><div class="divider"></div><div class="legal-section"><h3>🚫 2. We Never Sell Your Data</h3><p>FindBack S1 does not sell, rent, or trade your personal information.</p></div><div class="divider"></div><div class="legal-section"><h3>📬 3. Contact</h3><p>Privacy concerns? Write to <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5c2f292c2c332e281c3a3532383e3d3f37723532">[email&#160;protected]</a></strong></p></div></div></div>
 
 <!-- LOGIN -->
-<div class="page" id="page-login">
-  <div class="page-content" style="display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 120px);">
-    <div style="margin-bottom:16px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div>
-    <div class="auth-card">
-      <div class="auth-logo">
-        <div class="brand">Find<span>Back</span> S1</div>
-        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Welcome back 👋</div>
-      </div>
-
-      <!-- User Type Selection -->
-      <div style="margin-bottom:20px;">
-        <div style="font-size:12px;font-weight:700;color:#555;margin-bottom:10px;text-align:center;">Aap kaun hain?</div>
-        <div style="display:flex;gap:10px;">
-          <button id="l-type-personal" onclick="switchLoginType('personal')" style="flex:1;padding:12px 8px;border:2px solid var(--black);background:var(--black);color:white;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">👤 Personal</button>
-          <button id="l-type-ngo" onclick="switchLoginType('ngo')" style="flex:1;padding:12px 8px;border:2px solid var(--border);background:white;color:#555;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">🏛️ NGO / Police</button>
-        </div>
-      </div>
-
-      <!-- Personal Login Form -->
-      <div id="l-form-personal">
-        <div id="login-success" class="alert-success">✅ Logged in!</div>
-        <div class="form-group"><label>📧 Email</label><div class="input-icon-wrap"><span class="icon">📧</span><input type="email" id="l-email" placeholder="Enter email"></div></div>
-        <div class="form-group"><label>🔒 Password</label><div class="input-icon-wrap"><span class="icon">🔒</span><input type="password" id="l-pass" placeholder="Enter password"></div></div>
-        <button class="btn-primary" style="width:100%" onclick="doLogin()">Log In</button>
-        <div class="auth-switch">No account? <a onclick="showPage('register')">Register</a></div>
-      </div>
-
-      <!-- NGO/Police Login Form -->
-      <div id="l-form-ngo" style="display:none;">
-        <div id="ngo-l-login-err" style="display:none;background:#FEE2E2;color:#DC2626;border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:12px;"></div>
-        <div class="form-group"><label>📧 Email</label><div class="input-icon-wrap"><span class="icon">📧</span><input type="email" id="ngo-l-email2" placeholder="org@example.com"></div></div>
-        <div class="form-group"><label>🔒 Password</label>
-          <div style="position:relative;">
-            <input type="password" id="ngo-l-pass2" placeholder="••••••••" style="width:100%;padding:12px 40px 12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
-            <button onclick="(function(b){var i=document.getElementById('ngo-l-pass2');i.type=i.type==='password'?'text':'password';b.textContent=i.type==='password'?'👁️':'🙈';})(this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#aaa;">👁️</button>
-          </div>
-        </div>
-        <button class="btn-primary" style="width:100%;background:#1a1a2e;" onclick="(function(){
-          var email=document.getElementById('ngo-l-email2').value.trim();
-          var pass=document.getElementById('ngo-l-pass2').value.trim();
-          var err=document.getElementById('ngo-l-login-err');
-          err.style.display='none';
-          if(!email||!pass){err.textContent='⚠️ Email aur password daalo';err.style.display='block';return;}
-          if(!window._auth||!window._fbSignIn){err.textContent='❌ Refresh karo';err.style.display='block';return;}
-          window._fbSignIn(window._auth,email,pass).then(function(c){
-            var org=c.user.displayName||email;
-            sessionStorage.setItem('ngo_org',org);
-            showPage('ngo');
-            setTimeout(function(){
-              document.getElementById('ngo-login-wall').style.display='none';
-              document.getElementById('ngo-dashboard').style.display='block';
-              document.getElementById('ngo-org-name').textContent=org;
-              if(window.ngoLoadDashboard)window.ngoLoadDashboard();
-            },200);
-          }).catch(function(e){
-            err.textContent=e.code==='auth/invalid-credential'?'❌ Galat email ya password':'❌ '+e.message;
-            err.style.display='block';
-          });
-        })()">🏛️ Enter Dashboard</button>
-        <div class="auth-switch">Account nahi hai? <a onclick="showPage('register');setTimeout(function(){switchRegisterType('ngo');},100);" style="color:var(--orange);cursor:pointer;">Sign Up karo</a></div>
-      </div>
-    </div>
-  </div>
-</div>
+<div class="page" id="page-login"><div class="page-content" style="display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 120px);"><div style="margin-bottom:16px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div><div class="auth-card"><div class="auth-logo"><div class="brand">Find<span>Back</span> S1</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Welcome back 👋</div></div><div id="login-success" class="alert-success">✅ Logged in!</div><div class="form-group"><label>📧 Email</label><div class="input-icon-wrap"><span class="icon">📧</span><input type="email" id="l-email" placeholder="Enter email"></div></div><div class="form-group"><label>🔒 Password</label><div class="input-icon-wrap"><span class="icon">🔒</span><input type="password" id="l-pass" placeholder="Enter password"></div></div><button class="btn-primary" style="width:100%" onclick="doLogin()">Log In</button><div class="auth-switch">No account? <a onclick="showPage('register')">Register</a></div></div></div></div>
 
 <!-- REGISTER -->
-<div class="page" id="page-register">
-  <div class="page-content" style="display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 120px);">
-    <div style="margin-bottom:16px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div>
-    <div class="auth-card">
-      <div class="auth-logo">
-        <div class="brand">Find<span>Back</span> S1</div>
-        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Create your free account</div>
-      </div>
-
-      <!-- User Type Selection -->
-      <div style="margin-bottom:20px;">
-        <div style="font-size:12px;font-weight:700;color:#555;margin-bottom:10px;text-align:center;">Aap kaun hain?</div>
-        <div style="display:flex;gap:10px;">
-          <button id="r-type-personal" onclick="switchRegisterType('personal')" style="flex:1;padding:12px 8px;border:2px solid var(--black);background:var(--black);color:white;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">👤 Personal</button>
-          <button id="r-type-ngo" onclick="switchRegisterType('ngo')" style="flex:1;padding:12px 8px;border:2px solid var(--border);background:white;color:#555;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">🏛️ NGO / Police</button>
-        </div>
-      </div>
-
-      <!-- Personal Register Form -->
-      <div id="r-form-personal">
-        <div id="reg-success" class="alert-success">✅ Account created!</div>
-        <div class="form-group"><label>👤 Full Name</label><div class="input-icon-wrap"><span class="icon">👤</span><input type="text" id="r-name" placeholder="Your full name"></div></div>
-        <div class="form-group"><label>📧 Email</label><div class="input-icon-wrap"><span class="icon">📧</span><input type="email" id="r-email" placeholder="your@email.com"></div></div>
-        <div class="form-group"><label>📱 Phone</label><div class="input-icon-wrap"><span class="icon">📱</span><input type="tel" id="r-phone" placeholder="+91 XXXXX XXXXX"></div></div>
-        <div class="form-group"><label>🔒 Password</label><div class="input-icon-wrap"><span class="icon">🔒</span><input type="password" id="r-pass" placeholder="Strong password"></div></div>
-        <div class="form-check"><input type="checkbox" id="r-agree"><label for="r-agree">I agree to <a onclick="showPage('terms')" style="color:var(--orange);cursor:pointer;">Terms</a> &amp; <a onclick="showPage('privacy')" style="color:var(--orange);cursor:pointer;">Privacy</a></label></div>
-        <button class="btn-primary" style="width:100%" onclick="doRegister()">Create Account</button>
-        <div class="auth-switch">Have account? <a onclick="showPage('login')">Log In</a></div>
-      </div>
-
-      <!-- NGO/Police Register Form -->
-      <div id="r-form-ngo" style="display:none;">
-        <div id="ngo-r-err" style="display:none;background:#FEE2E2;color:#DC2626;border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:12px;"></div>
-        <div id="ngo-r-ok" style="display:none;background:#D1FAE5;color:#065F46;border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:12px;"></div>
-        <div style="background:#EFF6FF;border-radius:10px;padding:10px 12px;font-size:12px;color:#1D4ED8;margin-bottom:16px;">🏛️ NGO aur Police ke liye verified account</div>
-        <div class="form-group"><label>🏛️ Organization Name</label><input type="text" id="ngo-r-org" placeholder="e.g. Manipur Police / HelpAge India" style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
-        <div class="form-group"><label>📧 Email</label><input type="email" id="ngo-r-email" placeholder="org@example.com" style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
-        <div class="form-group"><label>🔒 Password</label>
-          <div style="position:relative;">
-            <input type="password" id="ngo-r-pass" placeholder="Min 6 characters" style="width:100%;padding:12px 40px 12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
-            <button onclick="(function(b){var i=document.getElementById('ngo-r-pass');i.type=i.type==='password'?'text':'password';b.textContent=i.type==='password'?'👁️':'🙈';})(this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#aaa;">👁️</button>
-          </div>
-        </div>
-        <button class="btn-primary" style="width:100%;background:#1a1a2e;" onclick="(function(){
-          var org=document.getElementById('ngo-r-org').value.trim();
-          var email=document.getElementById('ngo-r-email').value.trim();
-          var pass=document.getElementById('ngo-r-pass').value.trim();
-          var err=document.getElementById('ngo-r-err');
-          var ok=document.getElementById('ngo-r-ok');
-          err.style.display='none';ok.style.display='none';
-          if(!org){err.textContent='⚠️ Organization name daalo';err.style.display='block';return;}
-          if(!email){err.textContent='⚠️ Email daalo';err.style.display='block';return;}
-          if(pass.length<6){err.textContent='⚠️ Password 6+ characters chahiye';err.style.display='block';return;}
-          if(!window._auth||!window._fbCreateUser){err.textContent='❌ Refresh karo aur dobara try karo';err.style.display='block';return;}
-          window._fbCreateUser(window._auth,email,pass).then(function(c){
-            return window._fbUpdateProfile(c.user,{displayName:org});
-          }).then(function(){
-            ok.textContent='✅ Account ban gaya! Ab login karo.';ok.style.display='block';
-            document.getElementById('ngo-r-org').value='';
-            document.getElementById('ngo-r-email').value='';
-            document.getElementById('ngo-r-pass').value='';
-            setTimeout(function(){showPage('login');switchLoginType('ngo');ok.style.display='none';},1800);
-          }).catch(function(e){
-            var msg=e.code==='auth/email-already-in-use'?'❌ Email already registered hai':
-                    e.code==='auth/invalid-email'?'❌ Valid email daalo':
-                    e.code==='auth/weak-password'?'❌ Password 6+ characters chahiye':
-                    '❌ '+e.message;
-            err.textContent=msg;err.style.display='block';
-          });
-        })()">🏛️ Create NGO Account</button>
-        <div class="auth-switch">Already account hai? <a onclick="showPage('login');setTimeout(function(){switchLoginType('ngo');},100);" style="color:var(--orange);cursor:pointer;">Login karo</a></div>
-      </div>
-    </div>
-  </div>
-</div>
+<div class="page" id="page-register"><div class="page-content" style="display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 120px);"><div style="margin-bottom:16px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div><div class="auth-card"><div class="auth-logo"><div class="brand">Find<span>Back</span> S1</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Create your free account</div></div><div id="reg-success" class="alert-success">✅ Account created!</div><div class="form-group"><label>👤 Full Name</label><div class="input-icon-wrap"><span class="icon">👤</span><input type="text" id="r-name" placeholder="Your full name"></div></div><div class="form-group"><label>📧 Email</label><div class="input-icon-wrap"><span class="icon">📧</span><input type="email" id="r-email" placeholder="your@email.com"></div></div><div class="form-group"><label>📱 Phone</label><div class="input-icon-wrap"><span class="icon">📱</span><input type="tel" id="r-phone" placeholder="+91 XXXXX XXXXX"></div></div><div class="form-group"><label>🔒 Password</label><div class="input-icon-wrap"><span class="icon">🔒</span><input type="password" id="r-pass" placeholder="Strong password"></div></div><div class="form-check"><input type="checkbox" id="r-agree"><label for="r-agree">I agree to <a onclick="showPage('terms')" style="color:var(--orange);cursor:pointer;">Terms</a> &amp; <a onclick="showPage('privacy')" style="color:var(--orange);cursor:pointer;">Privacy</a></label></div><button class="btn-primary" style="width:100%" onclick="doRegister()">Create Account</button><div class="auth-switch">Have account? <a onclick="showPage('login')">Log In</a></div></div></div></div>
 
 <!-- ADMIN -->
-<div class="page" id="page-admin">
-  <div class="page-content">
-    <div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div>
-    <div class="page-title">Admin Panel 🛡️</div>
-
-    <!-- Login Wall -->
-    <div id="admin-login-wall">
-      <div class="auth-card" style="max-width:100%;">
-        <div style="text-align:center;margin-bottom:16px;"><div style="font-size:36px;">🔐</div><div style="font-family:'Sora',sans-serif;font-weight:700;margin-top:8px;">Admin Access Only</div></div>
-        <div class="form-group"><label>Username</label><input type="text" id="a-user" placeholder="admin"></div>
-        <div class="form-group"><label>Password</label><input type="password" id="a-pass" placeholder="••••••••"></div>
-        <button class="btn-primary" style="width:100%" onclick="adminLogin()">Enter Admin</button>
-      </div>
-    </div>
-
-    <!-- Dashboard -->
-    <div id="admin-dashboard" style="display:none;">
-
-      <!-- Stats Grid -->
-      <div class="admin-grid" style="grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px;">
-        <div class="admin-stat"><div class="val" id="admin-total">0</div><div class="key">📋 Total Posts</div></div>
-        <div class="admin-stat"><div class="val" id="admin-lost">0</div><div class="key">😟 Lost</div></div>
-        <div class="admin-stat"><div class="val" id="admin-found">0</div><div class="key">🎉 Found</div></div>
-        <div class="admin-stat"><div class="val" id="admin-missing">0</div><div class="key">⚠️ Missing</div></div>
-        <div class="admin-stat"><div class="val" id="admin-resolved">0</div><div class="key">✅ Resolved</div></div>
-        <div class="admin-stat"><div class="val" id="admin-reported">0</div><div class="key">🚩 Reported</div></div>
-      </div>
-
-      <!-- Tab Navigation -->
-      <div style="display:flex;gap:6px;overflow-x:auto;margin-bottom:16px;padding-bottom:4px;">
-        <button class="status-tab active" id="atab-posts" onclick="adminSwitchTab('posts')">📋 Posts</button>
-        <button class="status-tab" id="atab-reported" onclick="adminSwitchTab('reported')">🚩 Reported</button>
-        <button class="status-tab" id="atab-users" onclick="adminSwitchTab('users')">👥 Users</button>
-        <button class="status-tab" id="atab-ngo" onclick="adminSwitchTab('ngo')">🏛️ NGO</button>
-      </div>
-
-      <!-- Search + Filter Bar -->
-      <div style="margin-bottom:12px;display:flex;gap:8px;flex-wrap:wrap;">
-        <input id="admin-search" type="text" placeholder="🔍 Search posts..." oninput="adminRenderPosts()" style="flex:1;min-width:150px;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-family:'Inter',sans-serif;outline:none;">
-        <select id="admin-filter-type" onchange="adminRenderPosts()" style="padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:12px;font-family:'Inter',sans-serif;outline:none;">
-          <option value="">All Types</option>
-          <option value="lost">😟 Lost</option>
-          <option value="found">🎉 Found</option>
-          <option value="missing">⚠️ Missing</option>
-        </select>
-        <select id="admin-filter-status" onchange="adminRenderPosts()" style="padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:12px;font-family:'Inter',sans-serif;outline:none;">
-          <option value="">All Status</option>
-          <option value="active">🔴 Active</option>
-          <option value="resolved">✅ Resolved</option>
-        </select>
-      </div>
-
-      <!-- Export Button -->
-      <div style="margin-bottom:14px;">
-        <button onclick="adminExportCSV()" style="padding:9px 16px;background:#059669;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">📥 Export CSV</button>
-        <button onclick="refreshAdminStats()" style="margin-left:8px;padding:9px 16px;background:var(--gray);color:#333;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">🔄 Refresh</button>
-        <button onclick="adminLogout()" style="margin-left:8px;padding:9px 16px;background:#FEE2E2;color:#DC2626;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">🚪 Logout</button>
-      </div>
-
-      <!-- Posts Tab -->
-      <div id="admin-tab-posts">
-        <div style="background:white;border:1.5px solid var(--border);border-radius:14px;overflow:hidden;">
-          <table class="admin-table" style="font-size:12px;">
-            <thead><tr><th>Item</th><th>Type</th><th>Location</th><th>User</th><th>Actions</th></tr></thead>
-            <tbody id="admin-posts-tbody"><tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:20px;">No posts yet</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Reported Tab -->
-      <div id="admin-tab-reported" style="display:none;">
-        <div id="admin-reported-list">
-          <div style="text-align:center;padding:30px;color:var(--text-muted);font-size:14px;">🎉 Koi reported posts nahi</div>
-        </div>
-      </div>
-
-      <!-- Users Tab -->
-      <div id="admin-tab-users" style="display:none;">
-        <div style="background:#EFF6FF;border-radius:10px;padding:12px;font-size:12px;color:#1D4ED8;margin-bottom:12px;">ℹ️ Firebase Authentication se registered users</div>
-        <div id="admin-users-list">
-          <div style="text-align:center;padding:20px;color:var(--text-muted);">
-            <div style="font-size:13px;margin-bottom:8px;">Firebase Console pe jaao users dekhne ke liye:</div>
-            <a href="https://console.firebase.google.com/project/findback-app-34e4f/authentication/users" target="_blank" style="background:var(--orange);color:white;padding:10px 16px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;">🔗 Firebase Users Open Karo</a>
-          </div>
-          <div style="margin-top:16px;" id="admin-posts-by-user"></div>
-        </div>
-      </div>
-
-      <!-- NGO Tab -->
-      <div id="admin-tab-ngo" style="display:none;">
-        <div style="background:#FFF8F0;border:1.5px solid #FFD4A8;border-radius:12px;padding:14px;margin-bottom:12px;">
-          <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:6px;">🏛️ NGO / Police Accounts</div>
-          <div style="font-size:12px;color:var(--text-muted);">Firebase Auth mein NGO accounts dekhne ke liye:</div>
-          <a href="https://console.firebase.google.com/project/findback-app-34e4f/authentication/users" target="_blank" style="display:inline-block;margin-top:8px;background:#1a1a2e;color:white;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;">🔗 NGO Users Dekho</a>
-        </div>
-        <div id="admin-ngo-posts">
-          <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:10px;">📊 NGO Activity Stats</div>
-          <div id="admin-ngo-stats-list"></div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
+<div class="page" id="page-admin"><div class="page-content"><div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div><div class="page-title">Admin Panel 🛡️</div><div id="admin-login-wall"><div class="auth-card" style="max-width:100%;"><div style="text-align:center;margin-bottom:16px;"><div style="font-size:36px;">🔐</div><div style="font-family:'Sora',sans-serif;font-weight:700;margin-top:8px;">Admin Access Only</div></div><div class="form-group"><label>Username</label><input type="text" id="a-user" placeholder="admin"></div><div class="form-group"><label>Password</label><input type="password" id="a-pass" placeholder="••••••••"></div><button class="btn-primary" style="width:100%" onclick="adminLogin()">Enter Admin</button></div></div><div id="admin-dashboard" style="display:none;"><div class="admin-grid"><div class="admin-stat"><div class="val" id="admin-total">0</div><div class="key">📋 Total</div></div><div class="admin-stat"><div class="val" id="admin-lost">0</div><div class="key">😟 Lost</div></div><div class="admin-stat"><div class="val" id="admin-found">0</div><div class="key">🎉 Found</div></div><div class="admin-stat"><div class="val" id="admin-missing">0</div><div class="key">⚠️ Missing</div></div></div><div class="admin-actions"><button class="btn-sm btn-success" onclick="refreshAdminStats()">🔄 Refresh</button></div><table class="admin-table"><thead><tr><th>Title</th><th>Type</th><th>Action</th></tr></thead><tbody id="admin-posts-tbody"><tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:20px;">No posts yet</td></tr></tbody></table><div style="margin-top:20px;"><button class="btn-sm btn-danger" onclick="adminLogout()">🚪 Logout</button></div></div></div></div>
 
 <!-- REPORT MODAL -->
 <div class="modal-overlay" id="report-modal">
@@ -614,10 +386,6 @@ const db=getFirestore(app);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){disableNetwork(db).catch(()=>{});}else{enableNetwork(db).catch(()=>{});}});
 const auth=getAuth(app);
 window._db=db;window._auth=auth;window._allPosts=[];
-window._fbCreateUser=createUserWithEmailAndPassword;
-window._fbSignIn=signInWithEmailAndPassword;
-window._fbUpdateProfile=updateProfile;
-window._fbSignOut=signOut;
 const q=query(collection(db,"posts"),orderBy("createdAt","desc"));
 let _unsub=null;
 function startListener(){
@@ -632,15 +400,6 @@ function startListener(){
   }catch(e){console.warn('FB listener err:',e);setTimeout(()=>{try{startListener();}catch(e2){}},3000);}
 }
 startListener();
-// Reports listener
-try {
-  const rq=query(collection(db,"reports"),orderBy("reportedAt","desc"));
-  onSnapshot(rq,function(snap){
-    window._allReports=snap.docs.map(function(d){return Object.assign({id:d.id},d.data());});
-    var el=document.getElementById('admin-reported');if(el)el.textContent=window._allReports.length;
-    if(window.adminRenderReported)window.adminRenderReported();
-  },function(err){console.warn('Reports err:',err);});
-}catch(e){console.warn('Reports setup err:',e);}
 onAuthStateChanged(auth,(user)=>{
   window._currentUser=user||null;
   const lb=document.getElementById('nav-login-btn'),pb=document.getElementById('nav-profile-btn');
@@ -759,168 +518,14 @@ window.openEditModal=function(id){
 };
 window.closeEditModal=function(){document.getElementById('edit-modal').classList.remove('open');};
 window.refreshAdminStats=function(){
-  var all=window._allPosts||[];
-  var reports=window._allReports||[];
-  var el;
-  el=document.getElementById('admin-total');if(el)el.textContent=all.length;
-  el=document.getElementById('admin-lost');if(el)el.textContent=all.filter(function(p){return p.type==='lost';}).length;
-  el=document.getElementById('admin-found');if(el)el.textContent=all.filter(function(p){return p.type==='found';}).length;
-  el=document.getElementById('admin-missing');if(el)el.textContent=all.filter(function(p){return p.type==='missing';}).length;
-  el=document.getElementById('admin-resolved');if(el)el.textContent=all.filter(function(p){return p.status==='resolved';}).length;
-  el=document.getElementById('admin-reported');if(el)el.textContent=reports.length;
-  adminRenderPosts();
-  adminRenderReported();
-  adminRenderUserStats();
-  adminRenderNGOStats();
-};
-
-window.adminSwitchTab=function(tab){
-  ['posts','reported','users','ngo'].forEach(function(t){
-    var tabEl=document.getElementById('admin-tab-'+t);
-    var btnEl=document.getElementById('atab-'+t);
-    if(tabEl)tabEl.style.display=t===tab?'block':'none';
-    if(btnEl){btnEl.style.background=t===tab?'var(--black)':'var(--white)';btnEl.style.color=t===tab?'white':'#555';btnEl.style.borderColor=t===tab?'var(--black)':'var(--border)';}
-  });
-};
-
-window.adminRenderPosts=function(){
-  var all=window._allPosts||[];
-  var search=(document.getElementById('admin-search')||{}).value||'';
-  var typeF=(document.getElementById('admin-filter-type')||{}).value||'';
-  var statusF=(document.getElementById('admin-filter-status')||{}).value||'';
-  search=search.toLowerCase();
-  var filtered=all.filter(function(p){
-    if(typeF&&p.type!==typeF)return false;
-    if(statusF&&(p.status||'active')!==statusF)return false;
-    if(search&&!(p.item||'').toLowerCase().includes(search)&&!(p.loc||'').toLowerCase().includes(search)&&!(p.authorName||'').toLowerCase().includes(search))return false;
-    return true;
-  });
-  var tbody=document.getElementById('admin-posts-tbody');
-  if(!tbody)return;
-  if(!filtered.length){tbody.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:20px;">Koi posts nahi mili</td></tr>';return;}
-  tbody.innerHTML=filtered.slice(0,50).map(function(p){
-    var tc=p.type==='lost'?'tag-lost':p.type==='found'?'tag-found':'tag-pending';
-    var tl=p.type==='lost'?'Lost':p.type==='found'?'Found':'Missing';
-    var isResolved=p.status==='resolved';
-    return '<tr style="border-bottom:1px solid #f5f5f5;">'+
-      '<td style="padding:8px 10px;font-weight:600;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+
-        '<span style="cursor:pointer;color:var(--orange);" onclick="openDetail(\''+p.id+'\')">'+( p.item||'-')+'</span></td>'+
-      '<td style="padding:8px 10px;"><span class="tag '+tc+'">'+tl+'</span>'+(isResolved?'<span class="tag" style="background:#EDE9FE;color:#7C3AED;margin-left:3px;">✅</span>':'')+'</td>'+
-      '<td style="padding:8px 10px;font-size:11px;color:var(--text-muted);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(p.loc||'-')+'</td>'+
-      '<td style="padding:8px 10px;font-size:11px;color:var(--text-muted);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(p.authorName||'Anon')+'</td>'+
-      '<td style="padding:8px 6px;display:flex;gap:4px;flex-wrap:wrap;">'+
-        (!isResolved?'<button onclick="adminResolve(\''+p.id+'\')" style="background:#D1FAE5;color:#059669;border:none;border-radius:6px;padding:4px 7px;font-size:10px;font-weight:700;cursor:pointer;">✅</button>':'')+
-        '<button onclick="adminDeletePost(\''+p.id+'\')" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:6px;padding:4px 7px;font-size:10px;font-weight:700;cursor:pointer;">🗑️</button>'+
-      '</td>'+
-    '</tr>';
-  }).join('');
-};
-
-window.adminResolve=function(id){
-  if(!confirm('Resolved mark karna chahte ho?'))return;
-  import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js").then(function(m){
-    return m.updateDoc(m.doc(window._db,"posts",id),{status:'resolved',resolvedAt:new Date()});
-  }).then(function(){toast('✅ Resolved!');refreshAdminStats();}).catch(function(){toast('❌ Failed.');});
-};
-
-window.adminDeletePost=function(id){
-  if(!confirm('Post delete karna chahte ho? Ye wapas nahi aayega!'))return;
-  import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js").then(function(m){
-    return m.deleteDoc(m.doc(window._db,"posts",id));
-  }).then(function(){toast('🗑️ Post deleted!');refreshAdminStats();}).catch(function(){toast('❌ Delete failed.');});
-};
-
-window.adminRenderReported=function(){
-  var reports=window._allReports||[];
-  var el=document.getElementById('admin-reported-list');
-  if(!el)return;
-  if(!reports.length){el.innerHTML='<div style="text-align:center;padding:30px;color:var(--text-muted);font-size:14px;">🎉 Koi reported posts nahi</div>';return;}
-  el.innerHTML=reports.map(function(r){
-    var p=(window._allPosts||[]).find(function(x){return x.id===r.postId;});
-    return '<div style="background:white;border:1.5px solid #FECACA;border-radius:12px;padding:14px;margin-bottom:10px;">'+
-      '<div style="display:flex;justify-content:space-between;align-items:flex-start;">'+
-        '<div>'+
-          '<div style="font-size:13px;font-weight:700;color:#DC2626;">🚩 '+r.reason+'</div>'+
-          '<div style="font-size:12px;color:#555;margin-top:4px;">Post: <strong>'+(r.postItem||'-')+'</strong> ('+r.postType+')</div>'+
-          '<div style="font-size:11px;color:var(--text-muted);margin-top:2px;">📍 '+(r.postLoc||'-')+'</div>'+
-        '</div>'+
-        '<div style="display:flex;gap:6px;flex-direction:column;">'+
-          (p?'<button onclick="adminDeletePost(\''+r.postId+'\')" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:6px;padding:5px 9px;font-size:11px;font-weight:700;cursor:pointer;">🗑️ Delete Post</button>':'<span style="font-size:11px;color:var(--text-muted);">Post deleted</span>')+
-          '<button onclick="adminDismissReport(\''+r.id+'\')" style="background:#F5F5F5;color:#555;border:none;border-radius:6px;padding:5px 9px;font-size:11px;font-weight:700;cursor:pointer;">✕ Dismiss</button>'+
-        '</div>'+
-      '</div>'+
-    '</div>';
-  }).join('');
-};
-
-window.adminDismissReport=function(id){
-  import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js").then(function(m){
-    return m.deleteDoc(m.doc(window._db,"reports",id));
-  }).then(function(){toast('✅ Report dismissed!');}).catch(function(){toast('❌ Failed.');});
-};
-
-window.adminRenderUserStats=function(){
-  var all=window._allPosts||[];
-  var userMap={};
-  all.forEach(function(p){
-    var name=p.authorName||'Anonymous';
-    var uid=p.uid||'anon';
-    var key=uid;
-    if(!userMap[key])userMap[key]={name:name,uid:uid,posts:0,lost:0,found:0,missing:0,resolved:0};
-    userMap[key].posts++;
-    if(p.type==='lost')userMap[key].lost++;
-    else if(p.type==='found')userMap[key].found++;
-    else if(p.type==='missing')userMap[key].missing++;
-    if(p.status==='resolved')userMap[key].resolved++;
-  });
-  var users=Object.values(userMap).sort(function(a,b){return b.posts-a.posts;});
-  var el=document.getElementById('admin-posts-by-user');
-  if(!el)return;
-  if(!users.length){el.innerHTML='<div style="text-align:center;padding:20px;color:var(--text-muted);">Koi users nahi</div>';return;}
-  el.innerHTML='<div style="font-family:\'Sora\',sans-serif;font-size:14px;font-weight:700;margin-bottom:10px;">📊 Posts by User</div>'+
-    '<div style="background:white;border:1.5px solid var(--border);border-radius:12px;overflow:hidden;">'+
-    '<table style="width:100%;border-collapse:collapse;font-size:12px;">'+
-    '<thead><tr style="background:#f8f8f8;"><th style="padding:8px 10px;text-align:left;">User</th><th style="padding:8px 10px;">Posts</th><th style="padding:8px 10px;">Lost</th><th style="padding:8px 10px;">Found</th><th style="padding:8px 10px;">✅</th></tr></thead>'+
-    '<tbody>'+
-    users.slice(0,20).map(function(u){
-      return '<tr style="border-bottom:1px solid #f5f5f5;">'+
-        '<td style="padding:8px 10px;font-weight:600;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+u.name+'</td>'+
-        '<td style="padding:8px 10px;text-align:center;font-weight:700;color:var(--orange);">'+u.posts+'</td>'+
-        '<td style="padding:8px 10px;text-align:center;color:#DC2626;">'+u.lost+'</td>'+
-        '<td style="padding:8px 10px;text-align:center;color:#059669;">'+u.found+'</td>'+
-        '<td style="padding:8px 10px;text-align:center;color:#7C3AED;">'+u.resolved+'</td>'+
-      '</tr>';
-    }).join('')+
-    '</tbody></table></div>';
-};
-
-window.adminRenderNGOStats=function(){
-  var all=window._allPosts||[];
-  var ngoUploads=all.filter(function(p){return p.uid==='ngo_bulk'||((p.authorName||'').toLowerCase().includes('police')||(p.authorName||'').toLowerCase().includes('ngo'));});
-  var el=document.getElementById('admin-ngo-stats-list');
-  if(!el)return;
-  if(!ngoUploads.length){el.innerHTML='<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">Koi NGO activity nahi abhi</div>';return;}
-  el.innerHTML='<div style="background:white;border:1.5px solid var(--border);border-radius:12px;padding:14px;">'+
-    '<div style="font-size:13px;color:#555;">Total NGO Posts: <strong style="color:var(--orange);">'+ngoUploads.length+'</strong></div>'+
-    '<div style="margin-top:8px;">'+ngoUploads.slice(0,10).map(function(p){
-      return '<div style="font-size:12px;padding:6px 0;border-bottom:1px solid #f5f5f5;display:flex;justify-content:space-between;">'+
-        '<span>'+p.item+'</span><span style="color:var(--text-muted);">'+p.authorName+'</span></div>';
-    }).join('')+'</div></div>';
-};
-
-window.adminExportCSV=function(){
-  var all=window._allPosts||[];
-  if(!all.length){toast('❌ Koi posts nahi');return;}
-  var csv='Type,Item,Category,Location,Date,Description,Contact,Status,Posted By\n';
-  all.forEach(function(p){
-    csv+=[p.type||'',p.item||'',p.category||'',p.loc||'',p.date||'',(p.desc||'').replace(/,/g,' ').replace(/\n/g,' '),p.contact||'',p.status||'active',p.authorName||''].map(function(v){return '"'+v+'"';}).join(',')+'\n';
-  });
-  var blob=new Blob([csv],{type:'text/csv'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');
-  a.href=url;a.download='FindBack_Admin_Export_'+new Date().toLocaleDateString('en-IN').replace(/\//g,'-')+'.csv';
-  a.click();URL.revokeObjectURL(url);
-  toast('📥 CSV download ho raha hai!');
+  const all=window._allPosts||[];
+  const e1=document.getElementById('admin-total');if(e1)e1.textContent=all.length;
+  const e2=document.getElementById('admin-lost');if(e2)e2.textContent=all.filter(p=>p.type==='lost').length;
+  const e3=document.getElementById('admin-found');if(e3)e3.textContent=all.filter(p=>p.type==='found').length;
+  const e4=document.getElementById('admin-missing');if(e4)e4.textContent=all.filter(p=>p.type==='missing').length;
+  const tbody=document.getElementById('admin-posts-tbody');
+  if(tbody){if(!all.length){tbody.innerHTML='<tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:20px;">No posts yet</td></tr>';}
+  else{tbody.innerHTML=all.slice(0,20).map(p=>{const tc=p.type==='lost'?'tag-lost':p.type==='found'?'tag-found':'tag-pending',tl=p.type==='lost'?'Lost':p.type==='found'?'Found':'Missing';return `<tr><td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.item||'-'}</td><td><span class="tag ${tc}">${tl}</span></td><td><button onclick="deletePost('${p.id}')" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;">🗑️</button></td></tr>`;}).join('');}}
 };
 // Report post to Firestore
 window.reportPost=function(postId){
@@ -1186,21 +791,13 @@ async function adminLogin(){
   const salt='4cb297b1319af2d28745ce4d7108027d',correct='bbff95cc22bae3730d63e9e8fae17df1d67ead55cfacfcbce21e71d8557c9dd4';
   const mb=new TextEncoder().encode(salt+p),hb=await crypto.subtle.digest('SHA-256',mb);
   const hx=Array.from(new Uint8Array(hb)).map(b=>b.toString(16).padStart(2,'0')).join('');
-  if(u==='findback_admin'&&hx===correct){
-    document.getElementById('admin-login-wall').style.display='none';
-    document.getElementById('admin-dashboard').style.display='block';
-    if(window.adminSwitchTab)window.adminSwitchTab('posts');
-    if(window.refreshAdminStats)window.refreshAdminStats();
-  } else toast('❌ Invalid credentials');
+  if(u==='findback_admin'&&hx===correct){document.getElementById('admin-login-wall').style.display='none';document.getElementById('admin-dashboard').style.display='block';refreshAdminStats();}
+  else toast('❌ Invalid credentials');
 }
 window.adminLogin=adminLogin;
-window.adminLogout=function(){
-  document.getElementById('admin-login-wall').style.display='block';
-  document.getElementById('admin-dashboard').style.display='none';
-  document.getElementById('a-user').value='';
-  document.getElementById('a-pass').value='';
-};
-// duplicate small refreshAdminStats removed — full version defined above
+window.adminLogout=function(){document.getElementById('admin-login-wall').style.display='block';document.getElementById('admin-dashboard').style.display='none';document.getElementById('a-user').value='';document.getElementById('a-pass').value='';};
+function refreshAdminStats(){if(window._allPosts){const all=window._allPosts;['admin-total','admin-lost','admin-found','admin-missing'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=i===0?all.length:all.filter(p=>p.type===['lost','found','missing'][i-1]).length;});}}
+window.refreshAdminStats=refreshAdminStats;
 
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
 window.toast=toast;
@@ -1214,13 +811,62 @@ document.addEventListener('DOMContentLoaded',function(){
 // AI MATCH
 window.runAIMatch=async function(postId){
   const post=(window._allPosts||[]).find(p=>p.id===postId);if(!post)return;
-  const btn=document.getElementById('ai-match-btn-'+postId.replace(/[^a-z0-9]/gi,'_'));
+  const aid=postId.replace(/[^a-z0-9]/gi,'_');
+  const btn=document.getElementById('ai-match-btn-'+aid);
   if(btn){btn.textContent='🤖 Matching...';btn.disabled=true;}
-  const opp=post.type==='lost'?'found':'lost',cands=(window._allPosts||[]).filter(p=>p.type===opp).slice(0,10);
-  if(!cands.length){toast('😔 Koi match nahi mila');if(btn){btn.textContent='🤖 AI Match Dhundo';btn.disabled=false;}return;}
-  const prompt=`Lost/found matching for India.\nPOST: Type:${post.type} Item:${post.item} Cat:${post.category||'?'} Loc:${post.loc} Date:${post.date||'?'} Desc:${post.desc||'none'}\nCANDIDATES:\n${cands.map((c,i)=>`${i+1}. ID:${c.id}|Item:${c.item}|Cat:${c.category||'?'}|Loc:${c.loc}|Date:${c.date||'?'}|Desc:${c.desc||'none'}`).join('\n')}\nTop 3 matches. JSON only:\n{"matches":[{"id":"id","score":95,"reason":"reason"},{"id":"id","score":80,"reason":"..."},{"id":"id","score":60,"reason":"..."}]}`;
-  try{const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,messages:[{role:'user',content:prompt}]})});const data=await res.json();const text=data.content?.[0]?.text||'{}';const parsed=JSON.parse(text.replace(/```json|```/g,'').trim());showAIMatchResults(post,parsed.matches||[],cands);}
-  catch(e){toast('❌ AI Match error.');}
+  const opp=post.type==='lost'?'found':'lost';
+  const cands=(window._allPosts||[]).filter(p=>p.type===opp).slice(0,10);
+  if(!cands.length){
+    showAIMatchResults(post,[],cands);
+    if(btn){btn.textContent='🤖 AI Match Dhundo';btn.disabled=false;}
+    return;
+  }
+  // Smart local matching first (no API needed)
+  function localMatch(p1,p2){
+    let score=0;
+    const i1=(p1.item||'').toLowerCase(),i2=(p2.item||'').toLowerCase();
+    const c1=(p1.category||'').toLowerCase(),c2=(p2.category||'').toLowerCase();
+    const l1=(p1.loc||'').toLowerCase(),l2=(p2.loc||'').toLowerCase();
+    // Category match = 40pts
+    if(c1&&c2&&c1===c2)score+=40;
+    else if(c1&&c2&&(c1.includes(c2)||c2.includes(c1)))score+=25;
+    // Item name similarity = 35pts
+    const words1=i1.split(' '),words2=i2.split(' ');
+    const common=words1.filter(w=>w.length>2&&words2.some(w2=>w2.includes(w)||w.includes(w2)));
+    if(common.length>0)score+=Math.min(35,common.length*15);
+    // Location match = 25pts
+    const l1parts=l1.split(',')[0].trim(),l2parts=l2.split(',')[0].trim();
+    if(l1parts&&l2parts&&(l1parts.includes(l2parts)||l2parts.includes(l1parts)))score+=25;
+    else if(l1&&l2&&(l1.includes(l2.split(',')[0])||l2.includes(l1.split(',')[0])))score+=10;
+    return Math.min(99,score);
+  }
+  const localResults=cands.map(c=>({
+    ...c,
+    _score:localMatch(post,c),
+    _reason:localMatch(post,c)>=40?'Category aur location match!':localMatch(post,c)>=25?'Item ya location similar hai':'Partial match'
+  })).filter(c=>c._score>10).sort((a,b)=>b._score-a._score).slice(0,3);
+  // Try API for better results
+  try{
+    const prompt='Match lost/found items. POST: type='+post.type+' item='+post.item+' cat='+(post.category||'?')+' loc='+post.loc+'\nCANDIDATES:\n'+cands.map((c,i)=>i+1+'. ID:'+c.id+'|item:'+c.item+'|cat:'+(c.category||'?')+'|loc:'+c.loc).join('\n')+'\nRespond ONLY valid JSON: {"matches":[{"id":"...","score":95,"reason":"..."}]}';
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,messages:[{role:'user',content:prompt}]})
+    });
+    if(res.ok){
+      const data=await res.json();
+      const text=(data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
+      const parsed=JSON.parse(text);
+      if(parsed.matches&&parsed.matches.length){
+        showAIMatchResults(post,parsed.matches,cands);
+        if(btn){btn.textContent='🤖 AI Match Dhundo';btn.disabled=false;}
+        return;
+      }
+    }
+  }catch(e){console.warn('AI API failed, using local match');}
+  // Fallback to local match
+  const fallbackMatches=localResults.map(r=>({id:r.id,score:r._score,reason:r._reason}));
+  showAIMatchResults(post,fallbackMatches.length?fallbackMatches:[],cands);
   if(btn){btn.textContent='🤖 AI Match Dhundo';btn.disabled=false;}
 };
 function showAIMatchResults(post,matches,cands){
@@ -1249,10 +895,48 @@ window.renderMapPins=renderMapPins;
 
 // ALERTS
 window._areaAlerts=JSON.parse(localStorage.getItem('fb_alerts')||'[]');
-window.saveAreaAlert=function(){const area=document.getElementById('alert-area').value.trim(),cat=document.getElementById('alert-cat').value;if(!area){toast('⚠️ Area name daalo');return;}const al={id:Date.now(),area,cat,created:new Date().toLocaleDateString('en-IN')};window._areaAlerts.push(al);localStorage.setItem('fb_alerts',JSON.stringify(window._areaAlerts));renderAlerts();document.getElementById('alert-area').value='';document.getElementById('alert-cat').value='';toast('🔔 Alert set!');};
+window.saveAreaAlert=function(){
+  var area=document.getElementById('alert-area').value.trim();
+  var cat=document.getElementById('alert-cat').value;
+  if(!area){toast('⚠️ Area name daalo');return;}
+  var al={id:Date.now(),area:area,cat:cat,created:new Date().toLocaleDateString('en-IN')};
+  window._areaAlerts.push(al);
+  localStorage.setItem('fb_alerts',JSON.stringify(window._areaAlerts));
+  renderAlerts();
+  document.getElementById('alert-area').value='';
+  document.getElementById('alert-cat').value='';
+  // Request browser notification permission
+  if('Notification' in window&&Notification.permission==='default'){
+    Notification.requestPermission().then(function(p){
+      if(p==='granted')toast('🔔 Alert set! Browser notifications ON ✅');
+      else toast('🔔 Alert set!');
+    });
+  } else {
+    toast('🔔 Alert set for '+area+'!');
+  }
+};
 window.deleteAlert=function(id){window._areaAlerts=window._areaAlerts.filter(a=>a.id!==id);localStorage.setItem('fb_alerts',JSON.stringify(window._areaAlerts));renderAlerts();};
 window.renderAlerts=function(){const c=document.getElementById('alerts-list');if(!c)return;if(!window._areaAlerts.length){c.innerHTML='<div style="text-align:center;padding:24px;color:var(--text-muted);font-size:14px;">Koi alert nahi</div>';return;}c.innerHTML=window._areaAlerts.map(a=>`<div style="border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;"><div style="flex:1"><div style="font-weight:700;font-size:14px;">📍 ${a.area}</div>${a.cat?`<div style="font-size:12px;color:var(--orange);">${a.cat}</div>`:''}<div style="font-size:11px;color:var(--text-muted);">${a.created}</div></div><button onclick="deleteAlert(${a.id})" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;">🗑️</button></div>`).join('');};
-function checkAreaAlerts(p){(window._areaAlerts||[]).forEach(al=>{const lm=p.loc&&p.loc.toLowerCase().includes(al.area.toLowerCase()),cm=!al.cat||(p.category&&p.category.includes(al.cat));if(lm&&cm)toast(`🔔 "${p.item}" posted in ${al.area}!`);});}
+function checkAreaAlerts(p){
+  (window._areaAlerts||[]).forEach(function(al){
+    var pLoc=(p.loc||'').toLowerCase();
+    var aLoc=al.area.toLowerCase();
+    // Match if area name appears anywhere in location
+    var locMatch=pLoc.includes(aLoc)||aLoc.includes(pLoc.split(',')[0].trim());
+    var catMatch=!al.cat||(p.category&&p.category.toLowerCase().includes(al.cat.toLowerCase()));
+    if(locMatch&&catMatch){
+      // Show persistent notification
+      toast('🔔 Alert! "'+p.item+'" '+p.type+' posted near '+al.area+'!');
+      // Also try browser notification
+      if('Notification' in window&&Notification.permission==='granted'){
+        new Notification('FindBack Alert 🔔',{
+          body:'"'+p.item+'" '+p.type+' posted near '+al.area,
+          icon:'https://lukyjamatia-tech.github.io/favicon.ico'
+        });
+      }
+    }
+  });
+}
 window.checkAreaAlerts=checkAreaAlerts;
 
 // ANONYMOUS
@@ -1456,7 +1140,27 @@ window.shareFIRWhatsApp=function(){if(!window._lastFIR)return;window.open('https
     <div style="background:linear-gradient(135deg,#E8722A,#f59342);border-radius:16px;padding:20px;margin-bottom:20px;color:white;"><div style="font-family:'Sora',sans-serif;font-weight:700;font-size:18px;margin-bottom:6px;">🔔 Alert Set Karo</div><div style="font-size:13px;opacity:.85;">Jab bhi tumhare area mein post aaye — pehle jaano</div></div>
     <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:20px;">
       <div class="form-group" style="margin-bottom:12px;"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📍 Area / City</label><input id="alert-area" type="text" placeholder="e.g. Imphal, Connaught Place" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
-      <div class="form-group" style="margin-bottom:14px;"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📂 Category (Optional)</label><select id="alert-cat" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option value="">All Categories</option><option value="Wallet">👛 Wallet</option><option value="Phone">📱 Phone</option><option value="Keys">🔑 Keys</option><option value="Bag">💼 Bag</option><option value="Pet">🐾 Pet</option><option value="Documents">🎫 Documents</option><option value="Other">📦 Other</option></select></div>
+      <div class="form-group" style="margin-bottom:14px;"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📂 Category (Optional)</label><select id="alert-cat" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;">
+<option value="">All Categories</option>
+<option value="Wallet">👛 Wallet</option>
+<option value="Phone">📱 Phone</option>
+<option value="Keys">🔑 Keys</option>
+<option value="Bag">💼 Bag</option>
+<option value="Jewellery">💍 Jewellery</option>
+<option value="Backpack">🎒 Backpack</option>
+<option value="Laptop">💻 Laptop</option>
+<option value="Pet">🐾 Pet</option>
+<option value="Glasses">👓 Glasses</option>
+<option value="Documents">🎫 Documents</option>
+<option value="Watch">⌚ Watch</option>
+<option value="Purse">👜 Purse</option>
+<option value="Person">🧍 Person</option>
+<option value="Animals">🐕 Animals</option>
+<option value="Car">🚗 Car</option>
+<option value="Bike">🏍️ Bike</option>
+<option value="Cycle">🚲 Cycle</option>
+<option value="Other">📦 Other</option>
+</select></div>
       <button onclick="saveAreaAlert()" class="btn-primary" style="width:100%;">🔔 Alert Set Karo</button>
     </div>
     <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;">Active Alerts</div>
@@ -1473,63 +1177,7 @@ window.shareFIRWhatsApp=function(){if(!window._lastFIR)return;window.open('https
     <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
       <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;">📋 Item Details</div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🏷️ Item</label><input id="fir-item" type="text" placeholder="Samsung Galaxy, Wallet..." style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
-      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📂 Category</label><select id="fir-cat" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option value="">-- Select --</option>
-<optgroup label="📱 Electronics">
-<option>Mobile Phone</option>
-<option>Laptop / Tablet</option>
-<option>Earphones / Headphones</option>
-<option>Camera</option>
-<option>Charger / Accessories</option>
-<option>Smartwatch</option>
-<option>Pen Drive / Hard Disk</option>
-</optgroup>
-<optgroup label="👜 Bags & Accessories">
-<option>Wallet / Purse</option>
-<option>Bag / Backpack</option>
-<option>Handbag</option>
-<option>Suitcase / Luggage</option>
-<option>Briefcase</option>
-</optgroup>
-<optgroup label="💍 Valuables">
-<option>Jewellery</option>
-<option>Watch</option>
-<option>Cash</option>
-<option>Credit / Debit Card</option>
-<option>Gold / Silver</option>
-</optgroup>
-<optgroup label="📄 Documents">
-<option>Documents / ID</option>
-<option>Aadhaar Card</option>
-<option>PAN Card</option>
-<option>Passport</option>
-<option>Driving Licence</option>
-<option>Voter ID</option>
-<option>Educational Certificate</option>
-<option>Property Documents</option>
-<option>Vehicle RC / Insurance</option>
-</optgroup>
-<optgroup label="🔑 Keys & Others">
-<option>Keys</option>
-<option>Vehicle Key</option>
-<option>House Key</option>
-</optgroup>
-<optgroup label="🚗 Vehicles">
-<option>Car</option>
-<option>Motorcycle / Bike</option>
-<option>Scooter</option>
-<option>Bicycle</option>
-<option>Auto Rickshaw</option>
-<option>Truck / Bus</option>
-</optgroup>
-<optgroup label="🐾 Animals & Others">
-<option>Pet / Animal</option>
-<option>Clothes / Uniform</option>
-<option>Books / Notes</option>
-<option>Sports Equipment</option>
-<option>Medical Equipment</option>
-<option>Cheque / DD</option>
-<option>Other</option>
-</optgroup></select></div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📂 Category</label><select id="fir-cat" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option value="">-- Select --</option><option>Mobile Phone</option><option>Wallet / Purse</option><option>Laptop / Tablet</option><option>Jewellery</option><option>Documents / ID</option><option>Bag / Backpack</option><option>Keys</option><option>Watch</option><option>Cash</option><option>Other</option></select></div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📝 Description</label><textarea id="fir-desc" placeholder="Color, Brand, IMEI..." style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;resize:vertical;min-height:80px;"></textarea></div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">💰 Value (₹)</label><input id="fir-value" type="number" placeholder="15000" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
     </div>
@@ -1666,79 +1314,7 @@ function updateFIRLangUI(){if(window.updateFIRLangUI)window.updateFIRLangUI();}
 </script>
 <!-- FIR DATA -->
 <script>
-var INDIA_POLICE_DATA = {
-"Andhra Pradesh":{"Anantapur":["Anantapur Town PS","Dharmavaram PS","Hindupur PS","Kadiri PS","Tadipatri PS","Guntakal PS"],"Chittoor":["Chittoor Town PS","Tirupati Urban PS","Madanapalle PS","Srikalahasti PS","Puttur PS","Nagari PS"],"East Godavari":["Kakinada Town PS","Rajahmundry Town PS","Amalapuram PS","Ramachandrapuram PS","Mandapeta PS"],"Guntur":["Guntur Town PS","Narasaraopet PS","Tenali PS","Bapatla PS","Ongole PS","Vinukonda PS"],"Krishna":["Vijayawada One Town PS","Governorpet PS","Patamata PS","Machilipatnam PS","Gudivada PS","Nuzvid PS"],"Kurnool":["Kurnool Town PS","Nandyal PS","Adoni PS","Dhone PS","Yemmiganur PS"],"Nellore":["Nellore Town PS","Kavali PS","Gudur PS","Atmakur PS","Alluru PS"],"Prakasam":["Ongole PS","Chirala PS","Markapur PS","Giddalur PS","Kandukur PS"],"Srikakulam":["Srikakulam Town PS","Amadalavalasa PS","Palakonda PS","Rajam PS"],"Visakhapatnam":["Visakhapatnam Town PS","Gajuwaka PS","Seethammadhara PS","MVP Colony PS","Bheemunipatnam PS","Anakapalle PS"],"Vizianagaram":["Vizianagaram Town PS","Bobbili PS","Parvathipuram PS","Salur PS"],"West Godavari":["Eluru Town PS","Bhimavaram PS","Tadepalligudem PS","Palacole PS","Narasapuram PS"],"YSR Kadapa":["Kadapa Town PS","Proddatur PS","Rajampet PS","Jammalamadugu PS","Badvel PS"]},
-
-"Arunachal Pradesh":{"Anjaw":["Hawai PS"],"Changlang":["Changlang PS","Miao PS","Nampong PS"],"East Kameng":["Seppa PS","Bana PS"],"East Siang":["Pasighat PS","Boleng PS"],"Kra Daadi":["Palin PS"],"Kurung Kumey":["Koloriang PS"],"Lohit":["Tezu PS","Namsai PS"],"Longding":["Longding PS","Kanubari PS"],"Lower Dibang Valley":["Roing PS"],"Lower Siang":["Likabali PS"],"Lower Subansiri":["Ziro PS","Daporijo PS"],"Namsai":["Namsai PS","Lekang PS"],"Papum Pare":["Naharlagun PS","Nirjuli PS","Itanagar PS","Banderdewa PS"],"Shi Yomi":["Tato PS"],"Siang":["Boleng PS"],"Tawang":["Tawang PS","Jang PS"],"Tirap":["Khonsa PS","Deomali PS"],"Upper Dibang Valley":["Anini PS"],"Upper Siang":["Yingkiong PS"],"Upper Subansiri":["Daporijo PS"],"West Kameng":["Bomdila PS","Dirang PS"],"West Siang":["Aalo PS","Basar PS"]},
-
-"Assam":{"Bajali":["Pathsala PS","Barpeta Road PS"],"Barpeta":["Barpeta PS","Sarthebari PS","Howly PS","Chenga PS"],"Biswanath":["Biswanath Chariali PS","Gohpur PS","Behali PS"],"Bongaigaon":["Bongaigaon PS","Sidli PS","Manikpur PS"],"Cachar":["Silchar PS","Sonai PS","Lakhipur PS","Udharbond PS","Barkhola PS"],"Charaideo":["Sonari PS","Amguri PS"],"Chirang":["Kajalgaon PS","Sidli PS","Borobazar PS"],"Darrang":["Mangaldoi PS","Dalgaon PS","Kharupetia PS"],"Dhemaji":["Dhemaji PS","Sissiborgaon PS","Jonai PS"],"Dhubri":["Dhubri PS","Bilasipara PS","Gauripur PS","Chapar PS"],"Dibrugarh":["Dibrugarh PS","Chabua PS","Naharkatia PS","Duliajan PS","Lahowal PS"],"Dima Hasao":["Haflong PS","Umrangso PS","Maibang PS"],"Goalpara":["Goalpara PS","Lakhipur PS","Dudhnoi PS"],"Golaghat":["Golaghat PS","Sarupathar PS","Dergaon PS","Bokakhat PS"],"Hailakandi":["Hailakandi PS","Lala PS","Katlicherra PS"],"Hojai":["Hojai PS","Doboka PS","Lumding PS"],"Jorhat":["Jorhat PS","Mariani PS","Titabor PS","Teok PS"],"Kamrup":["Boko PS","Chaygaon PS","Rangia PS","Sualkuchi PS","Hajo PS","Nagarbera PS"],"Kamrup Metropolitan":["Dispur PS","Jalukbari PS","Pan Bazar PS","Beltola PS","Noonmati PS","Azara PS","Guwahati Railway PS","Adabari PS","Bharalumukh PS","Fatasil Ambari PS","Hatigaon PS","Kahilipara PS","Latasil PS","Paltan Bazar PS","Sixmile PS","Soneswar PS","Ulubari PS"],"Karbi Anglong":["Diphu PS","Bokajan PS","Donkamokam PS","Hamren PS","Langhin PS"],"Karimganj":["Karimganj PS","Badarpur PS","Nilambazar PS","Ramkrishna Nagar PS"],"Kokrajhar":["Kokrajhar PS","Gossaigaon PS","Dotma PS","Golokganj PS"],"Lakhimpur":["North Lakhimpur PS","Bihpuria PS","Dhakuakhana PS","Nowboicha PS"],"Majuli":["Majuli PS","Garamur PS"],"Morigaon":["Morigaon PS","Jagiroad PS","Laharighat PS"],"Nagaon":["Nagaon PS","Raha PS","Kaliabor PS","Hojai PS","Doboka PS","Lanka PS"],"Nalbari":["Nalbari PS","Tihu PS","Mukalmua PS","Barbhag PS"],"Sivasagar":["Sivasagar PS","Nazira PS","Gaurisagar PS","Demow PS"],"Sonitpur":["Tezpur PS","Dhekiajuli PS","Bihaguri PS","Balipara PS","Rangapara PS"],"South Salmara-Mankachar":["Mankachar PS","South Salmara PS"],"Tinsukia":["Tinsukia PS","Digboi PS","Margherita PS","Doom Dooma PS","Sadiya PS"],"Udalguri":["Udalguri PS","Kalaigaon PS","Rowta PS","Bhairabkunda PS"],"West Karbi Anglong":["Baithalangso PS","Rongkhang PS"]},
-
-"Bihar":{"Araria":["Araria PS","Forbesganj PS","Narpatganj PS"],"Arwal":["Arwal PS","Kurtha PS"],"Aurangabad":["Aurangabad PS","Deo PS","Nabinagar PS","Rafiganj PS"],"Banka":["Banka PS","Bounsi PS","Amarpur PS"],"Begusarai":["Begusarai PS","Barauni PS","Teghra PS","Birpur PS"],"Bhagalpur":["Bhagalpur Town PS","Kahalgaon PS","Sultanganj PS","Naugachia PS","Bihpur PS"],"Bhojpur":["Ara PS","Jagdishpur PS","Koilwar PS","Barhara PS"],"Buxar":["Buxar PS","Dumraon PS","Chausa PS"],"Darbhanga":["Darbhanga PS","Benipur PS","Baheri PS","Biraul PS","Kusheshwar Asthan PS"],"East Champaran":["Motihari PS","Bettiah PS","Raxaul PS","Sugauli PS","Areraj PS"],"Gaya":["Gaya Town PS","Bodh Gaya PS","Sherghati PS","Nawada PS","Aurangabad PS"],"Gopalganj":["Gopalganj PS","Siwan PS","Hathua PS","Uchkagaon PS"],"Jamui":["Jamui PS","Jhajha PS","Chakai PS"],"Jehanabad":["Jehanabad PS","Makhdumpur PS","Arwal PS"],"Kaimur":["Bhabua PS","Mohania PS","Kudra PS"],"Katihar":["Katihar PS","Manihari PS","Barari PS","Korha PS"],"Khagaria":["Khagaria PS","Mansi PS","Alauli PS"],"Kishanganj":["Kishanganj PS","Thakurganj PS","Bahadurganj PS","Dighalbank PS"],"Lakhisarai":["Lakhisarai PS","Ramgarh Chowk PS"],"Madhepura":["Madhepura PS","Murliganj PS","Singheshwar PS"],"Madhubani":["Madhubani PS","Jaynagar PS","Jhanjharpur PS","Benipatti PS","Phulparas PS"],"Munger":["Munger PS","Jamalpur PS","Tarapur PS"],"Muzaffarpur":["Muzaffarpur Town PS","Muzaffarpur Sadar PS","Motipur PS","Sitamarhi PS","Sheohar PS","Bochahan PS"],"Nalanda":["Bihar Sharif PS","Rajgir PS","Hilsa PS","Biharsharif PS","Islampur PS"],"Nawada":["Nawada PS","Rajauli PS","Warsaliganj PS"],"Patna":["Kotwali PS","Gardanibagh PS","Danapur PS","Bankipur PS","Boring Road PS","Rajiv Nagar PS","Phulwari Sharif PS","Digha PS","Kankarbagh PS","Khagaul PS","Patna Sahib PS","Pirbahore PS","Rupaspur PS","Shastri Nagar PS","Sultanganj PS"],"Purnia":["Purnia PS","Kasba PS","Katihar PS","Dagarua PS","Bhawanipur PS"],"Rohtas":["Sasaram PS","Dehri PS","Bhabhua PS","Bikramganj PS"],"Saharsa":["Saharsa PS","Simri Bakhtiyarpur PS","Salkhua PS"],"Samastipur":["Samastipur PS","Dalsinghsarai PS","Pusa PS","Ujiarpur PS"],"Saran":["Chapra PS","Marhowra PS","Sonepur PS","Revelganj PS"],"Sheikhpura":["Sheikhpura PS","Barbigha PS"],"Sheohar":["Sheohar PS","Tariyani PS"],"Sitamarhi":["Sitamarhi PS","Belsand PS","Pupri PS","Dumra PS"],"Siwan":["Siwan PS","Maharajganj PS","Darauli PS","Mairwa PS"],"Supaul":["Supaul PS","Birpur PS","Triveniganj PS","Raghopur PS"],"Vaishali":["Hajipur PS","Mahua PS","Raghopur PS","Lalganj PS","Desari PS"],"West Champaran":["Bettiah PS","Bagaha PS","Narkatiaganj PS","Bairgania PS"]},
-
-"Chhattisgarh":{"Balod":["Balod PS","Dondi Lohara PS","Gurur PS"],"Baloda Bazar":["Baloda Bazar PS","Bhatapara PS","Simga PS"],"Balrampur":["Balrampur PS","Ramanujganj PS","Wadrafnagar PS"],"Bastar":["Jagdalpur PS","Tokapal PS","Bastar PS","Kondagaon PS"],"Bemetara":["Bemetara PS","Saja PS","Berla PS"],"Bijapur":["Bijapur PS","Bhairamgarh PS","Basaguda PS"],"Bilaspur":["Bilaspur PS","Ratanpur PS","Akaltara PS","Kota PS","Takhatpur PS","Masturi PS"],"Dantewada":["Dantewada PS","Bacheli PS","Kirandul PS","Geedam PS"],"Dhamtari":["Dhamtari PS","Kurud PS","Nagri PS"],"Durg":["Durg PS","Bhilai Nagar PS","Supela PS","Risali PS","Kurud PS","Patan PS"],"Gariaband":["Gariaband PS","Rajim PS","Mainpur PS"],"Gaurella-Pendra-Marwahi":["Gaurella PS","Pendra PS","Marwahi PS"],"Janjgir-Champa":["Janjgir PS","Champa PS","Sakti PS","Akaltara PS"],"Jashpur":["Jashpur PS","Pathalgaon PS","Kunkuri PS"],"Kabirdham":["Kawardha PS","Pandariya PS","Bodla PS"],"Kanker":["Kanker PS","Charama PS","Antagarh PS"],"Kondagaon":["Kondagaon PS","Narayanpur PS","Farasgaon PS"],"Korba":["Korba PS","Katghora PS","Pali PS","Dipka PS"],"Koriya":["Baikunthpur PS","Manendragarh PS","Sonhat PS"],"Mahasamund":["Mahasamund PS","Basna PS","Saraipali PS","Pithora PS"],"Mungeli":["Mungeli PS","Lormi PS","Patharia PS"],"Narayanpur":["Narayanpur PS","Orchha PS"],"Raigarh":["Raigarh PS","Sarangarh PS","Gharghoda PS","Kharsia PS"],"Raipur":["Kotwali PS","Civil Lines PS","Amanaka PS","Pandri PS","Telibandha PS","Tikrapara PS","Mana PS","Gudhiyari PS"],"Rajnandgaon":["Rajnandgaon PS","Dongargarh PS","Khairagarh PS","Mohla PS"],"Sukma":["Sukma PS","Konta PS","Chhindgarh PS"],"Surajpur":["Surajpur PS","Premnagar PS","Bhaiyathan PS"],"Surguja":["Ambikapur PS","Sitapur PS","Lundra PS","Udaipur PS"]},
-
-"Delhi":{"Central Delhi":["Connaught Place PS","Karol Bagh PS","Paharganj PS","Daryaganj PS","Sadar Bazar PS","Kamla Market PS","Bara Hindu Rao PS","Kotwali PS","Prasad Nagar PS"],"East Delhi":["Preet Vihar PS","Vivek Vihar PS","Mayur Vihar PS","Laxmi Nagar PS","Gandhi Nagar PS","Geeta Colony PS","Shakarpur PS","Jhilmil PS"],"New Delhi":["New Delhi PS","Parliament Street PS","Tilak Marg PS","Tughlak Road PS","Chanakya Puri PS"],"North Delhi":["Civil Lines PS","Subzi Mandi PS","Timarpur PS","Mukherjee Nagar PS","Shalimar Bagh PS","Adarsh Nagar PS","Alipur PS","Bawana PS","Burari PS","Jahangirpuri PS","Model Town PS","Narela PS","Saraswati Vihar PS","Shakti Nagar PS"],"North East Delhi":["Seelampur PS","Shahdara PS","Bhajanpura PS","Gokulpuri PS","Jyoti Nagar PS","Karawal Nagar PS","Mustafabad PS","Nand Nagri PS","New Usmanpur PS","Welcome PS"],"North West Delhi":["Rohini PS","Pitampura PS","Ashok Vihar PS","Keshav Puram PS","Mangolpuri PS","Paschim Vihar PS","Prashant Vihar PS","Rani Bagh PS","Sultanpuri PS","Vijay Vihar PS"],"Outer Delhi":["Narela PS","Alipur PS","Bawana PS","Samaypur Badli PS","Swaroop Nagar PS"],"Outer North Delhi":["Bawana PS","Narela PS","Alipur PS"],"Shahdara":["Shahdara PS","Farsh Bazar PS","Anand Vihar PS","Dilshad Garden PS","Nand Nagri PS","Seemapuri PS","Vivek Vihar PS"],"South Delhi":["Hauz Khas PS","Malviya Nagar PS","Kalkaji PS","Saket PS","Greater Kailash PS","Mehrauli PS","Ambedkar Nagar PS","Begumpur PS","Chirag Delhi PS","Defence Colony PS","Fatehpur Beri PS","Madangir PS","Neb Sarai PS","Pul Prahladpur PS","Sangam Vihar PS"],"South East Delhi":["Lajpat Nagar PS","Govindpuri PS","Amar Colony PS","Badarpur PS","Hazrat Nizamuddin PS","Jamia Nagar PS","New Friends Colony PS","Okhla PS"],"South West Delhi":["Dwarka Sector 10 PS","Dwarka Sector 23 PS","Palam PS","Najafgarh PS","Bindapur PS","Dabri PS","Kapashera PS","Matiala PS","Uttam Nagar PS","Vikas Puri PS"],"West Delhi":["Janakpuri PS","Uttam Nagar PS","Vikaspuri PS","Punjabi Bagh PS","Hastal PS","Hari Nagar PS","Khayala PS","Madipur PS","Mianwali Nagar PS","Rajouri Garden PS","Tilak Nagar PS"]},
-
-"Goa":{"North Goa":["Panaji PS","Mapusa PS","Calangute PS","Pernem PS","Bicholim PS","Sattari PS","Ponda PS","Tiswadi PS"],"South Goa":["Margao PS","Vasco PS","Mormugao PS","Quepem PS","Canacona PS","Sanguem PS","Dharbandora PS"]},
-
-"Gujarat":{"Ahmedabad":["Navrangpura PS","Satellite PS","Vastrapur PS","Chandkheda PS","Bopal PS","Narol PS","Maninagar PS","Amraiwadi PS","Bapunagar PS","CTM PS","Dariapur PS","Ghatlodia PS","Isanpur PS","Khokhra PS","Meghaninagar PS","Memnagar PS","Naroda PS","Odhav PS","Rakhial PS","Saraspur PS","Shahpur PS","Thakkarbapa Nagar PS","Vatva PS"],"Amreli":["Amreli PS","Rajula PS","Savarkundla PS","Dhari PS","Jafarabad PS"],"Anand":["Anand PS","Vallabh Vidyanagar PS","Nadiad PS","Kheda PS","Petlad PS"],"Aravalli":["Modasa PS","Bayad PS","Dhansura PS"],"Banaskantha":["Palanpur PS","Deesa PS","Dhanera PS","Radhanpur PS"],"Bharuch":["Bharuch PS","Ankleshwar PS","Jambusar PS","Vagra PS"],"Bhavnagar":["Bhavnagar PS","Sihor PS","Palitana PS","Mahuva PS"],"Botad":["Botad PS","Gadhada PS","Barwala PS"],"Chhota Udaipur":["Chhota Udaipur PS","Kavant PS","Naswadi PS"],"Dahod":["Dahod PS","Godhra PS","Limkheda PS","Fatepura PS"],"Dang":["Ahwa PS","Subir PS","Waghai PS"],"Devbhoomi Dwarka":["Dwarka PS","Khambhalia PS","Okha PS","Salaya PS"],"Gandhinagar":["Gandhinagar Sector 21 PS","Gandhinagar Sector 7 PS","Mansa PS","Dehgam PS","Kalol PS"],"Gir Somnath":["Veraval PS","Somnath PS","Una PS","Talala PS","Kodinar PS"],"Jamnagar":["Jamnagar PS","Jamnagar Rural PS","Dhrol PS","Kalavad PS","Jodia PS"],"Junagadh":["Junagadh PS","Keshod PS","Mangrol PS","Veraval PS","Vanthali PS"],"Kheda":["Nadiad PS","Kheda PS","Kapadvanj PS","Mahudha PS"],"Kutch":["Bhuj PS","Gandhidham PS","Anjar PS","Mundra PS","Mandvi PS","Rapar PS","Nakhatrana PS"],"Mahisagar":["Lunawada PS","Balasinor PS","Khanpur PS"],"Mehsana":["Mehsana PS","Unjha PS","Visnagar PS","Kadi PS","Becharaji PS"],"Morbi":["Morbi PS","Wankaner PS","Halvad PS","Tankara PS"],"Narmada":["Rajpipla PS","Tilakwada PS","Sagbara PS","Nandod PS"],"Navsari":["Navsari PS","Gandevi PS","Bilimora PS","Chikhli PS"],"Panchmahal":["Godhra PS","Halol PS","Kalol PS","Lunawada PS","Shehera PS"],"Patan":["Patan PS","Siddhpur PS","Harij PS","Chanasma PS"],"Porbandar":["Porbandar PS","Ranavav PS","Kutiyana PS"],"Rajkot":["Rajkot A Division PS","Rajkot B Division PS","Gondal PS","Jetpur PS","Upleta PS","Jasdan PS","Paddhari PS"],"Sabarkantha":["Himmatnagar PS","Idar PS","Prantij PS","Talod PS"],"Surat":["Surat City PS","Adajan PS","Katargam PS","Varachha PS","Udhna PS","Amroli PS","Limbayat PS","Olpad PS","Palsana PS","Purat PS"],"Surendranagar":["Surendranagar PS","Wadhwan PS","Dhrangadhra PS","Chotila PS","Lakhtar PS"],"Tapi":["Vyara PS","Songadh PS","Valod PS","Nizar PS"],"Vadodara":["Vadodara City PS","Sayajigunj PS","Fatehgunj PS","Gotri PS","Harni PS","Karelibaug PS","Nizampura PS","Raopura PS","Tandalja PS","Waghodia PS"],"Valsad":["Valsad PS","Vapi PS","Umbergaon PS","Pardi PS","Dharampur PS"]},
-
-"Haryana":{"Ambala":["Ambala City PS","Ambala Cantonment PS","Barara PS","Naraingarh PS","Mullana PS"],"Bhiwani":["Bhiwani PS","Charkhi Dadri PS","Loharu PS","Tosham PS"],"Charkhi Dadri":["Charkhi Dadri PS","Badhra PS"],"Faridabad":["NIT Faridabad PS","Ballabhgarh PS","Tigaon PS","Palwal PS","Hathin PS","Hodal PS","Faridabad PS"],"Fatehabad":["Fatehabad PS","Tohana PS","Ratia PS"],"Gurugram":["DLF Phase 1 PS","Sushant Lok PS","Sector 40 PS","Manesar PS","Palam Vihar PS","Badshahpur PS","Bhondsi PS","Farrukhnagar PS","Gurugram PS","Kadipur PS","Pataudi PS","Sadar PS","Sheetla Mata Mandir PS","Wazirabad PS"],"Hisar":["Hisar City PS","Hansi PS","Narnaund PS","Barwala PS","Uklana PS"],"Jhajjar":["Jhajjar PS","Bahadurgarh PS","Beri PS","Machhrauli PS"],"Jind":["Jind PS","Safidon PS","Narwana PS","Julana PS"],"Kaithal":["Kaithal PS","Cheeka PS","Guhla PS","Kalayat PS"],"Karnal":["Karnal PS","Panipat PS","Nilokheri PS","Taraori PS","Assandh PS"],"Kurukshetra":["Kurukshetra PS","Thanesar PS","Shahabad PS","Ladwa PS","Pehowa PS"],"Mahendragarh":["Narnaul PS","Mahendragarh PS","Ateli PS","Kanina PS"],"Mewat":["Nuh PS","Tauru PS","Ferozepur Jhirka PS","Nagina PS","Punhana PS"],"Palwal":["Palwal PS","Hodal PS","Hathin PS","Hassanpur PS"],"Panchkula":["Panchkula PS","Kalka PS","Morni PS","Raipur Rani PS"],"Panipat":["Panipat PS","Samalkha PS","Israna PS","Madlauda PS"],"Rewari":["Rewari PS","Bawal PS","Dharuhera PS","Kosli PS"],"Rohtak":["Rohtak City PS","Bahadurgarh PS","Sampla PS","Asthal Bohar PS"],"Sirsa":["Sirsa PS","Rania PS","Ellenabad PS","Dabwali PS","Kalanwali PS"],"Sonipat":["Sonipat PS","Gohana PS","Kundli PS","Kharkhoda PS","Ganaur PS"],"Yamunanagar":["Yamunanagar PS","Jagadhri PS","Radaur PS","Bilaspur PS","Chhachhrauli PS"]},
-
-"Himachal Pradesh":{"Bilaspur":["Bilaspur PS","Ghumarwin PS","Naina Devi PS"],"Chamba":["Chamba PS","Dalhousie PS","Bharmour PS","Churah PS"],"Hamirpur":["Hamirpur PS","Barsar PS","Nadaun PS","Sujanpur PS"],"Kangra":["Dharamshala PS","Kangra PS","Palampur PS","Nurpur PS","Jawali PS","Dehra PS","Indora PS","Rait PS"],"Kinnaur":["Reckong Peo PS","Kalpa PS","Nichar PS"],"Kullu":["Kullu PS","Manali PS","Banjar PS","Ani PS"],"Lahaul & Spiti":["Keylong PS","Kaza PS","Udaipur PS"],"Mandi":["Mandi PS","Sundernagar PS","Jogindernagar PS","Sadar PS","Thunag PS"],"Shimla":["Shimla PS","Rampur PS","Theog PS","Rohru PS","Kotkhai PS","Chaupal PS"],"Sirmaur":["Nahan PS","Paonta Sahib PS","Rajgarh PS","Shillai PS"],"Solan":["Solan PS","Baddi PS","Nalagarh PS","Kasauli PS","Kandaghat PS"],"Una":["Una PS","Amb PS","Bangana PS","Haroli PS"]},
-
-"Jharkhand":{"Bokaro":["Chas PS","Bokaro Steel City PS","Chandankiyari PS","Petarwar PS"],"Chatra":["Chatra PS","Hunterganj PS","Simaria PS"],"Deoghar":["Deoghar PS","Madhupur PS","Jasidih PS","Sarwan PS"],"Dhanbad":["Dhanbad PS","Jharia PS","Sindri PS","Katras PS","Govindpur PS","Nirsa PS","Baghmara PS"],"Dumka":["Dumka PS","Shikaripara PS","Jama PS","Ramgarh PS"],"East Singhbhum":["Bistupur PS","Sakchi PS","Telco PS","Mango PS","Jugsalai PS","Jharia PS","Baharagora PS","Boram PS"],"Garhwa":["Garhwa PS","Ranka PS","Nagar Untari PS"],"Giridih":["Giridih PS","Gandey PS","Dumri PS","Bengabad PS"],"Godda":["Godda PS","Mahagama PS","Poreyahat PS","Boarijor PS"],"Gumla":["Gumla PS","Simdega PS","Raidih PS","Chainpur PS"],"Hazaribagh":["Hazaribagh PS","Chouparan PS","Ichak PS","Barhi PS"],"Jamtara":["Jamtara PS","Nala PS","Kundhit PS"],"Khunti":["Khunti PS","Murhu PS","Karra PS","Arki PS"],"Koderma":["Koderma PS","Jainagar PS","Domchanch PS"],"Latehar":["Latehar PS","Manika PS","Balumath PS"],"Lohardaga":["Lohardaga PS","Kisko PS","Senghara PS"],"Pakur":["Pakur PS","Maheshpur PS","Amrapara PS","Hiranpur PS"],"Palamu":["Daltonganj PS","Medininagar PS","Hussainabad PS","Chattarpur PS","Lesliganj PS"],"Ramgarh":["Ramgarh PS","Mandu PS","Gola PS","Patratu PS"],"Ranchi":["Kotwali PS","Doranda PS","Hindpiri PS","Bariatu PS","Lalpur PS","Argora PS","Bahu Bazar PS","Chutia PS","Kantatoli PS","Nagar PS","Ormanjhi PS","Ratu PS","Sadar PS","Sukhdeo Nagar PS"],"Sahebganj":["Sahebganj PS","Rajmahal PS","Taljhari PS","Barhait PS"],"Saraikela Kharsawan":["Saraikela PS","Gamharia PS","Kharsawan PS","Chandil PS"],"Simdega":["Simdega PS","Pakartanr PS","Kolebira PS"],"West Singhbhum":["Chakradharpur PS","Chaibasa PS","Manoharpur PS","Chakulia PS","Tonto PS"]},
-
-"Karnataka":{"Bagalkot":["Bagalkot PS","Badami PS","Mudhol PS","Jamkhandi PS"],"Ballari":["Ballari PS","Hospet PS","Sandur PS","Siruguppa PS"],"Belagavi":["Belagavi City PS","Angol PS","Khanapura PS","Gokak PS","Hubli PS","Ramdurg PS"],"Bengaluru Rural":["Doddaballapur PS","Nelamangala PS","Hosakote PS","Devanahalli PS","Magadi PS"],"Bengaluru Urban":["Cubbon Park PS","Shivajinagar PS","Whitefield PS","Koramangala PS","Indiranagar PS","Jayanagar PS","JP Nagar PS","Yelahanka PS","Electronic City PS","HSR Layout PS","Marathahalli PS","Banashankari PS","Bannerghatta Road PS","Bellandur PS","Bommanahalli PS","DJ Halli PS","HAL Airport PS","Hegde Nagar PS","Hulimavu PS","KG Halli PS","Kadugodi PS","Kamakshipalya PS","Madiwala PS","Nagarbhavi PS","Ramamurthy Nagar PS","Soladevanahalli PS","Srirampura PS","Upparpet PS","Ulsoor PS","Varthur PS","Vijayanagar PS"],"Bidar":["Bidar PS","Basavakalyan PS","Humnabad PS","Bhalki PS"],"Chamarajanagar":["Chamarajanagar PS","Gundlupet PS","Kollegal PS","Hanur PS"],"Chikkaballapur":["Chikkaballapur PS","Chintamani PS","Gowribidanur PS","Sidlaghatta PS"],"Chikkamagaluru":["Chikkamagaluru PS","Kadur PS","Koppa PS","Tarikere PS","N R Pura PS"],"Chitradurga":["Chitradurga PS","Davangere PS","Holalkere PS","Hiriyur PS","Challakere PS"],"Dakshina Kannada":["Mangaluru North PS","Mangaluru South PS","Urva PS","Bajpe PS","Bantwal PS","Sullia PS","Belthangady PS","Puttur PS"],"Davanagere":["Davanagere PS","Harihar PS","Jagalur PS","Channagiri PS"],"Dharwad":["Dharwad PS","Hubballi PS","Kundgol PS","Navalgund PS"],"Gadag":["Gadag PS","Ron PS","Mundargi PS","Shirahatti PS"],"Hassan":["Hassan PS","Arsikere PS","Belur PS","Holenarasipura PS","Sakleshpur PS"],"Haveri":["Haveri PS","Ranebennur PS","Savanur PS","Hirekerur PS"],"Kalaburagi":["Kalaburagi PS","Bidar PS","Yadgir PS","Chincholi PS","Afzalpur PS","Chittapur PS"],"Kodagu":["Madikeri PS","Virajpet PS","Somwarpet PS","Kushalnagar PS"],"Kolar":["Kolar PS","KGF PS","Malur PS","Mulbagal PS","Srinivaspur PS"],"Koppal":["Koppal PS","Gangavathi PS","Kustagi PS","Yelbarga PS"],"Mandya":["Mandya PS","Maddur PS","Nagamangala PS","Pandavapura PS","Srirangapatna PS"],"Mysuru":["Mysuru North PS","Mysuru South PS","Nazarbad PS","Nanjangud PS","Hunsur PS","H D Kote PS","T Narsipur PS","Periyapatna PS"],"Raichur":["Raichur PS","Manvi PS","Lingasugur PS","Sindhanur PS"],"Ramanagara":["Ramanagara PS","Channapatna PS","Kanakapura PS","Magadi PS"],"Shivamogga":["Shivamogga PS","Bhadravati PS","Sagar PS","Hosanagar PS","Tirthahalli PS","Soraba PS"],"Tumakuru":["Tumakuru PS","Tiptur PS","Madhugiri PS","Kunigal PS","Sira PS","Chikkanayakanhalli PS","Pavagada PS","Turuvekere PS"],"Udupi":["Udupi PS","Manipal PS","Kundapura PS","Karkala PS","Brahmavar PS"],"Uttara Kannada":["Karwar PS","Sirsi PS","Haveri PS","Kumta PS","Bhatkal PS","Honavar PS","Dandeli PS"],"Vijayapura":["Vijayapura PS","Muddebihal PS","Indi PS","Sindagi PS","Basavana Bagewadi PS"],"Yadgir":["Yadgir PS","Shorapur PS","Gurumitkal PS","Shahapur PS"]},
-
-"Kerala":{"Alappuzha":["Alappuzha PS","Cherthala PS","Mavelikkara PS","Haripad PS","Kayamkulam PS","Kuttanad PS"],"Ernakulam":["Ernakulam Town PS","Fort Kochi PS","Aluva PS","Thrippunithura PS","Kothamangalam PS","Muvattupuzha PS","North Paravur PS","Perumbavoor PS","Angamaly PS","Kakkanad PS"],"Idukki":["Idukki PS","Thodupuzha PS","Munnar PS","Devikulam PS","Kumily PS"],"Kannur":["Kannur PS","Thalassery PS","Payyanur PS","Iritty PS","Mattannur PS","Peravoor PS"],"Kasaragod":["Kasaragod PS","Kanhangad PS","Manjeshwar PS","Hosdurg PS","Nileshwar PS"],"Kollam":["Kollam PS","Karunagappally PS","Kottarakkara PS","Punalur PS","Paravur PS","Chavara PS"],"Kottayam":["Kottayam PS","Changanacherry PS","Pala PS","Vaikom PS","Ettumanoor PS","Kanjirappally PS"],"Kozhikode":["Kozhikode Town PS","West Hill PS","Nadakkavu PS","Vadakara PS","Koyilandy PS","Ramanattukara PS","Feroke PS","Balussery PS"],"Malappuram":["Malappuram PS","Manjeri PS","Perinthalmanna PS","Tirur PS","Tanur PS","Ponnani PS","Tirurangadi PS"],"Palakkad":["Palakkad PS","Ottapalam PS","Shornur PS","Mannarkkad PS","Chittur PS","Alathur PS"],"Pathanamthitta":["Pathanamthitta PS","Thiruvalla PS","Adoor PS","Pandalam PS","Konni PS","Ranni PS"],"Thiruvananthapuram":["Fort PS","Cantonment PS","Karamana PS","Peroorkada PS","Nemom PS","Kazhakoottam PS","Vattiyoorkavu PS","Thiruvananthapuram East PS","Attingal PS","Nedumangad PS","Neyyattinkara PS"],"Thrissur":["Thrissur Town PS","Ollur PS","Irinjalakuda PS","Chalakudy PS","Mala PS","Guruvayur PS","Kodungallur PS","Chavakkad PS","Kunnamkulam PS"],"Wayanad":["Kalpetta PS","Sulthan Bathery PS","Mananthavady PS","Vythiri PS","Panamaram PS"]},
-
-"Madhya Pradesh":{"Agar Malwa":["Agar PS","Susner PS","Nalkheda PS"],"Alirajpur":["Alirajpur PS","Jobat PS","Katthiwara PS"],"Anuppur":["Anuppur PS","Shahpur PS","Rajendragram PS","Pushparajgarh PS"],"Ashoknagar":["Ashoknagar PS","Chanderi PS","Mungaoli PS","Isagarh PS"],"Balaghat":["Balaghat PS","Waraseoni PS","Katangi PS","Lanji PS","Baihar PS","Khairlanji PS"],"Barwani":["Barwani PS","Sendhwa PS","Rajpur PS","Niwali PS","Pati PS"],"Betul":["Betul PS","Multai PS","Amla PS","Sarni PS","Shahpur PS"],"Bhind":["Bhind PS","Ater PS","Gohad PS","Lahar PS","Mihona PS"],"Bhopal":["TT Nagar PS","Kotwali PS","Habibganj PS","Govindpura PS","MP Nagar PS","Misrod PS","Ratibad PS","Shahpura PS","Bairasia PS"],"Burhanpur":["Burhanpur PS","Nepanagar PS","Khaknar PS"],"Chhatarpur":["Chhatarpur PS","Nowgong PS","Bijawar PS","Laundi PS","Bada Malhera PS"],"Chhindwara":["Chhindwara PS","Sausar PS","Pandurna PS","Tamia PS","Amarwara PS"],"Damoh":["Damoh PS","Hatta PS","Tendukheda PS","Jabera PS","Patharia PS"],"Datia":["Datia PS","Sewda PS","Indergarh PS"],"Dewas":["Dewas PS","Kannod PS","Sonkatch PS","Khategaon PS","Bagli PS"],"Dhar":["Dhar PS","Manawar PS","Dhamnod PS","Badnawar PS","Sardarpur PS"],"Dindori":["Dindori PS","Amarpur PS","Shahpura PS","Bajag PS"],"Guna":["Guna PS","Raghogarh PS","Chachoda PS","Maksudangarh PS"],"Gwalior":["City Kotwali PS","Thatipur PS","Morar PS","Lashkar PS","Maharajpura PS","Dabra PS","Bhitarwar PS"],"Harda":["Harda PS","Timarni PS","Khirkhiya PS"],"Hoshangabad":["Hoshangabad PS","Itarsi PS","Sohagpur PS","Pipariya PS","Seoni Malwa PS"],"Indore":["Vijay Nagar PS","Palasia PS","Central Kotwali PS","Lasudia PS","Banganga PS","Annapurna PS","Aerodrome PS","Bhanwarkuan PS","Chandan Nagar PS","Juni Indore PS","Kanadiya PS","MIG PS","Pardeshipura PS","Rajendra Nagar PS","Sanwer PS","Sanyogitaganj PS","Tejaji Nagar PS"],"Jabalpur":["Kotwali PS","Omti PS","Wright Town PS","Gorakhpur PS","Adhartal PS","Madhotal PS","Napier Town PS","Ranjhi PS","Vijay Nagar PS"],"Jhabua":["Jhabua PS","Thandla PS","Meghnagar PS","Ranapur PS","Petlawad PS"],"Katni":["Katni PS","Mudwara PS","Vijayraghavgarh PS","Sleemanabad PS"],"Khandwa":["Khandwa PS","Punasa PS","Harsud PS","Khalwa PS"],"Khargone":["Khargone PS","Sanawad PS","Bhikangaon PS","Barwaha PS","Maheshwar PS","Kasrawad PS"],"Mandla":["Mandla PS","Nainpur PS","Bichhiya PS","Niwas PS"],"Mandsaur":["Mandsaur PS","Malhargarh PS","Sitamau PS","Suwasra PS","Manasa PS"],"Morena":["Morena PS","Ambah PS","Joura PS","Sabalgarh PS","Kailaras PS"],"Narsinghpur":["Narsinghpur PS","Gadarwara PS","Kareli PS","Gotegaon PS","Saikheda PS"],"Neemuch":["Neemuch PS","Manasa PS","Jawad PS","Singoli PS"],"Niwari":["Niwari PS","Prithvipur PS","Orchha PS"],"Panna":["Panna PS","Ajaigarh PS","Pawai PS","Gunour PS"],"Raisen":["Raisen PS","Obaidullaganj PS","Sanchi PS","Goharganj PS","Begamganj PS"],"Rajgarh":["Rajgarh PS","Biaora PS","Narsinghgarh PS","Sarangpur PS","Kurawar PS"],"Ratlam":["Ratlam PS","Sailana PS","Alote PS","Jaora PS"],"Rewa":["Rewa PS","Teonthar PS","Mauganj PS","Sirmaur PS","Sirmour PS"],"Sagar":["Sagar PS","Deori PS","Banda PS","Rahatgarh PS","Garhakota PS","Khurai PS"],"Satna":["Satna PS","Maihar PS","Nagod PS","Raipur Karchuliyan PS","Uchehara PS"],"Sehore":["Sehore PS","Ashta PS","Shujalpur PS","Shahganj PS","Ichhawar PS"],"Seoni":["Seoni PS","Chhapara PS","Lakhnadon PS","Keolari PS","Barghat PS"],"Shahdol":["Shahdol PS","Beohari PS","Jaisinghnagar PS","Sohagpur PS"],"Shajapur":["Shajapur PS","Agar Malwa PS","Shujalpur PS","Kalapipal PS"],"Sheopur":["Sheopur PS","Karahal PS","Vijaypur PS"],"Shivpuri":["Shivpuri PS","Pichhore PS","Karera PS","Narwar PS","Kolaras PS"],"Sidhi":["Sidhi PS","Sihawal PS","Rampur Naikin PS","Majhauli PS"],"Singrauli":["Singrauli PS","Waidhan PS","Chitrangi PS","Devsar PS"],"Tikamgarh":["Tikamgarh PS","Niwari PS","Khargapur PS","Jatara PS"],"Ujjain":["Ujjain PS","Mahidpur PS","Tarana PS","Nagda PS","Khachrod PS","Barnagar PS"],"Umaria":["Umaria PS","Bandhavgarh PS","Pali PS","Chandia PS"],"Vidisha":["Vidisha PS","Basoda PS","Kurwai PS","Lateri PS","Sironj PS"]},
-
-"Maharashtra":{"Ahmednagar":["Ahmednagar PS","Kopargaon PS","Shrigonda PS","Sangamner PS","Nagar Sadar PS","Shevgaon PS"],"Akola":["Akola PS","Akot PS","Murtizapur PS","Barshitakli PS"],"Amravati":["Amravati PS","Achalpur PS","Chandur Bazar PS","Daryapur PS","Morshi PS","Warud PS"],"Aurangabad":["Aurangabad City PS","CIDCO PS","Khadkeshwar PS","Mukundwadi PS","Osmanpura PS","Pundaliknagar PS","Cidco PS","Jawaharnagar PS"],"Beed":["Beed PS","Kaij PS","Ambejogai PS","Majalgaon PS","Georai PS"],"Bhandara":["Bhandara PS","Tumsar PS","Pauni PS","Sakoli PS"],"Buldhana":["Buldhana PS","Khamgaon PS","Malkapur PS","Mehkar PS","Shegaon PS"],"Chandrapur":["Chandrapur PS","Ballarpur PS","Warora PS","Brahmapuri PS","Mul PS"],"Dhule":["Dhule PS","Shirpur PS","Sindkheda PS","Sakri PS"],"Gadchiroli":["Gadchiroli PS","Chamorshi PS","Aheri PS","Sironcha PS"],"Gondia":["Gondia PS","Tirora PS","Arjuni Morgaon PS","Amgaon PS"],"Hingoli":["Hingoli PS","Kalamnuri PS","Sengaon PS","Aundha Nagnath PS"],"Jalgaon":["Jalgaon PS","Bhusawal PS","Amalner PS","Pachora PS","Chalisgaon PS","Dharangaon PS"],"Jalna":["Jalna PS","Ambad PS","Partur PS","Badnapur PS"],"Kolhapur":["Kolhapur PS","Ichalkaranji PS","Jaysingpur PS","Kagal PS","Karvir PS","Radhanagari PS"],"Latur":["Latur PS","Udgir PS","Ausa PS","Nilanga PS","Shirur Anantpal PS"],"Mumbai City":["Colaba PS","Cuffe Parade PS","Marine Drive PS","Azad Maidan PS","Nagpada PS","Agripada PS","Byculla PS","Crawford Market PS","D B Marg PS","Dongri PS","Gamdevi PS","Kalbadevi PS","MRA Marg PS","Pydhonie PS","Umarkhadi PS","VP Road PS"],"Mumbai Suburban":["Bandra PS","Andheri PS","Borivali PS","Kandivali PS","Malad PS","Goregaon PS","Kurla PS","Ghatkopar PS","Chembur PS","Chunabhatti PS","DN Nagar PS","Dadar PS","Dahisar PS","Dharavi PS","Dindoshi PS","Khar PS","Kherwadi PS","Powai PS","Santacruz PS","Sakinaka PS","Versova PS","Vakola PS","Vikhroli PS"],"Nagpur":["Kotwali PS","Lakadganj PS","Sitabuldi PS","Sadar PS","Ajni PS","Ambazari PS","Azar PS","Dhantoli PS","Gittikhadan PS","Imambada PS","Jafar Nagar PS","Kapil Nagar PS","Pratap Nagar PS","Sakkardara PS","Tehsil PS","Yashodhara Nagar PS"],"Nanded":["Nanded PS","Deglur PS","Kinwat PS","Hadgaon PS","Bhokar PS"],"Nandurbar":["Nandurbar PS","Shahada PS","Shirpur PS","Taloda PS","Nawapur PS"],"Nashik":["Nashik Road PS","Cidco PS","Panchavati PS","Malegaon PS","Satpur PS","Ambad PS","Deolali PS","Igatpuri PS","Mhasrul PS","Sinnar PS","Yeola PS"],"Osmanabad":["Osmanabad PS","Tuljapur PS","Omerga PS","Paranda PS"],"Palghar":["Palghar PS","Vasai PS","Virar PS","Boisar PS","Dahanu PS","Wada PS","Jawhar PS","Mokhada PS"],"Parbhani":["Parbhani PS","Selu PS","Manwath PS","Pathri PS"],"Pune":["Shivajinagar PS","Deccan PS","Kothrud PS","Hadapsar PS","Kondhwa PS","Viman Nagar PS","Aundh PS","Bavdhan PS","Camp PS","Chatushringi PS","Chaturshringi PS","Faraskhana PS","Khadak PS","Loni Kalbhor PS","Mundhwa PS","Pimpri PS","Swargate PS","Vishrantwadi PS","Wakad PS","Warje PS","Yerawada PS"],"Raigad":["Alibag PS","Pen PS","Panvel PS","Uran PS","Mahad PS","Roha PS","Mangaon PS"],"Ratnagiri":["Ratnagiri PS","Chiplun PS","Guhagar PS","Khed PS","Lanja PS","Sangameshwar PS"],"Sangli":["Sangli PS","Miraj PS","Jat PS","Vita PS","Khanapur PS","Tasgaon PS"],"Satara":["Satara PS","Karad PS","Mahabaleshwar PS","Phaltan PS","Wai PS"],"Sindhudurg":["Oros PS","Sawantwadi PS","Vengurla PS","Kankavli PS","Malvan PS"],"Solapur":["Solapur PS","Pandharpur PS","Barshi PS","Akkalkot PS","Mohol PS","North Solapur PS","South Solapur PS"],"Thane":["Thane PS","Ulhasnagar PS","Kalyan PS","Bhiwandi PS","Dombivli PS","Ambernath PS","Badlapur PS","Mira Road PS","Navi Mumbai PS","Vashi PS","Belapur PS","Kharghar PS","Panvel PS","Turbhe PS"],"Wardha":["Wardha PS","Hinganghat PS","Arvi PS","Deoli PS","Seloo PS"],"Washim":["Washim PS","Mangrulpir PS","Risod PS","Karanja PS"],"Yavatmal":["Yavatmal PS","Wani PS","Pusad PS","Umarkhed PS","Darwha PS"]},
-
-"Manipur":{"Bishnupur":["Bishnupur PS","Moirang PS","Nambol PS","Kumbi PS","Oinam PS"],"Chandel":["Chandel PS","Moreh PS","Tengnoupal PS","Chakpikarong PS"],"Churachandpur":["Churachandpur PS","Saikot PS","Henglep PS","Thanlon PS","Singngat PS","Vangai PS"],"Imphal East":["Porompat PS","Heingang PS","Lamlai PS","Pangei PS","Sawombung PS","Irilbung PS","Keirenthel PS"],"Imphal West":["Imphal PS","Lamphel PS","Singjamei PS","Patsoi PS","Sekmai PS","Lamlong PS","Langol PS","Wangoi PS","Hatta PS","Kiyamgei PS","Mayang Imphal PS","Nambol PS","Naoriya Pakhanglakpa PS","Sawombung PS","Thoubal PS","Wangkhei PS"],"Jiribam":["Jiribam PS","Borobekra PS"],"Kakching":["Kakching PS","Sugnu PS","Wabagai PS"],"Kamjong":["Kamjong PS","Ukhrul PS","Chassad PS"],"Kangpokpi":["Kangpokpi PS","Saikul PS","Saitu PS","Gamnom PS","Litan PS"],"Noney":["Noney PS","Longmai PS","Khoupum PS"],"Pherzawl":["Pherzawl PS","Tipaimukh PS","Churachandpur PS"],"Senapati":["Senapati PS","Mao PS","Tadubi PS","Paomata PS","Karong PS","Purul PS"],"Tamenglong":["Tamenglong PS","Nungba PS","Tamei PS","Tousem PS","Khongtal PS"],"Tengnoupal":["Tengnoupal PS","Moreh PS","Pallel PS"],"Thoubal":["Thoubal PS","Kakching PS","Wangoi PS","Lilong PS","Yairipok PS","Khangabok PS","Heirok PS"],"Ukhrul":["Ukhrul PS","Chingai PS","Phungyar PS","Kasom Khullen PS","Kamjong PS","Jessami PS"]},
-
-"Meghalaya":{"East Garo Hills":["Williamnagar PS","Songsak PS","Kharkutta PS"],"East Jaintia Hills":["Khliehriat PS","Amlarem PS","Laskein PS"],"East Khasi Hills":["Shillong PS","Laitumkhrah PS","Mawkhar PS","Rynjah PS","Mylliem PS","Nongkrem PS","Nongpoh PS","Umsning PS"],"North Garo Hills":["Resubelpara PS","Mendipathar PS","Bajengdoba PS"],"Ri Bhoi":["Nongpoh PS","Umsning PS","Jirang PS","Nongstoin PS"],"South Garo Hills":["Baghmara PS","Selsella PS","Ranikor PS","Chokpot PS"],"South West Garo Hills":["Ampati PS","Mahendraganj PS","Tura PS"],"South West Khasi Hills":["Mawkyrwat PS","Nongstoin PS"],"West Garo Hills":["Tura PS","Dalu PS","Dadengiri PS","Phulbari PS","Selsella PS"],"West Jaintia Hills":["Jowai PS","Thadlaskein PS","Shangpung PS"],"West Khasi Hills":["Nongstoin PS","Mairang PS","Kharkutta PS"]},
-
-"Mizoram":{"Aizawl":["Aizawl PS","Ramhlun PS","Dawrpui PS","Bawngkawn PS","Durtlang PS","Zemabawk PS","Sakawrtuichhun PS"],"Champhai":["Champhai PS","Khawzawl PS","Vaphai PS"],"Hnahthial":["Hnahthial PS","Lungsen PS"],"Khawzawl":["Khawzawl PS","Piler PS"],"Kolasib":["Kolasib PS","Bilkhawthlir PS","Vairengte PS"],"Lawngtlai":["Lawngtlai PS","Chawngte PS","Sangau PS"],"Lunglei":["Lunglei PS","Tlabung PS","Hnahthial PS","Lungsen PS","Bunghmun PS"],"Mamit":["Mamit PS","Zawlnuam PS","Phullen PS","West Phaileng PS"],"Saiha":["Saiha PS","Tuipang PS","Sangau PS"],"Saitual":["Saitual PS","Tlangnuam PS"],"Serchhip":["Serchhip PS","Thenzawl PS","Bualpui PS"]},
-
-"Nagaland":{"Chumoukedima":["Chumoukedima PS","Niuland PS"],"Dimapur":["Dimapur PS","Chumoukedima PS","Medziphema PS","Niuland PS","Kuhuboto PS"],"Kiphire":["Kiphire PS","Seyochung PS","Longmatra PS"],"Kohima":["Kohima PS","Phesama PS","Zubza PS","Viswema PS","Jakhama PS"],"Longleng":["Longleng PS","Longkhim PS"],"Mokokchung":["Mokokchung PS","Alongkima PS","Tuli PS","Changtongya PS"],"Mon":["Mon PS","Tizit PS","Tobu PS","Aboi PS"],"Noklak":["Noklak PS","Shamator PS"],"Peren":["Peren PS","Jalukie PS","Tening PS"],"Phek":["Phek PS","Pfutsero PS","Meluri PS","Chizami PS"],"Tuensang":["Tuensang PS","Shamator PS","Noklak PS","Longleng PS"],"Wokha":["Wokha PS","Bhandari PS","Sanis PS"],"Zunheboto":["Zunheboto PS","Aghunato PS","Suruhuto PS","Pughoboto PS"]},
-
-"Odisha":{"Angul":["Angul PS","Talcher PS","Athamallik PS","Pallahara PS"],"Balangir":["Balangir PS","Titilagarh PS","Patnagarh PS","Kantabanji PS"],"Balasore":["Balasore PS","Jaleswar PS","Soro PS","Nilagiri PS","Bhadrak PS"],"Bargarh":["Bargarh PS","Padampur PS","Sohela PS","Attabira PS"],"Bhadrak":["Bhadrak PS","Basudevpur PS","Dhamnagar PS","Chandbali PS"],"Boudh":["Boudh PS","Kantamal PS","Phulbani PS"],"Cuttack":["Cuttack Town PS","Mangalabag PS","Malgodown PS","Badambadi PS","Bhubaneswar PS","Buxi Bazar PS","Choudwar PS","Mahanga PS","Mangalabag PS"],"Deogarh":["Deogarh PS","Barkote PS","Tileibani PS"],"Dhenkanal":["Dhenkanal PS","Kamakhyanagar PS","Hindol PS","Bhuban PS"],"Gajapati":["Paralakhemundi PS","Mohana PS","Rayagada PS"],"Ganjam":["Berhampur PS","Chhatrapur PS","Aska PS","Phulbani PS","Bhanjanagar PS","Buguda PS","Surada PS"],"Jagatsinghpur":["Jagatsinghpur PS","Paradeep PS","Tirtol PS","Biridi PS"],"Jajpur":["Jajpur PS","Vyasanagar PS","Binjharpur PS","Dharmasala PS"],"Jharsuguda":["Jharsuguda PS","Brajarajnagar PS","Belpahar PS","Bamra PS"],"Kalahandi":["Bhawanipatna PS","Junagarh PS","Dharmagarh PS","Kesinga PS","Karlamunda PS"],"Kandhamal":["Phulbani PS","Baliguda PS","Raikia PS","Khandapara PS"],"Kendrapara":["Kendrapara PS","Pattamundai PS","Marshaghai PS","Rajnagar PS"],"Kendujhar":["Keonjhar PS","Barbil PS","Champua PS","Anandapur PS"],"Khordha":["Bhubaneswar Town PS","Kharavela Nagar PS","Saheed Nagar PS","Nayapalli PS","Chandrasekharpur PS","Laxmisagar PS","Mancheswar PS","Pokhariput PS","Rasulgarh PS","Tamando PS","Aiginia PS","Badagada PS","Capital PS","Jatni PS","Lingaraj PS"],"Koraput":["Koraput PS","Jeypore PS","Semiliguda PS","Boipariguda PS","Nabarangapur PS"],"Malkangiri":["Malkangiri PS","Mathili PS","Korukonda PS","Chitrakonda PS"],"Mayurbhanj":["Baripada PS","Rairangpur PS","Bahalda PS","Karanjia PS","Jashipur PS"],"Nabarangapur":["Nabarangpur PS","Umerkote PS","Kosagumuda PS","Dabugaon PS"],"Nayagarh":["Nayagarh PS","Daspalla PS","Odagaon PS","Boudh PS"],"Nuapada":["Nuapada PS","Khariar PS","Komna PS","Sinapali PS"],"Puri":["Puri PS","Konark PS","Nimapada PS","Pipili PS","Brahmagiri PS"],"Rayagada":["Rayagada PS","Gunupur PS","Bisam Cuttack PS","Kashipur PS","Padmapur PS"],"Sambalpur":["Sambalpur PS","Burla PS","Rairakhol PS","Kuchinda PS","Jharsuguda PS"],"Subarnapur":["Sonepur PS","Binika PS","Birmaharajpur PS","Tarva PS"],"Sundargarh":["Sundargarh PS","Rourkela PS","Civil Township PS","Rajgangpur PS","Bonai PS","Bisra PS","Kuanrmunda PS"]},
-
-"Punjab":{"Amritsar":["Kotwali PS","Islamabad PS","Sultanwind PS","Cantonment PS","Division A PS","Division B PS","Division C PS","GT Road PS","Majitha PS","Rayya PS","Verka PS"],"Barnala":["Barnala PS","Tapa PS","Bhadaur PS","Dhanaula PS"],"Bathinda":["Bathinda PS","Goniana PS","Nathana PS","Phul PS","Rampura Phul PS","Talwandi Sabo PS"],"Faridkot":["Faridkot PS","Jaitu PS","Kotkapura PS","Sadiq PS"],"Fatehgarh Sahib":["Fatehgarh Sahib PS","Bassi Pathana PS","Morinda PS","Kharar PS"],"Fazilka":["Fazilka PS","Abohar PS","Jalalabad PS","Malout PS"],"Ferozepur":["Ferozepur PS","Firozpur Cantonment PS","Zira PS","Faridkot PS","Guruharsahai PS","Jalalabad PS","Makhu PS"],"Gurdaspur":["Gurdaspur PS","Batala PS","Dhariwal PS","Dera Baba Nanak PS","Dinanagar PS","Fatehgarh Churian PS","Narot Jaimal Singh PS","Pathankot PS","Qadian PS"],"Hoshiarpur":["Hoshiarpur PS","Mukerian PS","Garhshankar PS","Balachaur PS","Dasuya PS","Tanda PS"],"Jalandhar":["Kotwali PS","Sadar PS","Model Town PS","Divisions 1-5 PS","Bhargo Camp PS","Garha PS","Nakodar PS","Nurmahal PS","Phillaur PS"],"Kapurthala":["Kapurthala PS","Phagwara PS","Sultanpur Lodhi PS","Dhilwan PS"],"Ludhiana":["Division No. 1 PS","Division No. 2 PS","Sarabha Nagar PS","Dugri PS","Sahnewal PS","Khanna PS","Jagraon PS","Payal PS","Raikot PS","Samrala PS"],"Malerkotla":["Malerkotla PS","Ahmedgarh PS","Amargarh PS"],"Mansa":["Mansa PS","Budhlada PS","Sardulgarh PS","Bareta PS"],"Moga":["Moga PS","Baghapurana PS","Dharamkot PS","Nihal Singh Wala PS"],"Muktsar":["Muktsar PS","Giddarbaha PS","Lambi PS","Malout PS"],"Nawanshahr":["Nawanshahr PS","Banga PS","Garhshankar PS","Rahon PS"],"Pathankot":["Pathankot PS","Dhar Kalan PS","Narot Jaimal Singh PS","Sujanpur PS"],"Patiala":["Patiala PS","Rajpura PS","Nabha PS","Sangrur PS","Samana PS","Dera Bassi PS"],"Rupnagar":["Rupnagar PS","Anandpur Sahib PS","Morinda PS","Kiratpur Sahib PS"],"S.A.S. Nagar (Mohali)":["Mohali PS","Kharar PS","Derabassi PS","Boothgarh PS","Banur PS"],"Sangrur":["Sangrur PS","Sunam PS","Barnala PS","Malerkotla PS","Dirba PS","Dhuri PS","Lehra PS","Longowal PS"],"Shaheed Bhagat Singh Nagar":["Nawanshahr PS","Banga PS","Rahon PS"],"Tarn Taran":["Tarn Taran PS","Patti PS","Khem Karan PS","Bhikhiwind PS","Harike PS"]},
-
-"Rajasthan":{"Ajmer":["Kotwali PS","Civil Lines PS","Beawar PS","Kishangarh PS","Nasirabad PS","Pushkar PS"],"Alwar":["Alwar PS","Bharatpur PS","Ramgarh PS","Behror PS","Kathumar PS","Rajgarh PS","Tijara PS"],"Banswara":["Banswara PS","Bagidora PS","Garhi PS","Sajjangarh PS"],"Baran":["Baran PS","Atru PS","Chhabra PS","Kelwara PS","Shahabad PS"],"Barmer":["Barmer PS","Balotra PS","Siwana PS","Pachpadra PS","Chohtan PS"],"Bharatpur":["Bharatpur PS","Nagar PS","Deeg PS","Kumher PS","Weir PS"],"Bhilwara":["Bhilwara PS","Shahpura PS","Mandal PS","Raipur PS","Asind PS","Gangapur PS","Hamirgarh PS","Kotri PS"],"Bikaner":["Bikaner PS","Nokha PS","Kolayat PS","Lunkaransar PS","Deshnoke PS"],"Bundi":["Bundi PS","Nainwa PS","Hindoli PS","Indragarh PS"],"Chittorgarh":["Chittorgarh PS","Nimbahera PS","Begun PS","Bari Sadri PS","Gangrar PS","Kapasan PS","Rawatbhata PS"],"Churu":["Churu PS","Ratangarh PS","Rajgarh PS","Sardar Shahar PS","Taranagar PS","Sujangarh PS"],"Dausa":["Dausa PS","Lalsot PS","Bandikui PS","Sikrai PS"],"Dholpur":["Dholpur PS","Rajakheda PS","Bari PS","Saipau PS"],"Dungarpur":["Dungarpur PS","Sagwara PS","Aspur PS","Simalwara PS"],"Hanumangarh":["Hanumangarh PS","Sangaria PS","Nohar PS","Rawatsar PS","Pilibanga PS","Tibbi PS"],"Jaipur":["Kotwali PS","Bani Park PS","Malviya Nagar PS","Mansarovar PS","Vaishali Nagar PS","Civil Lines PS","Amer PS","Bajaj Nagar PS","Barkat Nagar PS","Chitrakoot PS","Gandhinagar PS","Jhotwara PS","Muhana PS","Sanganer PS","Sikar Road PS","Sindhi Camp PS","Sodala PS","Transport Nagar PS","Vidhyadhar Nagar PS"],"Jaisalmer":["Jaisalmer PS","Pokaran PS","Sam PS","Ramgarh PS"],"Jalore":["Jalore PS","Bhinmal PS","Sanchore PS","Ahore PS"],"Jhalawar":["Jhalawar PS","Khanpur PS","Manohar Thana PS","Pirawa PS","Jhalrapatan PS"],"Jhunjhunu":["Jhunjhunu PS","Chirawa PS","Khetri PS","Mandawa PS","Nawalgarh PS","Pilani PS","Surajgarh PS"],"Jodhpur":["Kotwali PS","Sardarpura PS","Sojati Gate PS","Ratanada PS","Soorsagar PS","Banar PS","Bhavad PS","Chopasni Housing Board PS","Lohawat PS","Osian PS","Pachpadra PS","Pal PS","Pratap Nagar PS","Shastri Nagar PS"],"Karauli":["Karauli PS","Hindaun PS","Nadoti PS","Sapotra PS","Todabhim PS"],"Kota":["Kota North PS","Kota South PS","Ladpura PS","Nayapura PS","Sangod PS","Sultanpur PS","Vigyan Nagar PS"],"Nagaur":["Nagaur PS","Merta PS","Degana PS","Ladnun PS","Nawa PS","Parbatsar PS"],"Pali":["Pali PS","Marwar Junction PS","Bali PS","Desuri PS","Jaitaran PS","Rohat PS","Sojat PS"],"Pratapgarh":["Pratapgarh PS","Arnod PS","Chhoti Sadri PS","Dhariawad PS"],"Rajsamand":["Rajsamand PS","Nathdwara PS","Kankroli PS","Amet PS","Bhim PS","Deogarh PS","Khamnore PS","Railmagra PS"],"Sawai Madhopur":["Sawai Madhopur PS","Gangapur City PS","Bonli PS","Bamanwas PS","Khandar PS"],"Sikar":["Sikar PS","Fatehpur PS","Lachhmangarh PS","Neem Ka Thana PS","Ramgarh Shekhawati PS","Shrimadhopur PS"],"Sirohi":["Sirohi PS","Pindwara PS","Reodar PS","Abu Road PS","Mount Abu PS"],"Sri Ganganagar":["Sri Ganganagar PS","Suratgarh PS","Raisinghnagar PS","Anupgarh PS","Karanpur PS","Padampur PS"],"Tonk":["Tonk PS","Uniyara PS","Aligarh PS","Deoli PS","Malpura PS","Niwai PS"],"Udaipur":["Kotwali PS","Sukhadia Circle PS","Ambamata PS","Hiran Magri PS","Balicha PS","Bhuwana PS","Fatehpura PS","Madhuban PS","Pratap Nagar PS"]},
-
-"Sikkim":{"East Sikkim":["Gangtok PS","Ranipool PS","Pakyong PS","Rongli PS","Singtam PS"],"North Sikkim":["Mangan PS","Chungthang PS","Lachen PS","Lachung PS"],"South Sikkim":["Namchi PS","Jorethang PS","Ravangla PS","Yangang PS"],"West Sikkim":["Gyalshing PS","Soreng PS","Yuksom PS","Dentam PS"]},
-
-"Tamil Nadu":{"Ariyalur":["Ariyalur PS","Sendurai PS","Perambalur PS","Andimadam PS"],"Chengalpattu":["Chengalpattu PS","Maraimalai Nagar PS","Tambaram PS","Vandalur PS","Pallavaram PS"],"Chennai":["Anna Nagar PS","T Nagar PS","Adyar PS","Velachery PS","Tambaram PS","Egmore PS","Royapettah PS","Mylapore PS","Nungambakkam PS","Kodambakkam PS","Porur PS","Ambattur PS","Avadi PS","Ayanavaram PS","Basin Bridge PS","Choolai PS","Coopum PS","Flower Bazaar PS","Fort PS","George Town PS","Guindy PS","ICF PS","Kolathur PS","Madhavaram PS","Manali PS","Mandaveli PS","Minjur PS","Murugappa Nagar PS","Nerkundram PS","Pattabiram PS","Perambur PS","Perungalathur PS","Polichalur PS","Poonamallee PS","Pudupet PS","Royapuram PS","Saidapet PS","Sholinganallur PS","Thiruvottiyur PS","Tondiarpet PS","Valasaravakkam PS","Villivakkam PS","Virugambakkam PS"],"Coimbatore":["Town South PS","RS Puram PS","Saibaba Colony PS","Peelamedu PS","Ukkadam PS","Singanallur PS","Kuniyamuthur PS","Periyanaickenpalayam PS","Podanur PS","Ramanathapuram PS","Sulur PS","Vedapatti PS"],"Cuddalore":["Cuddalore PS","Chidambaram PS","Panruti PS","Virudhachalam PS","Neyveli PS"],"Dharmapuri":["Dharmapuri PS","Palacode PS","Pappireddipatti PS","Harur PS","Pennagaram PS"],"Dindigul":["Dindigul PS","Batlagundu PS","Kodaikanal PS","Natham PS","Oddanchatram PS","Palani PS","Vedasandur PS"],"Erode":["Erode PS","Gobichettipalayam PS","Perundurai PS","Bhavani PS","Sathyamangalam PS","Modakurichi PS"],"Kallakurichi":["Kallakurichi PS","Ulundurpet PS","Sankarapuram PS","Tirukoilur PS"],"Kancheepuram":["Kancheepuram PS","Chengalpattu PS","Madurantakam PS","Uthiramerur PS","Walajabad PS"],"Kanyakumari":["Nagercoil PS","Padmanabhapuram PS","Suchindrum PS","Thuckalay PS","Colachel PS"],"Karur":["Karur PS","Kulithalai PS","Manapparai PS","Aravakurichi PS"],"Krishnagiri":["Krishnagiri PS","Hosur PS","Denkanikotta PS","Bargur PS","Pochampalli PS"],"Madurai":["Town PS","KK Nagar PS","Goripalayam PS","Anaiyur PS","Anna Nagar PS","Aruppukottai PS","Avaniapuram PS","Ellis Nagar PS","Kodaikanal PS","Melur PS","Paravai PS","Thiruparankundram PS","Usilampatti PS","Vadipatti PS"],"Mayiladuthurai":["Mayiladuthurai PS","Sirkazhi PS","Sirkali PS","Poompuhar PS"],"Nagapattinam":["Nagapattinam PS","Velankanni PS","Kilvelur PS","Papanasam PS","Tirutturaipundi PS"],"Namakkal":["Namakkal PS","Rasipuram PS","Tiruchengode PS","Kumarapalayam PS","Senthamangalam PS"],"Nilgiris":["Ooty PS","Coonoor PS","Gudalur PS","Pandalur PS"],"Perambalur":["Perambalur PS","Ariyalur PS","Veppur PS","Kunnam PS"],"Pudukkottai":["Pudukkottai PS","Aranthangi PS","Gandarvakottai PS","Alangudi PS","Tirumayam PS"],"Ramanathapuram":["Ramanathapuram PS","Rameswaram PS","Paramakudi PS","Mudukulathur PS","Kadaladi PS"],"Ranipet":["Ranipet PS","Arcot PS","Arakkonam PS","Walajapet PS","Vellore PS"],"Salem":["Salem Town PS","Fairlands PS","Attur PS","Mettur PS","Omalur PS","Valapadi PS","Yercaud PS"],"Sivaganga":["Sivaganga PS","Karaikudi PS","Devakottai PS","Manamadurai PS","Ilayankudi PS"],"Tenkasi":["Tenkasi PS","Sankarankovil PS","Shencottah PS","Kadayanallur PS","Alangulam PS"],"Thanjavur":["Thanjavur PS","Kumbakonam PS","Papanasam PS","Pattukottai PS","Thiruvaiyaru PS"],"Theni":["Theni PS","Bodinayakanur PS","Periyakulam PS","Uthamapalayam PS","Andipatti PS"],"Thoothukudi":["Thoothukudi PS","Kovilpatti PS","Tiruchendur PS","Ottapidaram PS","Sathankulam PS"],"Tiruchirappalli":["Ariyamangalam PS","Woraiyur PS","Srirangam PS","Pallapatti PS","Thillai Nagar PS","Tiruchirappalli East PS","Tiruchirappalli West PS","Thottiyam PS","Perambalur PS"],"Tirunelveli":["Tirunelveli PS","Palayamkottai PS","Ambasamudram PS","Nanguneri PS","Radhapuram PS","Shencottah PS"],"Tirupathur":["Tirupathur PS","Ambur PS","Vaniyambadi PS","Natrampalli PS"],"Tiruppur":["Tiruppur PS","Avinashi PS","Dharapuram PS","Kangeyam PS","Palladam PS","Udumalaipettai PS"],"Tiruvallur":["Tiruvallur PS","Gummidipundi PS","Ponneri PS","Tiruttani PS","Uthukottai PS"],"Tiruvannamalai":["Tiruvannamalai PS","Polur PS","Arni PS","Chengam PS","Chetpet PS","Kalasapakkam PS","Vandavasi PS"],"Tiruvarur":["Tiruvarur PS","Mannargudi PS","Papanasam PS","Nannilam PS","Thiruthuraipoondi PS"],"Vellore":["Vellore PS","Katpadi PS","Gudiyatham PS","Vaniyambadi PS","Ambur PS","Arakkonam PS"],"Viluppuram":["Viluppuram PS","Tindivanam PS","Gingee PS","Kallakurichi PS","Sankarapuram PS","Tirukoilur PS"],"Virudhunagar":["Virudhunagar PS","Sivakasi PS","Aruppukottai PS","Rajapalayam PS","Sattur PS","Srivilliputhur PS"]},
-
-"Telangana":{"Adilabad":["Adilabad PS","Utnoor PS","Mancherial PS","Nirmal PS","Bhainsa PS","Luxettipet PS"],"Bhadradri Kothagudem":["Kothagudem PS","Bhadrachalam PS","Manuguru PS","Yellandu PS"],"Hyderabad":["Banjara Hills PS","Jubilee Hills PS","Madhapur PS","Cyberabad PS","Kukatpally PS","LB Nagar PS","Uppal PS","Malkajgiri PS","Secunderabad PS","Begumpet PS","Afzalgunj PS","Amberpet PS","Asifnagar PS","Bahadurpura PS","Charminar PS","Chaderghat PS","Dabeerpura PS","Gachibowli PS","Gopalapuram PS","Humayun Nagar PS","Hussainialam PS","Kachiguda PS","Karwan PS","Musheerabad PS","Nampally PS","New Bowenpally PS","Punjagutta PS","Rajendranagar PS","Ramgopalpet PS","Saifabad PS","Sultan Bazar PS","Tappachabutra PS","Tolichowki PS"],"Jagtial":["Jagtial PS","Korutla PS","Metpally PS","Raikal PS","Dharmapuri PS"],"Jangaon":["Jangaon PS","Ghanpur PS","Palakurthi PS","Devaruppula PS"],"Jayashankar Bhupalpally":["Bhupalpally PS","Mulugu PS","Mahadevpur PS","Pinapaka PS"],"Jogulamba Gadwal":["Gadwal PS","Alampur PS","Maldakal PS","Wanaparthy PS"],"Kamareddy":["Kamareddy PS","Banswada PS","Bichkunda PS","Machareddy PS","Yellareddy PS"],"Karimnagar":["Karimnagar PS","Peddapalli PS","Huzurabad PS","Choppadandi PS","Gangadhara PS","Jammikunta PS","Sircilla PS","Vemulawada PS"],"Khammam":["Khammam PS","Kothagudem PS","Yellandu PS","Bhadrachalam PS","Wyra PS"],"Komaram Bheem Asifabad":["Asifabad PS","Sirpur PS","Tiryani PS","Jainath PS"],"Mahabubabad":["Mahabubabad PS","Narsampet PS","Mulugu PS","Dornakal PS"],"Mahabubnagar":["Mahabubnagar PS","Jadcherla PS","Narayanpet PS","Gadwal PS","Kalwakurthy PS","Makthal PS","Nagarkurnool PS","Shadnagar PS"],"Mancherial":["Mancherial PS","Bellampalli PS","Luxettipet PS","Naspur PS","Chennur PS"],"Medak":["Medak PS","Siddipet PS","Narsapur PS","Toopran PS","Gajwel PS","Ramayampet PS"],"Medchal-Malkajgiri":["Medchal PS","Dundigal PS","Alwal PS","Balanagar PS","Kompally PS","Quthbullapur PS","Suraram PS"],"Mulugu":["Mulugu PS","Venkatapuram PS","Tadvai PS"],"Nagarkurnool":["Nagarkurnool PS","Achampet PS","Kollapur PS","Wanaparthy PS"],"Nalgonda":["Nalgonda PS","Bhongir PS","Miryalaguda PS","Suryapet PS","Devarakonda PS","Huzurnagar PS"],"Narayanpet":["Narayanpet PS","Makthal PS","Kosgi PS","Narva PS"],"Nirmal":["Nirmal PS","Bhainsa PS","Mudhole PS","Dichpally PS"],"Nizamabad":["Nizamabad Town PS","Armoor PS","Bodhan PS","Dichpally PS","Kamareddy PS","Banswada PS"],"Peddapalli":["Peddapalli PS","Ramagundam PS","Manthani PS","Sultanabad PS"],"Rajanna Sircilla":["Sircilla PS","Vemulawada PS","Konaraopet PS","Illanthakunta PS"],"Rangareddy":["Shamshabad PS","Rajendranagar PS","Chevella PS","Hayathnagar PS","Ibrahimpatnam PS","Kandukur PS","Maheshwaram PS","Saroornagar PS","Shadnagar PS"],"Sangareddy":["Sangareddy PS","Zahirabad PS","Patancheru PS","Narayankhed PS","Andole PS","Jogipet PS"],"Siddipet":["Siddipet PS","Gajwel PS","Dubbak PS","Chinnakodur PS","Husnabad PS"],"Suryapet":["Suryapet PS","Kodad PS","Huzurnagar PS","Nalgonda PS"],"Vikarabad":["Vikarabad PS","Tandur PS","Pargi PS","Nawabpet PS","Dharur PS"],"Wanaparthy":["Wanaparthy PS","Kollapur PS","Pebbair PS","Atmakur PS"],"Warangal Rural":["Wardhannapet PS","Narsampet PS","Geesugonda PS","Bhupalpally PS"],"Warangal Urban":["Warangal Town PS","Hanamkonda PS","Kazipet PS","Subedari PS","Khila Warangal PS","Lashkar Bazar PS"],"Yadadri Bhuvanagiri":["Bhongir PS","Yadadri PS","Aler PS","Choutuppal PS","Mothkur PS"]},
-
-"Tripura":{"Dhalai":["Ambassa PS","Kamalpur PS","Manu PS","Gandacharra PS"],"Gomati":["Udaipur PS","Amarpur PS","Ompi PS","Kathaliya PS"],"Khowai":["Khowai PS","Teliamura PS","Kalyanpur PS","Tulashikhar PS"],"North Tripura":["Dharmanagar PS","Kailashahar PS","Kumarghat PS","Panisagar PS"],"Sepahijala":["Bishalgarh PS","Sonamura PS","Boxanagar PS","Charilam PS"],"South Tripura":["Belonia PS","Sabroom PS","Santirbazar PS","Rajnagar PS","Bagafa PS"],"Unakoti":["Kailashahar PS","Kumarghat PS","Manu PS","Kurti PS"],"West Tripura":["Agartala PS","Amtali PS","Bardowali PS","Battala PS","East Agartala PS","Lefunga PS","Mohanpur PS","New Capital Complex PS","Pranta PS","Ranir Bazar PS","West Agartala PS"]},
-
-"Uttar Pradesh":{"Agra":["Kotwali PS","Taj Ganj PS","Kamla Nagar PS","Civil Lines PS","Fatehabad PS","Khandoli PS","Lohamandi PS","Mathura Gate PS","New Agra PS","Sadar PS","Sanjay Place PS","Sikandra PS","Trans Yamuna PS"],"Aligarh":["Kotwali PS","Civil Lines PS","Sasni Gate PS","Dehat Area PS","Iglas PS","Khair PS","Tappal PS"],"Allahabad (Prayagraj)":["Kotwali PS","Civil Lines PS","Kareli PS","Naini PS","Phaphamau PS","Bamraulia PS","Civil Lines PS","Colonelganj PS","George Town PS","Karchana PS","Kydganj PS","Muthiganj PS","Shivkuti PS","Soraon PS","Teliyarganj PS","Dhoomanganj PS"],"Ambedkar Nagar":["Akbarpur PS","Tanda PS","Jalalpur PS","Bhiyaon PS"],"Amethi":["Amethi PS","Gauriganj PS","Musafirkhana PS","Salon PS"],"Amroha":["Amroha PS","Hasanpur PS","Naugawan Sadat PS","Gajraula PS"],"Auraiya":["Auraiya PS","Dibiyapur PS","Bidhuna PS","Achalda PS"],"Azamgarh":["Kotwali PS","Civil Lines PS","Azamgarh Sadar PS","Azamgarh City PS","Lalganj PS","Mau PS","Mehnagar PS","Mubarakpur PS","Phulpur PS","Sagri PS"],"Baghpat":["Baghpat PS","Baraut PS","Khekra PS","Pilana PS"],"Bahraich":["Bahraich PS","Nanpara PS","Jarwal PS","Mahsi PS","Balaha PS"],"Ballia":["Ballia PS","Bansdih PS","Rasra PS","Sikandarpur PS","Phephna PS"],"Balrampur":["Balrampur PS","Tulsipur PS","Gaisdi PS","Utraula PS"],"Banda":["Banda PS","Baberu PS","Naraini PS","Tindwari PS"],"Barabanki":["Barabanki PS","Haidergarh PS","Nawabganj PS","Ram Nagar PS","Fatehpur PS"],"Bareilly":["Kotwali PS","Civil Lines PS","Cantt PS","Izzat Nagar PS","Faridpur PS","Meerganj PS","Nawabganj PS","Prem Nagar PS","Ramnagar PS","Shahi PS"],"Basti":["Basti PS","Harraiya PS","Nawabganj PS","Sant Kabir Nagar PS"],"Bhadohi":["Bhadohi PS","Gyanpur PS","Aurai PS","Suriyawan PS"],"Bijnor":["Bijnor PS","Nagina PS","Chandpur PS","Noorpur PS","Afzalgarh PS","Dhampur PS"],"Budaun":["Budaun PS","Ujhani PS","Sahaswan PS","Bisauli PS","Dataganj PS"],"Bulandshahr":["Bulandshahr PS","Anupshahr PS","Shikarpur PS","Sikandrabad PS","Khurja PS","Gulaothi PS"],"Chandauli":["Chandauli PS","Mugalsarai PS","Sakaldiha PS","Chahniya PS"],"Chitrakoot":["Karwi PS","Manikpur PS","Mau PS","Pahadi PS"],"Deoria":["Deoria PS","Salempur PS","Barhaj PS","Bhatpar Rani PS","Rudrapur PS"],"Etah":["Etah PS","Kasganj PS","Aliganj PS","Jalesar PS"],"Etawah":["Etawah PS","Jaswant Nagar PS","Bharthana PS","Saifai PS"],"Faizabad (Ayodhya)":["Ayodhya PS","Faizabad Kotwali PS","Bikapur PS","Dariyabad PS","Gosainganj PS","Mavaiya PS","Rudauli PS"],"Farrukhabad":["Farrukhabad PS","Fatehgarh PS","Kaimganj PS","Shamsabad PS","Kannauj PS"],"Fatehpur":["Fatehpur PS","Bindki PS","Husainganj PS","Khaga PS"],"Firozabad":["Firozabad PS","Shikohabad PS","Tundla PS","Jasrana PS"],"Gautam Buddh Nagar":["Sector 20 PS","Sector 24 PS","Greater Noida PS","Dadri PS","Jewar PS","Kasna PS","Rabupura PS","Surajpur PS"],"Ghaziabad":["Kotwali PS","Kavi Nagar PS","Nandgram PS","Indirapuram PS","Link Road PS","Loni PS","Masuri PS","Modinagar PS","Muradnagar PS","Sahibabad PS","Site 5 UPSIDC PS","Trans Hindon PS","Vijay Nagar PS"],"Ghazipur":["Ghazipur PS","Saidpur PS","Zamania PS","Muhammadabad PS","Mohammadabad PS"],"Gonda":["Gonda PS","Nawabganj PS","Mankapur PS","Tarabganj PS","Colonelganj PS"],"Gorakhpur":["Kotwali PS","Basharatpur PS","Cantonment PS","Gola Bazar PS","Padrauna PS","Campierganj PS","Jungle Kaudia PS","Khajni PS","Maharajganj PS","Pipraich PS","Sadar Bazar PS"],"Hamirpur":["Hamirpur PS","Maudaha PS","Rath PS","Sumerpur PS"],"Hapur":["Hapur PS","Pilkhuwa PS","Garhmukteshwar PS","Dhaulana PS"],"Hardoi":["Hardoi PS","Shahabad PS","Sandila PS","Bilgram PS","Sandi PS"],"Hathras":["Hathras PS","Sadabad PS","Sikandra Rao PS","Sasni PS"],"Jalaun":["Orai PS","Konch PS","Kalpi PS","Madhogarh PS"],"Jaunpur":["Jaunpur PS","Shahganj PS","Machhali Shahar PS","Mungra Badshahpur PS","Sirkoni PS"],"Jhansi":["Kotwali PS","Civil Lines PS","Sipri Bazar PS","Babina PS","Bangra PS","Mau Ranipur PS","Moth PS"],"Kannauj":["Kannauj PS","Tirwa PS","Gursahaiganj PS","Rasulabad PS"],"Kanpur Dehat":["Akbarpur PS","Rasulabad PS","Derapur PS","Ghatampur PS"],"Kanpur Nagar":["Kotwali PS","Govind Nagar PS","Kalyanpur PS","Kidwai Nagar PS","Armapur PS","Barra PS","Bilhaur PS","Chakeri PS","Fazalganj PS","Gwaltoli PS","Juhi PS","Kidwai Nagar PS","Naubasta PS","Rawatpur PS","Sarvodaya Nagar PS","Swaroop Nagar PS","Vikas Nagar PS"],"Kasganj":["Kasganj PS","Soron PS","Patiyali PS","Amanpur PS"],"Kaushambi":["Manjhanpur PS","Sirathu PS","Chail PS","Bharu PS"],"Kheri":["Kheri PS","Gola Gokaran Nath PS","Mohammadi PS","Nighasan PS","Palia Kalan PS"],"Kushinagar":["Kushinagar PS","Padrauna PS","Kasia PS","Hata PS","Tamkuhiraj PS"],"Lalitpur":["Lalitpur PS","Mehraoni PS","Talbehat PS","Pali PS"],"Lucknow":["Hazratganj PS","Gomtinagar PS","Vibhuti Khand PS","Kaiserbagh PS","Chowk PS","Alambagh PS","Mahanagar PS","Indira Nagar PS","Aliganj PS","Chinhat PS","Hasan Ganj PS","Husainganj PS","Krishnanagar PS","Madiaon PS","Malihabad PS","Malhour PS","Manak Nagar PS","Mohanlalganj PS","Naka Hindola PS","Nishatganj PS","Saadatganj PS","Thakurganj PS","Vikas Nagar PS","Wazirganj PS"],"Maharajganj":["Maharajganj PS","Nautanwa PS","Siswa Bazar PS","Pharenda PS","Partawal PS"],"Mahoba":["Mahoba PS","Kulpahar PS","Charkhari PS","Kabrai PS"],"Mainpuri":["Mainpuri PS","Shikohabad PS","Bhongaon PS","Karhal PS"],"Mathura":["Kotwali PS","Civil Lines PS","Vrindavan PS","Govardhan PS","Barsana PS","Chhata PS","Kosi Kalan PS","Mant PS","Mathura Dehat PS","Raya PS"],"Mau":["Mau PS","Ghosi PS","Muhammadabad PS","Kopaganj PS"],"Meerut":["Kotwali PS","Civil Lines PS","Brahmpuri PS","Cantonment PS","Delhi Gate PS","Daurala PS","Garh Mukteshwar PS","Hapur PS","Kithore PS","Lalkurti PS","Lisari Gate PS","Meerut Cantt PS","Nauchandi PS","Sadar Bazar PS","Shastri Nagar PS","Siwalkhas PS","Thana Bhawan PS","Transpara PS"],"Mirzapur":["Mirzapur PS","Chunar PS","Vindhyachal PS","Lalganj PS","Ahraura PS"],"Moradabad":["Moradabad PS","Civil Lines PS","Cantt PS","Chandpur PS","Amroha PS","Thakurdwara PS","Majhola PS","Sambhal PS"],"Muzaffarnagar":["Muzaffarnagar PS","Kairana PS","Budhana PS","Purqazi PS","Shamli PS","Thana Bhawan PS"],"Pilibhit":["Pilibhit PS","Bisalpur PS","Puranpur PS","Barkhera PS"],"Pratapgarh":["Pratapgarh PS","Kunda PS","Patti PS","Lalganj PS"],"Rae Bareli":["Rae Bareli PS","Lalganj PS","Dalmau PS","Salon PS","Tiloi PS"],"Rampur":["Rampur PS","Bilaspur PS","Shahabad PS","Swar PS","Tanda PS"],"Saharanpur":["Saharanpur PS","Deoband PS","Gangoh PS","Nakur PS","Rampur Maniharan PS","Sarsawa PS"],"Sambhal":["Sambhal PS","Chandausi PS","Gunnaur PS","Bahjoi PS"],"Sant Kabir Nagar":["Khalilabad PS","Basti PS","Hailiya PS","Baghauli PS"],"Sant Ravidas Nagar (Bhadohi)":["Bhadohi PS","Gyanpur PS","Aurai PS"],"Shahjahanpur":["Shahjahanpur PS","Tilhar PS","Powayan PS","Jalalabad PS","Khutar PS"],"Shamli":["Shamli PS","Kairana PS","Thana Bhawan PS","Kandhla PS","Budhana PS"],"Shravasti":["Bhinga PS","Ikauna PS","Hariharpur Rani PS"],"Siddharthnagar":["Naugarh PS","Bhanwapur PS","Domariyaganj PS","Shohratgarh PS"],"Sitapur":["Sitapur PS","Mahmudabad PS","Laharpur PS","Biswan PS","Misrikh PS"],"Sonbhadra":["Robertsganj PS","Chopan PS","Ghorawal PS","Duddhi PS"],"Sultanpur":["Sultanpur PS","Lambhua PS","Musafirkhana PS","Amethi PS"],"Unnao":["Unnao PS","Purwa PS","Bighapur PS","Safipur PS","Bangarmau PS"],"Varanasi":["Lanka PS","Sigra PS","Kotwali PS","Bhelupur PS","Chowkaghat PS","Dashashwamedh PS","Varanasi Cantt PS","Shivpur PS","Jaitpura PS","Pindra PS"]},
-
-"Uttarakhand":{"Almora":["Almora PS","Ranikhet PS","Someshwar PS","Bhikiyasain PS","Dwarahat PS"],"Bageshwar":["Bageshwar PS","Kapkot PS","Garur PS"],"Chamoli":["Gopeshwar PS","Karnaprayag PS","Joshimath PS","Tharali PS","Gairsain PS"],"Champawat":["Champawat PS","Tanakpur PS","Lohaghat PS","Purnagiri PS"],"Dehradun":["Kotwali PS","Rajpur Road PS","Prem Nagar PS","Raipur PS","Rishikesh PS","Chakrata PS","Mussoorie PS","Vikas Nagar PS","Clement Town PS","Dalanwala PS","Doiwala PS","Harbertpur PS","Nehru Colony PS","Niranjanpur PS","Premnagar PS","Raipur PS","Sahaspur PS"],"Haridwar":["Haridwar City PS","Roorkee PS","Jwalapur PS","Manglaur PS","Laksar PS","Narsan PS","Bahadrabad PS","Bhagwanpur PS","Landhaura PS","Liberheri PS"],"Nainital":["Nainital Kotwali PS","Haldwani PS","Kathgodam PS","Ramnagar PS","Bhimtal PS","Kaladhungi PS","Lalkuan PS","Mukteshwar PS","Ramgarh PS"],"Pauri Garhwal":["Pauri PS","Kotdwara PS","Lansdowne PS","Dugadda PS","Srinagar PS"],"Pithoragarh":["Pithoragarh PS","Dharchula PS","Munsyari PS","Berinag PS","Didihat PS"],"Rudraprayag":["Rudraprayag PS","Ukhimath PS","Augustmuni PS","Tilwara PS"],"Tehri Garhwal":["New Tehri PS","Chamba PS","Deoprayag PS","Ghansali PS","Narendra Nagar PS","Pratapnagar PS"],"Udham Singh Nagar":["Rudrapur PS","Kashipur PS","Bajpur PS","Khatima PS","Jaspur PS","Kichha PS","Gadarpur PS","Sitarganj PS"],"Uttarkashi":["Uttarkashi PS","Barkot PS","Purola PS","Mori PS","Chinyalisaur PS"]},
-
-"West Bengal":{"Alipurduar":["Alipurduar PS","Falakata PS","Kalchini PS","Kumargram PS","Madarihat PS"],"Bankura":["Bankura PS","Bishnupur PS","Sonamukhi PS","Khatra PS","Onda PS","Barjora PS"],"Birbhum":["Suri PS","Bolpur PS","Rampurhat PS","Nalhati PS","Mayureswar PS","Sainthia PS"],"Cooch Behar":["Cooch Behar PS","Tufanganj PS","Dinhata PS","Mathabhanga PS","Mekhliganj PS"],"Dakshin Dinajpur":["Balurghat PS","Gangarampur PS","Hili PS","Kushmandi PS"],"Darjeeling":["Darjeeling PS","Siliguri PS","Bhaktinagar PS","Kurseong PS","Kalimpong PS","Mirik PS"],"Hooghly":["Chinsurah PS","Serampore PS","Chandannagar PS","Arambagh PS","Bhadreswar PS","Khanakul PS","Polba PS","Singur PS","Uttarpara PS"],"Howrah":["Howrah PS","Liluah PS","Shibpur PS","Uluberia PS","Amta PS","Bally PS","Bantra PS","Dasnagar PS","Domjur PS","Jagatballavpur PS","Panchla PS","Sankrail PS"],"Jalpaiguri":["Jalpaiguri PS","Mal PS","Nagrakata PS","Rajganj PS","Dhupguri PS"],"Jhargram":["Jhargram PS","Binpur PS","Gopiballavpur PS","Sankrail PS","Nayagram PS"],"Kalimpong":["Kalimpong PS","Gorubathan PS","Lava PS","Pedong PS"],"Kolkata":["Lalbazar PS","Park Street PS","Gariahat PS","Lake PS","New Market PS","Bowbazar PS","Shyambazar PS","Dum Dum PS","Salt Lake PS","Kasba PS","Behala PS","Jadavpur PS","Armapur PS","Baguiati PS","Ballygunge PS","Bantra PS","Cossipore PS","Entally PS","Garden Reach PS","Jorabagan PS","Kalighat PS","Narkeldanga PS","Netaji Nagar PS","Phoolbagan PS","Port PS","Tala PS","Topsia PS","Watgunge PS"],"Malda":["English Bazar PS","Old Malda PS","Kaliachak PS","Gazole PS","Harishchandrapur PS","Manikchak PS","Ratua PS"],"Murshidabad":["Berhampore PS","Lalbag PS","Jangipur PS","Domkal PS","Farakka PS","Kandi PS","Raghunathganj PS","Sagardighi PS"],"Nadia":["Krishnanagar PS","Santipur PS","Ranaghat PS","Chakdaha PS","Kalyani PS","Tehatta PS","Haringhata PS","Nabadwip PS","Plassey PS"],"North 24 Parganas":["Barasat PS","Baranagar PS","Rajarhat PS","Bongaon PS","Basirhat PS","Baduria PS","Amdanga PS","Deganga PS","Gaighata PS","Habra PS","Haroa PS","Minakhan PS","Swarupnagar PS","Titagarh PS"],"Paschim Bardhaman":["Asansol PS","Durgapur PS","Raniganj PS","Barabani PS","Jamuria PS","Kanksa PS","Kulti PS","Ondal PS","Pandaveswar PS","Salanpur PS"],"Paschim Medinipur":["Midnapore PS","Ghatal PS","Kharagpur PS","Jhargram PS","Debra PS","Keshiari PS","Pingla PS","Sabang PS","Salboni PS"],"Purba Bardhaman":["Bardhaman PS","Katwa PS","Kalna PS","Memari PS","Ausgram PS","Bhatar PS","Galsi PS","Jamalpur PS","Ketugram PS","Raina PS"],"Purba Medinipur":["Tamluk PS","Haldia PS","Contai PS","Digha PS","Egra PS","Mahishadal PS","Nandakumar PS","Nandigram PS","Panskura PS","Ramnagar PS"],"Purulia":["Purulia PS","Jhalda PS","Manbazar PS","Raghunathpur PS","Balarampur PS","Hura PS","Boro PS","Arsha PS"],"South 24 Parganas":["Diamond Harbour PS","Baruipur PS","Canning PS","Sonarpur PS","Alipore PS","Amtala PS","Bishnupur PS","Budge Budge PS","Gosaba PS","Jaynagar PS","Joynagar PS","Kakdwip PS","Mathurapur PS","Namkhana PS","Sagar PS"],"Uttar Dinajpur":["Raiganj PS","Islampur PS","Chopra PS","Dalkhola PS","Karandighi PS"]},
-
-"Andaman & Nicobar Islands":{"South Andaman":["Port Blair PS","Aberdeen PS","Bamboo Flat PS","Minnie Bay PS","Haddo PS","Garacharma PS"],"North & Middle Andaman":["Mayabunder PS","Diglipur PS","Rangat PS","Billiground PS"],"Nicobar":["Car Nicobar PS","Nancowrie PS","Campbell Bay PS"]},
-
-"Chandigarh":{"Chandigarh":["Sector 17 PS","Sector 26 PS","Sector 36 PS","Manimajra PS","Industrial Area PS","Sector 11 PS","Sector 3 PS","Sector 19 PS","Sector 31 PS","Sector 34 PS","Sector 39 PS"]},
-
-"Dadra & Nagar Haveli and Daman & Diu":{"Dadra & Nagar Haveli":["Silvassa PS","Khanvel PS","Naroli PS","Rakholi PS"],"Daman":["Daman PS","Nani Daman PS","Moti Daman PS"],"Diu":["Diu PS","Ghoghla PS","Vanakbara PS"]},
-
-"Jammu & Kashmir":{"Anantnag":["Anantnag PS","Kulgam PS","Pahalgam PS","Bijbehara PS","Shangus PS","Dooru PS","Kokernag PS"],"Bandipora":["Bandipora PS","Sonawari PS","Gurez PS","Hajin PS"],"Baramulla":["Baramulla PS","Sopore PS","Pattan PS","Tangmarg PS","Rafiabad PS","Kreeri PS","Rohama PS","Boniyar PS"],"Budgam":["Budgam PS","Beerwah PS","Chadoora PS","Khan Sahib PS","Narbal PS","Khag PS"],"Doda":["Doda PS","Bhaderwah PS","Thathri PS","Gandoh PS"],"Ganderbal":["Ganderbal PS","Kangan PS","Lar PS","Manigam PS"],"Jammu":["Jammu Sadar PS","Bakshi Nagar PS","Gandhi Nagar PS","Bahu PS","Bazar PS","Channi Himmat PS","Gangyal PS","Janipur PS","Miran Sahib PS","Nowabad PS","Pacca Danga PS","Rehari PS","Trikuta Nagar PS"],"Kathua":["Kathua PS","Billawar PS","Basohli PS","Hiranagar PS","Dinga Amb PS"],"Kishtwar":["Kishtwar PS","Nagseni PS","Marwah PS","Padder PS"],"Kulgam":["Kulgam PS","D H Pora PS","Devsar PS","Qazigund PS","Frisal PS"],"Kupwara":["Kupwara PS","Handwara PS","Karnah PS","Sogam PS","Drugmulla PS"],"Poonch":["Poonch PS","Mendhar PS","Surankote PS","Mandi PS"],"Pulwama":["Pulwama PS","Tral PS","Pampore PS","Awantipora PS","Rajpora PS"],"Rajouri":["Rajouri PS","Nowshera PS","Kalakote PS","Budhal PS","Thanamandi PS"],"Ramban":["Ramban PS","Banihal PS","Gool PS","Batote PS"],"Reasi":["Reasi PS","Arnas PS","Katra PS","Mahore PS","Pouni PS"],"Samba":["Samba PS","Vijaypur PS","Ramgarh PS","Rajpura PS"],"Shopian":["Shopian PS","Zainpora PS","Keegam PS","Barbugh PS"],"Srinagar":["Kothi Bagh PS","Rajouri Kadal PS","Nowhatta PS","Saddar PS","Batmaloo PS","Batamaloo PS","Chanpora PS","Hazuri Bagh PS","Karan Nagar PS","Khanyar PS","Lal Bazar PS","Maisuma PS","Parimpora PS","Rainawari PS","Shalteng PS","Shergarhi PS","Soura PS"],"Udhampur":["Udhampur PS","Ramnagar PS","Chenani PS","Majalta PS","Domail PS"]},
-
-"Ladakh":{"Kargil":["Kargil PS","Zanskar PS","Dras PS","Sankoo PS","Shakar Chiktan PS"],"Leh":["Leh PS","Nubra PS","Khaltse PS","Nyoma PS","Diskit PS"]},
-
-"Lakshadweep":{"Lakshadweep":["Kavaratti PS","Agatti PS","Amini PS","Andrott PS","Minicoy PS","Kalpeni PS"]},
-
-"Puducherry":{"Karaikal":["Karaikal PS","Neravy PS","Kottucherry PS"],"Mahe":["Mahe PS","Chalakkara PS"],"Puducherry":["Puducherry PS","Lawspet PS","Muthialpet PS","Oulgaret PS","Ariyankuppam PS","Bahour PS","Mannadipet PS","Nettapakkam PS","Villianur PS"],"Yanam":["Yanam PS"]}
-};;
+var INDIA_POLICE_DATA={"Andhra Pradesh":{"Visakhapatnam":["Visakhapatnam Town PS","Gajuwaka PS","Seethammadhara PS","MVP Colony PS"],"Guntur":["Guntur Town PS","Narasaraopet PS","Tenali PS"],"Krishna":["Vijayawada One Town PS","Governorpet PS","Patamata PS"],"Kurnool":["Kurnool Town PS","Nandyal PS","Adoni PS"],"Chittoor":["Chittoor Town PS","Tirupati Urban PS","Madanapalle PS"]},"Assam":{"Kamrup Metropolitan":["Dispur PS","Jalukbari PS","Pan Bazar PS","Beltola PS","Noonmati PS","Azara PS"],"Dibrugarh":["Dibrugarh PS","Chabua PS"],"Jorhat":["Jorhat PS","Mariani PS"],"Silchar":["Silchar PS","Sonai PS"],"Nagaon":["Nagaon PS","Raha PS"]},"Bihar":{"Patna":["Kotwali PS","Gardanibagh PS","Danapur PS","Bankipur PS","Boring Road PS","Rajiv Nagar PS"],"Gaya":["Gaya Town PS","Bodh Gaya PS"],"Muzaffarpur":["Muzaffarpur Town PS","Muzaffarpur Sadar PS"],"Bhagalpur":["Bhagalpur Town PS","Kahalgaon PS"],"Nalanda":["Bihar Sharif PS","Rajgir PS"]},"Delhi":{"Central Delhi":["Connaught Place PS","Karol Bagh PS","Paharganj PS","Daryaganj PS","Sadar Bazar PS"],"South Delhi":["Hauz Khas PS","Malviya Nagar PS","Kalkaji PS","Saket PS","Greater Kailash PS","Mehrauli PS"],"North Delhi":["Civil Lines PS","Subzi Mandi PS","Timarpur PS","Mukherjee Nagar PS"],"East Delhi":["Preet Vihar PS","Vivek Vihar PS","Mayur Vihar PS","Laxmi Nagar PS"],"West Delhi":["Janakpuri PS","Uttam Nagar PS","Vikaspuri PS","Punjabi Bagh PS"],"South West Delhi":["Dwarka Sector 10 PS","Dwarka Sector 23 PS","Palam PS","Najafgarh PS"],"North West Delhi":["Rohini PS","Pitampura PS","Shalimar Bagh PS","Ashok Vihar PS"],"New Delhi":["New Delhi PS","Parliament Street PS","Tilak Marg PS"],"North East Delhi":["Seelampur PS","Shahdara PS","Bhajanpura PS"],"Outer Delhi":["Narela PS","Alipur PS","Bawana PS"]},"Gujarat":{"Ahmedabad":["Navrangpura PS","Satellite PS","Vastrapur PS","Chandkheda PS","Bopal PS","Narol PS","Maninagar PS"],"Surat":["Surat City PS","Adajan PS","Katargam PS","Varachha PS"],"Vadodara":["Vadodara City PS","Sayajigunj PS","Fatehgunj PS"],"Rajkot":["Rajkot A Division PS","Rajkot B Division PS","Gondal PS"],"Gandhinagar":["Gandhinagar Sector 21 PS","Gandhinagar Sector 7 PS","Mansa PS"]},"Haryana":{"Gurugram":["DLF Phase 1 PS","Sushant Lok PS","Sector 40 PS","Manesar PS","Palam Vihar PS","Badshahpur PS"],"Faridabad":["NIT Faridabad PS","Ballabhgarh PS","Tigaon PS"],"Ambala":["Ambala City PS","Ambala Cantonment PS"],"Hisar":["Hisar City PS","Hansi PS"],"Rohtak":["Rohtak City PS","Bahadurgarh PS"],"Panipat":["Panipat PS","Samalkha PS"],"Panchkula":["Panchkula PS","Kalka PS"]},"Jharkhand":{"Ranchi":["Kotwali PS","Doranda PS","Hindpiri PS","Bariatu PS","Lalpur PS"],"Dhanbad":["Dhanbad PS","Jharia PS","Sindri PS"],"Bokaro":["Chas PS","Bokaro Steel City PS"],"Jamshedpur":["Bistupur PS","Sakchi PS","Telco PS"]},"Karnataka":{"Bengaluru Urban":["Cubbon Park PS","Shivajinagar PS","Whitefield PS","Koramangala PS","Indiranagar PS","Jayanagar PS","JP Nagar PS","Yelahanka PS","Electronic City PS","HSR Layout PS","Marathahalli PS"],"Mysuru":["Mysuru North PS","Mysuru South PS","Nazarbad PS"],"Hubballi-Dharwad":["Hubballi Town PS","Dharwad PS"],"Mangaluru":["Mangaluru North PS","Mangaluru South PS","Urva PS"],"Belagavi":["Belagavi City PS","Angol PS"]},"Kerala":{"Thiruvananthapuram":["Fort PS","Cantonment PS","Karamana PS","Peroorkada PS","Nemom PS"],"Ernakulam":["Ernakulam Town PS","Fort Kochi PS","Aluva PS","Thrippunithura PS"],"Kozhikode":["Kozhikode Town PS","West Hill PS","Nadakkavu PS","Vadakara PS"],"Thrissur":["Thrissur Town PS","Ollur PS","Irinjalakuda PS"],"Kannur":["Kannur PS","Thalassery PS"]},"Madhya Pradesh":{"Bhopal":["TT Nagar PS","Kotwali PS","Habibganj PS","Govindpura PS","MP Nagar PS"],"Indore":["Vijay Nagar PS","Palasia PS","Central Kotwali PS","Lasudia PS","Banganga PS"],"Jabalpur":["Kotwali PS","Omti PS","Wright Town PS"],"Gwalior":["City Kotwali PS","Thatipur PS","Morar PS"],"Ujjain":["Ujjain PS","Mahidpur PS"]},"Maharashtra":{"Mumbai City":["Colaba PS","Cuffe Parade PS","Marine Drive PS","Azad Maidan PS","Nagpada PS"],"Mumbai Suburban":["Bandra PS","Andheri PS","Borivali PS","Kandivali PS","Malad PS","Goregaon PS","Kurla PS","Ghatkopar PS"],"Pune":["Shivajinagar PS","Deccan PS","Kothrud PS","Hadapsar PS","Kondhwa PS","Viman Nagar PS"],"Nagpur":["Kotwali PS","Lakadganj PS","Sitabuldi PS","Sadar PS"],"Thane":["Thane PS","Ulhasnagar PS","Kalyan PS","Bhiwandi PS"],"Nashik":["Nashik Road PS","Cidco PS","Panchavati PS","Malegaon PS"],"Aurangabad":["Aurangabad City PS","CIDCO PS"],"Solapur":["Solapur PS","Pandharpur PS"],"Kolhapur":["Kolhapur PS","Ichalkaranji PS"]},"Manipur":{"Imphal West":["Imphal PS","Lamphel PS","Singjamei PS","Patsoi PS","Sekmai PS","Lamlong PS"],"Imphal East":["Porompat PS","Heingang PS","Lamlai PS","Pangei PS"],"Thoubal":["Thoubal PS","Kakching PS","Wangoi PS","Lilong PS"],"Bishnupur":["Bishnupur PS","Moirang PS","Nambol PS"],"Churachandpur":["Churachandpur PS","Saikot PS","Henglep PS"],"Senapati":["Senapati PS","Mao PS"],"Ukhrul":["Ukhrul PS","Chingai PS"],"Chandel":["Chandel PS","Moreh PS"],"Tamenglong":["Tamenglong PS","Nungba PS"],"Kangpokpi":["Kangpokpi PS","Saikul PS"],"Jiribam":["Jiribam PS"]},"Odisha":{"Khordha":["Bhubaneswar Town PS","Kharavela Nagar PS","Saheed Nagar PS","Nayapalli PS"],"Cuttack":["Cuttack Town PS","Mangalabag PS","Malgodown PS"],"Sundargarh":["Sundargarh PS","Rourkela PS","Civil Township PS"],"Sambalpur":["Sambalpur PS","Burla PS"]},"Punjab":{"Amritsar":["Kotwali PS","Islamabad PS","Sultanwind PS","Cantonment PS"],"Ludhiana":["Division No. 1 PS","Division No. 2 PS","Sarabha Nagar PS","Dugri PS"],"Jalandhar":["Kotwali PS","Sadar PS","Model Town PS"],"Patiala":["Patiala PS","Rajpura PS"],"Mohali":["Mohali PS","Kharar PS","Derabassi PS"],"Chandigarh":["Sector 17 PS","Sector 26 PS","Sector 36 PS","Manimajra PS"]},"Rajasthan":{"Jaipur":["Kotwali PS","Bani Park PS","Malviya Nagar PS","Mansarovar PS","Vaishali Nagar PS","Civil Lines PS"],"Jodhpur":["Kotwali PS","Sardarpura PS","Sojati Gate PS"],"Kota":["Kota North PS","Kota South PS"],"Udaipur":["Kotwali PS","Sukhadia Circle PS","Ambamata PS","Hiran Magri PS"],"Ajmer":["Kotwali PS","Civil Lines PS","Beawar PS"],"Bikaner":["Bikaner PS","Nokha PS"],"Alwar":["Alwar PS","Bharatpur PS"]},"Tamil Nadu":{"Chennai":["Anna Nagar PS","T Nagar PS","Adyar PS","Velachery PS","Tambaram PS","Egmore PS","Royapettah PS","Mylapore PS","Nungambakkam PS","Kodambakkam PS","Porur PS","Ambattur PS"],"Coimbatore":["Town South PS","RS Puram PS","Saibaba Colony PS","Peelamedu PS"],"Madurai":["Town PS","KK Nagar PS","Goripalayam PS"],"Tiruchirappalli":["Ariyamangalam PS","Woraiyur PS","Srirangam PS"],"Salem":["Salem Town PS","Fairlands PS"],"Tirunelveli":["Tirunelveli PS","Palayamkottai PS"]},"Telangana":{"Hyderabad":["Banjara Hills PS","Jubilee Hills PS","Madhapur PS","Cyberabad PS","Kukatpally PS","LB Nagar PS","Uppal PS","Malkajgiri PS","Secunderabad PS","Begumpet PS"],"Warangal Urban":["Warangal Town PS","Hanamkonda PS","Kazipet PS"],"Karimnagar":["Karimnagar PS","Peddapalli PS"],"Nizamabad":["Nizamabad Town PS","Armoor PS"],"Medchal-Malkajgiri":["Medchal PS","Dundigal PS","Alwal PS"],"Rangareddy":["Shamshabad PS","Rajendranagar PS","Chevella PS"]},"Uttar Pradesh":{"Lucknow":["Hazratganj PS","Gomtinagar PS","Vibhuti Khand PS","Kaiserbagh PS","Chowk PS","Alambagh PS","Mahanagar PS","Indira Nagar PS","Aliganj PS"],"Kanpur Nagar":["Kotwali PS","Govind Nagar PS","Kalyanpur PS","Kidwai Nagar PS"],"Agra":["Kotwali PS","Taj Ganj PS","Kamla Nagar PS"],"Varanasi":["Lanka PS","Sigra PS","Kotwali PS","Bhelupur PS"],"Prayagraj":["Kotwali PS","Civil Lines PS","Kareli PS","Naini PS"],"Meerut":["Kotwali PS","Civil Lines PS","Brahmpuri PS"],"Ghaziabad":["Kotwali PS","Kavi Nagar PS","Nandgram PS","Indirapuram PS"],"Gautam Buddh Nagar":["Sector 20 PS","Sector 24 PS","Greater Noida PS","Dadri PS"],"Gorakhpur":["Kotwali PS","Basharatpur PS","Cantonment PS"],"Mathura":["Kotwali PS","Civil Lines PS","Vrindavan PS"]},"Uttarakhand":{"Dehradun":["Kotwali PS","Rajpur Road PS","Prem Nagar PS","Raipur PS","Rishikesh PS"],"Haridwar":["Haridwar City PS","Roorkee PS","Jwalapur PS"],"Nainital":["Nainital Kotwali PS","Haldwani PS","Kathgodam PS"],"Udham Singh Nagar":["Rudrapur PS","Kashipur PS","Bajpur PS"]},"West Bengal":{"Kolkata":["Lalbazar PS","Park Street PS","Gariahat PS","Lake PS","New Market PS","Bowbazar PS","Shyambazar PS","Dum Dum PS","Salt Lake PS","Kasba PS","Behala PS","Jadavpur PS"],"North 24 Parganas":["Barasat PS","Baranagar PS","Rajarhat PS","Bongaon PS"],"South 24 Parganas":["Diamond Harbour PS","Baruipur PS","Canning PS"],"Howrah":["Howrah PS","Liluah PS","Shibpur PS","Uluberia PS"],"Hooghly":["Chinsurah PS","Serampore PS","Chandannagar PS"],"Paschim Bardhaman":["Asansol PS","Durgapur PS","Raniganj PS"],"Darjeeling":["Darjeeling PS","Siliguri PS","Bhaktinagar PS"],"Murshidabad":["Berhampore PS","Lalbag PS","Jangipur PS"]},"Jammu & Kashmir":{"Srinagar":["Kothi Bagh PS","Rajouri Kadal PS","Nowhatta PS","Saddar PS"],"Jammu":["Jammu Sadar PS","Bakshi Nagar PS","Gandhi Nagar PS","Bahu PS"],"Anantnag":["Anantnag PS","Kulgam PS"],"Baramulla":["Baramulla PS","Sopore PS"],"Budgam":["Budgam PS","Beerwah PS"],"Kupwara":["Kupwara PS","Handwara PS"]},"Chandigarh":{"Chandigarh":["Sector 17 PS","Sector 26 PS","Sector 36 PS","Manimajra PS","Industrial Area PS","Sector 11 PS"]}};
 
 (function(){var sel=document.getElementById('fir-state');if(!sel)return;var st=Object.keys(window.INDIA_POLICE_DATA||{}).sort();for(var i=0;i<st.length;i++){var o=document.createElement('option');o.value=st[i];o.textContent=st[i];sel.appendChild(o);}})();
 
@@ -1771,69 +1347,6 @@ window._firFnsLoaded=true;
 window.shareFIRWhatsApp=function(){if(!window._lastFIR)return;window.open('https://wa.me/?text='+encodeURIComponent(window._lastFIR),'_blank');};
 </script>
 
-<!-- NGO safe wrappers — pehle define ho jaayein HTML se -->
-<script>
-function switchLoginType(type){
-  var isNgo=type==='ngo';
-  document.getElementById('l-form-personal').style.display=isNgo?'none':'block';
-  document.getElementById('l-form-ngo').style.display=isNgo?'block':'none';
-  document.getElementById('l-type-personal').style.background=isNgo?'white':'var(--black)';
-  document.getElementById('l-type-personal').style.color=isNgo?'#555':'white';
-  document.getElementById('l-type-personal').style.borderColor=isNgo?'var(--border)':'var(--black)';
-  document.getElementById('l-type-ngo').style.background=isNgo?'#1a1a2e':'white';
-  document.getElementById('l-type-ngo').style.color=isNgo?'white':'#555';
-  document.getElementById('l-type-ngo').style.borderColor=isNgo?'#1a1a2e':'var(--border)';
-}
-function switchRegisterType(type){
-  var isNgo=type==='ngo';
-  document.getElementById('r-form-personal').style.display=isNgo?'none':'block';
-  document.getElementById('r-form-ngo').style.display=isNgo?'block':'none';
-  document.getElementById('r-type-personal').style.background=isNgo?'white':'var(--black)';
-  document.getElementById('r-type-personal').style.color=isNgo?'#555':'white';
-  document.getElementById('r-type-personal').style.borderColor=isNgo?'var(--border)':'var(--black)';
-  document.getElementById('r-type-ngo').style.background=isNgo?'#1a1a2e':'white';
-  document.getElementById('r-type-ngo').style.color=isNgo?'white':'#555';
-  document.getElementById('r-type-ngo').style.borderColor=isNgo?'#1a1a2e':'var(--border)';
-}
-function ngoSwitchTab(t){if(window._ngoTabFn)window._ngoTabFn(t);}
-function ngoTogglePw(a,b){if(window._ngoToggleFn)window._ngoToggleFn(a,b);}
-function ngoDoLogin(){if(window._ngoLoginFn)window._ngoLoginFn();}
-function ngoDoSignup(){
-  var org=(document.getElementById('ngo-s-org')||{}).value||'';
-  var email=(document.getElementById('ngo-s-email')||{}).value||'';
-  var pass=(document.getElementById('ngo-s-pass')||{}).value||'';
-  var errEl=document.getElementById('ngo-signup-err');
-  var okEl=document.getElementById('ngo-signup-ok');
-  if(errEl)errEl.style.display='none';
-  if(okEl)okEl.style.display='none';
-  org=org.trim();email=email.trim();pass=pass.trim();
-  if(!org){if(errEl){errEl.textContent='⚠️ Organization name daalo';errEl.style.display='block';}return;}
-  if(!email){if(errEl){errEl.textContent='⚠️ Email daalo';errEl.style.display='block';}return;}
-  if(pass.length<6){if(errEl){errEl.textContent='⚠️ Password kam se kam 6 characters';errEl.style.display='block';}return;}
-  var auth=window._auth;
-  var createUser=window._fbCreateUser;
-  var updateProf=window._fbUpdateProfile;
-  if(!auth||!createUser){if(errEl){errEl.textContent='❌ App load nahi hua, refresh karo';errEl.style.display='block';}return;}
-  createUser(auth,email,pass).then(function(cred){
-    return updateProf(cred.user,{displayName:org});
-  }).then(function(){
-    if(okEl){okEl.textContent='✅ Account ban gaya! Ab login karo.';okEl.style.display='block';}
-    document.getElementById('ngo-s-org').value='';
-    document.getElementById('ngo-s-email').value='';
-    document.getElementById('ngo-s-pass').value='';
-    setTimeout(function(){ngoSwitchTab('login');if(okEl)okEl.style.display='none';},1800);
-  }).catch(function(e){
-    var msg=e.code==='auth/email-already-in-use'?'❌ Email already registered hai':
-            e.code==='auth/invalid-email'?'❌ Valid email daalo':
-            e.code==='auth/weak-password'?'❌ Password kam se kam 6 characters':
-            '❌ '+e.message;
-    if(errEl){errEl.textContent=msg;errEl.style.display='block';}
-  });
-}
-function ngoLogin(){ngoDoLogin();}
-function ngoLogout(){if(window._ngoLogoutFn)window._ngoLogoutFn();}
-</script>
-
 <!-- NGO/POLICE DASHBOARD PAGE -->
 <div class="page" id="page-ngo">
   <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
@@ -1849,67 +1362,10 @@ function ngoLogout(){if(window._ngoLogoutFn)window._ngoLogoutFn();}
         <div style="font-size:13px;opacity:.8;">Authorized personnel only</div>
       </div>
       <div class="auth-card" style="max-width:100%;">
-        <!-- Tabs -->
-        <div style="display:flex;gap:0;margin-bottom:20px;border:1.5px solid var(--border);border-radius:10px;overflow:hidden;">
-          <button id="ngo-tab-login" onclick="ngoSwitchTab('login')" style="flex:1;padding:10px;border:none;background:var(--black);color:white;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">🔑 Login</button>
-          <button id="ngo-tab-signup" onclick="ngoSwitchTab('signup')" style="flex:1;padding:10px;border:none;background:white;color:#555;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">📝 Sign Up</button>
-        </div>
-
-        <!-- Login Form -->
-        <div id="ngo-form-login">
-          <div id="ngo-login-err" style="display:none;background:#FEE2E2;color:#DC2626;border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:12px;"></div>
-          <div class="form-group"><label>📧 Email</label><input type="email" id="ngo-l-email" placeholder="org@example.com"></div>
-          <div class="form-group"><label>🔒 Password</label>
-            <div style="position:relative;">
-              <input type="password" id="ngo-l-pass" placeholder="••••••••" style="width:100%;padding:12px 40px 12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
-              <button onclick="ngoTogglePw('ngo-l-pass',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#aaa;">👁️</button>
-            </div>
-          </div>
-          <button class="btn-primary" style="width:100%" onclick="ngoDoLogin()">Enter Dashboard</button>
-          <div style="text-align:center;margin-top:12px;font-size:13px;color:var(--text-muted);">Account nahi hai? <a onclick="ngoSwitchTab('signup')" style="color:var(--orange);font-weight:700;cursor:pointer;">Sign Up karo</a></div>
-        </div>
-
-        <!-- Signup Form -->
-        <div id="ngo-form-signup" style="display:none;">
-          <div id="ngo-signup-err" style="display:none;background:#FEE2E2;color:#DC2626;border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:12px;"></div>
-          <div id="ngo-signup-ok" style="display:none;background:#D1FAE5;color:#065F46;border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:12px;">✅ Account bana! Login karo.</div>
-          <div class="form-group"><label>🏛️ Organization Name</label><input type="text" id="ngo-s-org" placeholder="e.g. Manipur Police / HelpAge India"></div>
-          <div class="form-group"><label>📧 Email</label><input type="email" id="ngo-s-email" placeholder="org@example.com"></div>
-          <div class="form-group"><label>🔒 Password</label>
-            <div style="position:relative;">
-              <input type="password" id="ngo-s-pass" placeholder="Min 6 characters" style="width:100%;padding:12px 40px 12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
-              <button onclick="ngoTogglePw('ngo-s-pass',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#aaa;">👁️</button>
-            </div>
-          </div>
-          <button class="btn-primary" style="width:100%" onclick="(function(){
-  var org=document.getElementById('ngo-s-org').value.trim();
-  var email=document.getElementById('ngo-s-email').value.trim();
-  var pass=document.getElementById('ngo-s-pass').value.trim();
-  var err=document.getElementById('ngo-signup-err');
-  var ok=document.getElementById('ngo-signup-ok');
-  err.style.display='none';ok.style.display='none';
-  if(!org){err.textContent='⚠️ Organization name daalo';err.style.display='block';return;}
-  if(!email){err.textContent='⚠️ Email daalo';err.style.display='block';return;}
-  if(pass.length<6){err.textContent='⚠️ Password 6+ characters chahiye';err.style.display='block';return;}
-  if(!window._auth||!window._fbCreateUser){err.textContent='❌ App load nahi hua, refresh karo';err.style.display='block';return;}
-  window._fbCreateUser(window._auth,email,pass).then(function(c){
-    return window._fbUpdateProfile(c.user,{displayName:org});
-  }).then(function(){
-    ok.textContent='✅ Account ban gaya! Ab login karo.';ok.style.display='block';
-    document.getElementById('ngo-s-org').value='';
-    document.getElementById('ngo-s-email').value='';
-    document.getElementById('ngo-s-pass').value='';
-    setTimeout(function(){ngoSwitchTab('login');ok.style.display='none';},1800);
-  }).catch(function(e){
-    var msg=e.code==='auth/email-already-in-use'?'❌ Email already registered':
-            e.code==='auth/invalid-email'?'❌ Valid email daalo':
-            e.code==='auth/weak-password'?'❌ Password 6+ characters chahiye':
-            '❌ '+e.message;
-    err.textContent=msg;err.style.display='block';
-  });
-})()">Create Account</button>
-          <div style="text-align:center;margin-top:12px;font-size:13px;color:var(--text-muted);">Already account hai? <a onclick="ngoSwitchTab('login')" style="color:var(--orange);font-weight:700;cursor:pointer;">Login karo</a></div>
-        </div>
+        <div class="form-group"><label>Organization Name</label><input type="text" id="ngo-org" placeholder="e.g. Delhi Police / HelpAge India"></div>
+        <div class="form-group"><label>Access Code</label><input type="password" id="ngo-code" placeholder="Enter access code"></div>
+        <button class="btn-primary" style="width:100%" onclick="ngoLogin()">Enter Dashboard</button>
+        <div style="margin-top:12px;font-size:12px;color:var(--text-muted);text-align:center;">Contact <strong>support@findback.in</strong> for access</div>
       </div>
     </div>
 
@@ -2011,62 +1467,51 @@ function ngoLogout(){if(window._ngoLogoutFn)window._ngoLogoutFn();}
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ── NGO/POLICE DASHBOARD ──
+var NGO_ACCESS_CODE = 'findback_ngo_2025';
 
-window._ngoTabFn = function(tab) {
-  var isLogin = tab === 'login';
-  document.getElementById('ngo-form-login').style.display = isLogin ? 'block' : 'none';
-  document.getElementById('ngo-form-signup').style.display = isLogin ? 'none' : 'block';
-  document.getElementById('ngo-tab-login').style.background = isLogin ? 'var(--black)' : 'white';
-  document.getElementById('ngo-tab-login').style.color = isLogin ? 'white' : '#555';
-  document.getElementById('ngo-tab-signup').style.background = isLogin ? 'white' : 'var(--black)';
-  document.getElementById('ngo-tab-signup').style.color = isLogin ? '#555' : 'white';
+window.ngoLogin = function() {
+  var org = document.getElementById('ngo-org').value.trim();
+  var code = document.getElementById('ngo-code').value.trim();
+  if (!org) { toast('⚠️ Organization name daalo'); return; }
+  if (code !== NGO_ACCESS_CODE) { toast('❌ Invalid access code'); return; }
+  document.getElementById('ngo-login-wall').style.display = 'none';
+  document.getElementById('ngo-dashboard').style.display = 'block';
+  document.getElementById('ngo-org-name').textContent = org;
+  sessionStorage.setItem('ngo_org', org);
+  ngoLoadDashboard();
+  // Show home banner
+  var banner = document.getElementById('ngo-home-banner');
+  if(banner) banner.style.display='block';
+  var bn = document.getElementById('ngo-banner-name');
+  if(bn) bn.textContent = org;
+  updateNgoBannerStats();
 };
-window.ngoSwitchTab = window._ngoTabFn;
 
-window._ngoToggleFn = function(inputId, btn) {
-  var inp = document.getElementById(inputId);
-  if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
-  else { inp.type = 'password'; btn.textContent = '👁️'; }
+window.updateNgoBannerStats = function() {
+  var posts = window._allPosts||[];
+  var banner = document.getElementById('ngo-banner-stats');
+  if(!banner) return;
+  var open = posts.filter(function(p){return p.type==='missing'&&p.status!=='resolved';}).length;
+  var today = new Date().toDateString();
+  var todayPosts = posts.filter(function(p){
+    if(!p.createdAt) return false;
+    var d = p.createdAt.seconds?new Date(p.createdAt.seconds*1000):new Date(p.createdAt);
+    return d.toDateString()===today;
+  }).length;
+  banner.innerHTML =
+    '<span style="background:rgba(255,255,255,.15);padding:4px 10px;border-radius:12px;font-size:11px;">📋 '+posts.length+' Total</span>' +
+    (open?'<span style="background:#DC2626;padding:4px 10px;border-radius:12px;font-size:11px;">🚨 '+open+' Missing Open</span>':'') +
+    (todayPosts?'<span style="background:#059669;padding:4px 10px;border-radius:12px;font-size:11px;">🆕 '+todayPosts+' Today</span>':'');
 };
-window.ngoTogglePw = window._ngoToggleFn;
-
-// ngoDoSignup already defined above as global function
-
-window._ngoLoginFn = function() {
-  var email = document.getElementById('ngo-l-email').value.trim();
-  var pass = document.getElementById('ngo-l-pass').value.trim();
-  var errEl = document.getElementById('ngo-login-err');
-  errEl.style.display = 'none';
-  if (!email || !pass) { errEl.textContent = '⚠️ Email aur password daalo'; errEl.style.display = 'block'; return; }
-  var auth = window._auth;
-  var signIn = window._fbSignIn;
-  if (!auth || !signIn) { errEl.textContent = '❌ App load nahi hua, refresh karo'; errEl.style.display = 'block'; return; }
-  signIn(auth, email, pass).then(function(cred) {
-    var org = cred.user.displayName || email;
-    document.getElementById('ngo-login-wall').style.display = 'none';
-    document.getElementById('ngo-dashboard').style.display = 'block';
-    document.getElementById('ngo-org-name').textContent = org;
-    sessionStorage.setItem('ngo_org', org);
-    ngoLoadDashboard();
-  }).catch(function(e) {
-    var msg = e.code === 'auth/invalid-credential' ? '❌ Galat email ya password' : '❌ ' + e.message;
-    errEl.textContent = msg; errEl.style.display = 'block';
-  });
-};
-window.ngoDoLogin = window._ngoLoginFn;
-
-// Legacy alias
-window.ngoLogin = window._ngoLoginFn;
-
-window._ngoLogoutFn = function() {
+window.ngoLogout = function() {
   document.getElementById('ngo-login-wall').style.display = 'block';
   document.getElementById('ngo-dashboard').style.display = 'none';
   sessionStorage.removeItem('ngo_org');
-  if (window._auth && window._fbSignOut) { window._fbSignOut(window._auth).catch(function(){}); }
+  var banner = document.getElementById('ngo-home-banner');
+  if(banner) banner.style.display='none';
 };
-window.ngoLogout = window._ngoLogoutFn;
 
 window.ngoLoadDashboard = function() {
   var posts = window._allPosts || [];
@@ -2294,14 +1739,24 @@ window.ngoBulkUpload = function(input) {
 window.addEventListener('load', function(){
   var org = sessionStorage.getItem('ngo_org');
   if (org) {
-    var wall = document.getElementById('ngo-login-wall');
-    var dash = document.getElementById('ngo-dashboard');
-    var nameEl = document.getElementById('ngo-org-name');
-    if (wall) wall.style.display='none';
-    if (dash) dash.style.display='block';
-    if (nameEl) nameEl.textContent=org;
+    document.getElementById('ngo-login-wall').style.display='none';
+    document.getElementById('ngo-dashboard').style.display='block';
+    document.getElementById('ngo-org-name').textContent=org;
+    var banner=document.getElementById('ngo-home-banner');
+    if(banner)banner.style.display='block';
+    var bn=document.getElementById('ngo-banner-name');
+    if(bn)bn.textContent=org;
+    setTimeout(function(){if(window.updateNgoBannerStats)window.updateNgoBannerStats();},1000);
   }
 });
 
 // Refresh NGO dashboard when posts update
-var _origR
+var _origRenderAll = window._renderAll;
+window._renderAll = function(){
+  if(_origRenderAll) _origRenderAll();
+  var dash = document.getElementById('ngo-dashboard');
+  if(dash && dash.style.display!=='none') ngoLoadDashboard();
+  var banner = document.getElementById('ngo-home-banner');
+  if(banner && banner.style.display!=='none' && window.updateNgoBannerStats) window.updateNgoBannerStats();
+};
+</script>
