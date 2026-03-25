@@ -524,7 +524,8 @@ onAuthStateChanged(auth,(user)=>{
   }else{
     if(lb)lb.style.display='flex';if(pb)pb.style.display='none';
   }
-  setTimeout(()=>{if(window._renderAll)window._renderAll();},400);
+  // Re-render so ownership buttons appear correctly
+  if(window._renderAll)window._renderAll();
 });
 window.submitToFirebase=async function(){
   const item=document.getElementById('m-item').value.trim(),loc=document.getElementById('m-loc').value.trim();
@@ -923,7 +924,15 @@ window.openDetail=function(id){
   let btns='';
   if(phone.length>=10){btns+=`<a href="https://wa.me/${phone.slice(-12)}?text=${waMsg}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#25D366;color:white;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">💬 WhatsApp</a>`;btns+=`<a href="tel:${rc}" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--gray);color:var(--black);border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">📞 Call</a>`;}
   else if(rc.includes('@')){btns+=`<a href="mailto:${rc}" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--orange);color:white;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">📧 Email</a>`;}
-  if(window._currentUser&&window._currentUser.uid===p.uid){btns+=`<button onclick="openEditModal('${p.id}')" style="padding:14px;border:none;background:var(--gray);color:var(--black);border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">✏️ Edit</button>`;btns+=`<button onclick="deletePost('${p.id}')" style="padding:14px;border:none;background:#FEE2E2;color:#DC2626;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">🗑️ Delete</button>`;}
+  if(window._currentUser&&window._currentUser.uid===p.uid){
+    btns+=`<div style="display:flex;gap:10px;">
+      <button onclick="openEditModal('${p.id}')" style="flex:1;padding:14px;border:none;background:var(--gray);color:var(--black);border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;">✏️ Edit Post</button>
+      <button onclick="deletePost('${p.id}')" style="flex:1;padding:14px;border:none;background:#FEE2E2;color:#DC2626;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;">🗑️ Delete</button>
+    </div>
+    <div style="background:#EFF6FF;border-radius:10px;padding:10px 14px;font-size:12px;color:#1D4ED8;text-align:center;">
+      ✅ This is your post — only you can edit or delete it
+    </div>`;
+  }
   const aid=p.id.replace(/[^a-z0-9]/gi,'_');
   const anonSec=`<div id="anon-section-${aid}" style="display:none;margin-top:4px;"><textarea id="anon-msg-${aid}" placeholder="Anonymous message..." style="width:100%;padding:12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;resize:vertical;min-height:80px;outline:none;margin-bottom:8px;"></textarea><button onclick="sendAnonymousMsg('${p.id}')" style="width:100%;padding:12px;background:#111;color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">📨 Send Anonymous</button></div>`;
   const aiBtn=(p.type==='lost'||p.type==='found')?`<button id="ai-match-btn-${aid}" onclick="runAIMatch('${p.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:linear-gradient(135deg,#111,#333);color:white;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">🤖 AI Match Dhundo</button>`:'';
@@ -1227,7 +1236,7 @@ window._renderAll=function(){
     var curUid=window._currentUser?window._currentUser.uid:null,isOwn=curUid&&p.uid===curUid;
     var eid=p.id.replace(/[^a-zA-Z0-9]/g,'_'),q="'";
     var menuHtml='';
-    if(isOwn){menuHtml='<div style="position:absolute;top:6px;right:6px;z-index:25;"><button id="optbtn-'+eid+'" onclick="event.stopPropagation();toggleOptions('+q+eid+q+');" style="width:32px;height:32px;background:rgba(255,255,255,0.95);border:1.5px solid #ddd;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;">⋮</button><div id="opts-'+eid+'" style="display:none;position:absolute;top:36px;right:0;background:white;border:1.5px solid #eee;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.12);z-index:50;min-width:130px;overflow:hidden;"><div onclick="event.stopPropagation();closeAllOptions();openEditModal('+q+p.id+q+');" style="padding:12px 14px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:1px solid #f0f0f0;">✏️ Edit</div><div onclick="event.stopPropagation();closeAllOptions();deletePost('+q+p.id+q+');" style="padding:12px 14px;font-size:13px;font-weight:600;cursor:pointer;color:#DC2626;">🗑️ Delete</div></div></div>';}
+    if(isOwn){menuHtml='<div style="position:absolute;top:6px;right:6px;z-index:25;"><div style="display:flex;gap:4px;"><button onclick="event.stopPropagation();openEditModal('+q+p.id+q+');" style="width:28px;height:28px;background:rgba(255,255,255,.95);border:none;border-radius:8px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.15);">✏️</button><button onclick="event.stopPropagation();deletePost('+q+p.id+q+');" style="width:28px;height:28px;background:rgba(254,226,226,.95);border:none;border-radius:8px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.15);">🗑️</button></div></div>';}
     var rb=p.status==='resolved'?'<div style="position:absolute;top:6px;left:6px;background:#059669;color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;">✅ Resolved</div>':'';
     // Age badge
     if(!rb&&p.createdAt){
@@ -1268,8 +1277,14 @@ window._renderAll=function(){
       var cl=cats.filter(function(p){return p.type==='lost';}).length,cf=cats.filter(function(p){return p.type==='found';}).length;
       ih+='<div style="grid-column:1/-1;margin:16px 0 8px;display:flex;align-items:center;gap:8px;"><div style="font-size:15px;font-weight:700;">'+key+'</div>'+(cl>0?'<span style="background:#FEE2E2;color:#DC2626;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+cl+' L</span>':'')+(cf>0?'<span style="background:#D1FAE5;color:#059669;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;">'+cf+' F</span>':'')+'</div>'+cats.map(card).join('');
     });
-    var nc=pagePosts.filter(function(p){return !p.category;});
+    // Posts with no category OR unrecognized category
+    var knownCats=['Wallet','Phone','Keys','Bag','Jewellery','Backpack','Laptop','Pet','Glasses','Documents','Watch','Purse','Person','Animals','Car','Bike','Cycle','Other','Missing Person','Cash'];
+    var nc=pagePosts.filter(function(p){return !p.category||!knownCats.some(function(k){return p.category.includes(k)||k.includes(p.category);});});
     if(nc.length){ih+='<div style="grid-column:1/-1;margin:16px 0 8px;"><div style="font-size:15px;font-weight:700;">📦 Other</div></div>'+nc.map(card).join('');}
+  }
+  // Fallback: if grouping produced nothing but posts exist, show all flat
+  if(!ih && pagePosts.length > 0){
+    ih = pagePosts.map(card).join('');
   }
   container.innerHTML=ih||'<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--text-muted);">No posts found</div>';
   renderPagination(page,tp,filtered.length,ps,Math.min(pe,filtered.length));
