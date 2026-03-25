@@ -1180,12 +1180,20 @@ window._renderAll=function(){
     return pd<d90;
   });
   else if(sf==='resolved')filtered=filtered.filter(function(p){return p.status==='resolved';});
-  if(ac)filtered=filtered.filter(function(p){return p.category&&p.category.includes(ac);});
+  if(ac)filtered=filtered.filter(function(p){return p.category&&(p.category.includes(ac)||ac.includes(p.category)||p.category.toLowerCase()===ac.toLowerCase());});
   var sq=window.searchQuery||'';
   if(sq)filtered=filtered.filter(function(p){return (p.item||'').toLowerCase().indexOf(sq)>=0||(p.loc||'').toLowerCase().indexOf(sq)>=0||(p.desc||'').toLowerCase().indexOf(sq)>=0;});
   fl.textContent=ac?('📂 '+ac):lf?('📍 '+lf):'🔍 All Posts';
   // Posts visible to all users
-  if(!filtered.length){container.innerHTML='';noPosts.innerHTML='<div style="font-size:48px;margin-bottom:12px;">🔍</div><h3 style="font-family:\'Sora\',sans-serif;font-size:18px;margin-bottom:6px;">No posts yet</h3><p style="font-size:14px;">Be the first to post!</p>';noPosts.style.display='block';removePagination();return;}
+  if(!filtered.length){
+    container.innerHTML='';
+    if(ac){
+      noPosts.innerHTML='<div style="text-align:center;padding:40px 0;"><div style="font-size:48px;margin-bottom:12px;">🔍</div><h3 style="font-family:\'Sora\',sans-serif;font-size:18px;margin-bottom:6px;">No '+ac+' posts</h3><p style="font-size:14px;color:var(--text-muted);">No lost or found items in this category yet.</p></div>';
+    } else {
+      noPosts.innerHTML='<div style="text-align:center;padding:40px 0;"><div style="font-size:48px;margin-bottom:12px;">🔍</div><h3 style="font-family:\'Sora\',sans-serif;font-size:18px;margin-bottom:6px;">No posts yet</h3><p style="font-size:14px;color:var(--text-muted);">Be the first to post!</p></div>';
+    }
+    noPosts.style.display='block';removePagination();return;
+  }
   noPosts.style.display='none';
   var fkey=ac+sq+sf+lf;
   if(window._lastFilter!==fkey){window._pagination.page=1;window._lastFilter=fkey;}
@@ -1223,7 +1231,7 @@ window._renderAll=function(){
       +'<div style="font-size:10px;color:#bbb;">'+(p.date||'')+'</div>'+rewHtml+'</div></div>'+reportHtml+'</div>';
   }
 
-  var ih='',allCats=['Wallet','Phone','Keys','Bag','Jewellery','Backpack','Laptop','Pet','Glasses','Documents','Watch','Purse','Person','Animals','Car','Bike','Cycle','Other'];
+  var ih='',allCats=['Wallet','Phone','Keys','Bag','Jewellery','Backpack','Laptop','Pet','Glasses','Documents','Watch','Purse','Person','Animals','Car','Bike','Cycle','Other','Missing Person','Cash'];
   if(ac){
     var lp=pagePosts.filter(function(p){return p.type==='lost';}),fp=pagePosts.filter(function(p){return p.type==='found';}),mp=pagePosts.filter(function(p){return p.type==='missing';});
     var tl2=filtered.filter(function(p){return p.type==='lost';}).length,tf=filtered.filter(function(p){return p.type==='found';}).length,tm=filtered.filter(function(p){return p.type==='missing';}).length;
@@ -1231,6 +1239,11 @@ window._renderAll=function(){
     if(lp.length){ih+='<div style="grid-column:1/-1;margin:12px 0 6px;"><span style="background:#FEE2E2;color:#DC2626;padding:5px 14px;border-radius:10px;font-weight:700;font-size:13px;">😟 Lost</span></div>';ih+=lp.map(card).join('');}
     if(fp.length){ih+='<div style="grid-column:1/-1;margin:12px 0 6px;"><span style="background:#D1FAE5;color:#059669;padding:5px 14px;border-radius:10px;font-weight:700;font-size:13px;">🎉 Found</span></div>';ih+=fp.map(card).join('');}
     if(mp.length){ih+='<div style="grid-column:1/-1;margin:12px 0 6px;"><span style="background:#FEF3C7;color:#D97706;padding:5px 14px;border-radius:10px;font-weight:700;font-size:13px;">⚠️ Missing</span></div>';ih+=mp.map(card).join('');}
+    // Catch-all: posts that don't match any type
+    var otherPosts=pagePosts.filter(function(p){return p.type!=='lost'&&p.type!=='found'&&p.type!=='missing';});
+    if(otherPosts.length){ih+=otherPosts.map(card).join('');}
+    // If nothing rendered but filtered has posts, show them all
+    if(!lp.length&&!fp.length&&!mp.length&&!otherPosts.length&&pagePosts.length){ih+=pagePosts.map(card).join('');}
   }else{
     allCats.forEach(function(key){
       var cats=pagePosts.filter(function(p){return p.category&&p.category.includes(key);});if(!cats.length)return;
