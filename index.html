@@ -1303,6 +1303,35 @@ window._renderAll=function(){
       +'</div></div>'+reportBtn+'</div>';
   }
 
+  // Login required to view posts
+  if(!window._currentUser){
+    container.innerHTML='';
+    var np=document.getElementById('no-posts');
+    if(np){
+      np.innerHTML='';
+      var wrap=document.createElement('div');
+      wrap.style.cssText='text-align:center;padding:40px 20px 20px;';
+      wrap.innerHTML='<div style="font-size:56px;margin-bottom:16px;">🔐</div>'
+        +'<h3 style="font-family:Sora,sans-serif;font-size:18px;margin-bottom:8px;">Login karein Posts Dekhne Ke Liye</h3>'
+        +'<p style="font-size:14px;color:#777;margin-bottom:20px;">Free account banao aur sabhi posts dekho</p>';
+      var btn1=document.createElement('button');
+      btn1.textContent='🔑 Login';
+      btn1.style.cssText='background:#E8722A;color:white;border:none;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;margin-right:8px;';
+      btn1.onclick=function(){switchAuthTab('login');showPage('login');};
+      var btn2=document.createElement('button');
+      btn2.textContent='📝 Sign Up Free';
+      btn2.style.cssText='background:#111;color:white;border:none;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;';
+      btn2.onclick=function(){switchAuthTab('signup');showPage('login');};
+      wrap.appendChild(btn1);
+      wrap.appendChild(btn2);
+      np.appendChild(wrap);
+      np.style.display='block';
+    }
+    removePagination();
+    updateHeroStats();
+    return;
+  }
+
   // Build HTML
   var ih='';
 
@@ -1366,10 +1395,12 @@ window.setCatGrid=function(cat){
 
 function updateHeroStats(){
   var posts=window._allPosts||[];
-  function anim(el,t){if(!el)return;var c=0,s=Math.max(1,Math.floor(t/20)),timer=setInterval(function(){c+=s;if(c>=t){c=t;clearInterval(timer);}el.textContent=c;},50);}
-  anim(document.getElementById('stat-lost'),posts.filter(function(p){return p.type==='lost';}).length);
-  anim(document.getElementById('stat-found'),posts.filter(function(p){return p.type==='found';}).length);
-  anim(document.getElementById('stat-resolved'),posts.filter(function(p){return p.status==='resolved';}).length);
+  var lc=posts.filter(function(p){return p.type==='lost';}).length;
+  var fc=posts.filter(function(p){return p.type==='found';}).length;
+  var rc=posts.filter(function(p){return p.status==='resolved';}).length;
+  var el=document.getElementById('stat-lost');if(el)el.textContent=lc;
+  var ef=document.getElementById('stat-found');if(ef)ef.textContent=fc;
+  var er=document.getElementById('stat-resolved');if(er)er.textContent=rc;
 }
 window.updateHeroStats=updateHeroStats;
 
