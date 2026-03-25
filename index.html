@@ -3,12 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#E8722A">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="FindBack">
-<link rel="apple-touch-icon" href="https://api.qrserver.com/v1/create-qr-code/?size=192x192&data=FindBack&color=E8722A&bgcolor=111111">
 <title>FindBack S1 — Find what the world lost</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -168,6 +162,7 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
   </div>
   <div class="nav-right">
     <div class="live-badge"><div class="live-dot"></div> Live</div>
+    <button id="lang-toggle-btn" onclick="toggleLang()" style="background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:0.3px;">EN</button>
     <div class="s1-badge">S1</div>
   </div>
 </nav>
@@ -193,7 +188,7 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
   <div class="loc-filter-bar" id="loc-filter-bar">
     <div class="loc-filter-bar-top">
       <span style="font-size:16px;flex-shrink:0;">📍</span>
-      <span style="font-size:12px;font-weight:600;color:#555;flex:1;">Area filter karo:</span>
+      <span style="font-size:12px;font-weight:600;color:#555;flex:1;">Filter by Area:</span>
       <button class="loc-filter-btn clear" id="loc-clear-btn" onclick="clearLocFilter()" style="display:none;">✕ Clear</button>
     </div>
     <div class="loc-chips-row" id="loc-chips-row">
@@ -247,22 +242,13 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
       <p style="font-size:14px;">Be the first to post!</p>
     </div>
   </div>
-  <!-- PWA INSTALL BAR -->
-<div id="pwa-install-bar" style="display:none;position:fixed;bottom:70px;left:12px;right:12px;background:linear-gradient(135deg,#E8722A,#c45a1a);color:white;border-radius:16px;padding:14px 16px;z-index:190;align-items:center;gap:12px;box-shadow:0 4px 20px rgba(232,114,42,.4);">
-  <div style="flex:1;">
-    <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:14px;">📱 FindBack Install Karo!</div>
-    <div style="font-size:12px;opacity:.85;margin-top:2px;">Home screen pe add karo — background alerts milenge</div>
-  </div>
-  <button onclick="installPWA()" style="background:white;color:#E8722A;border:none;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0;">Install ↗</button>
-  <button onclick="document.getElementById('pwa-install-bar').style.display='none'" style="background:rgba(255,255,255,.2);color:white;border:none;border-radius:8px;padding:8px 10px;font-size:14px;cursor:pointer;flex-shrink:0;">✕</button>
-</div>
-<footer>
+  <footer>
     <div class="footer-brand">Find<span>Back</span> S1</div>
     <div class="footer-tagline">Find what the world lost — India's trusted lost &amp; found platform.</div>
     <div class="footer-grid">
       <div class="footer-col"><h5>Company</h5><a onclick="showPage('about')">🏢 About Us</a><a onclick="showPage('contact')">📞 Contact</a><a onclick="showPage('customers')">❤️ Customers</a><a onclick="showPage('success')">🌟 Success Stories</a><a onclick="showPage('trust')">🤝 Trust Score</a></div>
       <div class="footer-col"><h5>Legal</h5><a onclick="showPage('terms')">📜 Terms</a><a onclick="showPage('privacy')">🔒 Privacy</a><a onclick="showPage('qrtag')">🏷️ QR Tag</a><a onclick="showPage('reward')">💰 Reward</a></div>
-      <div class="footer-col"><h5>Account</h5><a onclick="showPage('login')">🔑 Log In</a><a onclick="showPage('register')">📝 Register</a><a onclick="showPage('admin')">🛡️ Admin</a></div>
+      <div class="footer-col"><h5>Account</h5><a onclick="showPage('login')">🔑 Log In</a><a onclick="showPage('register')">📝 Register</a><a onclick="showPage('admin')">🛡️ Admin</a><a onclick="showPage('ngo')">🏛️ NGO/Police</a></div>
       <div class="footer-col"><h5>Quick Links</h5><a onclick="openModal('lost')">😟 Report Lost</a><a onclick="openModal('found')">🎉 Report Found</a><a onclick="openModal('missing')">⚠️ Report Missing</a><a onclick="showPage('fir')">👮 FIR Help</a></div>
     </div>
     <div class="footer-bottom"><p>©2025 FindBack S1. All rights reserved.</p><div class="footer-bottom-links"><a onclick="showPage('terms')">Terms</a><a onclick="showPage('privacy')">Privacy</a><a onclick="showPage('contact')">Contact</a></div></div>
@@ -311,10 +297,10 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
     <div class="form-group"><label>🏷️ Item Name</label><input type="text" id="m-item" placeholder="e.g. Wallet, iPhone, Bag"></div>
     <div class="form-group"><label>📂 Category</label><select id="m-category" onchange="onModalCategoryChange()"><option value="">-- Select --</option><option value="Wallet">👛 Wallet</option><option value="Phone">📱 Phone</option><option value="Keys">🔑 Keys</option><option value="Bag">💼 Bag</option><option value="Jewellery">💍 Jewellery</option><option value="Backpack">🎒 Backpack</option><option value="Laptop">💻 Laptop</option><option value="Pet">🐾 Pet</option><option value="Glasses">👓 Glasses</option><option value="Documents">🎫 Documents</option><option value="Watch">⌚ Watch</option><option value="Purse">👜 Purse</option><option value="Person">🧍 Person</option><option value="Animals">🐕 Animals</option><option value="Car">🚗 Car</option><option value="Bike">🏍️ Bike</option><option value="Cycle">🚲 Cycle</option><option value="Other">📦 Other</option></select></div>
     <div class="form-group"><label>📍 Location</label><div class="input-icon-wrap"><span class="icon">📍</span><input type="text" id="m-loc" placeholder="Where lost/found?"></div></div>
-    <div class="form-group"><label>📅 Date</label><input type="date" id="m-date" max=""><div style="font-size:11px;color:#E8722A;margin-top:4px;">⚠️ Future date allowed nahi</div></div>
+    <div class="form-group"><label>📅 Date</label><input type="date" id="m-date" max=""><div style="font-size:11px;color:#E8722A;margin-top:4px;">⚠️ Future date not allowed</div></div>
     <div class="form-group"><label>📝 Description</label><textarea id="m-desc" placeholder="Color, brand, details..."></textarea></div>
     <div class="form-group" id="id-mark-group" style="display:none;"><label>🔖 Identification Mark <span style="font-size:11px;color:var(--text-muted);">(Optional)</span></label><input type="text" id="m-id-mark" placeholder="Scratch, sticker, initials..."></div>
-    <div id="vehicle-fields" style="display:none;"><div style="background:#EFF6FF;border-radius:10px;padding:12px;margin-bottom:12px;font-size:12px;color:#1D4ED8;font-weight:600;">🚗 Vehicle details (police ke liye helpful)</div><div class="form-group"><label>🔢 Registration No.</label><input type="text" id="m-reg-no" placeholder="DL01AB1234" oninput="this.value=this.value.toUpperCase()"></div><div class="form-group"><label>🪪 Licence Plate</label><input type="text" id="m-plate-no" placeholder="DL 01 AB 1234"></div></div>
+    <div id="vehicle-fields" style="display:none;"><div style="background:#EFF6FF;border-radius:10px;padding:12px;margin-bottom:12px;font-size:12px;color:#1D4ED8;font-weight:600;">🚗 Vehicle details (helpful for police report)</div><div class="form-group"><label>🔢 Registration No.</label><input type="text" id="m-reg-no" placeholder="DL01AB1234" oninput="this.value=this.value.toUpperCase()"></div><div class="form-group"><label>🪪 Licence Plate</label><input type="text" id="m-plate-no" placeholder="DL 01 AB 1234"></div></div>
     <div class="form-group"><label>📱 Contact Number</label><div class="phone-input-wrap"><div class="phone-prefix">+91</div><input type="tel" id="m-contact" class="phone-main" placeholder="10-digit number" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10);validatePhoneInput(this,'m-contact-err')"></div><div style="display:flex;justify-content:space-between;margin-top:4px;"><div id="m-contact-err" style="font-size:11px;color:#DC2626;display:none;">⚠️ Exactly 10 digits required</div><div id="m-contact-count" style="font-size:11px;color:#999;margin-left:auto;"></div></div><div class="phone-hint">Exactly 10 digits — not less, not more</div></div>
     <div class="form-group"><label>🏆 Reward <span style="font-size:11px;color:var(--text-muted);">(Optional)</span></label><div class="input-icon-wrap"><span class="icon">₹</span><input type="number" id="m-reward" placeholder="e.g. 500" min="0"></div></div>
     <button class="btn-primary" style="width:100%;margin-bottom:10px;" onclick="submitReport()">Submit Post</button>
@@ -418,16 +404,16 @@ onAuthStateChanged(auth,(user)=>{
 });
 window.submitToFirebase=async function(){
   const item=document.getElementById('m-item').value.trim(),loc=document.getElementById('m-loc').value.trim();
-  if(!item||!loc){window.toast('⚠️ Item name aur location zaroori hai');return;}
+  if(!item||!loc){window.toast('⚠️ Item name and location required');return;}
   const cv=document.getElementById('m-contact').value.trim();
   if(!cv||cv.length!==10||!/^[0-9]{10}$/.test(cv)){
-    window.toast('⚠️ Mobile number exactly 10 digits daalo');
+    window.toast('⚠️ Enter exactly 10 digit mobile number');
     document.getElementById('m-contact').focus();
     validatePhoneInput(document.getElementById('m-contact'),'m-contact-err');
     return;
   }
   const dv=document.getElementById('m-date').value;
-  if(dv&&dv>new Date().toISOString().split('T')[0]){window.toast('⚠️ Future date allowed nahi');return;}
+  if(dv&&dv>new Date().toISOString().split('T')[0]){window.toast('⚠️ Future date not allowed');return;}
   const desc=document.getElementById('m-desc').value.trim(),cat=document.getElementById('m-category').value,rew=document.getElementById('m-reward').value.trim(),type=window.currentModal,photos=window.currentPhotosData||[];
   const uid=window._currentUser?window._currentUser.uid:null,authorName=window._currentUser?(window._currentUser.displayName||'Anonymous'):'Anonymous';
   const idMark=document.getElementById('m-id-mark')?document.getElementById('m-id-mark').value.trim():'';
@@ -458,16 +444,16 @@ window.deletePost=async function(id){
 window.submitEdit=async function(){
   const id=document.getElementById('e-postid').value;if(!id)return;
   const item=document.getElementById('e-item').value.trim(),loc=document.getElementById('e-loc').value.trim();
-  if(!item||!loc){window.toast('⚠️ Item aur location zaroori');return;}
+  if(!item||!loc){window.toast('⚠️ Item and location required');return;}
   const cr=document.getElementById('e-contact').value.trim();
   if(!cr||cr.length!==10||!/^[0-9]{10}$/.test(cr)){
-    window.toast('⚠️ Mobile number exactly 10 digits daalo');
+    window.toast('⚠️ Enter exactly 10 digit mobile number');
     document.getElementById('e-contact').focus();
     validatePhoneInput(document.getElementById('e-contact'),'e-contact-err');
     return;
   }
   const dv=document.getElementById('e-date').value;
-  if(dv&&dv>new Date().toISOString().split('T')[0]){window.toast('⚠️ Future date allowed nahi');return;}
+  if(dv&&dv>new Date().toISOString().split('T')[0]){window.toast('⚠️ Future date not allowed');return;}
   const cat=document.getElementById('e-category').value,desc=document.getElementById('e-desc').value.trim(),contact=cr?('+91'+cr):'',rew=document.getElementById('e-reward').value.trim();
   const btn=document.querySelector('#edit-modal .btn-primary');btn.textContent='Updating...';btn.disabled=true;
   try{
@@ -547,9 +533,9 @@ window.markResolved=async function(id){
 
 <script>
 // Global safe wrappers — module script se pehle call ho sakti hain
-function doLogin(){if(window._doLoginFn)window._doLoginFn();else{var i=0;var t=setInterval(function(){i++;if(window._doLoginFn){clearInterval(t);window._doLoginFn();}else if(i>20){clearInterval(t);window.toast('❌ App load nahi hua, refresh karo');}},200);}}
-function doRegister(){if(window._doRegisterFn)window._doRegisterFn();else{var i=0;var t=setInterval(function(){i++;if(window._doRegisterFn){clearInterval(t);window._doRegisterFn();}else if(i>20){clearInterval(t);window.toast('❌ App load nahi hua, refresh karo');}},200);}}
-function doLogout(){if(window._doLogoutFn)window._doLogoutFn();else window.toast('❌ Logout failed, refresh karo');}
+function doLogin(){if(window._doLoginFn)window._doLoginFn();else{var i=0;var t=setInterval(function(){i++;if(window._doLoginFn){clearInterval(t);window._doLoginFn();}else if(i>20){clearInterval(t);window.toast('❌ App not loaded, please refresh');}},200);}}
+function doRegister(){if(window._doRegisterFn)window._doRegisterFn();else{var i=0;var t=setInterval(function(){i++;if(window._doRegisterFn){clearInterval(t);window._doRegisterFn();}else if(i>20){clearInterval(t);window.toast('❌ App not loaded, please refresh');}},200);}}
+function doLogout(){if(window._doLogoutFn)window._doLogoutFn();else window.toast('❌ Logout failed, please refresh');}
 window.activeFilter='all';window.activeCat='';window.currentPhotosData=[];window.activeStatusFilter='all';
 
 // ── LOCATION FILTER ──
@@ -583,7 +569,7 @@ window.buildLocChips=function(){
     row.appendChild(chip);
   });
   if(locs.length===0){
-    row.innerHTML+='<div style="font-size:12px;color:#bbb;padding:6px 4px;">Posts load ho rahe hain...</div>';
+    row.innerHTML+='<div style="font-size:12px;color:#bbb;padding:6px 4px;">Loading posts...</div>';
   }
 };
 
@@ -723,8 +709,8 @@ window.openDetail=function(id){
   const rc=p.contact||'',phone=rc.startsWith('+91')?rc.slice(1):rc.replace(/\D/g,'');
   const waMsg=encodeURIComponent(`Hi, I saw your FindBack post about "${p.item}" (${tl}). Can we talk?`);
   let btns='';
-  if(phone.length>=10){btns+=`<a href="https://wa.me/${phone.slice(-12)}?text=${waMsg}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#25D366;color:white;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">💬 WhatsApp karo</a>`;btns+=`<a href="tel:${rc}" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--gray);color:var(--black);border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">📞 Call karo</a>`;}
-  else if(rc.includes('@')){btns+=`<a href="mailto:${rc}" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--orange);color:white;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">📧 Email karo</a>`;}
+  if(phone.length>=10){btns+=`<a href="https://wa.me/${phone.slice(-12)}?text=${waMsg}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#25D366;color:white;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">💬 WhatsApp</a>`;btns+=`<a href="tel:${rc}" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--gray);color:var(--black);border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">📞 Call</a>`;}
+  else if(rc.includes('@')){btns+=`<a href="mailto:${rc}" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--orange);color:white;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;">📧 Email</a>`;}
   if(window._currentUser&&window._currentUser.uid===p.uid){btns+=`<button onclick="openEditModal('${p.id}')" style="padding:14px;border:none;background:var(--gray);color:var(--black);border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">✏️ Edit</button>`;btns+=`<button onclick="deletePost('${p.id}')" style="padding:14px;border:none;background:#FEE2E2;color:#DC2626;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">🗑️ Delete</button>`;}
   const aid=p.id.replace(/[^a-z0-9]/gi,'_');
   const anonSec=`<div id="anon-section-${aid}" style="display:none;margin-top:4px;"><textarea id="anon-msg-${aid}" placeholder="Anonymous message..." style="width:100%;padding:12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;resize:vertical;min-height:80px;outline:none;margin-bottom:8px;"></textarea><button onclick="sendAnonymousMsg('${p.id}')" style="width:100%;padding:12px;background:#111;color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">📨 Send Anonymous</button></div>`;
@@ -738,9 +724,9 @@ window.openDetail=function(id){
     var ageDays2=Math.floor((new Date()-pdAge)/(1000*60*60*24));
     var isOwner2=window._currentUser&&window._currentUser.uid===p.uid;
     if(ageDays2>=90){
-      reminderHtml='<div style="background:#F3F4F6;border:1.5px solid #D1D5DB;border-radius:12px;padding:14px 16px;margin-bottom:4px;"><div style="font-size:13px;font-weight:700;color:#6B7280;margin-bottom:4px;">⏳ Yeh post 90+ din purani hai</div><div style="font-size:12px;color:#9CA3AF;line-height:1.6;">Item ka status abhi bhi open hai. Agar mil gaya ho toh resolve karo — community ko help milegi.</div>'+(isOwner2?`<button onclick="markResolved('${p.id}')" style="margin-top:10px;width:100%;padding:10px;background:#059669;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">✅ Resolve Karo</button>`:'')+'</div>';
+      reminderHtml='<div style="background:#F3F4F6;border:1.5px solid #D1D5DB;border-radius:12px;padding:14px 16px;margin-bottom:4px;"><div style="font-size:13px;font-weight:700;color:#6B7280;margin-bottom:4px;">⏳ Yeh post 90+ din purani hai</div><div style="font-size:12px;color:#9CA3AF;line-height:1.6;">Item ka status abhi bhi open hai. Agar mil gaya ho toh resolve karo — community ko help milegi.</div>'+(isOwner2?`<button onclick="markResolved('${p.id}')" style="margin-top:10px;width:100%;padding:10px;background:#059669;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">✅ Mark Resolved</button>`:'')+'</div>';
     } else if(ageDays2>=30){
-      reminderHtml='<div style="background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:12px;padding:14px 16px;margin-bottom:4px;"><div style="font-size:13px;font-weight:700;color:#D97706;margin-bottom:4px;">🟡 '+ageDays2+' din ho gaye — Abhi bhi dhundh rahe ho?</div><div style="font-size:12px;color:#92400E;line-height:1.6;">Agar item mil gaya ho toh Resolved mark karo. Nahi mila? Post share karo — koi madad kar sakta hai.</div>'+(isOwner2?`<button onclick="markResolved('${p.id}')" style="margin-top:10px;width:100%;padding:10px;background:#D97706;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">✅ Mil gaya! Resolve Karo</button>`:'')+'</div>';
+      reminderHtml='<div style="background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:12px;padding:14px 16px;margin-bottom:4px;"><div style="font-size:13px;font-weight:700;color:#D97706;margin-bottom:4px;">🟡 '+ageDays2+' din ho gaye — Abhi bhi dhundh rahe ho?</div><div style="font-size:12px;color:#92400E;line-height:1.6;">Agar item mil gaya ho toh Resolved mark karo. Nahi mila? Post share karo — koi madad kar sakta hai.</div>'+(isOwner2?`<button onclick="markResolved('${p.id}')" style="margin-top:10px;width:100%;padding:10px;background:#D97706;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">✅ Mil gaya! Mark Resolved</button>`:'')+'</div>';
     }
   }
   actions.innerHTML=reminderHtml+(btns||'<div style="color:var(--text-muted);text-align:center;padding-bottom:8px">No contact info</div>')+shareBtn+aiBtn+anonBtn;
@@ -756,7 +742,8 @@ function showPage(id){
   if(id==='trust')setTimeout(()=>{if(window.loadTrustScore)window.loadTrustScore();},100);
   if(id==='reward')setTimeout(()=>{if(window.loadRewardPosts)window.loadRewardPosts();},100);
   if(id==='map')setTimeout(()=>{if(window.initMap)window.initMap();},100);
-  if(id==='success')setTimeout(loadSuccessWall,100);}catch(e){console.warn('showPage err:',e);}
+  if(id==='success')setTimeout(loadSuccessWall,100);
+  if(id==='ngo')setTimeout(function(){if(window.ngoLoadDashboard&&document.getElementById('ngo-dashboard')&&document.getElementById('ngo-dashboard').style.display!=='none')window.ngoLoadDashboard();},100);}catch(e){console.warn('showPage err:',e);}
 }
 window.showPage=showPage;
 
@@ -848,9 +835,9 @@ window.renderMapPins=renderMapPins;
 
 // ALERTS
 window._areaAlerts=JSON.parse(localStorage.getItem('fb_alerts')||'[]');
-window.saveAreaAlert=function(){const area=document.getElementById('alert-area').value.trim(),cat=document.getElementById('alert-cat').value;if(!area){toast('⚠️ Area name daalo');return;}const al={id:Date.now(),area,cat,created:new Date().toLocaleDateString('en-IN')};window._areaAlerts.push(al);localStorage.setItem('fb_alerts',JSON.stringify(window._areaAlerts));renderAlerts();document.getElementById('alert-area').value='';document.getElementById('alert-cat').value='';toast('🔔 Alert set!');};
+window.saveAreaAlert=function(){const area=document.getElementById('alert-area').value.trim(),cat=document.getElementById('alert-cat').value;if(!area){toast('⚠️ Enter area name');return;}const al={id:Date.now(),area,cat,created:new Date().toLocaleDateString('en-IN')};window._areaAlerts.push(al);localStorage.setItem('fb_alerts',JSON.stringify(window._areaAlerts));renderAlerts();document.getElementById('alert-area').value='';document.getElementById('alert-cat').value='';toast('🔔 Alert set!');};
 window.deleteAlert=function(id){window._areaAlerts=window._areaAlerts.filter(a=>a.id!==id);localStorage.setItem('fb_alerts',JSON.stringify(window._areaAlerts));renderAlerts();};
-window.renderAlerts=function(){const c=document.getElementById('alerts-list');if(!c)return;if(!window._areaAlerts.length){c.innerHTML='<div style="text-align:center;padding:24px;color:var(--text-muted);font-size:14px;">Koi alert nahi</div>';return;}c.innerHTML=window._areaAlerts.map(a=>`<div style="border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;"><div style="flex:1"><div style="font-weight:700;font-size:14px;">📍 ${a.area}</div>${a.cat?`<div style="font-size:12px;color:var(--orange);">${a.cat}</div>`:''}<div style="font-size:11px;color:var(--text-muted);">${a.created}</div></div><button onclick="deleteAlert(${a.id})" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;">🗑️</button></div>`).join('');};
+window.renderAlerts=function(){const c=document.getElementById('alerts-list');if(!c)return;if(!window._areaAlerts.length){c.innerHTML='<div style="text-align:center;padding:24px;color:var(--text-muted);font-size:14px;">No alerts</div>';return;}c.innerHTML=window._areaAlerts.map(a=>`<div style="border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;"><div style="flex:1"><div style="font-weight:700;font-size:14px;">📍 ${a.area}</div>${a.cat?`<div style="font-size:12px;color:var(--orange);">${a.cat}</div>`:''}<div style="font-size:11px;color:var(--text-muted);">${a.created}</div></div><button onclick="deleteAlert(${a.id})" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;">🗑️</button></div>`).join('');};
 function checkAreaAlerts(p){(window._areaAlerts||[]).forEach(al=>{const lm=p.loc&&p.loc.toLowerCase().includes(al.area.toLowerCase()),cm=!al.cat||(p.category&&p.category.includes(al.cat));if(lm&&cm)toast(`🔔 "${p.item}" posted in ${al.area}!`);});}
 window.checkAreaAlerts=checkAreaAlerts;
 
@@ -1020,15 +1007,263 @@ function loadSuccessWall(){
   if(sc)sc.textContent=resolved.length;if(st)st.textContent=posts.length;
   var c=document.getElementById('success-wall-list');if(!c)return;
   if(!resolved.length){c.innerHTML='<div style="text-align:center;padding:48px;color:var(--text-muted);"><div style="font-size:52px;">🌱</div><div style="font-family:\'Sora\',sans-serif;font-weight:700;font-size:16px;color:#333;margin-top:12px;">No success stories yet</div></div>';return;}
-  c.innerHTML=resolved.map(function(p){var name=p.authorName||'Anonymous',date=p.resolvedAt?new Date(p.resolvedAt.seconds?p.resolvedAt.seconds*1000:p.resolvedAt).toLocaleDateString('en-IN'):'';return '<div style="background:white;border:2px solid #D1FAE5;border-radius:16px;padding:18px;margin-bottom:14px;"><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;"><div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#059669,#047857);color:white;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;">'+name[0].toUpperCase()+'</div><div><div style="font-weight:700;font-size:15px;">'+name+'</div></div></div><div style="font-family:\'Sora\',sans-serif;font-size:17px;font-weight:700;margin-bottom:6px;">🎊 '+(p.item||'Item')+' wapas mila!</div><div style="font-size:13px;color:#555;line-height:1.6;">'+(p.desc?p.desc.substring(0,100):'Item reunited with owner.')+'</div></div>';}).join('');
+  c.innerHTML=resolved.map(function(p){var name=p.authorName||'Anonymous',date=p.resolvedAt?new Date(p.resolvedAt.seconds?p.resolvedAt.seconds*1000:p.resolvedAt).toLocaleDateString('en-IN'):'';return '<div style="background:white;border:2px solid #D1FAE5;border-radius:16px;padding:18px;margin-bottom:14px;"><div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;"><div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#059669,#047857);color:white;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;">'+name[0].toUpperCase()+'</div><div><div style="font-weight:700;font-size:15px;">'+name+'</div></div></div><div style="font-family:\'Sora\',sans-serif;font-size:17px;font-weight:700;margin-bottom:6px;">🎊 '+(p.item||'Item')+' has been reunited!</div><div style="font-size:13px;color:#555;line-height:1.6;">'+(p.desc?p.desc.substring(0,100):'Item reunited with owner.')+'</div></div>';}).join('');
 }
 window.loadSuccessWall=loadSuccessWall;
 
 window.generateQR=function(){const name=document.getElementById('qr-name').value.trim(),item=document.getElementById('qr-item').value.trim(),contact=document.getElementById('qr-contact').value.trim(),msg=document.getElementById('qr-msg').value.trim();if(!item){toast('⚠️ Item name daalo');return;}const tagId='FB'+Date.now().toString(36).toUpperCase(),qrData=encodeURIComponent('https://lukyjamatia-tech.github.io/tag/'+tagId+'?item='+encodeURIComponent(item)+'&owner='+encodeURIComponent(name)+'&contact='+encodeURIComponent(contact)+'&msg='+encodeURIComponent(msg)),qrUrl='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+qrData+'&color=111111&bgcolor=ffffff&qzone=2';document.getElementById('qr-code-display').innerHTML='<img src="'+qrUrl+'" style="width:180px;height:180px;border-radius:12px;border:3px solid var(--orange);"><div style="margin-top:10px;font-size:11px;color:var(--text-muted);">Tag ID: '+tagId+'</div>';document.getElementById('qr-item-label').textContent='🏷️ '+item;document.getElementById('qr-owner-label').textContent=name?('👤 '+name+' ka item'):'FindBack Tagged Item';document.getElementById('qr-result').style.display='block';window._lastQRData={tagId,item,name,contact,msg,qrUrl};toast('✅ QR ready!');};
 window.shareQR=function(){if(!window._lastQRData)return;const d=window._lastQRData,text='🏷️ FindBack QR\nItem: '+d.item+(d.name?'\nOwner: '+d.name:'')+(d.msg?'\nMsg: '+d.msg:'')+'\n\nFindBack – India\'s Lost & Found';if(navigator.share){navigator.share({title:'FindBack QR',text});}else{window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');}};
-window.printQR=function(){if(!window._lastQRData)return;const d=window._lastQRData,w=window.open('','_blank');w.document.write('<html><head><title>FindBack QR</title></head><body style="text-align:center;padding:20px;font-family:sans-serif;"><div style="border:3px solid #E8722A;border-radius:16px;padding:20px;display:inline-block;"><h2 style="color:#E8722A;">🏷️ FindBack Tag</h2><img src="'+d.qrUrl+'" style="width:180px;height:180px;"><h3>'+d.item+'</h3>'+(d.name?'<p>Owner: <b>'+d.name+'</b></p>':'')+(d.msg?'<p style="font-size:13px;color:#555;">'+d.msg+'</p>':'')+'<p style="font-size:12px;color:#E8722A;">📱 Scan to contact</p></div></body></html>');w.document.close();setTimeout(function(){w.print();},300);};
+window.printQR=function(){
+  if(!window._lastQRData)return;
+  var d=window._lastQRData;
+  var w=window.open('','_blank');
+  var html='<html><head><title>FindBack QR</title></head><body style="text-align:center;padding:20px;font-family:sans-serif;"><div style="border:3px solid #E8722A;border-radius:16px;padding:20px;display:inline-block;"><h2 style="color:#E8722A;">FindBack Tag</h2><img src="QRURL" style="width:180px;height:180px;"><h3>ITEM</h3>NAMEMSG<p style="font-size:12px;color:#E8722A;">Scan to contact</p></div></body></html>';
+  html=html.replace('QRURL',d.qrUrl).replace('ITEM',d.item).replace('NAMEMSG',(d.name?'<p>Owner: '+d.name+'</p>':'')+(d.msg?'<p>'+d.msg+'</p>':''));
+  w.document.write(html);w.document.close();
+  setTimeout(function(){w.print();},300);
+};
+</script>
+<!-- NGO/POLICE DASHBOARD PAGE -->
+<div class="page" id="page-ngo">
+  <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
+    <span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span>
+    <span style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;">🏛️ NGO / Police Dashboard</span>
+  </div>
+  <div style="padding:20px 20px 110px;">
+    <div id="ngo-login-wall">
+      <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;padding:24px;margin-bottom:20px;color:white;text-align:center;">
+        <div style="font-size:40px;margin-bottom:8px;">🏛️</div>
+        <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;">NGO / Police Access</div>
+        <div style="font-size:13px;opacity:.8;">Authorized personnel only</div>
+      </div>
+      <div class="auth-card" style="max-width:100%;">
+        <div class="form-group"><label>Organization Name</label><input type="text" id="ngo-org" placeholder="e.g. Delhi Police / HelpAge India"></div>
+        <div class="form-group"><label>Access Code</label><input type="password" id="ngo-code" placeholder="Enter access code"></div>
+        <button class="btn-primary" style="width:100%" onclick="ngoLogin()">Enter Dashboard</button>
+        <div style="margin-top:12px;font-size:12px;color:var(--text-muted);text-align:center;">Contact <strong>support@findback.in</strong> for access</div>
+      </div>
+    </div>
+    <div id="ngo-dashboard" style="display:none;">
+      <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;padding:18px;margin-bottom:16px;color:white;display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;" id="ngo-org-name">Organization</div>
+          <div style="font-size:12px;opacity:.7;margin-top:2px;">Dashboard Active</div>
+        </div>
+        <button onclick="ngoLogout()" style="background:rgba(255,255,255,.15);color:white;border:none;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;">🚪 Logout</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+        <div style="background:#FEE2E2;border-radius:12px;padding:14px;text-align:center;"><div id="ngo-stat-lost" style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:#DC2626;">0</div><div style="font-size:11px;color:#DC2626;font-weight:600;">😟 Lost</div></div>
+        <div style="background:#D1FAE5;border-radius:12px;padding:14px;text-align:center;"><div id="ngo-stat-found" style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:#059669;">0</div><div style="font-size:11px;color:#059669;font-weight:600;">🎉 Found</div></div>
+        <div style="background:#FEF3C7;border-radius:12px;padding:14px;text-align:center;"><div id="ngo-stat-missing" style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:#D97706;">0</div><div style="font-size:11px;color:#D97706;font-weight:600;">⚠️ Missing</div></div>
+        <div style="background:#EDE9FE;border-radius:12px;padding:14px;text-align:center;"><div id="ngo-stat-resolved" style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:#7C3AED;">0</div><div style="font-size:11px;color:#7C3AED;font-weight:600;">✅ Resolved</div></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+        <button onclick="ngoExportCSV()" style="flex:1;padding:10px;background:#059669;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;min-width:120px;">📥 Export CSV</button>
+        <button onclick="ngoExportReport()" style="flex:1;padding:10px;background:#2563EB;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;min-width:120px;">📄 PDF Report</button>
+      </div>
+      <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
+        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px;">📍 Area-wise Analytics</div>
+        <div id="ngo-area-stats"></div>
+      </div>
+      <div style="background:#FEF2F2;border:2px solid #FECACA;border-radius:14px;padding:16px;margin-bottom:16px;">
+        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#DC2626;margin-bottom:12px;">🚨 Priority: Missing Persons</div>
+        <div id="ngo-missing-list"></div>
+      </div>
+      <div style="background:#F0FDF4;border:2px solid #BBF7D0;border-radius:14px;padding:16px;margin-bottom:16px;">
+        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#059669;margin-bottom:12px;">✅ Resolved Cases</div>
+        <div id="ngo-resolved-list"></div>
+      </div>
+      <div style="background:white;border:1.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px;">
+        <div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;">📋 All Posts</div>
+          <select id="ngo-filter-type" onchange="ngoRenderPosts()" style="padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-family:'Inter',sans-serif;outline:none;">
+            <option value="">All Types</option>
+            <option value="lost">😟 Lost</option>
+            <option value="found">🎉 Found</option>
+            <option value="missing">⚠️ Missing</option>
+          </select>
+        </div>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:12px;">
+            <thead><tr style="background:#f8f8f8;">
+              <th style="padding:10px 12px;text-align:left;font-weight:700;">Item</th>
+              <th style="padding:10px 12px;text-align:left;font-weight:700;">Type</th>
+              <th style="padding:10px 12px;text-align:left;font-weight:700;">Location</th>
+              <th style="padding:10px 12px;text-align:left;font-weight:700;">Action</th>
+            </tr></thead>
+            <tbody id="ngo-posts-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-window.loadTrustScore=function(){const user=window._currentUser,posts=window._allPosts||[];if(!user){document.getElementById('trust-name').textContent='Login karo';document.getElementById('trust-score').textContent='--';return;}const mp=posts.filter(p=>p.uid===user.uid),score=Math.min(99,mp.length*2);document.getElementById('trust-avatar').textContent=(user.displayName||'U')[0].toUpperCase();document.getElementById('trust-name').textContent=user.displayName||'User';document.getElementById('trust-score').textContent=score;document.getElementById('trust-posts').textContent=mp.length;let level,icon,desc,bg;if(score>=90){level='Legend';icon='👑';desc='Top 1%!';bg='linear-gradient(135deg,#FEF9C3,#FEF08A)';}else if(score>=60){level='Hero Finder';icon='🏅';desc='Bahut trusted!';bg='#FFF7ED';}else if(score>=30){level='Star Finder';icon='⭐';desc='Trusted member';bg='#F0FDF4';}else if(score>=10){level='Trusted User';icon='✅';desc='Acha start!';bg='#EFF6FF';}else{level='New Member';icon='🆕';desc='Post karo score badhao';bg='#FFF5EE';}document.getElementById('trust-level-icon').textContent=icon;document.getElementById('trust-level-name').textContent=level;document.getElementById('trust-level-desc').textContent=desc;document.getElementById('trust-level-card').style.background=bg;document.getElementById('trust-badge').textContent=icon+' '+level;};
+<script>
+var NGO_ACCESS_CODE='findback_ngo_2025';
+window.ngoLogin=function(){
+  var org=document.getElementById('ngo-org').value.trim();
+  var code=document.getElementById('ngo-code').value.trim();
+  if(!org){toast('⚠️ Organization name daalo');return;}
+  if(code!==NGO_ACCESS_CODE){toast('❌ Invalid access code');return;}
+  document.getElementById('ngo-login-wall').style.display='none';
+  document.getElementById('ngo-dashboard').style.display='block';
+  document.getElementById('ngo-org-name').textContent=org;
+  sessionStorage.setItem('ngo_org',org);
+  ngoLoadDashboard();
+};
+window.ngoLogout=function(){
+  document.getElementById('ngo-login-wall').style.display='block';
+  document.getElementById('ngo-dashboard').style.display='none';
+  sessionStorage.removeItem('ngo_org');
+};
+window.ngoLoadDashboard=function(){
+  var posts=window._allPosts||[];
+  var el=function(id){return document.getElementById(id);};
+  if(el('ngo-stat-lost'))el('ngo-stat-lost').textContent=posts.filter(function(p){return p.type==='lost';}).length;
+  if(el('ngo-stat-found'))el('ngo-stat-found').textContent=posts.filter(function(p){return p.type==='found';}).length;
+  if(el('ngo-stat-missing'))el('ngo-stat-missing').textContent=posts.filter(function(p){return p.type==='missing';}).length;
+  if(el('ngo-stat-resolved'))el('ngo-stat-resolved').textContent=posts.filter(function(p){return p.status==='resolved';}).length;
+  ngoRenderAreaStats();ngoRenderMissing();ngoRenderResolved();ngoRenderPosts();
+};
+window.ngoRenderAreaStats=function(){
+  var posts=window._allPosts||[];
+  var areaMap={};
+  posts.forEach(function(p){
+    if(!p.loc)return;
+    var area=p.loc.split(',')[0].trim();
+    if(!areaMap[area])areaMap[area]={lost:0,found:0,missing:0,resolved:0};
+    if(p.type==='lost')areaMap[area].lost++;
+    else if(p.type==='found')areaMap[area].found++;
+    else if(p.type==='missing')areaMap[area].missing++;
+    if(p.status==='resolved')areaMap[area].resolved++;
+  });
+  var areas=Object.entries(areaMap).sort(function(a,b){return (b[1].lost+b[1].found+b[1].missing)-(a[1].lost+a[1].found+a[1].missing);}).slice(0,8);
+  var el=document.getElementById('ngo-area-stats');
+  if(!el)return;
+  if(!areas.length){el.innerHTML='<div style="text-align:center;padding:16px;color:var(--text-muted);font-size:13px;">No posts yet</div>';return;}
+  el.innerHTML=areas.map(function(e){
+    var area=e[0],s=e[1],total=s.lost+s.found+s.missing;
+    var pct=total>0?Math.round(s.resolved/total*100):0;
+    return '<div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:13px;font-weight:600;">📍 '+area+'</span><span style="font-size:11px;color:var(--text-muted);">'+total+' posts • '+pct+'% resolved</span></div>'
+      +'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;">'
+      +(s.lost?'<span style="background:#FEE2E2;color:#DC2626;font-size:10px;padding:2px 8px;border-radius:12px;font-weight:700;">'+s.lost+' Lost</span>':'')
+      +(s.found?'<span style="background:#D1FAE5;color:#059669;font-size:10px;padding:2px 8px;border-radius:12px;font-weight:700;">'+s.found+' Found</span>':'')
+      +(s.missing?'<span style="background:#FEF3C7;color:#D97706;font-size:10px;padding:2px 8px;border-radius:12px;font-weight:700;">'+s.missing+' Missing</span>':'')
+      +'</div>'
+      +'<div style="height:6px;background:#f0f0f0;border-radius:3px;overflow:hidden;"><div style="height:100%;background:linear-gradient(90deg,#059669,#34D399);width:'+pct+'%;border-radius:3px;"></div></div>'
+      +'</div>';
+  }).join('');
+};
+window.ngoRenderMissing=function(){
+  var posts=(window._allPosts||[]).filter(function(p){return p.type==='missing'&&p.status!=='resolved';});
+  var el=document.getElementById('ngo-missing-list');if(!el)return;
+  if(!posts.length){el.innerHTML='<div style="text-align:center;padding:12px;color:var(--text-muted);font-size:13px;">🎉 No open missing cases</div>';return;}
+  el.innerHTML=posts.map(function(p){
+    var phone=p.contact||'';
+    return '<div style="background:white;border:1.5px solid #FECACA;border-radius:10px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:10px;">'
+      +'<div style="flex:1;"><div style="font-size:13px;font-weight:700;">'+p.item+'</div><div style="font-size:11px;color:var(--text-muted);">📍 '+p.loc+'</div></div>'
+      +(phone?'<a href="tel:'+phone+'" style="background:#DC2626;color:white;border:none;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;text-decoration:none;">📞 Call</a>':'')
+      +'</div>';
+  }).join('');
+};
+window.ngoRenderResolved=function(){
+  var posts=(window._allPosts||[]).filter(function(p){return p.status==='resolved';}).slice(0,5);
+  var el=document.getElementById('ngo-resolved-list');if(!el)return;
+  if(!posts.length){el.innerHTML='<div style="text-align:center;padding:12px;color:var(--text-muted);font-size:13px;">No resolved cases yet</div>';return;}
+  el.innerHTML=posts.map(function(p){
+    return '<div style="background:white;border:1.5px solid #BBF7D0;border-radius:10px;padding:10px;margin-bottom:8px;display:flex;align-items:center;gap:10px;">'
+      +'<span style="font-size:20px;">✅</span>'
+      +'<div><div style="font-size:13px;font-weight:700;">'+p.item+'</div><div style="font-size:11px;color:var(--text-muted);">📍 '+p.loc+'</div></div>'
+      +'</div>';
+  }).join('');
+};
+window.ngoRenderPosts=function(){
+  var typeFilter=document.getElementById('ngo-filter-type')?document.getElementById('ngo-filter-type').value:'';
+  var posts=window._allPosts||[];
+  if(typeFilter)posts=posts.filter(function(p){return p.type===typeFilter;});
+  posts=posts.slice(0,50);
+  var tbody=document.getElementById('ngo-posts-tbody');if(!tbody)return;
+  if(!posts.length){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--text-muted);">No posts</td></tr>';return;}
+  tbody.innerHTML=posts.map(function(p){
+    var tc=p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7';
+    var tt=p.type==='lost'?'#DC2626':p.type==='found'?'#059669':'#D97706';
+    var tl=p.type==='lost'?'Lost':p.type==='found'?'Found':'Missing';
+    var phone=p.contact||'';
+    return '<tr style="border-bottom:1px solid #f5f5f5;">'
+      +'<td style="padding:10px 12px;font-weight:600;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+p.item+'</td>'
+      +'<td style="padding:10px 12px;"><span style="background:'+tc+';color:'+tt+';font-size:10px;padding:2px 7px;border-radius:12px;font-weight:700;">'+tl+'</span></td>'
+      +'<td style="padding:10px 12px;font-size:11px;color:var(--text-muted);max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+p.loc+'</td>'
+      +'<td style="padding:10px 12px;">'
+        +(phone?'<a href="tel:'+phone+'" style="background:#25D366;color:white;border:none;border-radius:6px;padding:4px 8px;font-size:10px;font-weight:700;text-decoration:none;margin-right:4px;">📞</a>':'')
+        +'<button onclick="if(window.openDetail)window.openDetail(\"'+p.id+'\"" style="background:var(--gray);border:none;border-radius:6px;padding:4px 8px;font-size:10px;font-weight:700;cursor:pointer;">👁️</button>'
+      +'</td>'
+      +'</tr>';
+  }).join('');
+};
+window.ngoExportCSV=function(){
+  var posts=window._allPosts||[];
+  if(!posts.length){toast('No posts to export');return;}
+  var csv='Type,Item,Category,Location,Date,Contact,Status\n';
+  posts.forEach(function(p){
+    var row=[p.type||'',p.item||'',p.category||'',p.loc||'',p.date||'',p.contact||'',p.status||'active'];
+    csv+=row.map(function(v){return '"'+v+'"';}).join(',')+String.fromCharCode(10);
+  });
+  var blob=new Blob([csv],{type:'text/csv'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download='FindBack_Export.csv';a.click();
+  URL.revokeObjectURL(url);
+  toast('📥 CSV downloaded!');
+};
+window.ngoExportReport=function(){
+  var posts=window._allPosts||[];
+  var lost=posts.filter(function(p){return p.type==='lost';}).length;
+  var found=posts.filter(function(p){return p.type==='found';}).length;
+  var missing=posts.filter(function(p){return p.type==='missing';}).length;
+  var resolved=posts.filter(function(p){return p.status==='resolved';}).length;
+  var org=sessionStorage.getItem('ngo_org')||'Organization';
+  var w=window.open('','_blank');
+  w.document.write('<!DOCTYPE html><html><head><title>FindBack Report</title><style>body{font-family:Arial,sans-serif;padding:30px;}h1{color:#E8722A;}table{width:100%;border-collapse:collapse;}th{background:#E8722A;color:white;padding:8px;}td{padding:8px;border-bottom:1px solid #eee;}.stat{display:inline-block;background:#f5f5f5;border-radius:8px;padding:14px 20px;margin:6px;text-align:center;}.num{font-size:28px;font-weight:bold;color:#E8722A;}.lbl{font-size:12px;color:#777;}</style></head><body>');
+  w.document.write('<h1>🔍 FindBack Report</h1>');
+  w.document.write('<p><b>Organization:</b> '+org+' | <b>Date:</b> '+new Date().toLocaleDateString('en-IN')+'</p>');
+  w.document.write('<div class="stat"><div class="num">'+posts.length+'</div><div class="lbl">Total</div></div>');
+  w.document.write('<div class="stat"><div class="num">'+lost+'</div><div class="lbl">Lost</div></div>');
+  w.document.write('<div class="stat"><div class="num">'+found+'</div><div class="lbl">Found</div></div>');
+  w.document.write('<div class="stat"><div class="num">'+missing+'</div><div class="lbl">Missing</div></div>');
+  w.document.write('<div class="stat"><div class="num">'+resolved+'</div><div class="lbl">Resolved</div></div>');
+  w.document.write('<h2>Open Missing Persons</h2><table><tr><th>Item</th><th>Location</th><th>Contact</th></tr>');
+  posts.filter(function(p){return p.type==='missing'&&p.status!=='resolved';}).forEach(function(p){
+    w.document.write('<tr><td>'+p.item+'</td><td>'+p.loc+'</td><td>'+(p.contact||'-')+'</td></tr>');
+  });
+  w.document.write('</table><br><p style="color:#999;font-size:12px;">Generated by FindBack S1</p></body></html>');
+  w.document.close();
+  setTimeout(function(){w.print();},300);
+  toast('📄 Report ready!');
+};
+window.addEventListener('load',function(){
+  var org=sessionStorage.getItem('ngo_org');
+  if(org){
+    var lw=document.getElementById('ngo-login-wall');
+    var db=document.getElementById('ngo-dashboard');
+    var on=document.getElementById('ngo-org-name');
+    if(lw)lw.style.display='none';
+    if(db)db.style.display='block';
+    if(on)on.textContent=org;
+  }
+});
+// Auto-refresh NGO dashboard when posts update
+var _origRA=window._renderAll;
+window._renderAll=function(){
+  if(_origRA)_origRA();
+  var dash=document.getElementById('ngo-dashboard');
+  if(dash&&dash.style.display!=='none'&&window.ngoLoadDashboard)window.ngoLoadDashboard();
+};
+</script>
+
+w
+<script>
+window.loadTrustScore=function(){const user=window._currentUser,posts=window._allPosts||[];if(!user){document.getElementById('trust-name').textContent='Login';document.getElementById('trust-score').textContent='--';return;}const mp=posts.filter(p=>p.uid===user.uid),score=Math.min(99,mp.length*2);document.getElementById('trust-avatar').textContent=(user.displayName||'U')[0].toUpperCase();document.getElementById('trust-name').textContent=user.displayName||'User';document.getElementById('trust-score').textContent=score;document.getElementById('trust-posts').textContent=mp.length;let level,icon,desc,bg;if(score>=90){level='Legend';icon='👑';desc='Top 1%!';bg='linear-gradient(135deg,#FEF9C3,#FEF08A)';}else if(score>=60){level='Hero Finder';icon='🏅';desc='Bahut trusted!';bg='#FFF7ED';}else if(score>=30){level='Star Finder';icon='⭐';desc='Trusted member';bg='#F0FDF4';}else if(score>=10){level='Trusted User';icon='✅';desc='Acha start!';bg='#EFF6FF';}else{level='New Member';icon='🆕';desc='Post karo score badhao';bg='#FFF5EE';}document.getElementById('trust-level-icon').textContent=icon;document.getElementById('trust-level-name').textContent=level;document.getElementById('trust-level-desc').textContent=desc;document.getElementById('trust-level-card').style.background=bg;document.getElementById('trust-badge').textContent=icon+' '+level;};
 
 window.calcReward=function(){const val=parseInt(document.getElementById('rew-value').value)||0;if(!val){document.getElementById('reward-suggestions').style.display='none';return;}const chips=[{pct:5,label:'5%',amount:Math.round(val*0.05)},{pct:10,label:'10%',amount:Math.round(val*0.10)},{pct:15,label:'15%',amount:Math.round(val*0.15)},{pct:20,label:'20%',amount:Math.round(val*0.20)}];document.getElementById('reward-chips').innerHTML=chips.map(c=>'<div onclick="toast(\'✅ ₹'+c.amount+'\')" style="background:#D1FAE5;color:#065F46;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;">₹'+c.amount+' ('+c.label+')</div>').join('');document.getElementById('reward-suggestions').style.display='block';};
 window.loadRewardPosts=function(){const posts=(window._allPosts||[]).filter(p=>p.reward&&parseInt(p.reward)>0).sort((a,b)=>parseInt(b.reward)-parseInt(a.reward)).slice(0,5);const el=document.getElementById('top-reward-posts');if(!el)return;if(!posts.length){el.innerHTML='<div style="text-align:center;padding:16px;color:var(--text-muted);font-size:13px;">No reward posts</div>';return;}el.innerHTML=posts.map(p=>{const tc=p.type==='lost'?'#FEE2E2':'#D1FAE5',tt=p.type==='lost'?'#DC2626':'#059669';return '<div onclick="openDetail(\''+p.id+'\')" style="display:flex;align-items:center;gap:10px;padding:10px;background:white;border-radius:10px;margin-bottom:8px;cursor:pointer;border:1.5px solid var(--border);"><div style="background:#FEF9C3;color:#92400E;font-weight:800;font-size:15px;padding:6px 12px;border-radius:10px;min-width:70px;text-align:center;">₹'+p.reward+'</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;">'+p.item+'</div><div style="font-size:11px;color:var(--text-muted);">📍 '+p.loc+'</div></div><span style="background:'+tc+';color:'+tt+';font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;">'+(p.type==='lost'?'Lost':'Found')+'</span></div>';}).join('');};
@@ -1051,14 +1286,34 @@ window.shareFIRWhatsApp=function(){if(!window._lastFIR)return;window.open('https
 <div class="page" id="page-alerts">
   <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;"><span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span><span style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;">🔔 Area Alerts</span></div>
   <div style="padding:20px 20px 100px;">
-    <div style="background:linear-gradient(135deg,#E8722A,#f59342);border-radius:16px;padding:20px;margin-bottom:20px;color:white;"><div style="font-family:'Sora',sans-serif;font-weight:700;font-size:18px;margin-bottom:6px;">🔔 Alert Set Karo</div><div style="font-size:13px;opacity:.85;">Jab bhi tumhare area mein post aaye — pehle jaano</div></div>
+    <div style="background:linear-gradient(135deg,#E8722A,#f59342);border-radius:16px;padding:20px;margin-bottom:20px;color:white;"><div style="font-family:'Sora',sans-serif;font-weight:700;font-size:18px;margin-bottom:6px;">🔔 Set Alert</div><div style="font-size:13px;opacity:.85;">Get notified when a post appears in your area</div></div>
     <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:20px;">
       <div class="form-group" style="margin-bottom:12px;"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📍 Area / City</label><input id="alert-area" type="text" placeholder="e.g. Imphal, Connaught Place" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
-      <div class="form-group" style="margin-bottom:14px;"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📂 Category (Optional)</label><select id="alert-cat" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option value="">All Categories</option><option value="Wallet">👛 Wallet</option><option value="Phone">📱 Phone</option><option value="Keys">🔑 Keys</option><option value="Bag">💼 Bag</option><option value="Pet">🐾 Pet</option><option value="Documents">🎫 Documents</option><option value="Other">📦 Other</option></select></div>
-      <button onclick="saveAreaAlert()" class="btn-primary" style="width:100%;">🔔 Alert Set Karo</button>
+      <div class="form-group" style="margin-bottom:14px;"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📂 Category (Optional)</label><select id="alert-cat" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;">
+<option value="">All Categories</option>
+<option value="Wallet">👛 Wallet</option>
+<option value="Phone">📱 Phone</option>
+<option value="Keys">🔑 Keys</option>
+<option value="Bag">💼 Bag</option>
+<option value="Jewellery">💍 Jewellery</option>
+<option value="Backpack">🎒 Backpack</option>
+<option value="Laptop">💻 Laptop</option>
+<option value="Pet">🐾 Pet</option>
+<option value="Glasses">👓 Glasses</option>
+<option value="Documents">🎫 Documents</option>
+<option value="Watch">⌚ Watch</option>
+<option value="Purse">👜 Purse</option>
+<option value="Person">🧍 Person</option>
+<option value="Animals">🐕 Animals</option>
+<option value="Car">🚗 Car</option>
+<option value="Bike">🏍️ Bike</option>
+<option value="Cycle">🚲 Cycle</option>
+<option value="Other">📦 Other</option>
+</select></div>
+      <button onclick="saveAreaAlert()" class="btn-primary" style="width:100%;">🔔 Set Alert</button>
     </div>
     <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;">Active Alerts</div>
-    <div id="alerts-list"><div style="text-align:center;padding:24px;color:var(--text-muted);font-size:14px;">Koi alert set nahi</div></div>
+    <div id="alerts-list"><div style="text-align:center;padding:24px;color:var(--text-muted);font-size:14px;">No alerts set</div></div>
   </div>
 </div>
 
@@ -1066,8 +1321,8 @@ window.shareFIRWhatsApp=function(){if(!window._lastFIR)return;window.open('https
 <div class="page" id="page-fir">
   <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;"><span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span><span style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;">👮 Police FIR Helper</span></div>
   <div style="padding:20px 20px 110px;">
-    <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;padding:20px;margin-bottom:20px;color:white;"><div style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;">FIR Draft — Free</div><div style="font-size:13px;opacity:.8;">Details bharo → Draft ready → Police le jaao</div></div>
-    <div style="background:#FFF8F0;border:2px solid #FFD4A8;border-radius:14px;padding:14px;margin-bottom:16px;"><label style="font-size:13px;font-weight:700;display:block;margin-bottom:8px;">🌐 Language</label><select id="fir-lang" onchange="updateFIRLangUI()" style="width:100%;padding:11px 14px;border:1.5px solid #FFD4A8;border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option value="en">🇮🇳 English</option><option value="hi">हिंदी</option><option value="bn">বাংলা</option><option value="te">తెలుగు</option><option value="mr">मराठी</option><option value="ta">தமிழ்</option><option value="gu">ગુજરાતી</option><option value="kn">ಕನ್ನಡ</option><option value="ml">മലയാളം</option><option value="pa">ਪੰਜਾਬੀ</option><option value="or">ଓଡ଼ିଆ</option><option value="as">অসমীয়া</option><option value="ur">اردو</option></select><div id="fir-lang-note" style="font-size:11px;color:#C07A3A;margin-top:6px;">✅ FIR chosen language mein</div></div>
+    <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;padding:20px;margin-bottom:20px;color:white;"><div style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;">FIR Draft — Free</div><div style="font-size:13px;opacity:.8;">Fill details → Get draft → Submit to police</div></div>
+    <div style="background:#FFF8F0;border:2px solid #FFD4A8;border-radius:14px;padding:14px;margin-bottom:16px;"><label style="font-size:13px;font-weight:700;display:block;margin-bottom:8px;">🌐 Language</label><select id="fir-lang" onchange="updateFIRLangUI()" style="width:100%;padding:11px 14px;border:1.5px solid #FFD4A8;border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option value="en">🇮🇳 English</option><option value="hi">हिंदी</option><option value="bn">বাংলা</option><option value="te">తెలుగు</option><option value="mr">मराठी</option><option value="ta">தமிழ்</option><option value="gu">ગુજરાતી</option><option value="kn">ಕನ್ನಡ</option><option value="ml">മലയാളം</option><option value="pa">ਪੰਜਾਬੀ</option><option value="or">ଓଡ଼ିଆ</option><option value="as">অসমীয়া</option><option value="ur">اردو</option></select><div id="fir-lang-note" style="font-size:11px;color:#C07A3A;margin-top:6px;">✅ FIR will be generated in chosen language</div></div>
     <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
       <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;">📋 Item Details</div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🏷️ Item</label><input id="fir-item" type="text" placeholder="Samsung Galaxy, Wallet..." style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
@@ -1096,7 +1351,7 @@ window.shareFIRWhatsApp=function(){if(!window._lastFIR)return;window.open('https
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🪪 ID Proof</label><select id="fir-idtype" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option>Aadhaar Card</option><option>PAN Card</option><option>Passport</option><option>Voter ID</option><option>Driving Licence</option></select></div>
     </div>
     <button onclick="generateFIR()" class="btn-primary" style="width:100%;margin-bottom:10px;font-size:16px;padding:14px;">📄 FIR Draft Generate Karo</button>
-    <div style="background:#EFF6FF;border-radius:12px;padding:14px;font-size:12px;color:#1D4ED8;line-height:1.7;">💡 Yeh ek draft hai. <a href="https://www.digitalpolice.gov.in" target="_blank" style="color:#1D4ED8;font-weight:700;">digitalpolice.gov.in</a></div>
+    <div style="background:#EFF6FF;border-radius:12px;padding:14px;font-size:12px;color:#1D4ED8;line-height:1.7;">💡 This is a draft only. <a href="https://www.digitalpolice.gov.in" target="_blank" style="color:#1D4ED8;font-weight:700;">digitalpolice.gov.in</a></div>
   </div>
 </div>
 
@@ -1104,7 +1359,7 @@ window.shareFIRWhatsApp=function(){if(!window._lastFIR)return;window.open('https
 <div id="fir-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:600;align-items:flex-end;justify-content:center;" onclick="if(event.target===this)document.getElementById('fir-modal').style.display='none'">
   <div style="background:white;border-radius:20px 20px 0 0;padding:24px;width:100%;max-height:90vh;overflow-y:auto;">
     <div style="width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px;"></div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;"><div><div style="font-family:'Sora',sans-serif;font-size:17px;font-weight:700;">📄 FIR Draft Ready!</div><div style="font-size:12px;color:var(--text-muted);">Police station mein submit karo</div></div><button onclick="document.getElementById('fir-modal').style.display='none'" style="background:var(--gray);border:none;border-radius:50%;width:32px;height:32px;font-size:18px;cursor:pointer;">×</button></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;"><div><div style="font-family:'Sora',sans-serif;font-size:17px;font-weight:700;">📄 FIR Draft Ready!</div><div style="font-size:12px;color:var(--text-muted);">Submit at police station</div></div><button onclick="document.getElementById('fir-modal').style.display='none'" style="background:var(--gray);border:none;border-radius:50%;width:32px;height:32px;font-size:18px;cursor:pointer;">×</button></div>
     <div id="fir-preview" style="background:#F8FAFC;border:1.5px solid #CBD5E1;border-radius:12px;padding:16px;font-size:13px;line-height:1.9;white-space:pre-wrap;font-family:monospace;color:#1e293b;margin-bottom:16px;"></div>
     <button onclick="copyFIR()" class="btn-primary" style="width:100%;margin-bottom:10px;">📋 Copy</button>
     <button onclick="shareFIRWhatsApp()" style="width:100%;padding:13px;background:#25D366;color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">💬 WhatsApp</button>
@@ -1115,12 +1370,12 @@ window.shareFIRWhatsApp=function(){if(!window._lastFIR)return;window.open('https
 <div class="page" id="page-qrtag">
   <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;"><span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span><span style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;">🏷️ QR Smart Tag</span></div>
   <div style="padding:20px 20px 110px;">
-    <div style="background:linear-gradient(135deg,#E8722A,#c45a1a);border-radius:16px;padding:22px;margin-bottom:20px;color:white;text-align:center;"><div style="font-size:40px;margin-bottom:8px;">🏷️</div><div style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;">Smart QR Tag</div><div style="font-size:13px;opacity:.85;">Item pe lagao — Koi bhi scan kare aur contact kare</div></div>
+    <div style="background:linear-gradient(135deg,#E8722A,#c45a1a);border-radius:16px;padding:22px;margin-bottom:20px;color:white;text-align:center;"><div style="font-size:40px;margin-bottom:8px;">🏷️</div><div style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;">Smart QR Tag</div><div style="font-size:13px;opacity:.85;">Attach to item — Anyone can scan to contact you</div></div>
     <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">👤 Owner Name</label><input id="qr-name" type="text" placeholder="e.g. Samarendra" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🏷️ Item Name *</label><input id="qr-item" type="text" placeholder="My Laptop Bag" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">📱 Contact</label><input id="qr-contact" type="text" placeholder="Phone or email" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
-      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">💬 Message for Finder</label><textarea id="qr-msg" placeholder="Agar mila hai toh please contact karein 🙏" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;resize:vertical;min-height:70px;"></textarea></div>
+      <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">💬 Message for Finder</label><textarea id="qr-msg" placeholder="If found, please contact me 🙏" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;resize:vertical;min-height:70px;"></textarea></div>
       <button onclick="generateQR()" class="btn-primary" style="width:100%;">🏷️ Generate QR Tag</button>
     </div>
     <div id="qr-result" style="display:none;"><div style="background:white;border:2px solid var(--orange);border-radius:16px;padding:20px;text-align:center;margin-bottom:16px;"><div id="qr-code-display" style="margin-bottom:16px;"></div><div id="qr-item-label" style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;margin-bottom:4px;"></div><div id="qr-owner-label" style="font-size:13px;color:var(--text-muted);margin-bottom:12px;"></div></div><div style="display:flex;gap:10px;"><button onclick="shareQR()" style="flex:1;padding:13px;background:#25D366;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">💬 Share</button><button onclick="printQR()" style="flex:1;padding:13px;background:var(--gray);color:var(--black);border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">🖨️ Print</button></div></div>
@@ -1141,7 +1396,7 @@ window.shareFIRWhatsApp=function(){if(!window._lastFIR)return;window.open('https
 <div class="page" id="page-trust">
   <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;"><span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span><span style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;">🤝 Trust Score</span></div>
   <div style="padding:20px 20px 110px;">
-    <div style="background:linear-gradient(135deg,#111,#333);border-radius:16px;padding:24px;margin-bottom:20px;color:white;text-align:center;"><div id="trust-avatar" style="width:64px;height:64px;border-radius:50%;background:var(--orange);color:white;font-size:28px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">?</div><div id="trust-name" style="font-family:'Sora',sans-serif;font-size:18px;font-weight:700;margin-bottom:4px;">Login karo</div><div id="trust-badge" style="font-size:13px;opacity:.7;margin-bottom:16px;">Score dekhne ke liye</div><div style="display:flex;justify-content:center;gap:24px;"><div><div id="trust-score" style="font-family:'Sora',sans-serif;font-size:36px;font-weight:700;color:var(--orange);">--</div><div style="font-size:11px;opacity:.7;">Score</div></div><div><div id="trust-posts" style="font-family:'Sora',sans-serif;font-size:36px;font-weight:700;color:#64B5F6;">0</div><div style="font-size:11px;opacity:.7;">Posts</div></div></div></div>
+    <div style="background:linear-gradient(135deg,#111,#333);border-radius:16px;padding:24px;margin-bottom:20px;color:white;text-align:center;"><div id="trust-avatar" style="width:64px;height:64px;border-radius:50%;background:var(--orange);color:white;font-size:28px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">?</div><div id="trust-name" style="font-family:'Sora',sans-serif;font-size:18px;font-weight:700;margin-bottom:4px;">Login</div><div id="trust-badge" style="font-size:13px;opacity:.7;margin-bottom:16px;">Score dekhne ke liye</div><div style="display:flex;justify-content:center;gap:24px;"><div><div id="trust-score" style="font-family:'Sora',sans-serif;font-size:36px;font-weight:700;color:var(--orange);">--</div><div style="font-size:11px;opacity:.7;">Score</div></div><div><div id="trust-posts" style="font-family:'Sora',sans-serif;font-size:36px;font-weight:700;color:#64B5F6;">0</div><div style="font-size:11px;opacity:.7;">Posts</div></div></div></div>
     <div id="trust-level-card" style="border-radius:14px;padding:16px;margin-bottom:16px;text-align:center;background:#FFF5EE;border:2px solid var(--orange);"><div id="trust-level-icon" style="font-size:36px;margin-bottom:6px;">🆕</div><div id="trust-level-name" style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;">New Member</div><div id="trust-level-desc" style="font-size:12px;color:var(--text-muted);margin-top:4px;">Post karo score badhao</div></div>
   </div>
 </div>
@@ -1169,7 +1424,7 @@ window.shareFIRWhatsApp=function(){if(!window._lastFIR)return;window.open('https
 <div id="login-required-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:800;align-items:flex-end;justify-content:center;">
   <div style="background:white;border-radius:20px 20px 0 0;padding:28px 24px;width:100%;max-width:500px;">
     <div style="width:40px;height:4px;background:#e0e0e0;border-radius:2px;margin:0 auto 20px;"></div>
-    <div style="text-align:center;margin-bottom:20px;"><div style="font-size:48px;margin-bottom:10px;">🔐</div><div style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;margin-bottom:6px;">Login Required</div><div style="font-size:14px;color:#777;">Post karne ke liye login karein</div></div>
+    <div style="text-align:center;margin-bottom:20px;"><div style="font-size:48px;margin-bottom:10px;">🔐</div><div style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;margin-bottom:6px;">Login Required</div><div style="font-size:14px;color:#777;">Login required to post</div></div>
     <button onclick="closeLoginRequired();showPage('login');" style="width:100%;padding:14px;background:#E8722A;color:white;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:10px;">🔑 Login</button>
     <button onclick="closeLoginRequired();showPage('register');" style="width:100%;padding:14px;background:#F5F5F5;color:#111;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:10px;">📝 Register</button>
     <button onclick="closeLoginRequired();" style="width:100%;padding:12px;background:transparent;color:#999;border:none;font-size:14px;cursor:pointer;font-family:'Inter',sans-serif;">Cancel</button>
@@ -1189,58 +1444,132 @@ window.shareFIRWhatsApp=function(){if(!window._lastFIR)return;window.open('https
 </div>
 
 <script>
-// ── PWA SERVICE WORKER REGISTRATION ──
-if('serviceWorker' in navigator){
-  window.addEventListener('load', function(){
-    navigator.serviceWorker.register('/sw.js').then(function(reg){
-      console.log('SW registered:', reg.scope);
-      // Check for updates
-      reg.addEventListener('updatefound', function(){
-        var newWorker = reg.installing;
-        newWorker.addEventListener('statechange', function(){
-          if(newWorker.state === 'installed' && navigator.serviceWorker.controller){
-            toast('🔄 App update available! Refresh karo.');
-          }
-        });
-      });
-    }).catch(function(err){
-      console.log('SW registration failed:', err);
-    });
-  });
-}
-
-// ── PWA INSTALL PROMPT ──
-var _installPrompt = null;
-window.addEventListener('beforeinstallprompt', function(e){
-  e.preventDefault();
-  _installPrompt = e;
-  // Show install button
-  var installBar = document.getElementById('pwa-install-bar');
-  if(installBar) installBar.style.display = 'flex';
-});
-window.addEventListener('appinstalled', function(){
-  var installBar = document.getElementById('pwa-install-bar');
-  if(installBar) installBar.style.display = 'none';
-  _installPrompt = null;
-  toast('✅ FindBack install ho gaya! Home screen pe dekho.');
-});
-window.installPWA = function(){
-  if(!_installPrompt){ toast('📱 Browser settings se "Add to Home Screen" karo'); return; }
-  _installPrompt.prompt();
-  _installPrompt.userChoice.then(function(result){
-    if(result.outcome === 'accepted') toast('✅ FindBack install ho raha hai!');
-    _installPrompt = null;
-    var installBar = document.getElementById('pwa-install-bar');
-    if(installBar) installBar.style.display = 'none';
-  });
+var APP_LANG=localStorage.getItem('fb_lang')||null;window.APP_LANG=APP_LANG;
+window.selectLang=function(lang){
+  APP_LANG=lang;
+  localStorage.setItem('fb_lang',lang);
+  window.APP_LANG=lang;
+  var s=document.getElementById('lang-select-screen');
+  if(s)s.style.display='none';
+  applyLanguage(lang);
 };
 
-var APP_LANG=localStorage.getItem('fb_lang')||null;window.APP_LANG=APP_LANG;
-window.selectLang=function(lang){APP_LANG=lang;localStorage.setItem('fb_lang',lang);window.APP_LANG=lang;var s=document.getElementById('lang-select-screen');if(s)s.style.display='none';};
+window.toggleLang=function(){
+  var newLang=(window.APP_LANG==='hi')?'en':'hi';
+  window.APP_LANG=newLang;
+  APP_LANG=newLang;
+  localStorage.setItem('fb_lang',newLang);
+  applyLanguage(newLang);
+};
+
+window.applyLanguage=function(lang){
+  var btn=document.getElementById('lang-toggle-btn');
+  if(btn)btn.textContent=lang==='hi'?'हि':'EN';
+
+  var T={
+    en:{
+      hero_title:'Find what the world lost.',
+      hero_sub:"India's most trusted lost & found platform",
+      btn_lost:'😟 Report Lost',
+      btn_found:'🎉 Report Found',
+      filter_area:'Filter by Area:',
+      browse_cat:'📂 Browse by Category',
+      search_ph:'Search lost & found items...',
+      all_posts:'🔍 All Posts',
+      tab_all:'🔍 All',tab_active:'🔴 Active',tab_fading:'🟡 Fading',tab_resolved:'✅ Resolved',tab_expired:'⏳ Expired',
+      no_posts_title:'No posts yet',
+      no_posts_sub:'Be the first to post!',
+      alert_title:'🔔 Set Alert',
+      alert_sub:'Get notified when a post appears in your area',
+      alert_btn:'🔔 Set Alert',
+      active_alerts:'Active Alerts',
+      no_alerts:'No alerts set',
+    },
+    hi:{
+      hero_title:'जो खो गया उसे वापस पाओ।',
+      hero_sub:'भारत का सबसे भरोसेमंद खोया-पाया प्लेटफॉर्म',
+      btn_lost:'😟 खोई वस्तु रिपोर्ट करें',
+      btn_found:'🎉 मिली वस्तु रिपोर्ट करें',
+      filter_area:'क्षेत्र फ़िल्टर करें:',
+      browse_cat:'📂 श्रेणी से खोजें',
+      search_ph:'खोई और पाई वस्तुएं खोजें...',
+      all_posts:'🔍 सभी पोस्ट',
+      tab_all:'🔍 सभी',tab_active:'🔴 सक्रिय',tab_fading:'🟡 पुरानी',tab_resolved:'✅ मिला',tab_expired:'⏳ समाप्त',
+      no_posts_title:'अभी कोई पोस्ट नहीं',
+      no_posts_sub:'पहली पोस्ट आप करें!',
+      alert_title:'🔔 अलर्ट सेट करें',
+      alert_sub:'जब आपके क्षेत्र में कोई पोस्ट आए — सबसे पहले जानें',
+      alert_btn:'🔔 अलर्ट सेट करें',
+      active_alerts:'सक्रिय अलर्ट',
+      no_alerts:'कोई अलर्ट नहीं',
+    }
+  };
+
+  var t=T[lang]||T.en;
+
+  function setTxt(id,val){var el=document.getElementById(id);if(el)el.textContent=val;}
+  function setHTML(id,val){var el=document.getElementById(id);if(el)el.innerHTML=val;}
+  function setAttr(id,attr,val){var el=document.getElementById(id);if(el)el.setAttribute(attr,val);}
+
+  // Hero
+  var h1=document.querySelector('.home-hero h1');if(h1)h1.textContent=t.hero_title;
+  var hp=document.querySelector('.home-hero p');if(hp)hp.textContent=t.hero_sub;
+
+  // Buttons
+  var navLost=document.getElementById('nav-lost');
+  var navFound=document.getElementById('nav-found');
+
+  // Home buttons
+  var homeBtns=document.querySelectorAll('.home-btns .btn-primary, .home-btns .btn-outline');
+  if(homeBtns[0])homeBtns[0].textContent=t.btn_lost;
+  if(homeBtns[1])homeBtns[1].textContent=t.btn_found;
+
+  // Filter bar
+  var filterSpan=document.querySelector('.loc-filter-bar-top span:nth-child(2)');
+  if(filterSpan)filterSpan.textContent=t.filter_area;
+
+  // Browse category heading
+  var catHead=document.querySelector('#cat-grid-container').previousElementSibling;
+  if(catHead)catHead.textContent=t.browse_cat;
+
+  // Search placeholder
+  setAttr('search-input','placeholder',t.search_ph);
+
+  // Status tabs
+  setTxt('stab-all',t.tab_all);
+  setTxt('stab-active',t.tab_active);
+  setTxt('stab-fading',t.tab_fading);
+  setTxt('stab-resolved',t.tab_resolved);
+  setTxt('stab-expired',t.tab_expired);
+
+  // Filter label
+  setTxt('filter-label',t.all_posts);
+
+  // No posts
+  var npTitle=document.querySelector('#no-posts h3');
+  var npSub=document.querySelector('#no-posts p');
+  if(npTitle)npTitle.textContent=t.no_posts_title;
+  if(npSub)npSub.textContent=t.no_posts_sub;
+
+  // Alert page
+  var alertTitle=document.querySelector('#page-alerts .home-hero-like, #page-alerts div[style*="font-weight:700;font-size:18px"]');
+  var alertSub=document.querySelector('#page-alerts div[style*="opacity:.85"]');
+  if(alertSub)alertSub.textContent=t.alert_sub;
+
+  var alertBtn=document.querySelector('#page-alerts .btn-primary');
+  if(alertBtn)alertBtn.textContent=t.alert_btn;
+
+  var alertHead=document.querySelector('#page-alerts [style*="font-size:15px;font-weight:700"]');
+  if(alertHead)alertHead.textContent=t.active_alerts;
+
+  // Re-render alerts list with correct language
+  if(window.renderAlerts)window.renderAlerts();
+};
 window.addEventListener('load',function(){
   if(!localStorage.getItem('fb_lang')){var s=document.getElementById('lang-select-screen');if(s)s.style.display='flex';}
   else{APP_LANG=localStorage.getItem('fb_lang');window.APP_LANG=APP_LANG;}
   var today=new Date().toISOString().split('T')[0];var d1=document.getElementById('m-date');if(d1)d1.setAttribute('max',today);var d2=document.getElementById('e-date');if(d2)d2.setAttribute('max',today);
+  setTimeout(function(){if(window.applyLanguage)window.applyLanguage(window.APP_LANG||'en');},200);
 });
 </script>
 <!-- FIR DATA -->
@@ -1259,13 +1588,52 @@ window.generateFIR=function(){
   var loc=document.getElementById('fir-loc').value.trim(),dt=document.getElementById('fir-date').value,how=document.getElementById('fir-how').value.trim();
   var name=document.getElementById('fir-name').value.trim(),phoneRaw=document.getElementById('fir-phone').value.trim(),phone=phoneRaw?'+91'+phoneRaw:'+91__________';
   var addr=document.getElementById('fir-addr').value.trim(),idtype=document.getElementById('fir-idtype').value;
-  if(!item||!loc||!name||!phoneRaw){toast('⚠️ Item, location, naam aur phone zaroori');return;}
+  if(!item||!loc||!name||!phoneRaw){toast('⚠️ Item, location, name and phone required');return;}
   if(phoneRaw.length!==10||!/^[0-9]{10}$/.test(phoneRaw)){
-    toast('⚠️ Mobile number exactly 10 digits daalo');
+    toast('⚠️ Enter exactly 10 digit mobile number');
     document.getElementById('fir-phone').focus();
     validatePhoneInput(document.getElementById('fir-phone'),'fir-phone-err');
     return;
   }
-  if(!ps){toast('⚠️ Police station select karo');return;}
+  if(!ps){toast('⚠️ Please select police station');return;}
   var today=new Date().toLocaleDateString('en-IN'),dateStr=dt?new Date(dt).toLocaleString('en-IN'):new Date().toLocaleString('en-IN');
-  var txt='TO,\nThe Station House Officer,\n'+ps+',\n'+dist+', '+state+'\n\nSUBJECT: Application for FIR - Loss of '+(cat||item)+'\n\nRespected Sir/Madam,\n\nI, '+name+', resident of '+(addr||'[Address]')+', wish to report the loss of my '+(cat||item)+'.\n\n--------------------------------\nLOST ITEM DETAILS\n--------------------------------\nItem         : '+item+'\nCategory     : '+(cat||'Not specified')+'\nDescription  : '+(desc||'Not specified')+'\nApprox Value : '+(val?'₹'+val:'Not specified')+'\n\n--------------------------------\nINCIDENT DETAILS\n--------------------------------\nDate & Time  : '+dateStr+'\nLocation     : '+loc+'\nCircumstances: '+(how||'Item misplaced at above location.')+'\n\n--------------------------------\nCOMPLAINANT DETAILS\n--------------------------------\nName     : '+name+'\nMobile   : '+phone+'\nAddress  : '+(addr||'[Address]')+'\n
+  var txt='';
+  txt+='TO,\n';
+  txt+='The Station House Officer,\n';
+  txt+=ps+',\n';
+  txt+=dist+', '+state+'\n\n';
+  txt+='SUBJECT: Application for FIR - Loss of '+(cat||item)+'\n\n';
+  txt+='Respected Sir/Madam,\n\n';
+  txt+='I, '+name+', resident of '+(addr||'[Address]')+', wish to report the loss of my '+(cat||item)+'.\n\n';
+  txt+='--------------------------------\n';
+  txt+='LOST ITEM DETAILS\n';
+  txt+='--------------------------------\n';
+  txt+='Item         : '+item+'\n';
+  txt+='Category     : '+(cat||'Not specified')+'\n';
+  txt+='Description  : '+(desc||'Not specified')+'\n';
+  txt+='Approx Value : '+(val?'₹'+val:'Not specified')+'\n\n';
+  txt+='--------------------------------\n';
+  txt+='INCIDENT DETAILS\n';
+  txt+='--------------------------------\n';
+  txt+='Date & Time  : '+dateStr+'\n';
+  txt+='Location     : '+loc+'\n';
+  txt+='Circumstances: '+(how||'Item misplaced at above location.')+'\n\n';
+  txt+='--------------------------------\n';
+  txt+='COMPLAINANT DETAILS\n';
+  txt+='--------------------------------\n';
+  txt+='Name     : '+name+'\n';
+  txt+='Mobile   : '+phone+'\n';
+  txt+='Address  : '+(addr||'[Address]')+'\n';
+  txt+='ID Proof : '+idtype+'\n\n';
+  txt+='[Also listed on FindBack - India Lost and Found Platform]\n\n';
+  txt+='Date: '+today+'\n';
+  txt+='Signature: _______________\n';
+  txt+='Name: '+name+'\n';
+  txt+='Mobile: '+phone;
+    window._lastFIR=txt;
+  document.getElementById('fir-preview').textContent=txt;
+  document.getElementById('fir-modal').style.display='flex';
+};
+</script>
+</body>
+</html>
