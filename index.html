@@ -497,8 +497,8 @@ const q=query(collection(db,"posts"),orderBy("createdAt","desc"));
 let _unsub=null;
 function startListener(){
   try{if(_unsub){try{_unsub();}catch(e){}}
-  // Show skeleton while loading
-  if(window.showSkeletonCards)window.showSkeletonCards();
+  // Show skeleton while loading (only if no posts yet)
+  if(window.showSkeletonCards && (!window._allPosts || window._allPosts.length === 0))window.showSkeletonCards();
   _unsub=onSnapshot(q,(snap)=>{
     window._allPosts=snap.docs.map(d=>({id:d.id,...d.data()}));
     if(window.updateCatCounts)window.updateCatCounts();
@@ -1151,6 +1151,8 @@ window.updateCatCounts=function(){
 window._renderAll=function(){
   var container=document.getElementById('listings-grid'),noPosts=document.getElementById('no-posts'),fl=document.getElementById('filter-label');
   if(!container)return;
+  // Clear skeleton immediately
+  if(container.querySelector('.skeleton'))container.innerHTML='';
   var ac=window.activeCat||'',filtered=(window._allPosts||[]).slice();
   // LOCATION FILTER
   var lf=window.activeLocFilter||'';
@@ -1182,13 +1184,7 @@ window._renderAll=function(){
   var sq=window.searchQuery||'';
   if(sq)filtered=filtered.filter(function(p){return (p.item||'').toLowerCase().indexOf(sq)>=0||(p.loc||'').toLowerCase().indexOf(sq)>=0||(p.desc||'').toLowerCase().indexOf(sq)>=0;});
   fl.textContent=ac?('📂 '+ac):lf?('📍 '+lf):'🔍 All Posts';
-  // If not logged in, show login prompt instead of posts
-  if(!window._currentUser){
-    container.innerHTML='';
-    noPosts.innerHTML='<div style="text-align:center;padding:40px 20px;"><div style="font-size:56px;margin-bottom:16px;">🔐</div><h3 style="font-family:\'Sora\',sans-serif;font-size:18px;margin-bottom:8px;">Login to Browse Posts</h3><p style="font-size:14px;color:var(--text-muted);margin-bottom:20px;">Create a free account or login to see lost & found posts</p><button onclick="showPage(\'login\')" style="background:#E8722A;color:white;border:none;padding:12px 28px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-right:10px;">🔑 Login</button><button onclick="showPage(\'register\')" style="background:#111;color:white;border:none;padding:12px 28px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;">📝 Sign Up Free</button></div>';
-    noPosts.style.display='block';
-    removePagination();return;
-  }
+  // Posts visible to all users
   if(!filtered.length){container.innerHTML='';noPosts.innerHTML='<div style="font-size:48px;margin-bottom:12px;">🔍</div><h3 style="font-family:\'Sora\',sans-serif;font-size:18px;margin-bottom:6px;">No posts yet</h3><p style="font-size:14px;">Be the first to post!</p>';noPosts.style.display='block';removePagination();return;}
   noPosts.style.display='none';
   var fkey=ac+sq+sf+lf;
