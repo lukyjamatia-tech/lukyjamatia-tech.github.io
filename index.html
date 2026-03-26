@@ -418,6 +418,29 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
     <div class="form-group"><label>📅 Date</label><input type="date" id="m-date" max=""><div style="font-size:11px;color:#E8722A;margin-top:4px;">⚠️ Future date not allowed</div></div>
     <div class="form-group"><label>📝 Description</label><textarea id="m-desc" placeholder="Color, brand, details..."></textarea></div>
     <div class="form-group" id="id-mark-group" style="display:none;"><label>🔖 Identification Mark <span style="font-size:11px;color:var(--text-muted);">(Optional)</span></label><input type="text" id="m-id-mark" placeholder="Scratch, sticker, initials..."></div>
+    <!-- ID Document Fields — shown only for Documents + Found -->
+    <div id="id-doc-fields" style="display:none;">
+      <div style="background:#EFF6FF;border-radius:10px;padding:12px;margin-bottom:12px;font-size:12px;color:#1D4ED8;font-weight:600;">🪪 Found document ki details — owner verify karne ke liye zaroori</div>
+      <div class="form-group">
+        <label>🪪 Document Type Found</label>
+        <select id="m-doc-type" onchange="onDocTypeChange()">
+          <option value="">-- Select Document --</option>
+          <option value="aadhaar">Aadhaar Card</option>
+          <option value="pan">PAN Card</option>
+          <option value="voter">Voter ID Card</option>
+          <option value="passport">Passport</option>
+          <option value="driving">Driving Licence</option>
+          <option value="other">Other Document</option>
+        </select>
+      </div>
+      <div class="form-group" id="doc-number-group" style="display:none;">
+        <label id="doc-number-label">🔢 Document Number</label>
+        <input type="text" id="m-doc-number" placeholder="" oninput="validateDocNumber(this)" style="text-transform:uppercase;">
+        <div id="doc-number-err" style="font-size:11px;color:#DC2626;margin-top:4px;display:none;"></div>
+        <div id="doc-number-hint" style="font-size:11px;color:#059669;margin-top:4px;display:none;">✅ Valid format</div>
+        <div id="doc-number-format" style="font-size:11px;color:#999;margin-top:4px;"></div>
+      </div>
+    </div>
     <div id="vehicle-fields" style="display:none;"><div style="background:#EFF6FF;border-radius:10px;padding:12px;margin-bottom:12px;font-size:12px;color:#1D4ED8;font-weight:600;">🚗 Vehicle details (helpful for police report)</div><div class="form-group"><label>🔢 Registration No.</label><input type="text" id="m-reg-no" placeholder="DL01AB1234" oninput="this.value=this.value.toUpperCase()"></div><div class="form-group"><label>🪪 Licence Plate</label><input type="text" id="m-plate-no" placeholder="DL 01 AB 1234"></div></div>
     <div class="form-group"><label>📱 Contact Number</label><div class="phone-input-wrap"><div class="phone-prefix">+91</div><input type="tel" id="m-contact" class="phone-main" placeholder="10-digit number" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10);validatePhoneInput(this,'m-contact-err')"></div><div style="display:flex;justify-content:space-between;margin-top:4px;"><div id="m-contact-err" style="font-size:11px;color:#DC2626;display:none;">⚠️ Exactly 10 digits required</div><div id="m-contact-count" style="font-size:11px;color:#999;margin-left:auto;"></div></div><div class="phone-hint">Exactly 10 digits — not less, not more</div></div>
     <div class="form-group"><label>🏆 Reward <span style="font-size:11px;color:var(--text-muted);">(Optional)</span></label><div class="input-icon-wrap"><span class="icon">₹</span><input type="number" id="m-reward" placeholder="e.g. 500" min="0"></div></div>
@@ -587,6 +610,17 @@ window.submitToFirebase=async function(){
     validatePhoneInput(document.getElementById('m-contact'),'m-contact-err');
     return;
   }
+  // Validate ID document number if filled
+  const docType=document.getElementById('m-doc-type')?document.getElementById('m-doc-type').value:'';
+  const docNum=document.getElementById('m-doc-number')?document.getElementById('m-doc-number').value.replace(/\s/g,'').toUpperCase():'';
+  if(docType&&docType!=='other'&&docNum){
+    const hint=document.getElementById('doc-number-hint');
+    if(!hint||hint.style.display==='none'){
+      window.toast('⚠️ Document number sahi format mein daalo');
+      document.getElementById('m-doc-number').focus();
+      return;
+    }
+  }
   const dv=document.getElementById('m-date').value;
   if(dv&&dv>new Date().toISOString().split('T')[0]){window.toast('⚠️ Future date not allowed');return;}
   const desc=document.getElementById('m-desc').value.trim(),cat=document.getElementById('m-category').value,rew=document.getElementById('m-reward').value.trim(),type=window.currentModal,photos=window.currentPhotosData||[];
@@ -609,6 +643,7 @@ window.submitToFirebase=async function(){
   const idMasked=idNumRaw.length>=8?(idNumRaw.slice(0,4)+'****'+idNumRaw.slice(-4)):idNumRaw.slice(0,4)+'****';
   const uid=window._currentUser?window._currentUser.uid:null,authorName=window._currentUser?(window._currentUser.displayName||'Anonymous'):'Anonymous';
   const idMark=document.getElementById('m-id-mark')?document.getElementById('m-id-mark').value.trim():'';
+
   const regNo=document.getElementById('m-reg-no')?document.getElementById('m-reg-no').value.trim():'';
   const plateNo=document.getElementById('m-plate-no')?document.getElementById('m-plate-no').value.trim():'';
   const contact=cv?('+91'+cv):'';
@@ -838,6 +873,77 @@ window.clearLocFilter=function(){
   if(window._renderAll)window._renderAll();
 };
 
+// ── ID DOCUMENT VALIDATION ──
+window.onDocTypeChange=function(){
+  var type=document.getElementById('m-doc-type').value;
+  var grp=document.getElementById('doc-number-group');
+  var lbl=document.getElementById('doc-number-label');
+  var ph=document.getElementById('m-doc-number');
+  var fmt=document.getElementById('doc-number-format');
+  var err=document.getElementById('doc-number-err');
+  var hint=document.getElementById('doc-number-hint');
+  if(!grp)return;
+  if(!type||type==='other'){grp.style.display='none';return;}
+  grp.style.display='block';
+  if(ph)ph.value='';
+  if(err)err.style.display='none';
+  if(hint)hint.style.display='none';
+  var config={
+    aadhaar:{label:'🔢 Aadhaar Number',ph:'XXXX XXXX XXXX (12 digits)',fmt:'Format: 12 digits only'},
+    pan:{label:'🔢 PAN Number',ph:'ABCDE1234F',fmt:'Format: 5 letters + 4 digits + 1 letter (e.g. ABCDE1234F)'},
+    voter:{label:'🔢 Voter ID Number',ph:'ABC1234567',fmt:'Format: 3 letters + 7 digits (e.g. ABC1234567)'},
+    passport:{label:'🔢 Passport Number',ph:'A1234567',fmt:'Format: 1 letter + 7 digits (e.g. A1234567)'},
+    driving:{label:'🔢 Licence Number',ph:'DL-XXXXXXXXXXXX',fmt:'Format: State code + digits (e.g. DL0420110123456)'}
+  };
+  var c=config[type];
+  if(c){
+    if(lbl)lbl.textContent=c.label;
+    if(ph)ph.placeholder=c.ph;
+    if(fmt)fmt.textContent=c.fmt;
+  }
+};
+
+window.validateDocNumber=function(input){
+  var type=document.getElementById('m-doc-type').value;
+  var val=input.value.replace(/\s/g,'').toUpperCase();
+  var err=document.getElementById('doc-number-err');
+  var hint=document.getElementById('doc-number-hint');
+  if(!err||!hint)return;
+  if(!val){err.style.display='none';hint.style.display='none';return;}
+  
+  var valid=false,msg='';
+  if(type==='aadhaar'){
+    var digits=val.replace(/\D/g,'');
+    if(digits.length===12&&/^[2-9]/.test(digits)){valid=true;}
+    else if(digits.length<12){msg='⚠️ '+digits.length+' digits — 12 chahiye';}
+    else if(digits.length>12){msg='⚠️ 12 se zyada digits';}
+    else{msg='⚠️ Aadhaar 2-9 se shuru hota hai';}
+    input.value=digits.replace(/(.{4})(.{4})(.{4})/,'$1 $2 $3').trim();
+  } else if(type==='pan'){
+    if(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(val)){valid=true;}
+    else{msg='⚠️ Format: ABCDE1234F (5 letters + 4 digits + 1 letter)';}
+  } else if(type==='voter'){
+    if(/^[A-Z]{3}[0-9]{7}$/.test(val)){valid=true;}
+    else{msg='⚠️ Format: 3 letters + 7 digits (e.g. ABC1234567)';}
+  } else if(type==='passport'){
+    if(/^[A-Z]{1}[0-9]{7}$/.test(val)){valid=true;}
+    else{msg='⚠️ Format: 1 letter + 7 digits (e.g. A1234567)';}
+  } else if(type==='driving'){
+    if(val.length>=8&&val.length<=20){valid=true;}
+    else{msg='⚠️ Valid licence number enter karo';}
+  }
+  
+  if(valid){
+    err.style.display='none';
+    hint.style.display='block';
+    input.style.borderColor='#059669';
+  } else {
+    hint.style.display='none';
+    if(msg){err.textContent=msg;err.style.display='block';}
+    input.style.borderColor='#DC2626';
+  }
+};
+
 window.validatePhoneInput=function(input,errId){
   var val=input.value.trim();
   var err=document.getElementById(errId);
@@ -861,9 +967,13 @@ window.validatePhoneInput=function(input,errId){
 
 window.onModalCategoryChange=function(){
   const cat=document.getElementById('m-category').value;
+  const type=window.currentModal||'lost';
   const ig=document.getElementById('id-mark-group'),vf=document.getElementById('vehicle-fields');
+  const idf=document.getElementById('id-doc-fields');
   if(ig)ig.style.display=cat?'block':'none';
   if(vf)vf.style.display=['Car','Bike','Cycle'].includes(cat)?'block':'none';
+  // Show ID doc fields only for Found + Documents category
+  if(idf)idf.style.display=(type==='found'&&cat==='Documents')?'block':'none';
 };
 window.validateContactEmail=function(input){
   const val=input.value.trim(),err=document.getElementById('c-email-error');if(!err)return;
@@ -2322,4 +2432,13 @@ window.generateFIR=function(){
   txt+='ID Proof : '+idtype+'\n\n';
   txt+='[Also listed on FindBack - India Lost and Found Platform]\n\n';
   txt+='Date: '+today+'\n';
-  txt+='Signature: ______________
+  txt+='Signature: _______________\n';
+  txt+='Name: '+name+'\n';
+  txt+='Mobile: '+phone;
+    window._lastFIR=txt;
+  document.getElementById('fir-preview').textContent=txt;
+  document.getElementById('fir-modal').style.display='flex';
+};
+</script>
+</body>
+</html>
