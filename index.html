@@ -445,6 +445,13 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
         ✅ Stored as: <span id="m-id-masked-text" style="font-weight:700;letter-spacing:1px;"></span> <span style="opacity:.7;">(Privacy protected)</span>
       </div>
       <label style="font-size:13px;font-weight:600;margin-bottom:6px;display:block;">📷 ID Photo <span style="font-size:11px;color:var(--text-muted);">(Optional — extra proof)</span></label>
+      <div style="background:#FFF7ED;border:1.5px solid #FED7AA;border-radius:8px;padding:8px 10px;margin-bottom:8px;display:flex;align-items:flex-start;gap:7px;">
+        <span style="font-size:15px;flex-shrink:0;">📸</span>
+        <div style="font-size:11px;color:#92400E;line-height:1.7;">
+          <strong>ID photo upload karne se fraud ka risk kam hota hai.</strong><br>
+          Photo sirf admin verification ke liye use hogi — publicly nahi dikhegi.
+        </div>
+      </div>
       <label style="display:block;padding:12px;border:2px dashed #CBD5E1;border-radius:10px;text-align:center;cursor:pointer;background:#F8FAFC;margin-bottom:8px;">
         <span style="font-size:13px;color:#64748B;">📷 ID ki photo upload karo</span>
         <input type="file" id="m-id-photo" accept="image/*" style="display:none;" onchange="previewIDPhoto(this)">
@@ -458,7 +465,7 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
       </div>
     </div>
 
-    <button class="btn-primary" style="width:100%;margin-bottom:10px;" onclick="onSubmitClick()">Submit Post</button>
+    <button class="btn-primary" style="width:100%;margin-bottom:10px;" onclick="submitReport()">Submit Post</button>
     <button class="btn-outline" style="width:100%" onclick="closeModal()">Cancel</button>
   </div>
 </div>
@@ -1069,65 +1076,6 @@ function openModal(type){
 window.openModal=openModal;
 window.closeModal=function(){document.getElementById('report-modal').classList.remove('open');document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.getElementById('nav-home').classList.add('active');};
 window.submitReport=function(){if(window.submitToFirebase)window.submitToFirebase();};
-
-// ── LEGAL WARNING MODAL — bilingual ──
-var LW_TEXT={
-  en:{
-    title:'Please read before submitting',
-    sub:'FindBack Fraud Prevention Policy',
-    warnTitle:'🚨 Important — Please note:',
-    warnBody:'✦ The item you are reporting as "Found" must be in your possession.\n✦ Item description must be accurate — no misleading info.\n✦ Your ID proof must be valid and genuine.\n✦ Demanding reward money or withholding the item is a legal offense.',
-    supportTitle:'🛡️ FindBack\'s Promise:',
-    supportBody:'If any user commits fraud on FindBack — provides a fake ID, withholds an item, or deceives the owner — FindBack will provide complete legal support to the victim, including complaints, police reports, and evidence collection.',
-    fine:'By submitting, you agree to FindBack\'s Terms of Service. Your ID data is encrypted and will only be used in fraud cases.',
-    confirm:'✅ I Understand — Submit Now',
-    back:'← Go Back'
-  },
-  hi:{
-    title:'Submit karne se pehle padhein',
-    sub:'FindBack Fraud Prevention Policy',
-    warnTitle:'🚨 Zaroori — Dhyan se padhein:',
-    warnBody:'✦ Aap jo item "Found" report kar rahe hain, wo aapke paas hona chahiye.\n✦ Item ka description bilkul sahi hona chahiye — koi galat info nahi.\n✦ Aapka ID proof valid aur real hona chahiye.\n✦ Item rok ke rakhna ya reward maangna legal offense hai.',
-    supportTitle:'🛡️ FindBack ka waada:',
-    supportBody:'Agar koi user FindBack pe fraud karta hai — galat ID deta hai, item rok ke rakhta hai, ya owner ko dhoka deta hai — toh FindBack peedit user ke liye poori legal support dega — complaints, police report aur evidence collection mein.',
-    fine:'Submit karne par aap FindBack ke Terms of Service se agree karte hain. Aapka ID data encrypted rakha jayega aur sirf fraud cases mein use hoga.',
-    confirm:'✅ Main Samjha / Samjhi — Submit Karo',
-    back:'← Wapas Jaao'
-  }
-};
-
-window.onSubmitClick=function(){
-  var type=window.currentModal;
-  if(type==='found'){
-    // Fill modal text based on current language
-    var lang=(window.APP_LANG==='hi')?'hi':'en';
-    var t=LW_TEXT[lang];
-    var s=function(id,val){var el=document.getElementById(id);if(el){if(id==='lw-warn-body'||id==='lw-support-body'){el.innerHTML=val.replace(/\n/g,'<br>');}else{el.textContent=val;}}};
-    s('lw-title',t.title);
-    s('lw-sub',t.sub);
-    s('lw-warn-title',t.warnTitle);
-    s('lw-warn-body',t.warnBody);
-    s('lw-support-title',t.supportTitle);
-    s('lw-support-body',t.supportBody);
-    s('lw-fine',t.fine);
-    s('lw-confirm-btn',t.confirm);
-    s('lw-back-btn',t.back);
-    var m=document.getElementById('legal-warning-modal');
-    if(m)m.style.display='flex';
-  } else {
-    if(window.submitToFirebase)window.submitToFirebase();
-  }
-};
-
-window.closeLegalWarning=function(){
-  var m=document.getElementById('legal-warning-modal');
-  if(m)m.style.display='none';
-};
-
-window.closeLegalWarningAndSubmit=function(){
-  window.closeLegalWarning();
-  if(window.submitToFirebase)window.submitToFirebase();
-};
 
 function sendContact(){
   const name=document.getElementById('c-name').value.trim(),msg=document.getElementById('c-msg').value.trim();
@@ -2160,39 +2108,6 @@ window.removeIDPhoto=function(){
     <button onclick="closeLoginRequired();switchAuthTab('login');showPage('login');" style="width:100%;padding:14px;background:#E8722A;color:white;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:10px;">🔑 Login</button>
     <button onclick="closeLoginRequired();switchAuthTab('signup');showPage('login');" style="width:100%;padding:14px;background:#111;color:white;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:10px;">📝 Sign Up Free</button>
     <button onclick="closeLoginRequired();" style="width:100%;padding:12px;background:transparent;color:#999;border:none;font-size:14px;cursor:pointer;font-family:'Inter',sans-serif;">Cancel</button>
-  </div>
-</div>
-
-<!-- LEGAL WARNING MODAL — FOUND POST ONLY — bilingual -->
-<div id="legal-warning-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:850;align-items:flex-end;justify-content:center;">
-  <div style="background:white;border-radius:20px 20px 0 0;padding:24px;width:100%;max-width:500px;max-height:92vh;overflow-y:auto;">
-    <div style="width:40px;height:4px;background:#e0e0e0;border-radius:2px;margin:0 auto 18px;"></div>
-
-    <!-- Header — bilingual -->
-    <div style="text-align:center;margin-bottom:18px;">
-      <div style="font-size:42px;margin-bottom:8px;">⚖️</div>
-      <div id="lw-title" style="font-family:'Sora',sans-serif;font-size:17px;font-weight:800;color:#111;margin-bottom:3px;"></div>
-      <div id="lw-sub" style="font-size:12px;color:#888;"></div>
-    </div>
-
-    <!-- Warning box -->
-    <div style="background:#FEF2F2;border:2px solid #FECACA;border-radius:14px;padding:14px;margin-bottom:14px;">
-      <div id="lw-warn-title" style="font-size:13px;font-weight:700;color:#DC2626;margin-bottom:8px;"></div>
-      <div id="lw-warn-body" style="font-size:13px;color:#7F1D1D;line-height:1.9;"></div>
-    </div>
-
-    <!-- Support box -->
-    <div style="background:#EFF6FF;border:2px solid #BFDBFE;border-radius:14px;padding:14px;margin-bottom:18px;">
-      <div id="lw-support-title" style="font-size:13px;font-weight:700;color:#1D4ED8;margin-bottom:6px;"></div>
-      <div id="lw-support-body" style="font-size:13px;color:#1e3a8a;line-height:1.9;"></div>
-    </div>
-
-    <!-- Fine print -->
-    <div id="lw-fine" style="font-size:11px;color:#9CA3AF;text-align:center;margin-bottom:18px;line-height:1.7;"></div>
-
-    <!-- Buttons -->
-    <button id="lw-confirm-btn" onclick="closeLegalWarningAndSubmit()" style="width:100%;padding:15px;background:linear-gradient(135deg,#059669,#047857);color:white;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:10px;"></button>
-    <button id="lw-back-btn" onclick="closeLegalWarning()" style="width:100%;padding:13px;background:#F5F5F5;color:#555;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;"></button>
   </div>
 </div>
 
