@@ -421,6 +421,41 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
     <div id="vehicle-fields" style="display:none;"><div style="background:#EFF6FF;border-radius:10px;padding:12px;margin-bottom:12px;font-size:12px;color:#1D4ED8;font-weight:600;">🚗 Vehicle details (helpful for police report)</div><div class="form-group"><label>🔢 Registration No.</label><input type="text" id="m-reg-no" placeholder="DL01AB1234" oninput="this.value=this.value.toUpperCase()"></div><div class="form-group"><label>🪪 Licence Plate</label><input type="text" id="m-plate-no" placeholder="DL 01 AB 1234"></div></div>
     <div class="form-group"><label>📱 Contact Number</label><div class="phone-input-wrap"><div class="phone-prefix">+91</div><input type="tel" id="m-contact" class="phone-main" placeholder="10-digit number" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10);validatePhoneInput(this,'m-contact-err')"></div><div style="display:flex;justify-content:space-between;margin-top:4px;"><div id="m-contact-err" style="font-size:11px;color:#DC2626;display:none;">⚠️ Exactly 10 digits required</div><div id="m-contact-count" style="font-size:11px;color:#999;margin-left:auto;"></div></div><div class="phone-hint">Exactly 10 digits — not less, not more</div></div>
     <div class="form-group"><label>🏆 Reward <span style="font-size:11px;color:var(--text-muted);">(Optional)</span></label><div class="input-icon-wrap"><span class="icon">₹</span><input type="number" id="m-reward" placeholder="e.g. 500" min="0"></div></div>
+
+    <!-- ID VERIFICATION — FOUND POST ONLY -->
+    <div class="form-group" id="id-verify-group" style="display:none;">
+      <div style="background:linear-gradient(135deg,#1D4ED8,#2563EB);border-radius:12px;padding:12px 14px;margin-bottom:12px;color:white;">
+        <div style="font-size:13px;font-weight:700;margin-bottom:2px;">🛡️ Fraud Prevention — ID Verification</div>
+        <div style="font-size:11px;opacity:.85;">Found post ke liye compulsory hai. Sirf first 4 aur last 4 digits store honge.</div>
+      </div>
+      <label style="font-size:13px;font-weight:600;margin-bottom:6px;display:block;">🪪 ID Type <span style="color:#DC2626;">★ Required</span></label>
+      <select id="m-id-type" onchange="onIDTypeChange()" style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;margin-bottom:10px;background:var(--white);">
+        <option value="">-- ID Type Select Karo --</option>
+        <option value="Aadhaar">🪪 Aadhaar Card (12 digits)</option>
+        <option value="PAN">💳 PAN Card (10 chars)</option>
+        <option value="Voter ID">🗳️ Voter ID</option>
+        <option value="Driving Licence">🚗 Driving Licence</option>
+        <option value="Passport">📘 Passport</option>
+      </select>
+      <label style="font-size:13px;font-weight:600;margin-bottom:6px;display:block;">🔢 ID Number <span style="color:#DC2626;">★ Required</span></label>
+      <input type="text" id="m-id-number" placeholder="ID number daalo" oninput="maskIDPreview(this)" style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;margin-bottom:6px;">
+      <div id="m-id-masked-preview" style="display:none;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:8px;padding:8px 12px;font-size:12px;color:#166534;margin-bottom:10px;">
+        ✅ Stored as: <span id="m-id-masked-text" style="font-weight:700;letter-spacing:1px;"></span> <span style="opacity:.7;">(Privacy protected)</span>
+      </div>
+      <label style="font-size:13px;font-weight:600;margin-bottom:6px;display:block;">📷 ID Photo <span style="font-size:11px;color:var(--text-muted);">(Optional — extra proof)</span></label>
+      <label style="display:block;padding:12px;border:2px dashed #CBD5E1;border-radius:10px;text-align:center;cursor:pointer;background:#F8FAFC;margin-bottom:8px;">
+        <span style="font-size:13px;color:#64748B;">📷 ID ki photo upload karo</span>
+        <input type="file" id="m-id-photo" accept="image/*" style="display:none;" onchange="previewIDPhoto(this)">
+      </label>
+      <div id="m-id-photo-preview" style="display:none;margin-bottom:8px;">
+        <img id="m-id-photo-img" src="" style="width:100%;max-height:120px;object-fit:cover;border-radius:8px;">
+        <button onclick="removeIDPhoto()" style="margin-top:4px;width:100%;padding:6px;background:#FEE2E2;color:#DC2626;border:none;border-radius:6px;font-size:12px;cursor:pointer;">🗑️ Remove</button>
+      </div>
+      <div style="background:#FEF3C7;border-radius:8px;padding:10px 12px;font-size:11px;color:#92400E;line-height:1.8;">
+        ⚠️ <strong>Notice:</strong> Yeh ID sirf admin verification ke liye hai. Public profile mein nahi dikhegi. Sirf first 4 + last 4 characters store honge (e.g. XXXX****XXXX). Galat ID dena legal offense hai.
+      </div>
+    </div>
+
     <button class="btn-primary" style="width:100%;margin-bottom:10px;" onclick="submitReport()">Submit Post</button>
     <button class="btn-outline" style="width:100%" onclick="closeModal()">Cancel</button>
   </div>
@@ -546,6 +581,15 @@ window.submitToFirebase=async function(){
   const dv=document.getElementById('m-date').value;
   if(dv&&dv>new Date().toISOString().split('T')[0]){window.toast('⚠️ Future date not allowed');return;}
   const desc=document.getElementById('m-desc').value.trim(),cat=document.getElementById('m-category').value,rew=document.getElementById('m-reward').value.trim(),type=window.currentModal,photos=window.currentPhotosData||[];
+  // ID Verification — compulsory for found posts
+  const idType=document.getElementById('m-id-type')?document.getElementById('m-id-type').value:'';
+  const idNumRaw=document.getElementById('m-id-number')?document.getElementById('m-id-number').value.trim():'';
+  if(type==='found'){
+    if(!idType){window.toast('⚠️ ID type select karo — fraud prevention ke liye compulsory!');return;}
+    if(!idNumRaw||idNumRaw.length<6){window.toast('⚠️ Valid ID number daalo!');return;}
+  }
+  // Mask ID — only store first 4 + last 4
+  const idMasked=idNumRaw.length>=8?(idNumRaw.slice(0,4)+'****'+idNumRaw.slice(-4)):idNumRaw.slice(0,4)+'****';
   const uid=window._currentUser?window._currentUser.uid:null,authorName=window._currentUser?(window._currentUser.displayName||'Anonymous'):'Anonymous';
   const idMark=document.getElementById('m-id-mark')?document.getElementById('m-id-mark').value.trim():'';
   const regNo=document.getElementById('m-reg-no')?document.getElementById('m-reg-no').value.trim():'';
@@ -555,7 +599,7 @@ window.submitToFirebase=async function(){
   if(btn){btn.textContent='Submitting...';btn.disabled=true;}
   try{
     const photo=(photos[0]&&photos[0].length<900000)?photos[0]:(photos[0]?photos[0].substring(0,900000):null);
-    await addDoc(collection(db,"posts"),{type,item,loc,date:dv,desc,contact,category:cat,reward:rew,uid,authorName,photo,photoCount:photos.length,idMark,regNo,plateNo,createdAt:serverTimestamp()});
+    await addDoc(collection(db,"posts"),{type,item,loc,date:dv,desc,contact,category:cat,reward:rew,uid,authorName,photo,photoCount:photos.length,idMark,regNo,plateNo,idVerifyType:idType,idVerifyMasked:idMasked,idVerifyPhoto:window._idPhotoData||null,createdAt:serverTimestamp()});
     document.getElementById('modal-success').style.display='block';
     if(window.checkAreaAlerts)window.checkAreaAlerts({type,item,loc,category:cat});
     setTimeout(()=>{
@@ -565,6 +609,12 @@ window.submitToFirebase=async function(){
       ['m-photo','m-item','m-loc','m-date','m-desc','m-reward','m-id-mark','m-reg-no','m-plate-no'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
       document.getElementById('m-category').value='';document.getElementById('m-contact').value='';
       document.getElementById('id-mark-group').style.display='none';document.getElementById('vehicle-fields').style.display='none';
+      var idvg=document.getElementById('id-verify-group');if(idvg)idvg.style.display='none';
+      var idt=document.getElementById('m-id-type');if(idt)idt.value='';
+      var idn=document.getElementById('m-id-number');if(idn)idn.value='';
+      var idmp=document.getElementById('m-id-masked-preview');if(idmp)idmp.style.display='none';
+      var idpp=document.getElementById('m-id-photo-preview');if(idpp)idpp.style.display='none';
+      window._idPhotoData=null;
       if(btn){btn.textContent='Submit Post';btn.disabled=false;}
     },1800);
   }catch(e){console.error(e);window.toast('❌ Error: '+(e.code||e.message));if(btn){btn.textContent='Submit Post';btn.disabled=false;}}
@@ -998,6 +1048,7 @@ function openModal(type){
   document.getElementById('modal-title').textContent=t[0];document.getElementById('modal-sub').textContent=t[1];document.getElementById('modal-success').style.display='none';
   const today=new Date().toISOString().split('T')[0];const md=document.getElementById('m-date');if(md)md.setAttribute('max',today);
   const vf=document.getElementById('vehicle-fields'),im=document.getElementById('id-mark-group');if(vf)vf.style.display='none';if(im)im.style.display='none';
+  var idvg=document.getElementById('id-verify-group');if(idvg)idvg.style.display=(type==='found')?'block':'none';
   document.getElementById('report-modal').classList.add('open');
   setTimeout(function(){if(window.currentPhotosData&&window.currentPhotosData.length===0)renderPhotoGrid();},50);
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -1464,7 +1515,7 @@ window.printQR=function(){
         <div class="form-group"><label>Organization Name</label><input type="text" id="ngo-org" placeholder="e.g. Delhi Police / HelpAge India"></div>
         <div class="form-group"><label>Access Code</label><input type="password" id="ngo-code" placeholder="Enter access code"></div>
         <button class="btn-primary" style="width:100%" onclick="ngoLogin()">Enter Dashboard</button>
-        <div style="margin-top:12px;font-size:12px;color:var(--text-muted);text-align:center;">Contact <strong>support@findback.in</strong> for access code</div>
+        <div style="margin-top:12px;font-size:12px;color:var(--text-muted);text-align:center;">Contact <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="64171114140b161024020d0a000605070f4a0d0a">[email&#160;protected]</a></strong> for access code</div>
         <div style="margin-top:8px;text-align:center;"><span style="font-size:12px;color:var(--text-muted);">New user? </span><a onclick="switchAuthTab('signup');showPage('login')" style="font-size:12px;color:var(--orange);font-weight:700;cursor:pointer;">Create Account →</a></div>
       </div>
     </div>
@@ -1524,7 +1575,7 @@ window.printQR=function(){
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 var NGO_ACCESS_CODE='findback_ngo_2025';
 window.ngoLogin=function(){
   var org=document.getElementById('ngo-org').value.trim();
@@ -1750,6 +1801,57 @@ window.doRegisterInline=async function(){
 };
 window.copyFIR=function(){if(!window._lastFIR)return;navigator.clipboard?navigator.clipboard.writeText(window._lastFIR).then(()=>toast('📋 Copied!')).catch(()=>toast('❌ Failed')):toast('❌ Not supported');};
 window.shareFIRWhatsApp=function(){if(!window._lastFIR)return;window.open('https://wa.me/?text='+encodeURIComponent(window._lastFIR),'_blank');};
+
+// ── ID VERIFICATION FUNCTIONS ──
+window.onIDTypeChange=function(){
+  var type=document.getElementById('m-id-type').value;
+  var input=document.getElementById('m-id-number');
+  if(!input)return;
+  if(type==='Aadhaar'){input.placeholder='12 digit Aadhaar number';input.maxLength=12;input.setAttribute('inputmode','numeric');}
+  else if(type==='PAN'){input.placeholder='ABCDE1234F format';input.maxLength=10;input.removeAttribute('inputmode');}
+  else if(type==='Voter ID'){input.placeholder='Voter ID number';input.maxLength=20;input.removeAttribute('inputmode');}
+  else if(type==='Driving Licence'){input.placeholder='DL number';input.maxLength=20;input.removeAttribute('inputmode');}
+  else if(type==='Passport'){input.placeholder='Passport number';input.maxLength=8;input.removeAttribute('inputmode');}
+  input.value='';
+  var mp=document.getElementById('m-id-masked-preview');if(mp)mp.style.display='none';
+};
+
+window.maskIDPreview=function(input){
+  var val=input.value.trim();
+  var preview=document.getElementById('m-id-masked-preview');
+  var maskedText=document.getElementById('m-id-masked-text');
+  if(!preview||!maskedText)return;
+  if(val.length>=6){
+    var masked=val.length>=8?(val.slice(0,4)+'****'+val.slice(-4)):(val.slice(0,4)+'****');
+    maskedText.textContent=masked;
+    preview.style.display='block';
+  } else {
+    preview.style.display='none';
+  }
+};
+
+window.previewIDPhoto=function(input){
+  if(!input.files||!input.files[0])return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var img=document.getElementById('m-id-photo-img');
+    var prev=document.getElementById('m-id-photo-preview');
+    if(img)img.src=e.target.result;
+    if(prev)prev.style.display='block';
+    window._idPhotoData=e.target.result;
+  };
+  reader.readAsDataURL(input.files[0]);
+};
+
+window.removeIDPhoto=function(){
+  var img=document.getElementById('m-id-photo-img');
+  var prev=document.getElementById('m-id-photo-preview');
+  if(img)img.src='';
+  if(prev)prev.style.display='none';
+  window._idPhotoData=null;
+  var fileInput=document.getElementById('m-id-photo');
+  if(fileInput)fileInput.value='';
+};
 </script>
 <!-- MAP PAGE -->
 <div class="page" id="page-map">
@@ -2120,13 +2222,4 @@ window.generateFIR=function(){
   txt+='ID Proof : '+idtype+'\n\n';
   txt+='[Also listed on FindBack - India Lost and Found Platform]\n\n';
   txt+='Date: '+today+'\n';
-  txt+='Signature: _______________\n';
-  txt+='Name: '+name+'\n';
-  txt+='Mobile: '+phone;
-    window._lastFIR=txt;
-  document.getElementById('fir-preview').textContent=txt;
-  document.getElementById('fir-modal').style.display='flex';
-};
-</script>
-</body>
-</html>
+  txt+='Signature: ______________
