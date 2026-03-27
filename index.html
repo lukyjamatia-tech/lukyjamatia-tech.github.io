@@ -444,7 +444,7 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
       <div id="m-id-masked-preview" style="display:none;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:8px;padding:8px 12px;font-size:12px;color:#166534;margin-bottom:10px;">
         ✅ Stored as: <span id="m-id-masked-text" style="font-weight:700;letter-spacing:1px;"></span> <span style="opacity:.7;">(Privacy protected)</span>
       </div>
-      <label style="font-size:13px;font-weight:600;margin-bottom:6px;display:block;">📷 ID Photo <span style="font-size:11px;color:var(--text-muted);">(Optional — extra proof)</span></label>
+      <label style="font-size:13px;font-weight:600;margin-bottom:6px;display:block;">📷 ID Photo <span style="color:#DC2626;">★ Required</span> <span style="font-size:11px;color:#DC2626;font-weight:600;">(Compulsory — bina photo submit nahi hoga)</span></label>
       <div style="background:#FFF7ED;border:1.5px solid #FED7AA;border-radius:8px;padding:8px 10px;margin-bottom:8px;display:flex;align-items:flex-start;gap:7px;">
         <span style="font-size:15px;flex-shrink:0;">📸</span>
         <div style="font-size:11px;color:#92400E;line-height:1.7;">
@@ -452,14 +452,16 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
           Photo sirf admin verification ke liye use hogi — publicly nahi dikhegi.
         </div>
       </div>
-      <label style="display:block;padding:12px;border:2px dashed #CBD5E1;border-radius:10px;text-align:center;cursor:pointer;background:#F8FAFC;margin-bottom:8px;">
-        <span style="font-size:13px;color:#64748B;">📷 ID ki photo upload karo</span>
+      <label style="display:block;padding:12px;border:2px dashed #DC2626;border-radius:10px;text-align:center;cursor:pointer;background:#FFF5F5;margin-bottom:8px;">
+        <span style="font-size:13px;color:#DC2626;font-weight:700;">📷 ID ki photo upload karo ★</span>
+        <div style="font-size:11px;color:#9CA3AF;margin-top:2px;">Bina photo ke found post submit nahi hoga</div>
         <input type="file" id="m-id-photo" accept="image/*" style="display:none;" onchange="previewIDPhoto(this)">
       </label>
       <div id="m-id-photo-preview" style="display:none;margin-bottom:8px;">
         <img id="m-id-photo-img" src="" style="width:100%;max-height:120px;object-fit:cover;border-radius:8px;">
         <button onclick="removeIDPhoto()" style="margin-top:4px;width:100%;padding:6px;background:#FEE2E2;color:#DC2626;border:none;border-radius:6px;font-size:12px;cursor:pointer;">🗑️ Remove</button>
       </div>
+      <div id="m-id-ai-status" style="display:none;border-radius:10px;padding:12px;margin-bottom:8px;font-size:13px;font-weight:600;"></div>
       <div style="background:#FEF3C7;border-radius:8px;padding:10px 12px;font-size:11px;color:#92400E;line-height:1.8;">
         ⚠️ <strong>Notice:</strong> Yeh ID sirf admin verification ke liye hai. Public profile mein nahi dikhegi. Sirf first 4 + last 4 characters store honge (e.g. XXXX****XXXX). Galat ID dena legal offense hai.
       </div>
@@ -596,6 +598,19 @@ window.submitToFirebase=async function(){
   if(type==='found'){
     if(!idType){window.toast('⚠️ ID type select karo — fraud prevention ke liye compulsory!');return;}
     if(!idNumRaw||idNumRaw.length<6){window.toast('⚠️ Valid ID number daalo!');return;}
+    // Photo compulsory for found
+    if(!window._idPhotoData){
+      window.toast('❌ ID ki photo compulsory hai found post ke liye!');
+      document.getElementById('m-id-photo').click();
+      return;
+    }
+    // AI verification compulsory
+    if(!window._idVerifyPassed){
+      window.toast('❌ ID photo verify nahi hua — sahi photo upload karo');
+      var aiS=document.getElementById('m-id-ai-status');
+      if(aiS)aiS.scrollIntoView({behavior:'smooth'});
+      return;
+    }
     // Format validation
     var rules={'Aadhaar':/^[0-9]{12}$/,'PAN':/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/,'Voter ID':/^[A-Z]{3}[0-9]{7}$/,'Driving Licence':/^[A-Z0-9]{8,20}$/,'Passport':/^[A-Z]{1}[0-9]{7}$/};
     var msgs={'Aadhaar':'12 digit number chahiye','PAN':'ABCDE1234F format chahiye','Voter ID':'ABC1234567 format chahiye','Driving Licence':'Valid DL number chahiye','Passport':'A1234567 format chahiye'};
@@ -1074,7 +1089,16 @@ function openModal(type){
   else if(type==='missing')document.getElementById('nav-missing').classList.add('active');
 }
 window.openModal=openModal;
-window.closeModal=function(){document.getElementById('report-modal').classList.remove('open');document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.getElementById('nav-home').classList.add('active');};
+window.closeModal=function(){
+  document.getElementById('report-modal').classList.remove('open');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('nav-home').classList.add('active');
+  // Reset AI state
+  window._idVerifyPassed=false;
+  window._idPhotoData=null;
+  var aiS=document.getElementById('m-id-ai-status');
+  if(aiS){aiS.style.display='none';aiS.textContent='';}
+};
 window.submitReport=function(){if(window.submitToFirebase)window.submitToFirebase();};
 
 function sendContact(){
@@ -1865,6 +1889,13 @@ var ID_RULES={
 };
 
 window.onIDTypeChange=function(){
+  // Reset AI when type changes
+  window._idVerifyPassed=false;
+  var aiS=document.getElementById('m-id-ai-status');
+  if(aiS){aiS.style.display='none';}
+  // If photo already uploaded, re-run AI
+  if(window._idPhotoData){window.runIDPhotoAI();}
+
   var type=document.getElementById('m-id-type').value;
   var input=document.getElementById('m-id-number');
   var hintEl=document.getElementById('m-id-hint');
@@ -1889,6 +1920,16 @@ window.onIDTypeChange=function(){
 };
 
 window.maskIDPreview=function(input){
+  // Re-run AI if photo exists and number valid
+  setTimeout(function(){
+    if(window._idPhotoData){
+      var type=document.getElementById('m-id-type').value;
+      var rule=typeof ID_RULES!=='undefined'?ID_RULES[type]:null;
+      var val=input.value.replace(/[\s-]/g,'').toUpperCase();
+      if(rule&&rule.regex.test(val)){window.runIDPhotoAI();}
+    }
+  },500);
+
   var type=document.getElementById('m-id-type').value;
   var rule=ID_RULES[type];
   var errEl=document.getElementById('m-id-error');
@@ -1930,17 +1971,123 @@ window.maskIDPreview=function(input){
   }
 };
 
+window._idVerifyPassed = false;
+
 window.previewIDPhoto=function(input){
   if(!input.files||!input.files[0])return;
   var reader=new FileReader();
   reader.onload=function(e){
-    var img=document.getElementById('m-id-photo-img');
-    var prev=document.getElementById('m-id-photo-preview');
-    if(img)img.src=e.target.result;
-    if(prev)prev.style.display='block';
-    window._idPhotoData=e.target.result;
+    // Compress image
+    var img2=new Image();
+    img2.onload=function(){
+      var canvas=document.createElement('canvas');
+      var MAX=900,w=img2.width,h=img2.height;
+      if(w>h){if(w>MAX){h=Math.round(h*MAX/w);w=MAX;}}
+      else{if(h>MAX){w=Math.round(w*MAX/h);h=MAX;}}
+      canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img2,0,0,w,h);
+      var compressed=canvas.toDataURL('image/jpeg',0.85);
+      window._idPhotoData=compressed;
+      // Update preview
+      var imgEl=document.getElementById('m-id-photo-img');
+      var prev=document.getElementById('m-id-photo-preview');
+      if(imgEl)imgEl.src=compressed;
+      if(prev)prev.style.display='block';
+      // Reset and trigger AI
+      window._idVerifyPassed=false;
+      runIDPhotoAI();
+    };
+    img2.src=e.target.result;
   };
   reader.readAsDataURL(input.files[0]);
+};
+
+window.runIDPhotoAI=async function(){
+  var idType=document.getElementById('m-id-type')?document.getElementById('m-id-type').value:'';
+  var idNum=document.getElementById('m-id-number')?document.getElementById('m-id-number').value.trim():'';
+  var photo=window._idPhotoData;
+  var statusEl=document.getElementById('m-id-ai-status');
+  
+  if(!photo){return;}
+  if(!idType||!idNum){
+    if(statusEl){
+      statusEl.style.cssText='display:block;border-radius:10px;padding:12px;font-size:13px;font-weight:600;background:#FEF3C7;border:1.5px solid #FDE047;color:#92400E;';
+      statusEl.textContent='⚠️ Pehle ID type aur number daalo, phir photo upload karo';
+    }
+    return;
+  }
+  
+  if(statusEl){
+    statusEl.style.cssText='display:block;border-radius:10px;padding:12px;font-size:13px;font-weight:600;background:#EFF6FF;border:1.5px solid #93C5FD;color:#1D4ED8;';
+    statusEl.textContent='🤖 AI verify kar raha hai... please wait';
+  }
+  
+  var typeNames={
+    'Aadhaar':'Aadhaar Card (12-digit number)',
+    'PAN':'PAN Card (format: ABCDE1234F)',
+    'Voter ID':'Voter ID Card',
+    'Driving Licence':'Driving Licence',
+    'Passport':'Passport'
+  };
+  var typeName=typeNames[idType]||idType;
+  
+  var promptLines=[
+    'You are a STRICT fraud prevention AI for an Indian lost and found platform.',
+    'TASK: Verify this ID document photo.',
+    'Expected document type: '+typeName,
+    'Number entered by user: '+idNum,
+    'CHECK: 1) Is this an Indian govt ID? 2) Does type match '+idType+'? 3) Is number '+idNum+' clearly visible? 4) Does it exactly match?',
+    'STRICT RULES: Blurry/dark = FAIL. Not an ID = FAIL. Wrong type = FAIL. Number mismatch = FAIL.',
+    'Respond ONLY in JSON: {"is_id_document":true/false,"doc_type_correct":true/false,"number_visible":true/false,"number_matches":true/false,"extracted_number":"number or null","fail_reason":"reason","verdict":"PASS or FAIL"}'
+  ];
+  var prompt=promptLines.join(' | ');
+  try{
+    var base64=photo.split(',')[1];
+    var resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:400,
+        messages:[{role:'user',content:[
+          {type:'image',source:{type:'base64',media_type:'image/jpeg',data:base64}},
+          {type:'text',text:prompt}
+        ]}]
+      })
+    });
+    var data=await resp.json();
+    var text=data.content?.[0]?.text||'{}';
+    var result;
+    try{result=JSON.parse(text.replace(/```json|```/g,'').trim());}
+    catch(pe){result={verdict:'FAIL',fail_reason:'AI response parse error'};}
+    
+    if(result.verdict==='PASS'&&result.number_matches&&result.is_id_document&&result.doc_type_correct){
+      window._idVerifyPassed=true;
+      if(statusEl){
+        statusEl.style.cssText='display:block;border-radius:10px;padding:12px;font-size:13px;font-weight:600;background:#D1FAE5;border:1.5px solid #6EE7B7;color:#065F46;';
+        statusEl.textContent='✅ Verified! ID photo aur number match karta hai. Submit ho sakti hai.';
+      }
+    } else {
+      window._idVerifyPassed=false;
+      var reasons=[];
+      if(!result.is_id_document)reasons.push('Yeh valid ID document nahi lagta');
+      else if(!result.doc_type_correct)reasons.push(idType+' select kiya tha lekin alag document upload kiya');
+      else if(!result.number_visible)reasons.push('Photo mein number clearly visible nahi hai');
+      else if(!result.number_matches)reasons.push('Number '+(result.extracted_number?'(photo mein: '+result.extracted_number+')':'')+' entered number se match nahi karta');
+      else reasons.push(result.fail_reason||'Verification failed');
+      
+      if(statusEl){
+        statusEl.style.cssText='display:block;border-radius:10px;padding:12px;font-size:13px;font-weight:600;background:#FEE2E2;border:1.5px solid #FECACA;color:#991B1B;';
+        statusEl.innerHTML='❌ '+reasons.join('. ')+'<br><span style="font-size:11px;font-weight:400;margin-top:4px;display:block;">Sahi '+idType+' photo upload karo jisme number '+idNum+' clearly dikh raha ho.</span>';
+      }
+    }
+  } catch(err){
+    window._idVerifyPassed=false;
+    if(statusEl){
+      statusEl.style.cssText='display:block;border-radius:10px;padding:12px;font-size:13px;font-weight:600;background:#FEF3C7;border:1.5px solid #FDE047;color:#92400E;';
+      statusEl.textContent='⚠️ Network error — internet check karo aur dobara try karo.';
+    }
+  }
 };
 
 window.removeIDPhoto=function(){
