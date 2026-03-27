@@ -1814,8 +1814,6 @@ window.addEventListener('load',function(){
 });
 // NGO dashboard auto-refresh is handled in the Firebase listener directly
 </script>
-
-w
 <script>
 window.loadTrustScore=function(){const user=window._currentUser,posts=window._allPosts||[];if(!user){document.getElementById('trust-name').textContent='Login';document.getElementById('trust-score').textContent='--';return;}const mp=posts.filter(p=>p.uid===user.uid),score=Math.min(99,mp.length*2);document.getElementById('trust-avatar').textContent=(user.displayName||'U')[0].toUpperCase();document.getElementById('trust-name').textContent=user.displayName||'User';document.getElementById('trust-score').textContent=score;document.getElementById('trust-posts').textContent=mp.length;let level,icon,desc,bg;if(score>=90){level='Legend';icon='👑';desc='Top 1%!';bg='linear-gradient(135deg,#FEF9C3,#FEF08A)';}else if(score>=60){level='Hero Finder';icon='🏅';desc='Bahut trusted!';bg='#FFF7ED';}else if(score>=30){level='Star Finder';icon='⭐';desc='Trusted member';bg='#F0FDF4';}else if(score>=10){level='Trusted User';icon='✅';desc='Acha start!';bg='#EFF6FF';}else{level='New Member';icon='🆕';desc='Post karo score badhao';bg='#FFF5EE';}document.getElementById('trust-level-icon').textContent=icon;document.getElementById('trust-level-name').textContent=level;document.getElementById('trust-level-desc').textContent=desc;document.getElementById('trust-level-card').style.background=bg;document.getElementById('trust-badge').textContent=icon+' '+level;};
 
