@@ -2031,16 +2031,27 @@ window.runIDPhotoAI=async function(){
   };
   var typeName=typeNames[idType]||idType;
   
-  var promptLines=[
-    'You are a STRICT fraud prevention AI for an Indian lost and found platform.',
-    'TASK: Verify this ID document photo.',
-    'Expected document type: '+typeName,
-    'Number entered by user: '+idNum,
-    'CHECK: 1) Is this an Indian govt ID? 2) Does type match '+idType+'? 3) Is number '+idNum+' clearly visible? 4) Does it exactly match?',
-    'STRICT RULES: Blurry/dark = FAIL. Not an ID = FAIL. Wrong type = FAIL. Number mismatch = FAIL.',
-    'Respond ONLY in JSON: {"is_id_document":true/false,"doc_type_correct":true/false,"number_visible":true/false,"number_matches":true/false,"extracted_number":"number or null","fail_reason":"reason","verdict":"PASS or FAIL"}'
-  ];
-  var prompt=promptLines.join(' | ');
+  var prompt = [
+    'You are verifying an Indian ID document for a lost & found fraud prevention system.',
+    '',
+    'Document type selected: ' + typeName,
+    'Number entered: ' + idNum,
+    '',
+    'Look at the image carefully and answer:',
+    '1. Is this a genuine Indian ID document (Aadhaar/PAN/Voter ID/Passport/DL)?',
+    '2. Does it match the type: ' + idType + '?',
+    '3. Can you find the number ' + idNum + ' anywhere in this document?',
+    '4. Do they match (ignore spaces/formatting)?',
+    '',
+    'For Aadhaar: number is 12 digits, often split as XXXX XXXX XXXX at bottom.',
+    'For PAN: 10 char alphanumeric like ABCDE1234F.',
+    '',
+    'Be LENIENT about image quality - if you can partially read the number and it seems to match, accept it.',
+    'Only FAIL if: clearly wrong document type, clearly different number, or not an ID at all.',
+    '',
+    'Reply ONLY with valid JSON (no markdown):',
+    '{"is_id_document":true,"doc_type_correct":true,"number_visible":true,"number_matches":true,"extracted_number":"what you see","fail_reason":"only if fail","verdict":"PASS"}'
+  ].join('\n');
   try{
     var base64=photo.split(',')[1];
     var resp=await fetch('https://api.anthropic.com/v1/messages',{
