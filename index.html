@@ -631,7 +631,7 @@ window.submitToFirebase=async function(){
   if(btn){btn.textContent='Submitting...';btn.disabled=true;}
   try{
     const photo=(photos[0]&&photos[0].length<900000)?photos[0]:(photos[0]?photos[0].substring(0,900000):null);
-    await addDoc(collection(db,"posts"),{type,item,loc,date:dv,desc,contact,category:cat,reward:rew,uid,authorName,photo,photoCount:photos.length,idMark,regNo,plateNo,idVerifyType:idType,idVerifyMasked:idMasked,idVerifyPhoto:window._idPhotoData||null,createdAt:serverTimestamp()});
+    await addDoc(collection(db,"posts"),{type,item,loc,date:dv,desc,contact,category:cat,reward:rew,uid,authorName,photo,photoCount:photos.length,idMark,regNo,plateNo,idVerifyType:idType,idVerifyMasked:idMasked,idVerifyPhoto:window._idPhotoData||null,idManualReview:window._idManualReview||false,createdAt:serverTimestamp()});
     document.getElementById('modal-success').style.display='block';
     if(window.checkAreaAlerts)window.checkAreaAlerts({type,item,loc,category:cat});
     setTimeout(()=>{
@@ -1096,6 +1096,7 @@ window.closeModal=function(){
   // Reset AI state
   window._idVerifyPassed=false;
   window._idPhotoData=null;
+  window._idManualReview=false;
   var aiS=document.getElementById('m-id-ai-status');
   if(aiS){aiS.style.display='none';aiS.textContent='';}
 };
@@ -2066,6 +2067,16 @@ window.runIDPhotoAI=async function(){
         ]}]
       })
     });
+    if(!resp.ok){
+      // API error — allow with manual review
+      window._idVerifyPassed=true;
+      window._idManualReview=true;
+      if(statusEl){
+        statusEl.style.cssText='display:block;border-radius:10px;padding:12px;font-size:13px;font-weight:600;background:#D1FAE5;border:1.5px solid #6EE7B7;color:#065F46;';
+        statusEl.textContent='✅ ID details recorded — admin verify karega. Submit kar sakte ho.';
+      }
+      return;
+    }
     var data=await resp.json();
     var text=data.content?.[0]?.text||'{}';
     var result;
@@ -2093,10 +2104,13 @@ window.runIDPhotoAI=async function(){
       }
     }
   } catch(err){
-    window._idVerifyPassed=false;
+    // CORS/Network error — AI can't run from browser directly
+    // Allow submission but flag for manual admin review
+    window._idVerifyPassed=true;
+    window._idManualReview=true;
     if(statusEl){
-      statusEl.style.cssText='display:block;border-radius:10px;padding:12px;font-size:13px;font-weight:600;background:#FEF3C7;border:1.5px solid #FDE047;color:#92400E;';
-      statusEl.textContent='⚠️ Network error — internet check karo aur dobara try karo.';
+      statusEl.style.cssText='display:block;border-radius:10px;padding:12px;font-size:13px;font-weight:600;background:#D1FAE5;border:1.5px solid #6EE7B7;color:#065F46;';
+      statusEl.textContent='✅ ID details recorded — admin verify karega. Submit kar sakte ho.';
     }
   }
 };
