@@ -281,18 +281,62 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
   </div>
   <!-- LOCATION FILTER BAR -->
   <div class="loc-filter-bar" id="loc-filter-bar" style="display:none;">
-    <div class="loc-filter-bar-top">
+    <div style="display:flex;align-items:center;gap:8px;">
       <span style="font-size:16px;flex-shrink:0;">📍</span>
-      <span style="font-size:12px;font-weight:600;color:#555;flex:1;">Filter by Area:</span>
-      <button class="loc-filter-btn clear" id="loc-clear-btn" onclick="clearLocFilter()" style="display:none;">✕ Clear</button>
+      <select id="loc-state-dropdown" onchange="applyStateFilter(this.value)" style="flex:1;padding:8px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-weight:600;font-family:Inter,sans-serif;outline:none;background:var(--white);color:var(--black);">
+        <option value="">🌍 All India</option>
+        <option value="Andhra Pradesh">Andhra Pradesh</option>
+        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+        <option value="Assam">Assam</option>
+        <option value="Bihar">Bihar</option>
+        <option value="Chhattisgarh">Chhattisgarh</option>
+        <option value="Goa">Goa</option>
+        <option value="Gujarat">Gujarat</option>
+        <option value="Haryana">Haryana</option>
+        <option value="Himachal Pradesh">Himachal Pradesh</option>
+        <option value="Jharkhand">Jharkhand</option>
+        <option value="Karnataka">Karnataka</option>
+        <option value="Kerala">Kerala</option>
+        <option value="Madhya Pradesh">Madhya Pradesh</option>
+        <option value="Maharashtra">Maharashtra</option>
+        <option value="Manipur">Manipur</option>
+        <option value="Meghalaya">Meghalaya</option>
+        <option value="Mizoram">Mizoram</option>
+        <option value="Nagaland">Nagaland</option>
+        <option value="Odisha">Odisha</option>
+        <option value="Punjab">Punjab</option>
+        <option value="Rajasthan">Rajasthan</option>
+        <option value="Sikkim">Sikkim</option>
+        <option value="Tamil Nadu">Tamil Nadu</option>
+        <option value="Telangana">Telangana</option>
+        <option value="Tripura">Tripura</option>
+        <option value="Uttar Pradesh">Uttar Pradesh</option>
+        <option value="Uttarakhand">Uttarakhand</option>
+        <option value="West Bengal">West Bengal</option>
+        <option value="Andaman and Nicobar Islands">Andaman &amp; Nicobar</option>
+        <option value="Chandigarh">Chandigarh</option>
+        <option value="Dadra and Nagar Haveli">Dadra &amp; Nagar Haveli</option>
+        <option value="Daman and Diu">Daman &amp; Diu</option>
+        <option value="Delhi">Delhi</option>
+        <option value="Jammu and Kashmir">Jammu &amp; Kashmir</option>
+        <option value="Ladakh">Ladakh</option>
+        <option value="Lakshadweep">Lakshadweep</option>
+        <option value="Puducherry">Puducherry</option>
+      </select>
+      <button onclick="applyStateFilter('')" style="padding:8px 10px;background:#f5f5f5;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;color:#555;">✕</button>
     </div>
-    <div class="loc-chips-row" id="loc-chips-row">
-      <div class="loc-chip all-chip active" id="loc-chip-all" onclick="clearLocFilter()">🌍 All Areas</div>
+    <div id="loc-type-filter" style="display:none;display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+      <button onclick="applyLocTypeFilter('all')" id="ltf-all" style="padding:6px 14px;border-radius:20px;border:1.5px solid var(--black);background:var(--black);color:white;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">🔍 All</button>
+      <button onclick="applyLocTypeFilter('lost')" id="ltf-lost" style="padding:6px 14px;border-radius:20px;border:1.5px solid var(--border);background:white;color:#DC2626;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">😟 Lost</button>
+      <button onclick="applyLocTypeFilter('found')" id="ltf-found" style="padding:6px 14px;border-radius:20px;border:1.5px solid var(--border);background:white;color:#059669;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">🎉 Found</button>
+      <button onclick="applyLocTypeFilter('missing')" id="ltf-missing" style="padding:6px 14px;border-radius:20px;border:1.5px solid var(--border);background:white;color:#D97706;font-size:12px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">⚠️ Missing</button>
     </div>
   </div>
   <div id="loc-active-bar" style="display:none;">
     <span style="display:none;" id="loc-active-text"></span>
   </div>
+  <!-- keep chips row hidden for JS compat -->
+  <div id="loc-chips-row" style="display:none;"></div>
   <div class="page-content">
     <div style="position:relative;margin:16px 0 12px;">
       <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;">🔍</span>
@@ -858,6 +902,33 @@ window.applyLocFilter=function(val){
   if(window._renderAll)window._renderAll();
 };
 
+window._activeLocType='all';
+window.applyStateFilter=function(val){
+  var dd=document.getElementById('loc-state-dropdown');
+  if(dd)dd.value=val;
+  window.activeLocFilter=val.toLowerCase().trim();
+  window._pagination=window._pagination||{page:1,perPage:10};
+  window._pagination.page=1;
+  // Show/hide type filter
+  var tf=document.getElementById('loc-type-filter');
+  if(tf)tf.style.display=val?'flex':'none';
+  if(!val){window._activeLocType='all';_updateLocTypeBtns('all');}
+  if(window._renderAll)window._renderAll();
+};
+window.applyLocTypeFilter=function(type){
+  window._activeLocType=type||'all';
+  _updateLocTypeBtns(type);
+  window._pagination.page=1;
+  if(window._renderAll)window._renderAll();
+};
+function _updateLocTypeBtns(type){
+  ['all','lost','found','missing'].forEach(function(t){
+    var b=document.getElementById('ltf-'+t);
+    if(!b)return;
+    if(t===type){b.style.background=t==='all'?'var(--black)':t==='lost'?'#FEE2E2':t==='found'?'#D1FAE5':'#FEF3C7';b.style.borderColor=t==='all'?'var(--black)':t==='lost'?'#DC2626':t==='found'?'#059669':'#D97706';b.style.fontWeight='800';}
+    else{b.style.background='white';b.style.borderColor='var(--border)';b.style.fontWeight='700';}
+  });
+}
 window.clearLocFilter=function(){
   window.activeLocFilter='';
   var cb=document.getElementById('loc-clear-btn');if(cb)cb.style.display='none';
@@ -1330,6 +1401,21 @@ window.updateCatCounts=function(){
   });
 };
 
+window._timeAgo=function(p){
+  var d=null;
+  if(p.createdAt){d=p.createdAt.seconds?new Date(p.createdAt.seconds*1000):new Date(p.createdAt);}
+  else if(p.date){d=new Date(p.date);}
+  if(!d||isNaN(d))return p.date||'';
+  var diff=Math.floor((Date.now()-d)/1000);
+  if(diff<60)return 'Just now';
+  if(diff<3600)return Math.floor(diff/60)+' min ago';
+  if(diff<86400)return Math.floor(diff/3600)+' hr ago';
+  if(diff<604800)return Math.floor(diff/86400)+' days ago';
+  if(diff<2592000)return Math.floor(diff/604800)+' weeks ago';
+  return Math.floor(diff/2592000)+' months ago';
+};
+
+
 window._renderAll=function(){
   var container=document.getElementById('listings-grid');
   var noPosts=document.getElementById('no-posts');
@@ -1349,6 +1435,10 @@ window._renderAll=function(){
   if(lf) filtered=filtered.filter(function(p){
     return (p.loc||'').toLowerCase().indexOf(lf)>=0;
   });
+
+  // Loc type filter (Lost/Found/Missing by state)
+  var alt=window._activeLocType||'all';
+  if(alt!=='all') filtered=filtered.filter(function(p){return p.type===alt;});
 
   // Status filter
   var now=new Date();
@@ -2457,22 +2547,7 @@ window.generateFIR=function(){
 // FINDBACK FEATURES v2 — All UX Improvements
 // ═══════════════════════════════════════════
 
-// ── 1. TIME AGO ──
-window._timeAgo=function(p){
-  var d=null;
-  if(p.createdAt){d=p.createdAt.seconds?new Date(p.createdAt.seconds*1000):new Date(p.createdAt);}
-  else if(p.date){d=new Date(p.date);}
-  if(!d||isNaN(d))return p.date||'';
-  var diff=Math.floor((Date.now()-d)/1000);
-  if(diff<60)return 'Just now';
-  if(diff<3600)return Math.floor(diff/60)+' min ago';
-  if(diff<86400)return Math.floor(diff/3600)+' hr ago';
-  if(diff<604800)return Math.floor(diff/86400)+' days ago';
-  if(diff<2592000)return Math.floor(diff/604800)+' weeks ago';
-  return Math.floor(diff/2592000)+' months ago';
-};
-
-// ── 2. COPY CONTACT ──
+// ── 1. TIME AGO ──// ── 2. COPY CONTACT ──
 window._copyContact=function(contact){
   var num=contact.replace('+91','').replace(/\D/g,'');
   if(navigator.clipboard){navigator.clipboard.writeText(num).then(function(){toast('📋 Number copied!');});}
@@ -2620,35 +2695,6 @@ if(!localStorage.getItem('fb_city')&&navigator.geolocation){
   },function(){},{timeout:5000});
 }
 
-// ── 10. ONE-TAP REPORT FLOATING BUTTON ──
-(function(){
-  var fab=document.createElement('button');
-  fab.id='fab-report';
-  fab.innerHTML='<span style="font-size:22px;line-height:1;">+</span>';
-  fab.style.cssText='position:fixed;bottom:82px;left:14px;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#E8722A,#c45a1a);color:white;border:none;font-size:22px;font-weight:900;cursor:pointer;z-index:150;box-shadow:0 4px 16px rgba(232,114,42,.5);display:flex;align-items:center;justify-content:center;transition:transform .15s;';
-  fab.title='Quick Report';
-  var menuOpen=false;
-  var menu=document.createElement('div');
-  menu.style.cssText='position:fixed;bottom:140px;left:14px;display:none;flex-direction:column;gap:8px;z-index:149;';
-  menu.innerHTML=[
-    {icon:'😟',label:'Lost',type:'lost'},
-    {icon:'🎉',label:'Found',type:'found'},
-    {icon:'⚠️',label:'Missing',type:'missing'}
-  ].map(function(o){
-    return '<button onclick="openModal(\''+o.type+'\');_closeFAB();" style="display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:24px;border:none;background:white;box-shadow:0 4px 12px rgba(0,0,0,.15);font-size:13px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;white-space:nowrap;">'+o.icon+' '+o.label+'</button>';
-  }).join('');
-  document.body.appendChild(menu);
-  document.body.appendChild(fab);
-  fab.onclick=function(){
-    menuOpen=!menuOpen;
-    menu.style.display=menuOpen?'flex':'none';
-    fab.style.transform=menuOpen?'rotate(45deg)':'rotate(0deg)';
-  };
-  window._closeFAB=function(){menuOpen=false;menu.style.display='none';fab.style.transform='rotate(0deg)';};
-  // Hide on page scroll
-  window.addEventListener('scroll',function(){if(menuOpen)window._closeFAB();},{passive:true});
-  // FAB visibility handled by scroll/page
-})();
 
 // ── 11. TRACK VIEW ON DETAIL OPEN ──
 (function(){
@@ -2821,14 +2867,6 @@ function _goPage(pg){
 }
 window.removePagination=function(){var o=document.getElementById('pagination-bar');if(o)o.remove();};
 
-(function(){
-  var btn=document.createElement('button');
-  btn.innerHTML='↑';
-  btn.style.cssText='position:fixed;bottom:82px;right:14px;width:38px;height:38px;border-radius:50%;background:var(--orange);color:white;border:none;font-size:16px;font-weight:700;cursor:pointer;z-index:150;box-shadow:0 4px 12px rgba(232,114,42,.4);display:none;align-items:center;justify-content:center;';
-  btn.onclick=function(){window.scrollTo({top:0,behavior:'smooth'});};
-  document.body.appendChild(btn);
-  window.addEventListener('scroll',function(){btn.style.display=window.scrollY>300?'flex':'none';},{passive:true});
-})();
 </script>
 </body>
 </html>
