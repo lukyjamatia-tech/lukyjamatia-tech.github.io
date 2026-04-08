@@ -2961,5 +2961,170 @@ function _goPage(pg){
 window.removePagination=function(){var o=document.getElementById('pagination-bar');if(o)o.remove();};
 
 </script>
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     POLICE AUTO-NOTIFICATION â€” FindBack S1
+     Paste this entire block just before </body>
+     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<script>
+// â”€â”€ POLICE NOTIFICATION: Store to Firestore on every post submit â”€â”€
+window._sendPoliceNotification = async function(postData) {
+  if (!window._db) return;
+  try {
+    var m = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    var loc = postData.loc || '';
+    var parts = loc.split(',').map(function(s){ return s.trim(); });
+    var district = parts.length >= 2 ? parts[parts.length - 2] : '';
+    var state    = parts.length >= 1 ? parts[parts.length - 1] : '';
+    await m.addDoc(m.collection(window._db, 'police_notifications'), {
+      postId:      postData.id || '',
+      postType:    postData.type || '',
+      postItem:    postData.item || '',
+      postLoc:     postData.loc  || '',
+      postContact: postData.contact || '',
+      postDesc:    postData.desc   || '',
+      postCat:     postData.category || '',
+      postDate:    postData.date || '',
+      district:    district,
+      state:       state,
+      createdAt:   m.serverTimestamp(),
+      status:      'unread',
+      notifiedOrgs: []
+    });
+    console.log('âœ… Police notification stored');
+  } catch(e) {
+    console.warn('Police notify err:', e);
+  }
+};
+
+// Wrap submitToFirebase â€” capture form values, call original, then notify
+(function() {
+  var _orig = window.submitToFirebase;
+  window.submitToFirebase = async function() {
+    var mState   = document.getElementById('m-state')    ? document.getElementById('m-state').value.trim()    : '';
+    var mDist    = document.getElementById('m-district')  ? document.getElementById('m-district').value.trim()  : '';
+    var mArea    = document.getElementById('m-loc')       ? document.getElementById('m-loc').value.trim()       : '';
+    var mItem    = document.getElementById('m-item')      ? document.getElementById('m-item').value.trim()      : '';
+    var mType    = window.currentModal || 'lost';
+    var mContact = document.getElementById('m-contact')   ? ('+91' + document.getElementById('m-contact').value.trim()) : '';
+    var mDesc    = document.getElementById('m-desc')      ? document.getElementById('m-desc').value.trim()      : '';
+    var mCat     = document.getElementById('m-category')  ? document.getElementById('m-category').value         : '';
+    var mDate    = document.getElementById('m-date')      ? document.getElementById('m-date').value             : '';
+    var mLoc     = [mArea, mDist, mState].filter(Boolean).join(', ');
+
+    if (_orig) await _orig();
+
+    if (mItem && mLoc) {
+      setTimeout(function() {
+        window._sendPoliceNotification({
+          type: mType, item: mItem, loc: mLoc,
+          contact: mContact, desc: mDesc,
+          category: mCat, date: mDate
+        });
+      }, 2000);
+    }
+  };
+})();
+
+// â”€â”€ NGO Dashboard: Load Notifications Panel â”€â”€
+window.ngoLoadNotifications = async function() {
+  var notifEl = document.getElementById('ngo-notifications-list');
+  if (!notifEl) return;
+  notifEl.innerHTML = '<div style="text-align:center;padding:16px;color:var(--text-muted);font-size:13px;">â³ Loading...</div>';
+  try {
+    var m = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    var q = m.query(
+      m.collection(window._db, 'police_notifications'),
+      m.orderBy('createdAt', 'desc'),
+      m.limit(30)
+    );
+    var snap = await m.getDocs(q);
+    var notifs = snap.docs.map(function(d){ return Object.assign({id: d.id}, d.data()); });
+
+    var unread = notifs.filter(function(n){ return n.status === 'unread'; }).length;
+    var badge = document.getElementById('ngo-notif-badge');
+    if (badge) {
+      badge.textContent = unread > 0 ? unread : '';
+      badge.style.display = unread > 0 ? 'inline-flex' : 'none';
+    }
+
+    if (!notifs.length) {
+      notifEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">ðŸ”” Koi notifications nahi</div>';
+      return;
+    }
+
+    notifEl.innerHTML = notifs.map(function(n) {
+      var tc = n.postType==='lost'?'#FEE2E2':n.postType==='found'?'#D1FAE5':'#FEF3C7';
+      var tt = n.postType==='lost'?'#DC2626':n.postType==='found'?'#059669':'#D97706';
+      var tl = n.postType==='lost'?'ðŸ˜Ÿ Lost':n.postType==='found'?'ðŸŽ‰ Found':'âš ï¸ Missing';
+      var isNew = n.status === 'unread';
+      var timeStr = '';
+      if (n.createdAt && n.createdAt.seconds) {
+        var d = new Date(n.createdAt.seconds * 1000);
+        timeStr = d.toLocaleDateString('en-IN') + ' ' + d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+      }
+      var phone = n.postContact || '';
+      return '<div style="border:1.5px solid '+(isNew?'#E8722A':'var(--border)')+';border-radius:12px;padding:14px;margin-bottom:10px;background:'+(isNew?'#FFF8F4':'white')+';position:relative;">'
+        + (isNew ? '<div style="position:absolute;top:10px;right:10px;background:#E8722A;color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;">NEW</div>' : '')
+        + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">'
+        + '<span style="background:'+tc+';color:'+tt+';font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">'+tl+'</span>'
+        + '<span style="font-size:11px;color:var(--text-muted);">'+timeStr+'</span>'
+        + '</div>'
+        + '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">'+(n.postItem||'â€”')+'</div>'
+        + '<div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;">ðŸ“ '+(n.postLoc||'â€”')+'</div>'
+        + (n.postCat ? '<div style="font-size:11px;color:var(--orange);">ðŸ“‚ '+n.postCat+'</div>' : '')
+        + (n.postDesc ? '<div style="font-size:12px;color:#555;margin-top:6px;line-height:1.5;">'+n.postDesc.substring(0,100)+(n.postDesc.length>100?'...':'')+'</div>' : '')
+        + '<div style="display:flex;gap:8px;margin-top:10px;">'
+        + (phone ? '<a href="tel:'+phone+'" style="flex:1;padding:8px;background:#25D366;color:white;border:none;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;text-align:center;">ðŸ“ž Call</a>' : '')
+        + (phone ? '<a href="https://wa.me/'+phone.replace('+','')+'" target="_blank" style="flex:1;padding:8px;background:#D1FAE5;color:#065F46;border:none;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;text-align:center;">ðŸ’¬ WA</a>' : '')
+        + '<button onclick="ngoMarkNotifRead(\''+n.id+'\')" style="flex:1;padding:8px;background:var(--gray);color:#555;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">âœ… Read</button>'
+        + '</div></div>';
+    }).join('');
+  } catch(e) {
+    notifEl.innerHTML = '<div style="color:#DC2626;padding:12px;font-size:13px;">âŒ Error: ' + e.message + '</div>';
+  }
+};
+
+window.ngoMarkNotifRead = async function(notifId) {
+  try {
+    var m = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    await m.updateDoc(m.doc(window._db, 'police_notifications', notifId), { status: 'read' });
+    window.ngoLoadNotifications();
+    window.toast('âœ… Marked as read');
+  } catch(e) { window.toast('âŒ Failed'); }
+};
+
+// Inject Notifications panel into NGO Dashboard (wrap ngoLoadDashboard)
+(function() {
+  var _origNgo = window.ngoLoadDashboard;
+  window.ngoLoadDashboard = function() {
+    if (_origNgo) _origNgo();
+    if (document.getElementById('ngo-notifications-panel')) return;
+    var dash = document.getElementById('ngo-dashboard');
+    if (!dash) return;
+
+    var panel = document.createElement('div');
+    panel.id = 'ngo-notifications-panel';
+    panel.style.cssText = 'background:white;border:1.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px;';
+    panel.innerHTML = ''
+      + '<div style="padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">'
+      +   '<div style="font-family:\'Sora\',sans-serif;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;">'
+      +     'ðŸ”” New Post Alerts'
+      +     '<span id="ngo-notif-badge" style="display:none;background:#E8722A;color:white;font-size:10px;font-weight:800;padding:1px 7px;border-radius:20px;min-width:18px;text-align:center;"></span>'
+      +   '</div>'
+      +   '<button onclick="ngoLoadNotifications()" style="background:#EFF6FF;color:#1D4ED8;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;">ðŸ”„ Refresh</button>'
+      + '</div>'
+      + '<div id="ngo-notifications-list" style="padding:12px;max-height:400px;overflow-y:auto;">'
+      +   '<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">Refresh tap karo notifications dekhne ke liye</div>'
+      + '</div>';
+
+    // Insert as first child inside dashboard (after the header card)
+    var firstSection = dash.children[1] || dash.firstChild;
+    dash.insertBefore(panel, firstSection);
+
+    // Auto load
+    setTimeout(window.ngoLoadNotifications, 600);
+  };
+})();
+</script>  
 </body>
 </html>
