@@ -1749,299 +1749,507 @@ window.printQR=function(){
   setTimeout(function(){w.print();},300);
 };
 </script>
-<!-- NGO/POLICE DASHBOARD PAGE — v3 Professional -->
+<!-- ═══════════════════════════════════════════════════
+     FINDBACK — NGO/POLICE PROFESSIONAL PORTAL
+     World-class dashboard design
+     ═══════════════════════════════════════════════════ -->
+<style>
+/* NGO Portal Design System */
+:root {
+  --ngo-bg: #0b0f1a;
+  --ngo-surface: #111827;
+  --ngo-surface2: #1a2236;
+  --ngo-border: rgba(255,255,255,0.07);
+  --ngo-gold: #f59e0b;
+  --ngo-gold-dim: rgba(245,158,11,0.15);
+  --ngo-text: #f1f5f9;
+  --ngo-muted: #64748b;
+  --ngo-red: #ef4444;
+  --ngo-green: #22c55e;
+  --ngo-blue: #3b82f6;
+  --ngo-amber: #f59e0b;
+}
+.ngo-glass {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+}
+.ngo-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.3px;
+}
+.ngo-badge-live {
+  background: rgba(34,197,94,0.15); color: #22c55e;
+  border: 1px solid rgba(34,197,94,0.25);
+}
+.ngo-input-dark {
+  width: 100%; padding: 11px 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  color: white; outline: none; box-sizing: border-box;
+  transition: border-color .2s;
+}
+.ngo-input-dark:focus { border-color: var(--ngo-gold); }
+.ngo-input-dark::placeholder { color: rgba(255,255,255,0.2); }
+.ngo-select-dark {
+  width: 100%; padding: 11px 14px;
+  background: #0b0f1a;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px; font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  color: white; outline: none; box-sizing: border-box;
+}
+.ngo-tab {
+  flex-shrink: 0; padding: 0 16px; height: 44px;
+  border: none; background: transparent;
+  font-size: 12px; font-weight: 600;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+  color: #475569; white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all .15s; display: flex; align-items: center; gap: 5px;
+}
+.ngo-tab.active { color: var(--ngo-gold); border-bottom-color: var(--ngo-gold); }
+.ngo-tab:hover:not(.active) { color: #94a3b8; }
+.ngo-stat {
+  background: var(--ngo-surface2);
+  border: 1px solid var(--ngo-border);
+  border-radius: 14px; padding: 16px;
+  position: relative; overflow: hidden;
+}
+.ngo-stat::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+}
+.ngo-stat.red::before { background: linear-gradient(90deg, #ef4444, #f87171); }
+.ngo-stat.green::before { background: linear-gradient(90deg, #22c55e, #4ade80); }
+.ngo-stat.amber::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.ngo-stat.blue::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+.ngo-action-btn {
+  display: flex; align-items: center; gap: 10px;
+  padding: 13px 14px; border: none; border-radius: 12px;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 700; width: 100%;
+  transition: transform .1s, box-shadow .1s;
+}
+.ngo-action-btn:active { transform: scale(0.97); }
+.fir-card-pro {
+  background: var(--ngo-surface2);
+  border: 1px solid var(--ngo-border);
+  border-radius: 14px; padding: 16px; margin-bottom: 10px;
+  position: relative; overflow: hidden;
+  transition: border-color .2s;
+}
+.fir-card-pro:hover { border-color: rgba(245,158,11,0.2); }
+.fir-card-pro.fraud-card { border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.04); }
+.fir-card-pro.accepted-card { border-color: rgba(34,197,94,0.25); }
+.fir-card-pro.rejected-card { border-color: rgba(239,68,68,0.25); opacity: .75; }
+.ngo-btn-sm {
+  padding: 7px 13px; border: none; border-radius: 8px;
+  font-size: 11px; font-weight: 700; cursor: pointer;
+  font-family: 'Inter', sans-serif; transition: opacity .15s;
+}
+.ngo-btn-sm:active { opacity: .8; }
+.ngo-section-title {
+  font-family: 'Sora', sans-serif; font-size: 13px;
+  font-weight: 700; color: var(--ngo-text); margin-bottom: 4px;
+}
+.ngo-section-sub {
+  font-size: 11px; color: var(--ngo-muted); margin-bottom: 14px;
+}
+.ngo-divider {
+  height: 1px; background: var(--ngo-border); margin: 14px 0;
+}
+/* Label above inputs */
+.ngo-lbl {
+  display: block; font-size: 10px; font-weight: 700;
+  color: rgba(255,255,255,0.35); letter-spacing: 1px;
+  text-transform: uppercase; margin-bottom: 5px;
+}
+/* Section heads in form */
+.ngo-form-section {
+  font-size: 10px; font-weight: 700;
+  color: rgba(245,158,11,0.5); letter-spacing: 1.5px;
+  text-transform: uppercase; padding: 12px 0 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 6px;
+}
+</style>
+
 <div class="page" id="page-ngo">
 
-  <!-- STICKY HEADER -->
-  <div style="position:sticky;top:56px;background:#0a1628;z-index:10;padding:12px 20px;border-bottom:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;gap:10px;">
-    <span onclick="showPage('home')" style="cursor:pointer;font-size:20px;color:white;">←</span>
-    <span style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;color:white;">🏛️ NGO / Police Portal</span>
+  <!-- ── TOP NAV BAR ── -->
+  <div style="position:sticky;top:56px;z-index:10;background:var(--ngo-bg,#0b0f1a);">
+    <div style="height:2px;background:linear-gradient(90deg,#f59e0b,#ef4444,#3b82f6);"></div>
+    <div style="padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,0.06);">
+      <button onclick="showPage('home')" style="background:rgba(255,255,255,0.06);border:none;border-radius:8px;padding:7px 10px;color:rgba(255,255,255,0.5);cursor:pointer;font-size:14px;">←</button>
+      <div style="width:28px;height:28px;background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(245,158,11,0.05));border-radius:8px;border:1px solid rgba(245,158,11,0.2);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🏛️</div>
+      <div style="flex:1;">
+        <div style="font-family:'Sora',sans-serif;font-size:13px;font-weight:800;color:white;line-height:1.1;letter-spacing:-0.3px;">FindBack Command Portal</div>
+        <div style="font-size:9px;color:rgba(245,158,11,0.5);letter-spacing:1.5px;text-transform:uppercase;margin-top:1px;">Police · NGO · Government</div>
+      </div>
+      <div id="ngo-live-badge" style="display:flex;align-items:center;gap:4px;padding:3px 10px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);border-radius:12px;">
+        <span style="width:5px;height:5px;background:#22c55e;border-radius:50%;box-shadow:0 0 6px #22c55e;display:none;" id="ngo-live-dot"></span>
+        <span style="font-size:9px;font-weight:700;color:#22c55e;letter-spacing:0.5px;">SECURE</span>
+      </div>
+    </div>
   </div>
 
-  <div style="padding:0 0 110px;">
+  <div style="padding:0 0 110px;background:#0b0f1a;min-height:100vh;">
 
-    <!-- LOGIN WALL — Firebase Auth -->
+    <!-- ══════════════════════════
+         LOGIN / REGISTER WALL
+    ══════════════════════════ -->
     <div id="ngo-login-wall">
-      <div style="min-height:calc(100vh - 120px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:linear-gradient(160deg,#0a1628 0%,#1a3a6b 60%,#1e4d8c 100%);">
+      <div style="min-height:calc(100vh - 120px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;background:radial-gradient(ellipse at top,#0d1f3c 0%,#0b0f1a 70%);">
 
-        <!-- Logo -->
+        <!-- Hero -->
         <div style="text-align:center;margin-bottom:28px;">
-          <div style="width:72px;height:72px;background:rgba(255,255,255,0.1);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 12px;border:1.5px solid rgba(255,255,255,0.2);">🏛️</div>
-          <div style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:white;">FindBack Portal</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:4px;letter-spacing:2px;text-transform:uppercase;">Police · NGO · Official Access</div>
+          <div style="position:relative;display:inline-block;margin-bottom:16px;">
+            <div style="width:80px;height:80px;background:linear-gradient(135deg,#1a3a6b,#0a1628);border-radius:22px;border:1.5px solid rgba(245,158,11,0.3);display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 0 40px rgba(245,158,11,0.1);margin:0 auto;">🏛️</div>
+            <div style="position:absolute;bottom:-4px;right:-4px;width:18px;height:18px;background:#22c55e;border-radius:50%;border:2px solid #0b0f1a;"></div>
+          </div>
+          <div style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:white;letter-spacing:-0.5px;">Command Portal</div>
+          <div style="font-size:11px;color:rgba(245,158,11,0.6);margin-top:5px;letter-spacing:2px;text-transform:uppercase;">Authorized Access Only</div>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap;">
+            <span style="background:rgba(59,130,246,0.1);color:#60a5fa;border:1px solid rgba(59,130,246,0.2);border-radius:6px;padding:2px 10px;font-size:10px;font-weight:700;">🚔 Police</span>
+            <span style="background:rgba(34,197,94,0.1);color:#4ade80;border:1px solid rgba(34,197,94,0.2);border-radius:6px;padding:2px 10px;font-size:10px;font-weight:700;">🏛️ NGO</span>
+            <span style="background:rgba(245,158,11,0.1);color:#fbbf24;border:1px solid rgba(245,158,11,0.2);border-radius:6px;padding:2px 10px;font-size:10px;font-weight:700;">🏢 Government</span>
+          </div>
         </div>
 
-        <!-- Tab Switch -->
-        <div style="display:flex;background:rgba(255,255,255,0.08);border-radius:12px;padding:4px;margin-bottom:20px;gap:4px;width:100%;max-width:380px;">
-          <button id="ngo-tab-login" onclick="ngoAuthTab('login')" style="flex:1;padding:10px;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#2979c9,#1e5fa8);color:white;font-family:'Inter',sans-serif;">🔑 Login</button>
-          <button id="ngo-tab-register" onclick="ngoAuthTab('register')" style="flex:1;padding:10px;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6);font-family:'Inter',sans-serif;">📝 Register</button>
-        </div>
+        <!-- Auth Card -->
+        <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:20px;width:100%;max-width:400px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
 
-        <!-- Card -->
-        <div style="background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.12);border-radius:20px;padding:24px;width:100%;max-width:380px;">
-
-          <!-- Error msg -->
-          <div id="ngo-auth-err" style="display:none;background:rgba(220,38,38,0.2);border:1px solid rgba(220,38,38,0.4);border-radius:8px;padding:10px 12px;font-size:12px;color:#fca5a5;margin-bottom:14px;text-align:center;"></div>
-
-          <!-- LOGIN FORM -->
-          <div id="ngo-form-login">
-            <div style="margin-bottom:14px;">
-              <label style="display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Email</label>
-              <input type="email" id="ngo-login-email" placeholder="your@email.com" style="width:100%;padding:12px 14px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;color:white;box-sizing:border-box;">
-            </div>
-            <div style="margin-bottom:20px;">
-              <label style="display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Password</label>
-              <input type="password" id="ngo-login-pass" placeholder="••••••••" style="width:100%;padding:12px 14px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;color:white;box-sizing:border-box;">
-            </div>
-            <button onclick="ngoFirebaseLogin()" id="ngo-login-btn" style="width:100%;padding:14px;background:linear-gradient(135deg,#2979c9,#1e5fa8);color:white;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 6px 20px rgba(30,95,168,0.35);">🔐 Login</button>
+          <!-- Tab bar -->
+          <div style="display:flex;border-bottom:1px solid rgba(255,255,255,0.07);">
+            <button id="ngo-tab-login" onclick="ngoAuthTab('login')" style="flex:1;padding:14px;border:none;border-bottom:2px solid #f59e0b;background:rgba(245,158,11,0.06);color:#f59e0b;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:0.3px;">🔑 Login</button>
+            <button id="ngo-tab-register" onclick="ngoAuthTab('register')" style="flex:1;padding:14px;border:none;border-bottom:2px solid transparent;background:transparent;color:rgba(255,255,255,0.3);font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:0.3px;">📝 Register</button>
           </div>
 
-          <!-- REGISTER FORM — Full Details -->
-          <div id="ngo-form-register" style="display:none;max-height:65vh;overflow-y:auto;padding-right:2px;">
+          <div style="padding:22px;">
+            <div id="ngo-auth-err" style="display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);border-radius:8px;padding:10px 14px;font-size:12px;color:#fca5a5;margin-bottom:14px;text-align:center;"></div>
 
-            <!-- Section: Personal -->
-            <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,0.08);">👤 Personal Details</div>
-
-            <div style="margin-bottom:10px;">
-              <label style="display:block;font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">Full Name ★</label>
-              <input type="text" id="ngo-reg-name" placeholder="Officer / Staff Full Name" style="width:100%;padding:11px 14px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;font-size:13px;font-family:'Inter',sans-serif;outline:none;color:white;box-sizing:border-box;">
-            </div>
-
-            <div style="margin-bottom:10px;">
-              <label style="display:block;font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">Contact Number ★</label>
-              <div style="display:flex;gap:6px;">
-                <div style="background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.12);border-radius:10px;padding:11px 10px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);white-space:nowrap;">+91</div>
-                <input type="tel" id="ngo-reg-phone" placeholder="10-digit mobile" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)" style="flex:1;padding:11px 14px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;font-size:13px;font-family:'Inter',sans-serif;outline:none;color:white;box-sizing:border-box;">
+            <!-- LOGIN -->
+            <div id="ngo-form-login">
+              <div style="margin-bottom:12px;">
+                <label class="ngo-lbl">📧 Email</label>
+                <input type="email" id="ngo-login-email" placeholder="official@email.com" class="ngo-input-dark">
               </div>
+              <div style="margin-bottom:20px;">
+                <label class="ngo-lbl">🔒 Password</label>
+                <input type="password" id="ngo-login-pass" placeholder="••••••••" class="ngo-input-dark">
+              </div>
+              <button onclick="ngoFirebaseLogin()" id="ngo-login-btn" style="width:100%;padding:14px;background:linear-gradient(135deg,#b45309,#d97706,#f59e0b);color:white;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 4px 20px rgba(245,158,11,0.25);letter-spacing:0.3px;">
+                🔐 Enter Command Portal
+              </button>
+              <div style="text-align:center;margin-top:12px;font-size:10px;color:rgba(255,255,255,0.2);letter-spacing:0.5px;">SECURED CONNECTION · FINDBACK S1</div>
             </div>
 
-            <!-- Section: Organization -->
-            <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:1.5px;text-transform:uppercase;margin:14px 0 10px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,0.08);">🏛️ Organization Details</div>
+            <!-- REGISTER -->
+            <div id="ngo-form-register" style="display:none;max-height:60vh;overflow-y:auto;padding-right:2px;">
 
-            <div style="margin-bottom:10px;">
-              <label style="display:block;font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">Organization Name ★</label>
-              <input type="text" id="ngo-reg-org" placeholder="e.g. Delhi Police / HelpAge India" style="width:100%;padding:11px 14px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;font-size:13px;font-family:'Inter',sans-serif;outline:none;color:white;box-sizing:border-box;">
+              <div class="ngo-form-section">👤 Personal Details</div>
+              <div style="margin-bottom:10px;">
+                <label class="ngo-lbl">Full Name ★</label>
+                <input type="text" id="ngo-reg-name" placeholder="Officer / Staff Full Name" class="ngo-input-dark">
+              </div>
+              <div style="margin-bottom:10px;">
+                <label class="ngo-lbl">Contact Number ★</label>
+                <div style="display:flex;gap:6px;">
+                  <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:11px 10px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.35);white-space:nowrap;flex-shrink:0;">+91</div>
+                  <input type="tel" id="ngo-reg-phone" placeholder="10-digit mobile" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)" class="ngo-input-dark">
+                </div>
+              </div>
+
+              <div class="ngo-form-section">🏛️ Organization</div>
+              <div style="margin-bottom:10px;">
+                <label class="ngo-lbl">Organization Name ★</label>
+                <input type="text" id="ngo-reg-org" placeholder="e.g. West Tripura Police / HelpAge India" class="ngo-input-dark">
+              </div>
+              <div style="margin-bottom:10px;">
+                <label class="ngo-lbl">Organization Type ★</label>
+                <select id="ngo-reg-type" class="ngo-select-dark">
+                  <option value="police">🚔 Police Station</option>
+                  <option value="ngo">🏛️ NGO</option>
+                  <option value="government">🏢 Government Agency</option>
+                  <option value="hospital">🏥 Hospital / Medical</option>
+                  <option value="other">📋 Other</option>
+                </select>
+              </div>
+              <div style="margin-bottom:10px;">
+                <label class="ngo-lbl">Police Station Name <span style="opacity:.4;text-transform:none;font-weight:400;">(if applicable)</span></label>
+                <input type="text" id="ngo-reg-ps" placeholder="e.g. Agartala PS, Amtali PS" class="ngo-input-dark">
+              </div>
+
+              <div class="ngo-form-section">📍 Location</div>
+              <div style="margin-bottom:10px;">
+                <label class="ngo-lbl">State / UT ★</label>
+                <select id="ngo-reg-state" onchange="ngoRegStateChange()" class="ngo-select-dark">
+                  <option value="">-- Select State --</option>
+                </select>
+              </div>
+              <div style="margin-bottom:10px;">
+                <label class="ngo-lbl">District ★</label>
+                <select id="ngo-reg-district" disabled class="ngo-select-dark">
+                  <option value="">-- Select State First --</option>
+                </select>
+              </div>
+              <div style="margin-bottom:10px;">
+                <label class="ngo-lbl">Full Address</label>
+                <input type="text" id="ngo-reg-address" placeholder="Street, Area, Landmark" class="ngo-input-dark">
+              </div>
+              <div style="margin-bottom:10px;">
+                <label class="ngo-lbl">PIN Code</label>
+                <input type="tel" id="ngo-reg-pin" placeholder="6-digit PIN" maxlength="6" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6)" class="ngo-input-dark">
+              </div>
+
+              <div class="ngo-form-section">🔐 Credentials</div>
+              <div style="margin-bottom:10px;">
+                <label class="ngo-lbl">Official Email ★</label>
+                <input type="email" id="ngo-reg-email" placeholder="official@email.com" class="ngo-input-dark">
+              </div>
+              <div style="margin-bottom:20px;">
+                <label class="ngo-lbl">Password ★</label>
+                <input type="password" id="ngo-reg-pass" placeholder="Min 6 characters" class="ngo-input-dark">
+              </div>
+
+              <button onclick="ngoFirebaseRegister()" id="ngo-reg-btn" style="width:100%;padding:14px;background:linear-gradient(135deg,#059669,#047857);color:white;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 4px 16px rgba(5,150,105,0.25);letter-spacing:0.3px;">
+                📝 Create Official Account
+              </button>
             </div>
-
-            <div style="margin-bottom:10px;">
-              <label style="display:block;font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">Organization Type ★</label>
-              <select id="ngo-reg-type" style="width:100%;padding:11px 14px;background:#0a1628;border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;font-size:13px;font-family:'Inter',sans-serif;outline:none;color:white;box-sizing:border-box;">
-                <option value="police">🚔 Police Station</option>
-                <option value="ngo">🏛️ NGO</option>
-                <option value="government">🏢 Government Agency</option>
-                <option value="hospital">🏥 Hospital</option>
-                <option value="other">📋 Other</option>
-              </select>
-            </div>
-
-            <div style="margin-bottom:10px;">
-              <label style="display:block;font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">Police Station Name <span style="opacity:.6;">(if applicable)</span></label>
-              <input type="text" id="ngo-reg-ps" placeholder="e.g. Agartala PS, Kotwali PS" style="width:100%;padding:11px 14px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;font-size:13px;font-family:'Inter',sans-serif;outline:none;color:white;box-sizing:border-box;">
-            </div>
-
-            <!-- Section: Location -->
-            <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:1.5px;text-transform:uppercase;margin:14px 0 10px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,0.08);">📍 Location Details</div>
-
-            <div style="margin-bottom:10px;">
-              <label style="display:block;font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">State ★</label>
-              <select id="ngo-reg-state" onchange="ngoRegStateChange()" style="width:100%;padding:11px 14px;background:#0a1628;border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;font-size:13px;font-family:'Inter',sans-serif;outline:none;color:white;box-sizing:border-box;">
-                <option value="">-- Select State --</option>
-              </select>
-            </div>
-
-            <div style="margin-bottom:10px;">
-              <label style="display:block;font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">District ★</label>
-              <select id="ngo-reg-district" disabled style="width:100%;padding:11px 14px;background:#0a1628;border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;font-size:13px;font-family:'Inter',sans-serif;outline:none;color:white;box-sizing:border-box;">
-                <option value="">-- Select State First --</option>
-              </select>
-            </div>
-
-            <div style="margin-bottom:10px;">
-              <label style="display:block;font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">Full Address</label>
-              <input type="text" id="ngo-reg-address" placeholder="Street, Area, Landmark" style="width:100%;padding:11px 14px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;font-size:13px;font-family:'Inter',sans-serif;outline:none;color:white;box-sizing:border-box;">
-            </div>
-
-            <div style="margin-bottom:10px;">
-              <label style="display:block;font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">PIN Code</label>
-              <input type="tel" id="ngo-reg-pin" placeholder="6-digit PIN" maxlength="6" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6)" style="width:100%;padding:11px 14px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;font-size:13px;font-family:'Inter',sans-serif;outline:none;color:white;box-sizing:border-box;">
-            </div>
-
-            <!-- Section: Login Credentials -->
-            <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:1.5px;text-transform:uppercase;margin:14px 0 10px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,0.08);">🔐 Login Credentials</div>
-
-            <div style="margin-bottom:10px;">
-              <label style="display:block;font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">Official Email ★</label>
-              <input type="email" id="ngo-reg-email" placeholder="official@email.com" style="width:100%;padding:11px 14px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;font-size:13px;font-family:'Inter',sans-serif;outline:none;color:white;box-sizing:border-box;">
-            </div>
-
-            <div style="margin-bottom:20px;">
-              <label style="display:block;font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;">Password ★ <span style="opacity:.6;">(min 6 chars)</span></label>
-              <input type="password" id="ngo-reg-pass" placeholder="Strong password" style="width:100%;padding:11px 14px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;font-size:13px;font-family:'Inter',sans-serif;outline:none;color:white;box-sizing:border-box;">
-            </div>
-
-            <button onclick="ngoFirebaseRegister()" id="ngo-reg-btn" style="width:100%;padding:14px;background:linear-gradient(135deg,#059669,#047857);color:white;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 6px 20px rgba(5,150,105,0.35);">📝 Create Official Account</button>
           </div>
-
-        </div>
-
-        <div style="margin-top:16px;text-align:center;font-size:11px;color:rgba(255,255,255,0.3);">
-          FindBack S1 · Authorized Personnel Only
         </div>
       </div>
     </div>
 
-    <!-- MAIN DASHBOARD -->
-    <div id="ngo-dashboard" style="display:none;background:#f0f4f8;min-height:calc(100vh - 120px);">
+    <!-- ══════════════════════════
+         MAIN DASHBOARD
+    ══════════════════════════ -->
+    <div id="ngo-dashboard" style="display:none;">
 
-      <!-- PROFILE HEADER -->
-      <div style="background:linear-gradient(135deg,#0a1628 0%,#1a3a6b 60%,#1e4d8c 100%);padding:20px 20px 68px;position:relative;overflow:hidden;">
-        <div style="position:absolute;inset:0;opacity:0.05;background-image:repeating-linear-gradient(45deg,white 0,white 1px,transparent 0,transparent 50%);background-size:24px 24px;pointer-events:none;"></div>
-        <div style="position:relative;z-index:1;display:flex;align-items:center;gap:14px;margin-bottom:16px;">
-          <div style="width:52px;height:52px;background:linear-gradient(135deg,#2979c9,#1e5fa8);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid rgba(255,255,255,0.2);flex-shrink:0;">🏛️</div>
+      <!-- COMMAND HEADER -->
+      <div style="background:linear-gradient(180deg,#0d1f3c 0%,#0b0f1a 100%);padding:18px 16px 72px;position:relative;overflow:hidden;">
+        <!-- Grid background -->
+        <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;"></div>
+        <!-- Gold glow -->
+        <div style="position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:200px;height:100px;background:radial-gradient(ellipse,rgba(245,158,11,0.08),transparent);pointer-events:none;"></div>
+
+        <div style="position:relative;z-index:1;display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+          <div style="width:50px;height:50px;background:linear-gradient(135deg,#1a3a6b,#0a1628);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid rgba(245,158,11,0.2);flex-shrink:0;box-shadow:0 4px 16px rgba(0,0,0,0.4);">🏛️</div>
           <div style="flex:1;min-width:0;">
-            <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,0.45);text-transform:uppercase;">FindBack Official</div>
-            <div id="ngo-org-name" style="font-family:'Sora',sans-serif;font-size:18px;font-weight:800;color:white;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Organization</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px;display:flex;align-items:center;gap:5px;">
-              <span style="width:6px;height:6px;background:#4ade80;border-radius:50%;box-shadow:0 0 6px #4ade80;display:inline-block;"></span>
+            <div style="font-size:9px;font-weight:700;color:rgba(245,158,11,0.5);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;">Verified Official</div>
+            <div id="ngo-org-name" style="font-family:'Sora',sans-serif;font-size:18px;font-weight:800;color:white;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:-0.3px;">Organization</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:3px;display:flex;align-items:center;gap:5px;">
+              <span style="width:5px;height:5px;background:#22c55e;border-radius:50%;box-shadow:0 0 6px #22c55e;display:inline-block;flex-shrink:0;animation:pulse 2s infinite;"></span>
               <span id="ngo-date-strip">Dashboard Active</span>
             </div>
           </div>
-          <button onclick="ngoLogout()" style="background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;">🚪</button>
+          <button onclick="ngoLogout()" style="background:rgba(239,68,68,0.1);color:rgba(239,68,68,0.7);border:1px solid rgba(239,68,68,0.15);border-radius:10px;padding:8px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;flex-shrink:0;transition:all .2s;" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'">🚪 Exit</button>
         </div>
-        <!-- Stats -->
+
+        <!-- 4 Stats -->
         <div style="position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
-          <div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:12px 6px;text-align:center;border:1px solid rgba(255,255,255,0.1);">
-            <div id="ngo-stat-lost" style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#f87171;line-height:1;">0</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.45);font-weight:700;margin-top:3px;">LOST</div>
+          <div class="ngo-stat red">
+            <div style="font-family:'Sora',sans-serif;font-size:26px;font-weight:800;color:#f87171;line-height:1;" id="ngo-stat-lost">0</div>
+            <div style="font-size:8px;color:rgba(248,113,113,0.5);font-weight:700;margin-top:4px;letter-spacing:0.5px;text-transform:uppercase;">Lost</div>
           </div>
-          <div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:12px 6px;text-align:center;border:1px solid rgba(255,255,255,0.1);">
-            <div id="ngo-stat-found" style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#4ade80;line-height:1;">0</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.45);font-weight:700;margin-top:3px;">FOUND</div>
+          <div class="ngo-stat green">
+            <div style="font-family:'Sora',sans-serif;font-size:26px;font-weight:800;color:#4ade80;line-height:1;" id="ngo-stat-found">0</div>
+            <div style="font-size:8px;color:rgba(74,222,128,0.5);font-weight:700;margin-top:4px;letter-spacing:0.5px;text-transform:uppercase;">Found</div>
           </div>
-          <div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:12px 6px;text-align:center;border:1px solid rgba(255,255,255,0.1);">
-            <div id="ngo-stat-missing" style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#fbbf24;line-height:1;">0</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.45);font-weight:700;margin-top:3px;">MISSING</div>
+          <div class="ngo-stat amber">
+            <div style="font-family:'Sora',sans-serif;font-size:26px;font-weight:800;color:#fbbf24;line-height:1;" id="ngo-stat-missing">0</div>
+            <div style="font-size:8px;color:rgba(251,191,36,0.5);font-weight:700;margin-top:4px;letter-spacing:0.5px;text-transform:uppercase;">Missing</div>
           </div>
-          <div style="background:rgba(255,255,255,0.08);border-radius:12px;padding:12px 6px;text-align:center;border:1px solid rgba(255,255,255,0.1);">
-            <div id="ngo-stat-resolved" style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#60a5fa;line-height:1;">0</div>
-            <div style="font-size:9px;color:rgba(255,255,255,0.45);font-weight:700;margin-top:3px;">RESOLVED</div>
+          <div class="ngo-stat blue">
+            <div style="font-family:'Sora',sans-serif;font-size:26px;font-weight:800;color:#60a5fa;line-height:1;" id="ngo-stat-resolved">0</div>
+            <div style="font-size:8px;color:rgba(96,165,250,0.5);font-weight:700;margin-top:4px;letter-spacing:0.5px;text-transform:uppercase;">Resolved</div>
           </div>
         </div>
       </div>
 
       <!-- TAB BAR -->
-      <div style="background:white;display:flex;overflow-x:auto;scrollbar-width:none;margin-top:-38px;position:relative;z-index:5;border-radius:16px 16px 0 0;box-shadow:0 -4px 20px rgba(10,22,40,0.12);border-bottom:1px solid #e2e8f0;">
-        <button onclick="ngoSwitchTab('home')" id="ntab-home" style="flex-shrink:0;padding:14px 14px;border:none;background:transparent;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;color:#1e4d8c;border-bottom:2px solid #1e4d8c;white-space:nowrap;">🏠 Home</button>
-        <button onclick="ngoSwitchTab('fir')" id="ntab-fir" style="flex-shrink:0;padding:14px 14px;border:none;background:transparent;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;color:#94a3b8;border-bottom:2px solid transparent;white-space:nowrap;">📋 FIR Queue</button>
-        <button onclick="ngoSwitchTab('missing')" id="ntab-missing" style="flex-shrink:0;padding:14px 14px;border:none;background:transparent;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;color:#94a3b8;border-bottom:2px solid transparent;white-space:nowrap;">🚨 Missing</button>
-        <button onclick="ngoSwitchTab('analytics')" id="ntab-analytics" style="flex-shrink:0;padding:14px 14px;border:none;background:transparent;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;color:#94a3b8;border-bottom:2px solid transparent;white-space:nowrap;">📊 Analytics</button>
-        <button onclick="ngoSwitchTab('alerts')" id="ntab-alerts" style="flex-shrink:0;padding:14px 14px;border:none;background:transparent;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;color:#94a3b8;border-bottom:2px solid transparent;white-space:nowrap;">🔔 Alerts</button>
-        <button onclick="ngoSwitchTab('resolved')" id="ntab-resolved" style="flex-shrink:0;padding:14px 14px;border:none;background:transparent;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;color:#94a3b8;border-bottom:2px solid transparent;white-space:nowrap;">✅ Resolved</button>
-        <button onclick="ngoSwitchTab('reports')" id="ntab-reports" style="flex-shrink:0;padding:14px 14px;border:none;background:transparent;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;color:#94a3b8;border-bottom:2px solid transparent;white-space:nowrap;">📥 Reports</button>
+      <div style="background:#111827;display:flex;overflow-x:auto;scrollbar-width:none;margin-top:-42px;position:relative;z-index:5;border-radius:16px 16px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,0.5);border-bottom:1px solid rgba(255,255,255,0.06);">
+        <button onclick="ngoSwitchTab('home')"      id="ntab-home"      class="ngo-tab active">🏠 Home</button>
+        <button onclick="ngoSwitchTab('fir')"       id="ntab-fir"       class="ngo-tab">📋 FIR Queue</button>
+        <button onclick="ngoSwitchTab('missing')"   id="ntab-missing"   class="ngo-tab">🚨 Missing</button>
+        <button onclick="ngoSwitchTab('analytics')" id="ntab-analytics" class="ngo-tab">📊 Analytics</button>
+        <button onclick="ngoSwitchTab('alerts')"    id="ntab-alerts"    class="ngo-tab">🔔 Alerts</button>
+        <button onclick="ngoSwitchTab('resolved')"  id="ntab-resolved"  class="ngo-tab">✅ Resolved</button>
+        <button onclick="ngoSwitchTab('reports')"   id="ntab-reports"   class="ngo-tab">📥 Reports</button>
       </div>
 
-      <!-- TAB CONTENT -->
-      <div style="padding:14px 14px 20px;">
+      <!-- TAB CONTENT AREA -->
+      <div style="padding:14px;background:#0b0f1a;min-height:400px;">
 
-        <!-- HOME TAB -->
+        <!-- ── HOME ── -->
         <div id="ntab-content-home">
           <!-- Fraud Banner -->
-          <div id="ngo-fraud-banner" style="display:none;background:linear-gradient(135deg,#7f1d1d,#991b1b);border-radius:14px;padding:14px 16px;margin-bottom:12px;border:1.5px solid #DC2626;">
-            <div style="font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:white;margin-bottom:6px;">⚠️ Suspicious Activity Detected</div>
-            <div id="ngo-fraud-list" style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.8;"></div>
+          <div id="ngo-fraud-banner" style="display:none;background:linear-gradient(135deg,rgba(239,68,68,0.1),rgba(127,29,29,0.1));border:1px solid rgba(239,68,68,0.25);border-radius:14px;padding:14px 16px;margin-bottom:12px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+              <span style="font-size:18px;">🚨</span>
+              <div style="font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:#fca5a5;">Fraud Activity Detected</div>
+            </div>
+            <div id="ngo-fraud-list" style="font-size:12px;color:rgba(252,165,165,0.8);line-height:2;padding-left:26px;"></div>
           </div>
-          <!-- Quick Actions -->
-          <div style="background:white;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 1px 8px rgba(10,22,40,0.06);">
-            <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;color:#94a3b8;text-transform:uppercase;margin-bottom:12px;">Quick Actions</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-              <button onclick="ngoSwitchTab('fir')" style="display:flex;align-items:center;gap:8px;padding:13px;background:linear-gradient(135deg,#0a1628,#1a3a6b);color:white;border:none;border-radius:11px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;"><span>📋</span><span>FIR Queue</span></button>
-              <button onclick="ngoSwitchTab('missing')" style="display:flex;align-items:center;gap:8px;padding:13px;background:linear-gradient(135deg,#7f1d1d,#DC2626);color:white;border:none;border-radius:11px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;"><span>🚨</span><span>Missing</span></button>
-              <button onclick="ngoSwitchTab('analytics')" style="display:flex;align-items:center;gap:8px;padding:13px;background:linear-gradient(135deg,#1e4d8c,#2979c9);color:white;border:none;border-radius:11px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;"><span>📊</span><span>Analytics</span></button>
-              <button onclick="ngoSwitchTab('alerts')" style="display:flex;align-items:center;gap:8px;padding:13px;background:linear-gradient(135deg,#064e3b,#059669);color:white;border:none;border-radius:11px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;"><span>🔔</span><span>Alerts</span></button>
-              <button onclick="ngoExportCSV()" style="display:flex;align-items:center;gap:8px;padding:13px;background:#f0f7ff;color:#1e4d8c;border:1.5px solid #bfdbfe;border-radius:11px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;"><span>📥</span><span>Export CSV</span></button>
-              <button onclick="ngoExportReport()" style="display:flex;align-items:center;gap:8px;padding:13px;background:#f0fdf4;color:#065f46;border:1.5px solid #bbf7d0;border-radius:11px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;"><span>📄</span><span>PDF Report</span></button>
+
+          <!-- Summary cards -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+            <div style="background:#111827;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:14px;border-left:3px solid #f59e0b;">
+              <div style="font-size:9px;color:#64748b;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Total Reports</div>
+              <div id="ngo-summary-total" style="font-family:'Sora',sans-serif;font-size:30px;font-weight:800;color:white;line-height:1;">0</div>
+              <div style="font-size:10px;color:#475569;margin-top:4px;">All time</div>
+            </div>
+            <div style="background:#111827;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:14px;border-left:3px solid #f59e0b;">
+              <div style="font-size:9px;color:#64748b;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Pending FIRs</div>
+              <div id="ngo-summary-pending" style="font-family:'Sora',sans-serif;font-size:30px;font-weight:800;color:#fbbf24;line-height:1;">0</div>
+              <div style="font-size:10px;color:#475569;margin-top:4px;">Awaiting review</div>
             </div>
           </div>
-          <!-- Recent Posts -->
-          <div style="background:white;border-radius:14px;padding:16px;box-shadow:0 1px 8px rgba(10,22,40,0.06);">
-            <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;color:#94a3b8;text-transform:uppercase;margin-bottom:12px;">Recent Posts</div>
-            <div id="ngo-recent-posts"><div style="text-align:center;padding:16px;color:#94a3b8;font-size:13px;">Loading...</div></div>
+
+          <!-- Quick actions -->
+          <div style="background:#111827;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:16px;margin-bottom:12px;">
+            <div style="font-size:9px;font-weight:700;color:#f59e0b;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:6px;">
+              <span>⚡</span> QUICK ACTIONS
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <button onclick="ngoSwitchTab('fir')" class="ngo-action-btn" style="background:linear-gradient(135deg,#0a1628,#1a3a6b);color:white;box-shadow:0 4px 14px rgba(10,22,40,0.4);">
+                <div style="width:34px;height:34px;background:rgba(255,255,255,0.08);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">📋</div>
+                <div><div style="font-size:12px;font-weight:700;">FIR Queue</div><div style="font-size:9px;opacity:.5;margin-top:1px;">Review & Action</div></div>
+              </button>
+              <button onclick="ngoSwitchTab('missing')" class="ngo-action-btn" style="background:linear-gradient(135deg,#450a0a,#7f1d1d);color:white;box-shadow:0 4px 14px rgba(127,29,29,0.3);">
+                <div style="width:34px;height:34px;background:rgba(255,255,255,0.08);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🚨</div>
+                <div><div style="font-size:12px;font-weight:700;">Missing</div><div style="font-size:9px;opacity:.5;margin-top:1px;">Priority Cases</div></div>
+              </button>
+              <button onclick="ngoSwitchTab('analytics')" class="ngo-action-btn" style="background:linear-gradient(135deg,#1e3a5f,#1e4d8c);color:white;box-shadow:0 4px 14px rgba(30,77,140,0.3);">
+                <div style="width:34px;height:34px;background:rgba(255,255,255,0.08);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">📊</div>
+                <div><div style="font-size:12px;font-weight:700;">Analytics</div><div style="font-size:9px;opacity:.5;margin-top:1px;">Area-wise Data</div></div>
+              </button>
+              <button onclick="ngoSwitchTab('alerts')" class="ngo-action-btn" style="background:linear-gradient(135deg,#064e3b,#065f46);color:white;box-shadow:0 4px 14px rgba(6,78,59,0.3);">
+                <div style="width:34px;height:34px;background:rgba(255,255,255,0.08);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🔔</div>
+                <div><div style="font-size:12px;font-weight:700;">Alerts</div><div style="font-size:9px;opacity:.5;margin-top:1px;">New Reports</div></div>
+              </button>
+              <button onclick="ngoExportCSV()" class="ngo-action-btn" style="background:rgba(255,255,255,0.04);color:white;border:1px solid rgba(255,255,255,0.08);">
+                <div style="width:34px;height:34px;background:rgba(59,130,246,0.1);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">📥</div>
+                <div><div style="font-size:12px;font-weight:700;">Export CSV</div><div style="font-size:9px;opacity:.5;margin-top:1px;">Download Data</div></div>
+              </button>
+              <button onclick="ngoExportReport()" class="ngo-action-btn" style="background:rgba(255,255,255,0.04);color:white;border:1px solid rgba(255,255,255,0.08);">
+                <div style="width:34px;height:34px;background:rgba(34,197,94,0.1);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">📄</div>
+                <div><div style="font-size:12px;font-weight:700;">PDF Report</div><div style="font-size:9px;opacity:.5;margin-top:1px;">Official Print</div></div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Recent posts -->
+          <div style="background:#111827;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+              <div style="font-size:9px;font-weight:700;color:#f59e0b;letter-spacing:2px;text-transform:uppercase;">⏱ RECENT ACTIVITY</div>
+              <button onclick="ngoSwitchTab('fir')" style="font-size:11px;color:#60a5fa;font-weight:600;background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;">View All →</button>
+            </div>
+            <div id="ngo-recent-posts"><div style="text-align:center;padding:20px;color:#374151;font-size:13px;">Loading...</div></div>
           </div>
         </div>
 
-        <!-- FIR QUEUE TAB -->
+        <!-- ── FIR QUEUE ── -->
         <div id="ntab-content-fir" style="display:none;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-            <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:#1e293b;">📋 FIR Queue</div>
-            <button onclick="ngoPoliceFIRView&&ngoPoliceFIRView()" style="background:linear-gradient(135deg,#1e4d8c,#2979c9);color:white;border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">🔄 Refresh</button>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+            <div>
+              <div class="ngo-section-title">FIR Management Queue</div>
+              <div class="ngo-section-sub">Review, verify and take action on reports</div>
+            </div>
+            <button onclick="ngoPoliceFIRView&&ngoPoliceFIRView()" style="display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,#1a3a6b,#2563eb);color:white;border:none;border-radius:10px;padding:9px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 3px 10px rgba(37,99,235,0.3);">
+              🔄 Refresh
+            </button>
           </div>
-          <div style="display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:2px;">
-            <button onclick="ngoFilterFIR('all')" id="fir-ftab-all" style="flex-shrink:0;padding:6px 14px;background:#0a1628;color:white;border:none;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">All</button>
-            <button onclick="ngoFilterFIR('pending')" id="fir-ftab-pending" style="flex-shrink:0;padding:6px 14px;background:#f1f5f9;color:#64748b;border:none;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">⏳ Pending</button>
-            <button onclick="ngoFilterFIR('accepted')" id="fir-ftab-accepted" style="flex-shrink:0;padding:6px 14px;background:#f1f5f9;color:#64748b;border:none;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">✅ Accepted</button>
-            <button onclick="ngoFilterFIR('rejected')" id="fir-ftab-rejected" style="flex-shrink:0;padding:6px 14px;background:#f1f5f9;color:#64748b;border:none;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">❌ Rejected</button>
+          <!-- Filter pills -->
+          <div style="display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;">
+            <button onclick="ngoFilterFIR('all')" id="fir-ftab-all" style="flex-shrink:0;padding:6px 16px;background:linear-gradient(135deg,#1a3a6b,#2563eb);color:white;border:none;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 2px 8px rgba(37,99,235,0.3);">🔍 All</button>
+            <button onclick="ngoFilterFIR('pending')" id="fir-ftab-pending" style="flex-shrink:0;padding:6px 16px;background:rgba(245,158,11,0.1);color:#fbbf24;border:1px solid rgba(245,158,11,0.2);border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">⏳ Pending</button>
+            <button onclick="ngoFilterFIR('accepted')" id="fir-ftab-accepted" style="flex-shrink:0;padding:6px 16px;background:rgba(34,197,94,0.1);color:#4ade80;border:1px solid rgba(34,197,94,0.2);border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">✅ Accepted</button>
+            <button onclick="ngoFilterFIR('rejected')" id="fir-ftab-rejected" style="flex-shrink:0;padding:6px 16px;background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.2);border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">❌ Rejected</button>
           </div>
-          <div id="ngo-fir-queue-list"><div style="text-align:center;padding:32px;color:#94a3b8;font-size:13px;"><div style="font-size:36px;margin-bottom:10px;">📋</div>Refresh tap karo</div></div>
+          <div id="ngo-fir-queue-list">
+            <div style="text-align:center;padding:48px 20px;background:#111827;border-radius:14px;border:1px solid rgba(255,255,255,0.06);">
+              <div style="font-size:40px;margin-bottom:12px;opacity:.3;">📋</div>
+              <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#374151;margin-bottom:6px;">Queue Empty</div>
+              <div style="font-size:12px;color:#1f2937;">Refresh karo ya nayi reports ka intezaar karo</div>
+            </div>
+          </div>
         </div>
 
-        <!-- MISSING TAB -->
+        <!-- ── MISSING ── -->
         <div id="ntab-content-missing" style="display:none;">
-          <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:#1e293b;margin-bottom:12px;">🚨 Missing Persons</div>
-          <div id="ngo-missing-list"><div style="text-align:center;padding:24px;color:#94a3b8;">Loading...</div></div>
-        </div>
-
-        <!-- ANALYTICS TAB -->
-        <div id="ntab-content-analytics" style="display:none;">
-          <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:#1e293b;margin-bottom:12px;">📊 Area Analytics</div>
-          <div id="ngo-area-stats"><div style="text-align:center;padding:24px;color:#94a3b8;">Loading...</div></div>
-        </div>
-
-        <!-- ALERTS TAB -->
-        <div id="ntab-content-alerts" style="display:none;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-            <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:#1e293b;">🔔 Post Alerts</div>
-            <button onclick="ngoLoadNotifications&&ngoLoadNotifications()" style="background:linear-gradient(135deg,#1e4d8c,#2979c9);color:white;border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">🔄 Refresh</button>
+          <div class="ngo-section-title">Missing Persons</div>
+          <div class="ngo-section-sub">Priority open cases — immediate action required</div>
+          <div id="ngo-missing-list">
+            <div style="text-align:center;padding:48px 20px;background:#111827;border-radius:14px;border:1px solid rgba(34,197,94,0.1);">
+              <div style="font-size:40px;margin-bottom:12px;">🎉</div>
+              <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#22c55e;">No Open Missing Cases</div>
+            </div>
           </div>
-          <div id="ngo-notifications-list"><div style="text-align:center;padding:32px;color:#94a3b8;"><div style="font-size:36px;margin-bottom:10px;">🔔</div>Refresh tap karo</div></div>
-          <!-- Notification badge -->
+        </div>
+
+        <!-- ── ANALYTICS ── -->
+        <div id="ntab-content-analytics" style="display:none;">
+          <div class="ngo-section-title">Area Analytics</div>
+          <div class="ngo-section-sub">District-wise lost & found breakdown</div>
+          <div id="ngo-area-stats"><div style="text-align:center;padding:24px;color:#374151;">Loading...</div></div>
+        </div>
+
+        <!-- ── ALERTS ── -->
+        <div id="ntab-content-alerts" style="display:none;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+            <div>
+              <div class="ngo-section-title">Post Notifications</div>
+              <div class="ngo-section-sub">Naye posts ki live alerts</div>
+            </div>
+            <button onclick="ngoLoadNotifications&&ngoLoadNotifications()" style="display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,#1a3a6b,#2563eb);color:white;border:none;border-radius:10px;padding:9px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">🔄 Refresh</button>
+          </div>
+          <div id="ngo-notifications-list">
+            <div style="text-align:center;padding:48px 20px;background:#111827;border-radius:14px;border:1px solid rgba(255,255,255,0.06);">
+              <div style="font-size:40px;margin-bottom:12px;opacity:.3;">🔔</div>
+              <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#374151;margin-bottom:6px;">No Alerts</div>
+              <div style="font-size:12px;color:#1f2937;">Refresh karo latest notifications ke liye</div>
+            </div>
+          </div>
           <span id="ngo-notif-badge" style="display:none;"></span>
         </div>
 
-        <!-- RESOLVED TAB -->
+        <!-- ── RESOLVED ── -->
         <div id="ntab-content-resolved" style="display:none;">
-          <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:#1e293b;margin-bottom:12px;">✅ Resolved Cases</div>
-          <div id="ngo-resolved-list"><div style="text-align:center;padding:24px;color:#94a3b8;">Loading...</div></div>
+          <div class="ngo-section-title">Resolved Cases</div>
+          <div class="ngo-section-sub">Successfully closed reports</div>
+          <div id="ngo-resolved-list"><div style="text-align:center;padding:24px;color:#374151;">Loading...</div></div>
         </div>
 
-        <!-- REPORTS TAB -->
+        <!-- ── REPORTS ── -->
         <div id="ntab-content-reports" style="display:none;">
-          <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:#1e293b;margin-bottom:16px;">📥 Export Reports</div>
-          <div style="display:flex;flex-direction:column;gap:12px;">
-            <div style="background:white;border-radius:14px;padding:18px;box-shadow:0 1px 8px rgba(10,22,40,0.06);">
-              <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
-                <div style="width:40px;height:40px;background:#f0f7ff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;">📥</div>
-                <div><div style="font-size:14px;font-weight:700;color:#1e293b;">CSV Export</div><div style="font-size:11px;color:#94a3b8;margin-top:2px;">All posts — Excel mein open karo</div></div>
-              </div>
-              <button onclick="ngoExportCSV()" style="width:100%;padding:12px;background:linear-gradient(135deg,#0a1628,#1a3a6b);color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">📥 Download CSV</button>
+          <div class="ngo-section-title">Export Center</div>
+          <div class="ngo-section-sub">Official data export aur reports</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="background:#111827;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;">
+              <div style="width:46px;height:46px;background:linear-gradient(135deg,#1a3a6b,#2563eb);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">📥</div>
+              <div style="flex:1;"><div style="font-size:14px;font-weight:700;color:white;">CSV Export</div><div style="font-size:11px;color:#475569;margin-top:2px;">All posts — Excel compatible</div></div>
+              <button onclick="ngoExportCSV()" style="padding:10px 16px;background:linear-gradient(135deg,#1a3a6b,#2563eb);color:white;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;flex-shrink:0;box-shadow:0 3px 10px rgba(37,99,235,0.3);">📥 Download</button>
             </div>
-            <div style="background:white;border-radius:14px;padding:18px;box-shadow:0 1px 8px rgba(10,22,40,0.06);">
-              <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
-                <div style="width:40px;height:40px;background:#f0fdf4;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;">📄</div>
-                <div><div style="font-size:14px;font-weight:700;color:#1e293b;">PDF Report</div><div style="font-size:11px;color:#94a3b8;margin-top:2px;">Official report — print kar sakte ho</div></div>
-              </div>
-              <button onclick="ngoExportReport()" style="width:100%;padding:12px;background:linear-gradient(135deg,#064e3b,#059669);color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">📄 Generate PDF</button>
+            <div style="background:#111827;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;">
+              <div style="width:46px;height:46px;background:linear-gradient(135deg,#064e3b,#059669);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">📄</div>
+              <div style="flex:1;"><div style="font-size:14px;font-weight:700;color:white;">PDF Report</div><div style="font-size:11px;color:#475569;margin-top:2px;">Official printable format</div></div>
+              <button onclick="ngoExportReport()" style="padding:10px 16px;background:linear-gradient(135deg,#064e3b,#059669);color:white;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;flex-shrink:0;box-shadow:0 3px 10px rgba(5,150,105,0.3);">📄 Generate</button>
             </div>
-            <div style="background:white;border-radius:14px;padding:18px;box-shadow:0 1px 8px rgba(10,22,40,0.06);">
-              <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
-                <div style="width:40px;height:40px;background:#fff7ed;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;">📊</div>
-                <div><div style="font-size:14px;font-weight:700;color:#1e293b;">Area Analytics</div><div style="font-size:11px;color:#94a3b8;margin-top:2px;">District-wise breakdown</div></div>
-              </div>
-              <button onclick="ngoSwitchTab('analytics')" style="width:100%;padding:12px;background:linear-gradient(135deg,#92400e,#D97706);color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">📊 View Analytics</button>
+            <div style="background:#111827;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;">
+              <div style="width:46px;height:46px;background:linear-gradient(135deg,#92400e,#d97706);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">📊</div>
+              <div style="flex:1;"><div style="font-size:14px;font-weight:700;color:white;">Area Analytics</div><div style="font-size:11px;color:#475569;margin-top:2px;">District-wise breakdown</div></div>
+              <button onclick="ngoSwitchTab('analytics')" style="padding:10px 16px;background:linear-gradient(135deg,#92400e,#d97706);color:white;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;flex-shrink:0;box-shadow:0 3px 10px rgba(217,119,6,0.3);">📊 View</button>
             </div>
           </div>
         </div>
 
-        <!-- ALL POSTS TABLE (hidden, used by ngoRenderPosts) -->
+        <!-- Hidden for JS compat -->
         <div style="display:none;">
           <select id="ngo-filter-type" onchange="ngoRenderPosts()"></select>
           <table><tbody id="ngo-posts-tbody"></tbody></table>
@@ -2052,8 +2260,51 @@ window.printQR=function(){
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// ── POPULATE STATE DROPDOWN in Register form ──
+
+<script>
+// ═══════════════════════════════════════════════
+// NGO/POLICE PORTAL — Complete Script System
+// ═══════════════════════════════════════════════
+
+// ── AUTH TAB SWITCH ──
+window.ngoAuthTab = function(tab) {
+  var forms = {login:'ngo-form-login', register:'ngo-form-register'};
+  var tabs  = {login:'ngo-tab-login',  register:'ngo-tab-register'};
+  var err   = document.getElementById('ngo-auth-err');
+  if(err) err.style.display = 'none';
+
+  Object.keys(forms).forEach(function(t) {
+    var f = document.getElementById(forms[t]);
+    var b = document.getElementById(tabs[t]);
+    var isActive = t === tab;
+    if(f) f.style.display = isActive ? 'block' : 'none';
+    if(b) {
+      if(t === 'login') {
+        b.style.borderBottomColor = isActive ? '#f59e0b' : 'transparent';
+        b.style.background = isActive ? 'rgba(245,158,11,0.06)' : 'transparent';
+        b.style.color = isActive ? '#f59e0b' : 'rgba(255,255,255,0.3)';
+      } else {
+        b.style.borderBottomColor = isActive ? '#22c55e' : 'transparent';
+        b.style.background = isActive ? 'rgba(34,197,94,0.06)' : 'transparent';
+        b.style.color = isActive ? '#22c55e' : 'rgba(255,255,255,0.3)';
+      }
+    }
+  });
+
+  if(tab === 'register') {
+    setTimeout(window._populateNgoRegStates, 50);
+  }
+};
+
+// ── POPULATE STATE DROPDOWN ──
+window._populateNgoRegStates = function() {
+  var sel = document.getElementById('ngo-reg-state');
+  if(!sel || sel.options.length > 1 || !window.INDIA_POLICE_DATA) return;
+  Object.keys(window.INDIA_POLICE_DATA).sort().forEach(function(s) {
+    var o = document.createElement('option'); o.value = s; o.textContent = s; sel.appendChild(o);
+  });
+};
+
 window.ngoRegStateChange = function() {
   var state = document.getElementById('ngo-reg-state') ? document.getElementById('ngo-reg-state').value : '';
   var dd = document.getElementById('ngo-reg-district');
@@ -2067,40 +2318,7 @@ window.ngoRegStateChange = function() {
   dd.disabled = false;
 };
 
-// Populate NGO reg state dropdown when page opens
-window._populateNgoRegStates = function() {
-  var sel = document.getElementById('ngo-reg-state');
-  if(!sel || sel.options.length > 1) return;
-  if(!window.INDIA_POLICE_DATA) return;
-  Object.keys(window.INDIA_POLICE_DATA).sort().forEach(function(s) {
-    var o = document.createElement('option'); o.value = s; o.textContent = s; sel.appendChild(o);
-  });
-};
-
-// ── NGO AUTH TAB SWITCH ──
-window.ngoAuthTab = function(tab) {
-  var lf = document.getElementById('ngo-form-login');
-  var rf = document.getElementById('ngo-form-register');
-  var tl = document.getElementById('ngo-tab-login');
-  var tr = document.getElementById('ngo-tab-register');
-  var err = document.getElementById('ngo-auth-err');
-  if(err) err.style.display = 'none';
-  if(tab === 'login') {
-    if(lf) lf.style.display = 'block';
-    if(rf) rf.style.display = 'none';
-    if(tl) { tl.style.background = 'linear-gradient(135deg,#2979c9,#1e5fa8)'; tl.style.color = 'white'; }
-    if(tr) { tr.style.background = 'transparent'; tr.style.color = 'rgba(255,255,255,0.6)'; }
-  } else {
-    if(lf) lf.style.display = 'none';
-    if(rf) rf.style.display = 'block';
-    if(tr) { tr.style.background = 'linear-gradient(135deg,#059669,#047857)'; tr.style.color = 'white'; }
-    if(tl) { tl.style.background = 'transparent'; tl.style.color = 'rgba(255,255,255,0.6)'; }
-    // Populate states
-    setTimeout(window._populateNgoRegStates, 50);
-  }
-};
-
-// ── NGO FIREBASE LOGIN ──
+// ── FIREBASE LOGIN ──
 window.ngoFirebaseLogin = async function() {
   var email = document.getElementById('ngo-login-email') ? document.getElementById('ngo-login-email').value.trim() : '';
   var pass  = document.getElementById('ngo-login-pass')  ? document.getElementById('ngo-login-pass').value.trim()  : '';
@@ -2108,161 +2326,511 @@ window.ngoFirebaseLogin = async function() {
   var btn   = document.getElementById('ngo-login-btn');
 
   if(!email || !pass) { if(errEl){errEl.textContent='⚠️ Email aur password daalo';errEl.style.display='block';} return; }
-  if(btn) { btn.textContent = 'Logging in...'; btn.disabled = true; }
+  if(btn) { btn.textContent='Authenticating...'; btn.disabled=true; }
 
   try {
-    var auth = window._auth;
-    if(!auth) throw new Error('Auth not ready');
-
     var { signInWithEmailAndPassword } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
-    var cred = await signInWithEmailAndPassword(auth, email, pass);
-    var user = cred.user;
-
-    // Check if userType is ngo in Firestore
     var { getDoc, doc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    var uDoc = await getDoc(doc(window._db, 'users', user.uid));
-    var userData = uDoc.exists() ? uDoc.data() : {};
+    var cred = await signInWithEmailAndPassword(window._auth, email, pass);
+    var uDoc = await getDoc(doc(window._db, 'users', cred.user.uid));
+    var ud = uDoc.exists() ? uDoc.data() : {};
 
-    if(userData.userType !== 'ngo' && userData.userType !== 'police' && userData.userType !== 'government') {
-      if(errEl) { errEl.textContent = '❌ Yeh account NGO/Police portal ke liye registered nahi hai'; errEl.style.display = 'block'; }
-      await auth.signOut();
-      if(btn) { btn.textContent = '🔐 Login'; btn.disabled = false; }
+    if(ud.userType !== 'ngo' && ud.userType !== 'police' && ud.userType !== 'government') {
+      if(errEl) { errEl.textContent='❌ Yeh account NGO/Police portal ke liye nahi hai'; errEl.style.display='block'; }
+      await window._auth.signOut();
+      if(btn) { btn.textContent='🔐 Enter Command Portal'; btn.disabled=false; }
       return;
     }
 
-    // Success — open dashboard
-    var org = userData.orgName || userData.displayName || user.displayName || 'Organization';
-    window._ngoUser = { uid: user.uid, email: user.email, name: user.displayName, org: org, type: userData.userType };
+    var org = ud.orgName || cred.user.displayName || 'Organization';
+    window._ngoUser = { uid:cred.user.uid, email, name:cred.user.displayName, org, type:ud.userType };
     sessionStorage.setItem('ngo_org', org);
-    sessionStorage.setItem('ngo_uid', user.uid);
-
-    document.getElementById('ngo-login-wall').style.display = 'none';
-    document.getElementById('ngo-dashboard').style.display = 'block';
-    document.getElementById('ngo-org-name').textContent = org;
-    window.toast('✅ Welcome, ' + org + '!');
-    if(window.ngoLoadDashboard) window.ngoLoadDashboard();
-
+    _ngoOpenDashboard(org);
   } catch(e) {
-    var msg = e.code === 'auth/invalid-credential' ? '❌ Wrong email or password'
-            : e.code === 'auth/user-not-found'     ? '❌ Account nahi mila — register karo'
-            : e.code === 'auth/too-many-requests'  ? '❌ Bahut zyada attempts — thodi der baad try karo'
-            : '❌ ' + (e.message || 'Login failed');
-    if(errEl) { errEl.textContent = msg; errEl.style.display = 'block'; }
+    var msg = e.code==='auth/invalid-credential' ? '❌ Wrong email or password'
+            : e.code==='auth/user-not-found'     ? '❌ Account nahi mila — register karo'
+            : e.code==='auth/too-many-requests'  ? '❌ Too many attempts — wait karo'
+            : '❌ ' + (e.message||'Login failed');
+    if(errEl) { errEl.textContent=msg; errEl.style.display='block'; }
   }
-  if(btn) { btn.textContent = '🔐 Login'; btn.disabled = false; }
+  if(btn) { btn.textContent='🔐 Enter Command Portal'; btn.disabled=false; }
 };
 
-// ── NGO FIREBASE REGISTER — Full Details ──
+// ── FIREBASE REGISTER ──
 window.ngoFirebaseRegister = async function() {
-  var name    = document.getElementById('ngo-reg-name')     ? document.getElementById('ngo-reg-name').value.trim()     : '';
-  var phone   = document.getElementById('ngo-reg-phone')    ? document.getElementById('ngo-reg-phone').value.trim()    : '';
-  var org     = document.getElementById('ngo-reg-org')      ? document.getElementById('ngo-reg-org').value.trim()      : '';
-  var type    = document.getElementById('ngo-reg-type')     ? document.getElementById('ngo-reg-type').value            : 'ngo';
-  var ps      = document.getElementById('ngo-reg-ps')       ? document.getElementById('ngo-reg-ps').value.trim()       : '';
-  var state   = document.getElementById('ngo-reg-state')    ? document.getElementById('ngo-reg-state').value           : '';
-  var district= document.getElementById('ngo-reg-district') ? document.getElementById('ngo-reg-district').value        : '';
-  var address = document.getElementById('ngo-reg-address')  ? document.getElementById('ngo-reg-address').value.trim()  : '';
-  var pin     = document.getElementById('ngo-reg-pin')      ? document.getElementById('ngo-reg-pin').value.trim()      : '';
-  var email   = document.getElementById('ngo-reg-email')    ? document.getElementById('ngo-reg-email').value.trim()    : '';
-  var pass    = document.getElementById('ngo-reg-pass')     ? document.getElementById('ngo-reg-pass').value.trim()     : '';
+  var name     = document.getElementById('ngo-reg-name')     ?.value.trim() || '';
+  var phone    = document.getElementById('ngo-reg-phone')    ?.value.trim() || '';
+  var org      = document.getElementById('ngo-reg-org')      ?.value.trim() || '';
+  var type     = document.getElementById('ngo-reg-type')     ?.value        || 'ngo';
+  var ps       = document.getElementById('ngo-reg-ps')       ?.value.trim() || '';
+  var state    = document.getElementById('ngo-reg-state')    ?.value        || '';
+  var district = document.getElementById('ngo-reg-district') ?.value        || '';
+  var address  = document.getElementById('ngo-reg-address')  ?.value.trim() || '';
+  var pin      = document.getElementById('ngo-reg-pin')      ?.value.trim() || '';
+  var email    = document.getElementById('ngo-reg-email')    ?.value.trim() || '';
+  var pass     = document.getElementById('ngo-reg-pass')     ?.value.trim() || '';
 
   var errEl = document.getElementById('ngo-auth-err');
   var btn   = document.getElementById('ngo-reg-btn');
 
-  // Validation
   var missing = [];
-  if(!name)     missing.push('Full Name');
-  if(!phone || phone.length !== 10) missing.push('Contact (10 digits)');
-  if(!org)      missing.push('Organization Name');
-  if(!state)    missing.push('State');
+  if(!name)  missing.push('Full Name');
+  if(!phone || phone.length!==10) missing.push('Contact (10 digits)');
+  if(!org)   missing.push('Organization');
+  if(!state) missing.push('State');
   if(!district) missing.push('District');
-  if(!email)    missing.push('Email');
-  if(!pass || pass.length < 6) missing.push('Password (min 6 chars)');
+  if(!email) missing.push('Email');
+  if(!pass || pass.length<6) missing.push('Password (min 6)');
 
-  if(missing.length > 0) {
-    if(errEl) { errEl.textContent = '⚠️ Fill required fields: ' + missing.join(', '); errEl.style.display = 'block'; }
+  if(missing.length) {
+    if(errEl){errEl.textContent='⚠️ Required: '+missing.join(', ');errEl.style.display='block';}
     return;
   }
-
-  if(btn) { btn.textContent = 'Creating account...'; btn.disabled = true; }
-  if(errEl) errEl.style.display = 'none';
+  if(btn) { btn.textContent='Creating account...'; btn.disabled=true; }
+  if(errEl) errEl.style.display='none';
 
   try {
     var authM = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
     var fsM   = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-
-    var cred = await authM.createUserWithEmailAndPassword(window._auth, email, pass);
+    var cred  = await authM.createUserWithEmailAndPassword(window._auth, email, pass);
     await authM.updateProfile(cred.user, { displayName: name });
-
-    // Save all details to Firestore
-    await fsM.setDoc(fsM.doc(window._db, 'users', cred.user.uid), {
-      displayName:  name,
-      orgName:      org,
-      userType:     type,
-      role:         'ngo',
-      email:        email,
-      phone:        '+91' + phone,
-      psName:       ps,
-      state:        state,
-      district:     district,
-      address:      address,
-      pinCode:      pin,
-      location:     [ps, district, state].filter(Boolean).join(', '),
-      createdAt:    fsM.serverTimestamp(),
-      verified:     false
+    await fsM.setDoc(fsM.doc(window._db,'users',cred.user.uid), {
+      displayName:name, orgName:org, userType:type, role:'ngo',
+      email, phone:'+91'+phone, psName:ps, state, district,
+      address, pinCode:pin,
+      location:[ps,district,state].filter(Boolean).join(', '),
+      createdAt:fsM.serverTimestamp(), verified:false
     });
-
-    // Auto login — open dashboard
-    var orgDisplay = org + (ps ? ' · ' + ps : '');
-    window._ngoUser = { uid: cred.user.uid, email, name, org: orgDisplay, type, state, district };
+    var orgDisplay = org + (ps?' · '+ps:'');
+    window._ngoUser = { uid:cred.user.uid, email, name, org:orgDisplay, type };
     sessionStorage.setItem('ngo_org', orgDisplay);
-    sessionStorage.setItem('ngo_uid', cred.user.uid);
-
-    document.getElementById('ngo-login-wall').style.display = 'none';
-    document.getElementById('ngo-dashboard').style.display = 'block';
-    var orgNameEl = document.getElementById('ngo-org-name');
-    if(orgNameEl) orgNameEl.textContent = orgDisplay;
-
-    window.toast('✅ Account created! Welcome, ' + org);
-    if(window.ngoLoadDashboard) window.ngoLoadDashboard();
-
+    _ngoOpenDashboard(orgDisplay);
   } catch(e) {
-    var msg = e.code === 'auth/email-already-in-use' ? '❌ Email already registered — Login karo'
-            : e.code === 'auth/weak-password'        ? '❌ Password zyada weak hai'
-            : e.code === 'auth/invalid-email'        ? '❌ Valid email daalo'
-            : '❌ ' + (e.message || 'Registration failed');
-    if(errEl) { errEl.textContent = msg; errEl.style.display = 'block'; }
+    var msg = e.code==='auth/email-already-in-use' ? '❌ Email already used — Login karo'
+            : e.code==='auth/weak-password'        ? '❌ Password too weak'
+            : '❌ '+(e.message||'Failed');
+    if(errEl){errEl.textContent=msg;errEl.style.display='block';}
   }
-  if(btn) { btn.textContent = '📝 Create Official Account'; btn.disabled = false; }
+  if(btn) { btn.textContent='📝 Create Official Account'; btn.disabled=false; }
 };
 
-// Keep old ngoLogin for backward compat (unused now)
-window.ngoLogin = window.ngoFirebaseLogin;
+function _ngoOpenDashboard(org) {
+  var lw = document.getElementById('ngo-login-wall');
+  var db = document.getElementById('ngo-dashboard');
+  var on = document.getElementById('ngo-org-name');
+  var ld = document.getElementById('ngo-live-dot');
+  if(lw) lw.style.display = 'none';
+  if(db) db.style.display = 'block';
+  if(on) on.textContent = org;
+  if(ld) ld.style.display = 'inline-block';
+  window.toast('✅ Welcome, ' + org + '!');
+  if(window.ngoLoadDashboard) window.ngoLoadDashboard();
+}
+
+window.ngoLogin = window.ngoFirebaseLogin; // backward compat
 
 window.ngoLogout = async function() {
   try {
     var { signOut } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
     await signOut(window._auth);
   } catch(e) {}
-  document.getElementById('ngo-login-wall').style.display = 'block';
-  document.getElementById('ngo-dashboard').style.display = 'none';
+  var lw=document.getElementById('ngo-login-wall');
+  var db=document.getElementById('ngo-dashboard');
+  if(lw){lw.style.display='block';}
+  if(db) db.style.display='none';
   sessionStorage.removeItem('ngo_org');
   sessionStorage.removeItem('ngo_uid');
   window._ngoUser = null;
   window.toast('👋 Logged out!');
 };
+
+// ── TAB SWITCHER ──
+window.ngoSwitchTab = function(tab) {
+  var tabs = ['home','fir','missing','analytics','alerts','resolved','reports'];
+  tabs.forEach(function(t) {
+    var btn = document.getElementById('ntab-' + t);
+    var content = document.getElementById('ntab-content-' + t);
+    var isActive = t === tab;
+    if(btn) {
+      btn.classList.toggle('active', isActive);
+    }
+    if(content) content.style.display = isActive ? 'block' : 'none';
+  });
+  if(tab==='missing')   window.ngoRenderMissing  && window.ngoRenderMissing();
+  if(tab==='analytics') window.ngoRenderAreaStats && window.ngoRenderAreaStats();
+  if(tab==='resolved')  window.ngoRenderResolved  && window.ngoRenderResolved();
+  if(tab==='alerts')    window.ngoLoadNotifications && window.ngoLoadNotifications();
+  if(tab==='fir')       window.ngoPoliceFIRView   && window.ngoPoliceFIRView();
+};
+
+// ── FIR FILTER ──
+window._firFilter = 'all';
+window.ngoFilterFIR = function(status) {
+  window._firFilter = status;
+  var colors = { all:'#2563eb', pending:'#d97706', accepted:'#22c55e', rejected:'#ef4444' };
+  ['all','pending','accepted','rejected'].forEach(function(s) {
+    var btn = document.getElementById('fir-ftab-' + s);
+    if(!btn) return;
+    if(s === status) {
+      btn.style.background = 'linear-gradient(135deg,#1a3a6b,'+colors[s]+')';
+      btn.style.color = 'white';
+      btn.style.border = 'none';
+      btn.style.boxShadow = '0 2px 8px rgba(37,99,235,0.3)';
+    } else {
+      btn.style.background = 'rgba(255,255,255,0.04)';
+      btn.style.color = '#64748b';
+      btn.style.border = '1px solid rgba(255,255,255,0.08)';
+      btn.style.boxShadow = 'none';
+    }
+  });
+  if(window.ngoPoliceFIRView) window.ngoPoliceFIRView();
+};
+
+// ── FIR ID GENERATOR ──
+window._generateFIRId = function(loc) {
+  var codes = {'Tripura':'TRP','Delhi':'DL','Maharashtra':'MH','Uttar Pradesh':'UP','West Bengal':'WB','Bihar':'BR','Rajasthan':'RJ','Gujarat':'GJ','Karnataka':'KA','Tamil Nadu':'TN','Andhra Pradesh':'AP','Telangana':'TG','Madhya Pradesh':'MP','Assam':'AS','Kerala':'KL','Odisha':'OD','Jharkhand':'JH','Uttarakhand':'UK','Punjab':'PB','Haryana':'HR','Himachal Pradesh':'HP','Jammu and Kashmir':'JK','Manipur':'MN','Meghalaya':'ML','Mizoram':'MZ','Nagaland':'NL','Sikkim':'SK','Arunachal Pradesh':'AR','Goa':'GA','Chhattisgarh':'CG','Chandigarh':'CH'};
+  var state = ((loc||'').split(',').pop()||'').trim();
+  var sc = codes[state] || state.substring(0,3).toUpperCase() || 'IN';
+  return 'FB-' + sc + '-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random()*9000)+1000);
+};
+
+// ── FIR QUEUE VIEW ──
+window.ngoPoliceFIRView = async function() {
+  var listEl = document.getElementById('ngo-fir-queue-list');
+  if(!listEl) return;
+  listEl.innerHTML = '<div style="text-align:center;padding:24px;color:#374151;font-size:13px;"><div style="font-size:24px;margin-bottom:8px;animation:spin 1s linear infinite;display:inline-block;">⏳</div><br>Loading FIR queue...</div>';
+
+  var posts = window._allPosts || [];
+
+  // Filter
+  var filtered = window._firFilter && window._firFilter !== 'all'
+    ? posts.filter(function(p) {
+        if(window._firFilter==='pending') return !p.firStatus || p.firStatus==='pending';
+        return p.firStatus === window._firFilter;
+      })
+    : posts;
+
+  // Fraud detection
+  var nameCounts = {};
+  posts.forEach(function(p) {
+    var n = (p.authorName||'').toLowerCase().trim();
+    if(!n||n==='anonymous') return;
+    nameCounts[n] = (nameCounts[n]||0)+1;
+  });
+  var fraudNames = Object.keys(nameCounts).filter(function(n){return nameCounts[n]>=3;});
+
+  var fb=document.getElementById('ngo-fraud-banner'), fl=document.getElementById('ngo-fraud-list');
+  if(fb&&fl) {
+    if(fraudNames.length) {
+      fb.style.display='block';
+      fl.innerHTML=fraudNames.map(function(n){return '🚨 <strong style="text-transform:capitalize">'+n+'</strong> — '+nameCounts[n]+' posts';}).join('<br>');
+    } else { fb.style.display='none'; }
+  }
+
+  // Update summary
+  var total = posts.length;
+  var pending = posts.filter(function(p){return !p.firStatus||p.firStatus==='pending';}).length;
+  var st=document.getElementById('ngo-summary-total'); if(st) st.textContent=total;
+  var sp=document.getElementById('ngo-summary-pending'); if(sp) sp.textContent=pending;
+
+  if(!filtered.length) {
+    listEl.innerHTML='<div style="text-align:center;padding:48px 20px;background:#111827;border-radius:14px;border:1px solid rgba(255,255,255,0.06);"><div style="font-size:36px;margin-bottom:10px;opacity:.2;">📋</div><div style="font-family:\'Sora\',sans-serif;font-size:14px;font-weight:700;color:#374151;margin-bottom:4px;">No FIRs Found</div><div style="font-size:12px;color:#1f2937;">Try a different filter</div></div>';
+    return;
+  }
+
+  listEl.innerHTML = filtered.map(function(p) {
+    var firId = p.firId || '—';
+    var timeStr = '—';
+    if(p.createdAt&&p.createdAt.seconds) {
+      var d=new Date(p.createdAt.seconds*1000);
+      timeStr=d.toLocaleDateString('en-IN')+'  '+d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+    }
+    var typeColor = p.type==='lost'?'#ef4444':p.type==='found'?'#22c55e':'#f59e0b';
+    var typeLabel = p.type==='lost'?'LOST':p.type==='found'?'FOUND':'MISSING';
+    var statusColor='#f59e0b', statusLabel='⏳ Pending', statusBg='rgba(245,158,11,0.1)';
+    if(p.firStatus==='accepted'){statusColor='#22c55e';statusLabel='✅ Accepted';statusBg='rgba(34,197,94,0.1)';}
+    if(p.firStatus==='rejected'){statusColor='#ef4444';statusLabel='❌ Rejected';statusBg='rgba(239,68,68,0.1)';}
+    var isFraud=fraudNames.indexOf((p.authorName||'').toLowerCase().trim())>=0;
+    var pid=p.id.replace(/[^a-zA-Z0-9]/g,'_');
+
+    return '<div id="fir-card-'+pid+'" class="fir-card-pro'+(isFraud?' fraud-card':p.firStatus==='accepted'?' accepted-card':p.firStatus==='rejected'?' rejected-card':'')+'">'
+
+      // Header row
+      +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:6px;">'
+      +'<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">'
+      +'<span style="background:rgba(255,255,255,0.05);color:#94a3b8;font-size:10px;font-weight:800;padding:3px 10px;border-radius:8px;font-family:monospace;border:1px solid rgba(255,255,255,0.08);">'+(firId==='—'?'PENDING ID':firId)+'</span>'
+      +'<span style="background:'+typeColor+'22;color:'+typeColor+';font-size:9px;font-weight:800;padding:2px 8px;border-radius:6px;letter-spacing:0.5px;border:1px solid '+typeColor+'33;">'+typeLabel+'</span>'
+      +(isFraud?'<span style="background:rgba(239,68,68,0.15);color:#f87171;font-size:9px;font-weight:800;padding:2px 8px;border-radius:6px;border:1px solid rgba(239,68,68,0.25);">⚠️ FRAUD ALERT</span>':'')
+      +'</div>'
+      +'<span style="background:'+statusBg+';color:'+statusColor+';font-size:10px;font-weight:700;padding:3px 10px;border-radius:8px;border:1px solid '+statusColor+'33;">'+statusLabel+'</span>'
+      +'</div>'
+
+      // Item + location
+      +'<div style="font-size:15px;font-weight:700;color:white;margin-bottom:4px;">'+(p.item||'—')+'</div>'
+      +'<div style="font-size:11px;color:#475569;margin-bottom:10px;">📍 '+(p.loc||'—')+'</div>'
+
+      // Meta chips
+      +'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">'
+      +'<span style="background:rgba(255,255,255,0.04);color:#94a3b8;font-size:10px;padding:4px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);">👤 '+(p.authorName||'Anonymous')+'</span>'
+      +'<span style="background:rgba(255,255,255,0.04);color:#94a3b8;font-size:10px;padding:4px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);">🕐 '+timeStr+'</span>'
+      +(p.contact?'<span style="background:rgba(255,255,255,0.04);color:#94a3b8;font-size:10px;padding:4px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);">📱 '+p.contact+'</span>':'')
+      +'</div>'
+
+      // Description
+      +(p.desc?'<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px 12px;font-size:11px;color:#64748b;line-height:1.6;margin-bottom:12px;border:1px solid rgba(255,255,255,0.04);">'+p.desc.substring(0,120)+(p.desc.length>120?'...':'')+'</div>':'')
+
+      // Action buttons
+      +'<div style="display:flex;gap:6px;flex-wrap:wrap;">'
+      +'<button onclick="ngoPoliceFIRAction(\''+p.id+'\',\'accepted\')" style="padding:8px 13px;background:linear-gradient(135deg,#059669,#047857);color:white;border:none;border-radius:9px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;box-shadow:0 2px 8px rgba(5,150,105,0.3);">✅ Accept</button>'
+      +'<button onclick="ngoPoliceFIRAction(\''+p.id+'\',\'rejected\')" style="padding:8px 13px;background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;border:none;border-radius:9px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;box-shadow:0 2px 8px rgba(220,38,38,0.3);">❌ Reject</button>'
+      +'<button onclick="window.openEditModal&&window.openEditModal(\''+p.id+'\')" style="padding:8px 13px;background:rgba(59,130,246,0.1);color:#60a5fa;border:1px solid rgba(59,130,246,0.2);border-radius:9px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">✏️ Edit</button>'
+      +'<button onclick="ngoPoliceFIRDelete(\''+p.id+'\')" style="padding:8px 13px;background:rgba(239,68,68,0.08);color:#f87171;border:1px solid rgba(239,68,68,0.15);border-radius:9px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">🗑️</button>'
+      +'<button onclick="ngoOpenCollabPanel(\''+p.id+'\')" style="padding:8px 13px;background:linear-gradient(135deg,#1e4d8c,#2563eb);color:white;border:none;border-radius:9px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;box-shadow:0 2px 8px rgba(37,99,235,0.3);">🤝 Collab</button>'
+      +'</div></div>';
+  }).join('');
+};
+
+// ── ACCEPT / REJECT ──
+window.ngoPoliceFIRAction = async function(postId, action) {
+  if(!confirm((action==='accepted'?'Accept':'Reject')+' this FIR?')) return;
+  try {
+    var m=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    var post=(window._allPosts||[]).find(function(p){return p.id===postId;});
+    var firId=(post&&post.firId)?post.firId:window._generateFIRId(post?post.loc:'');
+    await m.updateDoc(m.doc(window._db,'posts',postId),{firStatus:action,firId:firId,firActionAt:m.serverTimestamp(),firActionBy:sessionStorage.getItem('ngo_org')||'Officer'});
+    window.toast(action==='accepted'?'✅ Accepted! ID: '+firId:'❌ Rejected');
+    setTimeout(function(){window.ngoPoliceFIRView&&window.ngoPoliceFIRView();},800);
+  } catch(e){window.toast('❌ Failed: '+e.message);}
+};
+
+// ── DELETE ──
+window.ngoPoliceFIRDelete = async function(postId) {
+  if(!confirm('Delete this post permanently?')) return;
+  try {
+    var m=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    await m.deleteDoc(m.doc(window._db,'posts',postId));
+    window.toast('🗑️ Deleted!');
+    setTimeout(function(){window.ngoPoliceFIRView&&window.ngoPoliceFIRView();},600);
+  } catch(e){window.toast('❌ Failed');}
+};
+
+// ── COLLABORATION PANEL ──
+window.ngoOpenCollabPanel = function(postId) {
+  var e=document.getElementById('collab-modal'); if(e) e.remove();
+  var p=(window._allPosts||[]).find(function(x){return x.id===postId;}); if(!p) return;
+  var collab=p.collaboration||[], firId=p.firId||window._generateFIRId(p.loc);
+  var modal=document.createElement('div');
+  modal.id='collab-modal';
+  modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:9997;display:flex;align-items:flex-end;justify-content:center;';
+  modal.innerHTML='<div style="background:#111827;border-radius:20px 20px 0 0;padding:24px;width:100%;max-height:85vh;overflow-y:auto;border-top:2px solid rgba(245,158,11,0.3);">'
+    +'<div style="width:36px;height:3px;background:rgba(255,255,255,0.15);border-radius:2px;margin:0 auto 18px;"></div>'
+    +'<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">'
+    +'<div style="width:38px;height:38px;background:linear-gradient(135deg,#1a3a6b,#2563eb);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;">🤝</div>'
+    +'<div><div style="font-family:\'Sora\',sans-serif;font-size:15px;font-weight:700;color:white;">Collaboration Panel</div>'
+    +'<div style="font-size:10px;color:#475569;margin-top:1px;">'+firId+' · '+(p.item||'—')+'</div></div></div>'
+    +'<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px;margin-bottom:14px;">'
+    +'<div style="font-size:13px;font-weight:700;color:white;margin-bottom:4px;">'+(p.item||'—')+'</div>'
+    +'<div style="font-size:11px;color:#475569;">📍 '+(p.loc||'—')+' · 👤 '+(p.authorName||'Anon')+' · 📱 '+(p.contact||'—')+'</div></div>'
+    +'<div style="display:flex;gap:8px;margin-bottom:16px;">'
+    +'<button onclick="ngoPoliceFIRAction(\''+postId+'\',\'accepted\');document.getElementById(\'collab-modal\').remove();" style="flex:1;padding:11px;background:linear-gradient(135deg,#059669,#047857);color:white;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">✅ Accept FIR</button>'
+    +'<button onclick="ngoPoliceFIRAction(\''+postId+'\',\'rejected\');document.getElementById(\'collab-modal\').remove();" style="flex:1;padding:11px;background:linear-gradient(135deg,#dc2626,#b91c1c);color:white;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">❌ Reject FIR</button>'
+    +'</div>'
+    +'<div style="font-size:9px;font-weight:700;color:rgba(245,158,11,0.5);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">📝 NOTES HISTORY</div>'
+    +'<div style="max-height:160px;overflow-y:auto;margin-bottom:12px;">'
+    +(collab.length===0?'<div style="text-align:center;padding:16px;color:#1f2937;font-size:12px;background:rgba(255,255,255,0.02);border-radius:8px;">No notes yet</div>'
+      :collab.map(function(n){return '<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-left:2px solid #3b82f6;border-radius:8px;padding:10px;margin-bottom:6px;"><div style="font-size:9px;font-weight:700;color:#60a5fa;margin-bottom:3px;">'+n.by+' · '+n.at+'</div><div style="font-size:12px;color:#94a3b8;line-height:1.5;">'+n.note+'</div></div>';}).join('')
+    )+'</div>'
+    +'<textarea id="collab-note-input" placeholder="Note likhiye — case details, action taken..." style="width:100%;padding:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;font-size:13px;font-family:\'Inter\',sans-serif;outline:none;resize:vertical;min-height:80px;box-sizing:border-box;color:white;margin-bottom:12px;"></textarea>'
+    +'<div style="display:flex;gap:8px;">'
+    +'<button onclick="document.getElementById(\'collab-modal\').remove();" style="flex:1;padding:13px;background:rgba(255,255,255,0.05);color:#94a3b8;border:1px solid rgba(255,255,255,0.08);border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">Close</button>'
+    +'<button onclick="ngoAddCollabNote(\''+postId+'\')" style="flex:2;padding:13px;background:linear-gradient(135deg,#1a3a6b,#2563eb);color:white;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;box-shadow:0 3px 10px rgba(37,99,235,0.3);">📝 Add Note</button>'
+    +'</div></div>';
+  document.body.appendChild(modal);
+  modal.addEventListener('click',function(e){if(e.target===modal) modal.remove();});
+};
+
+window.ngoAddCollabNote = async function(postId) {
+  var input=document.getElementById('collab-note-input');
+  if(!input||!input.value.trim()){window.toast('⚠️ Note likhiye');return;}
+  var note=input.value.trim(), org=sessionStorage.getItem('ngo_org')||'Officer';
+  var at=new Date().toLocaleDateString('en-IN')+' '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  try {
+    var m=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    await m.updateDoc(m.doc(window._db,'posts',postId),{collaboration:m.arrayUnion({by:org,note,at})});
+    window.toast('✅ Note added!');
+    document.getElementById('collab-modal').remove();
+    setTimeout(function(){window.ngoPoliceFIRView&&window.ngoPoliceFIRView();},500);
+  } catch(e){window.toast('❌ Failed: '+e.message);}
+};
+
+// ── RECENT POSTS ──
+window.ngoRenderRecentPosts = function() {
+  var el=document.getElementById('ngo-recent-posts'); if(!el) return;
+  var posts=(window._allPosts||[]).slice(0,6);
+  if(!posts.length){el.innerHTML='<div style="text-align:center;padding:16px;color:#1f2937;font-size:13px;">No posts yet</div>';return;}
+  el.innerHTML=posts.map(function(p) {
+    var tc=p.type==='lost'?'#ef4444':p.type==='found'?'#22c55e':'#f59e0b';
+    var tl=p.type==='lost'?'L':p.type==='found'?'F':'M';
+    var timeStr=''; if(p.createdAt&&p.createdAt.seconds){var d=new Date(p.createdAt.seconds*1000);timeStr=d.toLocaleDateString('en-IN');}
+    var dot=p.firStatus==='accepted'?'🟢':p.firStatus==='rejected'?'🔴':'🟡';
+    return '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);">'
+      +'<div style="width:34px;height:34px;background:'+tc+'22;border:1px solid '+tc+'33;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:'+tc+';flex-shrink:0;">'+tl+'</div>'
+      +'<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:600;color:white;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(p.item||'—')+'</div>'
+      +'<div style="font-size:10px;color:#374151;margin-top:1px;">📍 '+(p.loc||'—')+' · '+timeStr+'</div></div>'
+      +'<div style="font-size:13px;flex-shrink:0;">'+dot+'</div>'
+      +'</div>';
+  }).join('');
+};
+
+// ── FIR OFFICIAL NOTICE ──
+window._showFIROfficialNotice = function(firId) {
+  var e=document.getElementById('fir-official-notice-modal'); if(e) e.remove();
+  var modal=document.createElement('div');
+  modal.id='fir-official-notice-modal';
+  modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:flex-end;justify-content:center;';
+  modal.innerHTML='<div style="background:#111827;border-radius:20px 20px 0 0;padding:24px;width:100%;max-height:85vh;overflow-y:auto;border-top:2px solid rgba(245,158,11,0.4);">'
+    +'<div style="width:36px;height:3px;background:rgba(255,255,255,0.1);border-radius:2px;margin:0 auto 18px;"></div>'
+    +'<div style="background:linear-gradient(135deg,#0d1f3c,#1a3a6b);border-radius:14px;padding:18px;margin-bottom:16px;text-align:center;border:1px solid rgba(245,158,11,0.2);">'
+    +'<div style="font-size:28px;margin-bottom:6px;">🏛️</div>'
+    +'<div style="font-family:\'Sora\',sans-serif;font-size:15px;font-weight:800;color:white;">Official Notice</div>'
+    +'<div style="font-size:10px;color:rgba(245,158,11,0.6);margin-top:3px;letter-spacing:1px;">FindBack S1 · India</div></div>'
+    +'<div style="background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:16px;margin-bottom:14px;text-align:center;">'
+    +'<div style="font-size:9px;font-weight:700;color:rgba(245,158,11,0.6);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;">Reference ID</div>'
+    +'<div style="font-family:monospace;font-size:20px;font-weight:800;color:#f59e0b;letter-spacing:3px;">'+firId+'</div>'
+    +'<div style="font-size:11px;color:#475569;margin-top:6px;">Police station par yeh ID zaroori hogi</div></div>'
+    +'<div style="background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.15);border-radius:12px;padding:14px;margin-bottom:16px;">'
+    +'<div style="font-size:12px;font-weight:700;color:#f87171;margin-bottom:10px;">⚠️ Zaroori Soochna</div>'
+    +'<div style="font-size:12px;color:#64748b;line-height:2;">🔸 Yeh sirf ek <strong style="color:#94a3b8;">Draft FIR</strong> hai<br>🔸 Officially registered nahi hai<br>🔸 <strong style="color:#f87171;">Police Station par jaake submit karo</strong><br>🔸 Jab tak verify nahi hogi — FIR final nahi hogi<br>🔸 Galat info = IPC Section 182 offense</div></div>'
+    +'<div style="display:flex;gap:10px;">'
+    +'<button onclick="document.getElementById(\'fir-official-notice-modal\').remove();" style="flex:1;padding:13px;background:rgba(255,255,255,0.05);color:#64748b;border:1px solid rgba(255,255,255,0.08);border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">Close</button>'
+    +'<button onclick="navigator.clipboard&&navigator.clipboard.writeText(\''+firId+'\').then(function(){window.toast(\'📋 ID copied!\');});" style="flex:1;padding:13px;background:linear-gradient(135deg,#b45309,#d97706);color:white;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;box-shadow:0 3px 10px rgba(217,119,6,0.3);">📋 Copy ID</button>'
+    +'</div></div>';
+  document.body.appendChild(modal);
+  modal.addEventListener('click',function(e){if(e.target===modal) modal.remove();});
+};
+
+// Hook generateFIR to show notice
+(function(){
+  var _orig=window.generateFIR;
+  window.generateFIR=function(){
+    if(_orig)_orig();
+    var state=document.getElementById('fir-state')?document.getElementById('fir-state').value:'';
+    var dist=document.getElementById('fir-district')?document.getElementById('fir-district').value:'';
+    var loc=[dist,state].filter(Boolean).join(', ');
+    var firId=window._generateFIRId(loc);
+    window._currentFIRId=firId;
+    setTimeout(function(){window._showFIROfficialNotice(firId);},400);
+  };
+})();
+
+// ── AI DUPLICATE CHECK ──
+window._checkAIDuplicate=function(item,loc,contact){
+  var posts=window._allPosts||[]; if(!posts.length) return null;
+  var il=(item||'').toLowerCase().trim(), lp=(loc||'').toLowerCase().split(',')[0].trim(), cc=(contact||'').replace(/\D/g,'').slice(-10);
+  var best=null, bs=0;
+  posts.forEach(function(p){
+    var score=0;
+    var pc=(p.contact||'').replace(/\D/g,'').slice(-10);
+    if(cc&&pc&&cc===pc) score+=50;
+    var pi=(p.item||'').toLowerCase().trim();
+    if(il&&pi&&(il===pi||il.includes(pi)||pi.includes(il))) score+=30;
+    var pl=(p.loc||'').toLowerCase().split(',')[0].trim();
+    if(lp&&pl&&lp===pl) score+=20;
+    if(score>=60&&score>bs){best=p;bs=score;}
+  });
+  return best?{post:best,score:bs}:null;
+};
+
+// Wrap submitToFirebase
+(function(){
+  var _orig=window.submitToFirebase;
+  window.submitToFirebase=async function(){
+    var mState=document.getElementById('m-state')?document.getElementById('m-state').value.trim():'';
+    var mDist=document.getElementById('m-district')?document.getElementById('m-district').value.trim():'';
+    var mArea=document.getElementById('m-loc')?document.getElementById('m-loc').value.trim():'';
+    var mItem=document.getElementById('m-item')?document.getElementById('m-item').value.trim():'';
+    var mContact=document.getElementById('m-contact')?document.getElementById('m-contact').value.trim():'';
+    var mType=window.currentModal||'lost';
+    var mDesc=document.getElementById('m-desc')?document.getElementById('m-desc').value.trim():'';
+    var mCat=document.getElementById('m-category')?document.getElementById('m-category').value:'';
+    var mDate=document.getElementById('m-date')?document.getElementById('m-date').value:'';
+    var loc=[mArea,mDist,mState].filter(Boolean).join(', ');
+
+    var match=window._checkAIDuplicate(mItem,loc,mContact);
+    if(match){
+      if(!confirm('🤖 AI Alert!\n\nSimilar post already exists:\n"'+match.post.item+'" at '+match.post.loc+'\nMatch: '+match.score+'%\n\nPhir bhi submit karein?')) return;
+    }
+
+    if(_orig) await _orig();
+
+    if(mItem&&loc){
+      setTimeout(async function(){
+        try{
+          var m=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+          var firId=window._generateFIRId(loc);
+          await m.addDoc(m.collection(window._db,'police_notifications'),{
+            firId,postType:mType,postItem:mItem,postLoc:loc,
+            postContact:'+91'+mContact,postDesc:mDesc,postCat:mCat,postDate:mDate,
+            postAuthor:window._currentUser?(window._currentUser.displayName||'Anonymous'):'Anonymous',
+            targetState:mState,targetDistrict:mDist,district:mDist,state:mState,
+            createdAt:m.serverTimestamp(),status:'unread',notifiedOrgs:[]
+          });
+        }catch(e){console.warn('PS alert err:',e);}
+      },2000);
+    }
+  };
+})();
+
+// ── LOAD DASHBOARD ──
 window.ngoLoadDashboard=function(){
+  var ds=document.getElementById('ngo-date-strip');
+  if(ds){var now=new Date();ds.textContent=now.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'})+' · '+now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});}
   var posts=window._allPosts||[];
   var el=function(id){return document.getElementById(id);};
-  if(el('ngo-stat-lost'))el('ngo-stat-lost').textContent=posts.filter(function(p){return p.type==='lost';}).length;
-  if(el('ngo-stat-found'))el('ngo-stat-found').textContent=posts.filter(function(p){return p.type==='found';}).length;
-  if(el('ngo-stat-missing'))el('ngo-stat-missing').textContent=posts.filter(function(p){return p.type==='missing';}).length;
+  if(el('ngo-stat-lost'))    el('ngo-stat-lost').textContent    =posts.filter(function(p){return p.type==='lost';}).length;
+  if(el('ngo-stat-found'))   el('ngo-stat-found').textContent   =posts.filter(function(p){return p.type==='found';}).length;
+  if(el('ngo-stat-missing')) el('ngo-stat-missing').textContent =posts.filter(function(p){return p.type==='missing';}).length;
   if(el('ngo-stat-resolved'))el('ngo-stat-resolved').textContent=posts.filter(function(p){return p.status==='resolved';}).length;
-  ngoRenderAreaStats();ngoRenderMissing();ngoRenderResolved();ngoRenderPosts();
+  if(el('ngo-summary-total'))el('ngo-summary-total').textContent=posts.length;
+  if(el('ngo-summary-pending'))el('ngo-summary-pending').textContent=posts.filter(function(p){return !p.firStatus||p.firStatus==='pending';}).length;
+  window.ngoRenderAreaStats  && window.ngoRenderAreaStats();
+  window.ngoRenderMissing    && window.ngoRenderMissing();
+  window.ngoRenderResolved   && window.ngoRenderResolved();
+  window.ngoRenderRecentPosts && window.ngoRenderRecentPosts();
+  setTimeout(function(){window.ngoPoliceFIRView&&window.ngoPoliceFIRView();},500);
 };
+
+// ngoRenderMissing — dark style
+window.ngoRenderMissing=function(){
+  var posts=(window._allPosts||[]).filter(function(p){return p.type==='missing'&&p.status!=='resolved';});
+  var el=document.getElementById('ngo-missing-list'); if(!el) return;
+  if(!posts.length){el.innerHTML='<div style="text-align:center;padding:48px 20px;background:#111827;border-radius:14px;border:1px solid rgba(34,197,94,0.1);"><div style="font-size:36px;margin-bottom:8px;">🎉</div><div style="font-family:\'Sora\',sans-serif;font-size:14px;font-weight:700;color:#22c55e;">No Open Cases</div></div>';return;}
+  el.innerHTML=posts.map(function(p){
+    var phone=p.contact||'';
+    return '<div style="background:#111827;border:1px solid rgba(239,68,68,0.15);border-left:3px solid #ef4444;border-radius:12px;padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;">'
+      +'<div style="font-size:20px;flex-shrink:0;">🚨</div>'
+      +'<div style="flex:1;"><div style="font-size:13px;font-weight:700;color:white;">'+(p.item||'—')+'</div><div style="font-size:11px;color:#475569;margin-top:2px;">📍 '+(p.loc||'—')+'</div></div>'
+      +(phone?'<a href="tel:'+phone+'" style="background:linear-gradient(135deg,#059669,#047857);color:white;border:none;border-radius:8px;padding:7px 12px;font-size:11px;font-weight:700;text-decoration:none;flex-shrink:0;">📞 Call</a>':'')
+      +'</div>';
+  }).join('');
+};
+
+// ngoRenderResolved — dark style
+window.ngoRenderResolved=function(){
+  var posts=(window._allPosts||[]).filter(function(p){return p.status==='resolved';}).slice(0,10);
+  var el=document.getElementById('ngo-resolved-list'); if(!el) return;
+  if(!posts.length){el.innerHTML='<div style="text-align:center;padding:24px;color:#374151;font-size:13px;">No resolved cases yet</div>';return;}
+  el.innerHTML=posts.map(function(p){
+    return '<div style="background:#111827;border:1px solid rgba(34,197,94,0.1);border-left:3px solid #22c55e;border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;">'
+      +'<span style="font-size:18px;flex-shrink:0;">✅</span>'
+      +'<div><div style="font-size:13px;font-weight:600;color:white;">'+(p.item||'—')+'</div><div style="font-size:10px;color:#374151;">📍 '+(p.loc||'—')+'</div></div>'
+      +'</div>';
+  }).join('');
+};
+
+// ngoRenderAreaStats — dark style
 window.ngoRenderAreaStats=function(){
-  var posts=window._allPosts||[];
-  var areaMap={};
+  var posts=window._allPosts||[], areaMap={};
   posts.forEach(function(p){
     if(!p.loc)return;
     var area=p.loc.split(',')[0].trim();
@@ -2273,121 +2841,63 @@ window.ngoRenderAreaStats=function(){
     if(p.status==='resolved')areaMap[area].resolved++;
   });
   var areas=Object.entries(areaMap).sort(function(a,b){return (b[1].lost+b[1].found+b[1].missing)-(a[1].lost+a[1].found+a[1].missing);}).slice(0,8);
-  var el=document.getElementById('ngo-area-stats');
-  if(!el)return;
-  if(!areas.length){el.innerHTML='<div style="text-align:center;padding:16px;color:var(--text-muted);font-size:13px;">No posts yet</div>';return;}
+  var el=document.getElementById('ngo-area-stats'); if(!el) return;
+  if(!areas.length){el.innerHTML='<div style="text-align:center;padding:24px;color:#374151;font-size:13px;">No data yet</div>';return;}
   el.innerHTML=areas.map(function(e){
     var area=e[0],s=e[1],total=s.lost+s.found+s.missing;
     var pct=total>0?Math.round(s.resolved/total*100):0;
-    return '<div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:13px;font-weight:600;">📍 '+area+'</span><span style="font-size:11px;color:var(--text-muted);">'+total+' posts • '+pct+'% resolved</span></div>'
-      +'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;">'
-      +(s.lost?'<span style="background:#FEE2E2;color:#DC2626;font-size:10px;padding:2px 8px;border-radius:12px;font-weight:700;">'+s.lost+' Lost</span>':'')
-      +(s.found?'<span style="background:#D1FAE5;color:#059669;font-size:10px;padding:2px 8px;border-radius:12px;font-weight:700;">'+s.found+' Found</span>':'')
-      +(s.missing?'<span style="background:#FEF3C7;color:#D97706;font-size:10px;padding:2px 8px;border-radius:12px;font-weight:700;">'+s.missing+' Missing</span>':'')
+    return '<div style="background:#111827;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:14px;margin-bottom:8px;">'
+      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">'
+      +'<span style="font-size:13px;font-weight:600;color:white;">📍 '+area+'</span>'
+      +'<span style="font-size:10px;color:#374151;">'+total+' posts · '+pct+'% resolved</span></div>'
+      +'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">'
+      +(s.lost?'<span style="background:rgba(239,68,68,0.1);color:#f87171;font-size:9px;padding:2px 8px;border-radius:6px;font-weight:700;border:1px solid rgba(239,68,68,0.15);">'+s.lost+' Lost</span>':'')
+      +(s.found?'<span style="background:rgba(34,197,94,0.1);color:#4ade80;font-size:9px;padding:2px 8px;border-radius:6px;font-weight:700;border:1px solid rgba(34,197,94,0.15);">'+s.found+' Found</span>':'')
+      +(s.missing?'<span style="background:rgba(245,158,11,0.1);color:#fbbf24;font-size:9px;padding:2px 8px;border-radius:6px;font-weight:700;border:1px solid rgba(245,158,11,0.15);">'+s.missing+' Missing</span>':'')
       +'</div>'
-      +'<div style="height:6px;background:#f0f0f0;border-radius:3px;overflow:hidden;"><div style="height:100%;background:linear-gradient(90deg,#059669,#34D399);width:'+pct+'%;border-radius:3px;"></div></div>'
+      +'<div style="height:4px;background:rgba(255,255,255,0.05);border-radius:2px;overflow:hidden;">'
+      +'<div style="height:100%;background:linear-gradient(90deg,#22c55e,#4ade80);width:'+pct+'%;border-radius:2px;transition:width .6s;"></div></div>'
       +'</div>';
   }).join('');
 };
-window.ngoRenderMissing=function(){
-  var posts=(window._allPosts||[]).filter(function(p){return p.type==='missing'&&p.status!=='resolved';});
-  var el=document.getElementById('ngo-missing-list');if(!el)return;
-  if(!posts.length){el.innerHTML='<div style="text-align:center;padding:12px;color:var(--text-muted);font-size:13px;">🎉 No open missing cases</div>';return;}
-  el.innerHTML=posts.map(function(p){
-    var phone=p.contact||'';
-    return '<div style="background:white;border:1.5px solid #FECACA;border-radius:10px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:10px;">'
-      +'<div style="flex:1;"><div style="font-size:13px;font-weight:700;">'+p.item+'</div><div style="font-size:11px;color:var(--text-muted);">📍 '+p.loc+'</div></div>'
-      +(phone?'<a href="tel:'+phone+'" style="background:#DC2626;color:white;border:none;border-radius:8px;padding:6px 10px;font-size:11px;font-weight:700;text-decoration:none;">📞 Call</a>':'')
-      +'</div>';
-  }).join('');
-};
-window.ngoRenderResolved=function(){
-  var posts=(window._allPosts||[]).filter(function(p){return p.status==='resolved';}).slice(0,5);
-  var el=document.getElementById('ngo-resolved-list');if(!el)return;
-  if(!posts.length){el.innerHTML='<div style="text-align:center;padding:12px;color:var(--text-muted);font-size:13px;">No resolved cases yet</div>';return;}
-  el.innerHTML=posts.map(function(p){
-    return '<div style="background:white;border:1.5px solid #BBF7D0;border-radius:10px;padding:10px;margin-bottom:8px;display:flex;align-items:center;gap:10px;">'
-      +'<span style="font-size:20px;">✅</span>'
-      +'<div><div style="font-size:13px;font-weight:700;">'+p.item+'</div><div style="font-size:11px;color:var(--text-muted);">📍 '+p.loc+'</div></div>'
-      +'</div>';
-  }).join('');
-};
+
+// ngoRenderPosts — compatibility function
 window.ngoRenderPosts=function(){
-  var typeFilter=document.getElementById('ngo-filter-type')?document.getElementById('ngo-filter-type').value:'';
-  var posts=window._allPosts||[];
-  if(typeFilter)posts=posts.filter(function(p){return p.type===typeFilter;});
-  posts=posts.slice(0,50);
-  var tbody=document.getElementById('ngo-posts-tbody');if(!tbody)return;
-  if(!posts.length){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--text-muted);">No posts</td></tr>';return;}
-  tbody.innerHTML=posts.map(function(p){
-    var tc=p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7';
-    var tt=p.type==='lost'?'#DC2626':p.type==='found'?'#059669':'#D97706';
-    var tl=p.type==='lost'?'Lost':p.type==='found'?'Found':'Missing';
-    var phone=p.contact||'';
-    return '<tr style="border-bottom:1px solid #f5f5f5;">'
-      +'<td style="padding:10px 12px;font-weight:600;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+p.item+'</td>'
-      +'<td style="padding:10px 12px;"><span style="background:'+tc+';color:'+tt+';font-size:10px;padding:2px 7px;border-radius:12px;font-weight:700;">'+tl+'</span></td>'
-      +'<td style="padding:10px 12px;font-size:11px;color:var(--text-muted);max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+p.loc+'</td>'
-      +'<td style="padding:10px 12px;">'
-        +(phone?'<a href="tel:'+phone+'" style="background:#25D366;color:white;border:none;border-radius:6px;padding:4px 8px;font-size:10px;font-weight:700;text-decoration:none;margin-right:4px;">📞</a>':'')
-        +'<button onclick="if(window.openDetail)window.openDetail(\"'+p.id+'\"" style="background:var(--gray);border:none;border-radius:6px;padding:4px 8px;font-size:10px;font-weight:700;cursor:pointer;">👁️</button>'
-      +'</td>'
-      +'</tr>';
-  }).join('');
+  window.ngoPoliceFIRView&&window.ngoPoliceFIRView();
 };
-window.ngoExportCSV=function(){
-  var posts=window._allPosts||[];
-  if(!posts.length){toast('No posts to export');return;}
-  var csv='Type,Item,Category,Location,Date,Contact,Status\n';
-  posts.forEach(function(p){
-    var row=[p.type||'',p.item||'',p.category||'',p.loc||'',p.date||'',p.contact||'',p.status||'active'];
-    csv+=row.map(function(v){return '"'+v+'"';}).join(',')+String.fromCharCode(10);
-  });
-  var blob=new Blob([csv],{type:'text/csv'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');
-  a.href=url;a.download='FindBack_Export.csv';a.click();
-  URL.revokeObjectURL(url);
-  toast('📥 CSV downloaded!');
-};
-window.ngoExportReport=function(){
-  var posts=window._allPosts||[];
-  var lost=posts.filter(function(p){return p.type==='lost';}).length;
-  var found=posts.filter(function(p){return p.type==='found';}).length;
-  var missing=posts.filter(function(p){return p.type==='missing';}).length;
-  var resolved=posts.filter(function(p){return p.status==='resolved';}).length;
-  var org=sessionStorage.getItem('ngo_org')||'Organization';
-  var w=window.open('','_blank');
-  w.document.write('<!DOCTYPE html><html><head><title>FindBack Report</title><style>body{font-family:Arial,sans-serif;padding:30px;}h1{color:#E8722A;}table{width:100%;border-collapse:collapse;}th{background:#E8722A;color:white;padding:8px;}td{padding:8px;border-bottom:1px solid #eee;}.stat{display:inline-block;background:#f5f5f5;border-radius:8px;padding:14px 20px;margin:6px;text-align:center;}.num{font-size:28px;font-weight:bold;color:#E8722A;}.lbl{font-size:12px;color:#777;}</style></head><body>');
-  w.document.write('<h1>🔍 FindBack Report</h1>');
-  w.document.write('<p><b>Organization:</b> '+org+' | <b>Date:</b> '+new Date().toLocaleDateString('en-IN')+'</p>');
-  w.document.write('<div class="stat"><div class="num">'+posts.length+'</div><div class="lbl">Total</div></div>');
-  w.document.write('<div class="stat"><div class="num">'+lost+'</div><div class="lbl">Lost</div></div>');
-  w.document.write('<div class="stat"><div class="num">'+found+'</div><div class="lbl">Found</div></div>');
-  w.document.write('<div class="stat"><div class="num">'+missing+'</div><div class="lbl">Missing</div></div>');
-  w.document.write('<div class="stat"><div class="num">'+resolved+'</div><div class="lbl">Resolved</div></div>');
-  w.document.write('<h2>Open Missing Persons</h2><table><tr><th>Item</th><th>Location</th><th>Contact</th></tr>');
-  posts.filter(function(p){return p.type==='missing'&&p.status!=='resolved';}).forEach(function(p){
-    w.document.write('<tr><td>'+p.item+'</td><td>'+p.loc+'</td><td>'+(p.contact||'-')+'</td></tr>');
-  });
-  w.document.write('</table><br><p style="color:#999;font-size:12px;">Generated by FindBack S1</p></body></html>');
-  w.document.close();
-  setTimeout(function(){w.print();},300);
-  toast('📄 Report ready!');
-};
+
+// Restore session on page load
 window.addEventListener('load',function(){
   var org=sessionStorage.getItem('ngo_org');
-  if(org){
+  if(org) {
     var lw=document.getElementById('ngo-login-wall');
     var db=document.getElementById('ngo-dashboard');
     var on=document.getElementById('ngo-org-name');
+    var ld=document.getElementById('ngo-live-dot');
     if(lw)lw.style.display='none';
     if(db)db.style.display='block';
     if(on)on.textContent=org;
+    if(ld)ld.style.display='inline-block';
+    setTimeout(function(){if(window.ngoLoadDashboard)window.ngoLoadDashboard();},400);
   }
 });
-// NGO dashboard auto-refresh is handled in the Firebase listener directly
+
+// Auto-refresh dashboard when posts load
+(function(){
+  var _origRender=window._renderAll;
+  window._renderAll=function(){
+    if(_origRender)_origRender();
+    var db=document.getElementById('ngo-dashboard');
+    if(db&&db.style.display!=='none'&&window.ngoRenderRecentPosts){
+      window.ngoRenderRecentPosts();
+    }
+  };
+})();
+
+console.log('✅ FindBack NGO Command Portal loaded');
 </script>
+
+
 <script>
 window.loadTrustScore=function(){const user=window._currentUser,posts=window._allPosts||[];if(!user){document.getElementById('trust-name').textContent='Login';document.getElementById('trust-score').textContent='--';return;}const mp=posts.filter(p=>p.uid===user.uid),score=Math.min(99,mp.length*2);document.getElementById('trust-avatar').textContent=(user.displayName||'U')[0].toUpperCase();document.getElementById('trust-name').textContent=user.displayName||'User';document.getElementById('trust-score').textContent=score;document.getElementById('trust-posts').textContent=mp.length;let level,icon,desc,bg;if(score>=90){level='Legend';icon='👑';desc='Top 1%!';bg='linear-gradient(135deg,#FEF9C3,#FEF08A)';}else if(score>=60){level='Hero Finder';icon='🏅';desc='Bahut trusted!';bg='#FFF7ED';}else if(score>=30){level='Star Finder';icon='⭐';desc='Trusted member';bg='#F0FDF4';}else if(score>=10){level='Trusted User';icon='✅';desc='Acha start!';bg='#EFF6FF';}else{level='New Member';icon='🆕';desc='Post karo score badhao';bg='#FFF5EE';}document.getElementById('trust-level-icon').textContent=icon;document.getElementById('trust-level-name').textContent=level;document.getElementById('trust-level-desc').textContent=desc;document.getElementById('trust-level-card').style.background=bg;document.getElementById('trust-badge').textContent=icon+' '+level;};
 
@@ -3367,392 +3877,6 @@ function _goPage(pg){
 }
 window.removePagination=function(){var o=document.getElementById('pagination-bar');if(o)o.remove();};
 
-</script>
-
-<!-- ═══════════════════════════════════════════════════════
-     NGO DASHBOARD — Tab System + FIR Queue + All Features
-     ═══════════════════════════════════════════════════════ -->
-<script>
-// ── TAB SWITCHER ──
-window.ngoSwitchTab = function(tab) {
-  var tabs = ['home','fir','missing','analytics','alerts','resolved','reports'];
-  tabs.forEach(function(t) {
-    var btn = document.getElementById('ntab-' + t);
-    var content = document.getElementById('ntab-content-' + t);
-    if(btn) { btn.style.color = t===tab ? '#1e4d8c' : '#94a3b8'; btn.style.borderBottom = t===tab ? '2px solid #1e4d8c' : '2px solid transparent'; }
-    if(content) content.style.display = t===tab ? 'block' : 'none';
-  });
-  if(tab === 'missing')   { window.ngoRenderMissing && window.ngoRenderMissing(); }
-  if(tab === 'analytics') { window.ngoRenderAreaStats && window.ngoRenderAreaStats(); }
-  if(tab === 'resolved')  { window.ngoRenderResolved && window.ngoRenderResolved(); }
-  if(tab === 'alerts')    { window.ngoLoadNotifications && window.ngoLoadNotifications(); }
-  if(tab === 'fir')       { window.ngoPoliceFIRView && window.ngoPoliceFIRView(); }
-};
-
-// ── FIR FILTER TABS ──
-window._firFilter = 'all';
-window.ngoFilterFIR = function(status) {
-  window._firFilter = status;
-  ['all','pending','accepted','rejected'].forEach(function(s) {
-    var btn = document.getElementById('fir-ftab-' + s);
-    if(!btn) return;
-    if(s === status) { btn.style.background = '#0a1628'; btn.style.color = 'white'; }
-    else { btn.style.background = '#f1f5f9'; btn.style.color = '#64748b'; }
-  });
-  if(window.ngoPoliceFIRView) window.ngoPoliceFIRView();
-};
-
-// ── FIR ID GENERATOR ──
-window._generateFIRId = function(loc) {
-  var stateCode = 'IN';
-  if(loc) {
-    var parts = (loc||'').split(',');
-    var state = (parts[parts.length-1]||'').trim();
-    var codes = {'Tripura':'TRP','Delhi':'DL','Maharashtra':'MH','Uttar Pradesh':'UP','West Bengal':'WB','Bihar':'BR','Rajasthan':'RJ','Gujarat':'GJ','Karnataka':'KA','Tamil Nadu':'TN','Andhra Pradesh':'AP','Telangana':'TG','Madhya Pradesh':'MP','Assam':'AS','Kerala':'KL','Odisha':'OD','Jharkhand':'JH','Uttarakhand':'UK','Punjab':'PB','Haryana':'HR','Himachal Pradesh':'HP','Jammu and Kashmir':'JK','Manipur':'MN','Meghalaya':'ML','Mizoram':'MZ','Nagaland':'NL','Sikkim':'SK','Arunachal Pradesh':'AR','Goa':'GA','Chhattisgarh':'CG','Chandigarh':'CH'};
-    stateCode = codes[state] || state.substring(0,3).toUpperCase() || 'IN';
-  }
-  var year = new Date().getFullYear();
-  var num = String(Math.floor(Math.random()*9000)+1000);
-  return 'FB-' + stateCode + '-' + year + '-' + num;
-};
-
-// ── FIR QUEUE VIEW ──
-window.ngoPoliceFIRView = async function() {
-  var listEl = document.getElementById('ngo-fir-queue-list');
-  if(!listEl) return;
-  listEl.innerHTML = '<div style="text-align:center;padding:16px;color:#94a3b8;font-size:13px;">⏳ Loading...</div>';
-  var posts = window._allPosts || [];
-
-  // Apply filter
-  var filtered = posts;
-  if(window._firFilter && window._firFilter !== 'all') {
-    filtered = posts.filter(function(p){
-      if(window._firFilter === 'pending') return !p.firStatus || p.firStatus === 'pending';
-      return p.firStatus === window._firFilter;
-    });
-  }
-
-  // Fraud detection — same name 3+ times
-  var nameCounts = {};
-  posts.forEach(function(p) {
-    var name = (p.authorName||'').toLowerCase().trim();
-    if(!name || name === 'anonymous') return;
-    nameCounts[name] = (nameCounts[name]||0) + 1;
-  });
-  var fraudNames = Object.keys(nameCounts).filter(function(n){ return nameCounts[n] >= 3; });
-  var fraudBanner = document.getElementById('ngo-fraud-banner');
-  var fraudList = document.getElementById('ngo-fraud-list');
-  if(fraudBanner && fraudList) {
-    if(fraudNames.length > 0) {
-      fraudBanner.style.display = 'block';
-      fraudList.innerHTML = fraudNames.map(function(n){
-        return '🚨 <strong style="text-transform:capitalize;">'+n+'</strong> — '+nameCounts[n]+' posts (possible fake FIR)';
-      }).join('<br>');
-    } else { fraudBanner.style.display = 'none'; }
-  }
-
-  if(!filtered.length) {
-    listEl.innerHTML = '<div style="text-align:center;padding:32px;color:#94a3b8;font-size:13px;"><div style="font-size:36px;margin-bottom:10px;">📋</div>Koi FIR nahi mili</div>';
-    return;
-  }
-
-  listEl.innerHTML = filtered.map(function(p) {
-    var firId = p.firId || '—';
-    var timeStr = '—';
-    if(p.createdAt && p.createdAt.seconds) {
-      var d = new Date(p.createdAt.seconds * 1000);
-      timeStr = d.toLocaleDateString('en-IN') + ' ' + d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-    }
-    var tc = p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7';
-    var tt = p.type==='lost'?'#DC2626':p.type==='found'?'#059669':'#D97706';
-    var tl = p.type==='lost'?'Lost':p.type==='found'?'Found':'Missing';
-    var statusColor = '#E8722A', statusText = '⏳ Pending';
-    if(p.firStatus === 'accepted') { statusColor = '#059669'; statusText = '✅ Accepted'; }
-    if(p.firStatus === 'rejected') { statusColor = '#DC2626'; statusText = '❌ Rejected'; }
-    var isFraud = fraudNames.indexOf((p.authorName||'').toLowerCase().trim()) >= 0;
-    var pid = p.id.replace(/[^a-zA-Z0-9]/g,'_');
-
-    return '<div id="fir-card-'+pid+'" style="border:1.5px solid #e2e8f0;border-radius:12px;padding:14px;margin-bottom:12px;background:white;">'
-      + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:6px;">'
-      + '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">'
-      + '<span style="background:#0a1628;color:white;font-size:10px;font-weight:800;padding:3px 10px;border-radius:8px;font-family:monospace;">'+(firId==='—'?'Pending ID':firId)+'</span>'
-      + '<span style="background:'+tc+';color:'+tt+';font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">'+tl+'</span>'
-      + (isFraud ? '<span style="background:#DC2626;color:white;font-size:9px;font-weight:700;padding:1px 6px;border-radius:6px;">⚠️ FRAUD</span>' : '')
-      + '</div>'
-      + '<span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;color:'+statusColor+';background:'+statusColor+'22;">'+statusText+'</span>'
-      + '</div>'
-      + '<div style="font-size:14px;font-weight:700;color:#1e293b;margin-bottom:4px;">'+(p.item||'—')+'</div>'
-      + '<div style="font-size:11px;color:#64748b;margin-bottom:2px;">📍 '+(p.loc||'—')+'</div>'
-      + '<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">'
-      + '<div style="font-size:11px;color:#475569;background:#f1f5f9;padding:4px 10px;border-radius:8px;">👤 '+(p.authorName||'Anonymous')+'</div>'
-      + '<div style="font-size:11px;color:#475569;background:#f1f5f9;padding:4px 10px;border-radius:8px;">📅 '+timeStr+'</div>'
-      + (p.contact ? '<div style="font-size:11px;color:#475569;background:#f1f5f9;padding:4px 10px;border-radius:8px;">📱 '+p.contact+'</div>' : '')
-      + '</div>'
-      + (p.desc ? '<div style="font-size:12px;color:#64748b;margin-top:8px;background:#f8fafc;border-radius:8px;padding:8px;line-height:1.5;">'+p.desc.substring(0,120)+(p.desc.length>120?'...':'')+'</div>' : '')
-      + '<div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;">'
-      + '<button onclick="ngoPoliceFIRAction(\''+p.id+'\',\'accepted\')" style="padding:7px 12px;background:linear-gradient(135deg,#059669,#047857);color:white;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">✅ Accept</button>'
-      + '<button onclick="ngoPoliceFIRAction(\''+p.id+'\',\'rejected\')" style="padding:7px 12px;background:linear-gradient(135deg,#DC2626,#b91c1c);color:white;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">❌ Reject</button>'
-      + '<button onclick="window.openEditModal&&window.openEditModal(\''+p.id+'\')" style="padding:7px 12px;background:#f0f7ff;color:#1e4d8c;border:1.5px solid #bfdbfe;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">✏️ Edit</button>'
-      + '<button onclick="ngoPoliceFIRDelete(\''+p.id+'\')" style="padding:7px 12px;background:#fef2f2;color:#DC2626;border:1.5px solid #fecaca;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">🗑️ Delete</button>'
-      + '<button onclick="ngoOpenCollabPanel(\''+p.id+'\')" style="padding:7px 12px;background:linear-gradient(135deg,#1e4d8c,#2979c9);color:white;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">🤝 Collab</button>'
-      + '</div></div>';
-  }).join('');
-};
-
-// ── ACCEPT / REJECT ──
-window.ngoPoliceFIRAction = async function(postId, action) {
-  if(!confirm((action==='accepted'?'Accept':'Reject') + ' this FIR?')) return;
-  try {
-    var m = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    var post = (window._allPosts||[]).find(function(p){return p.id===postId;});
-    var firId = (post && post.firId) ? post.firId : window._generateFIRId(post?post.loc:'');
-    await m.updateDoc(m.doc(window._db,'posts',postId), {
-      firStatus: action, firId: firId,
-      firActionAt: m.serverTimestamp(),
-      firActionBy: sessionStorage.getItem('ngo_org') || 'Officer'
-    });
-    window.toast(action==='accepted' ? '✅ FIR Accepted! ID: '+firId : '❌ FIR Rejected');
-    setTimeout(function(){ if(window.ngoPoliceFIRView) window.ngoPoliceFIRView(); }, 800);
-  } catch(e) { window.toast('❌ Failed: ' + e.message); }
-};
-
-// ── DELETE ──
-window.ngoPoliceFIRDelete = async function(postId) {
-  if(!confirm('Permanently delete this post?')) return;
-  try {
-    var m = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    await m.deleteDoc(m.doc(window._db,'posts',postId));
-    window.toast('🗑️ Deleted!');
-    setTimeout(function(){ if(window.ngoPoliceFIRView) window.ngoPoliceFIRView(); }, 600);
-  } catch(e) { window.toast('❌ Delete failed'); }
-};
-
-// ── COLLABORATION PANEL ──
-window.ngoOpenCollabPanel = function(postId) {
-  var existing = document.getElementById('collab-modal');
-  if(existing) existing.remove();
-  var p = (window._allPosts||[]).find(function(x){ return x.id === postId; });
-  if(!p) return;
-  var collab = p.collaboration || [];
-  var firId = p.firId || window._generateFIRId(p.loc);
-  var modal = document.createElement('div');
-  modal.id = 'collab-modal';
-  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9997;display:flex;align-items:flex-end;justify-content:center;';
-  modal.innerHTML = '<div style="background:white;border-radius:20px 20px 0 0;padding:24px;width:100%;max-height:85vh;overflow-y:auto;">'
-    + '<div style="width:40px;height:4px;background:#e2e8f0;border-radius:2px;margin:0 auto 16px;"></div>'
-    + '<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">'
-    + '<div style="width:40px;height:40px;background:linear-gradient(135deg,#0a1628,#1a3a6b);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;">🤝</div>'
-    + '<div><div style="font-family:\'Sora\',sans-serif;font-size:15px;font-weight:700;">Police-NGO Collaboration</div>'
-    + '<div style="font-size:11px;color:#64748b;">'+firId+' · '+(p.item||'—')+'</div></div></div>'
-    + '<div style="background:#f8fafc;border-radius:12px;padding:12px;margin-bottom:12px;">'
-    + '<div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:4px;">'+(p.item||'—')+'</div>'
-    + '<div style="font-size:11px;color:#64748b;">📍 '+(p.loc||'—')+' · 👤 '+(p.authorName||'Anon')+' · 📱 '+(p.contact||'—')+'</div></div>'
-    + '<div style="display:flex;gap:8px;margin-bottom:14px;">'
-    + '<button onclick="ngoPoliceFIRAction(\''+postId+'\',\'accepted\');document.getElementById(\'collab-modal\').remove();" style="flex:1;padding:10px;background:#059669;color:white;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">✅ Accept FIR</button>'
-    + '<button onclick="ngoPoliceFIRAction(\''+postId+'\',\'rejected\');document.getElementById(\'collab-modal\').remove();" style="flex:1;padding:10px;background:#DC2626;color:white;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">❌ Reject FIR</button>'
-    + '</div>'
-    + '<div style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Notes</div>'
-    + '<div style="max-height:180px;overflow-y:auto;margin-bottom:10px;">'
-    + (collab.length===0 ? '<div style="text-align:center;padding:12px;color:#94a3b8;font-size:12px;">Koi notes nahi</div>'
-      : collab.map(function(n){ return '<div style="background:#f8fafc;border-radius:8px;padding:10px;margin-bottom:6px;border-left:3px solid #1e4d8c;"><div style="font-size:10px;font-weight:700;color:#1e4d8c;">'+n.by+' · '+n.at+'</div><div style="font-size:12px;color:#334155;margin-top:3px;">'+n.note+'</div></div>'; }).join('')
-    ) + '</div>'
-    + '<textarea id="collab-note-input" placeholder="Note likhiye..." style="width:100%;padding:12px;border:1.5px solid #e2e8f0;border-radius:10px;font-size:13px;font-family:\'Inter\',sans-serif;outline:none;resize:vertical;min-height:80px;box-sizing:border-box;margin-bottom:12px;"></textarea>'
-    + '<div style="display:flex;gap:10px;">'
-    + '<button onclick="document.getElementById(\'collab-modal\').remove();" style="flex:1;padding:13px;background:#f1f5f9;color:#475569;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">Close</button>'
-    + '<button onclick="ngoAddCollabNote(\''+postId+'\')" style="flex:1;padding:13px;background:linear-gradient(135deg,#0a1628,#1a3a6b);color:white;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">📝 Add Note</button>'
-    + '</div></div>';
-  document.body.appendChild(modal);
-  modal.addEventListener('click', function(e){ if(e.target===modal) modal.remove(); });
-};
-
-window.ngoAddCollabNote = async function(postId) {
-  var input = document.getElementById('collab-note-input');
-  if(!input || !input.value.trim()) { window.toast('⚠️ Note likhiye'); return; }
-  var note = input.value.trim();
-  var org = sessionStorage.getItem('ngo_org') || 'Officer';
-  var at = new Date().toLocaleDateString('en-IN') + ' ' + new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-  try {
-    var m = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    await m.updateDoc(m.doc(window._db,'posts',postId), { collaboration: m.arrayUnion({by:org,note:note,at:at}) });
-    window.toast('✅ Note add ho gaya!');
-    document.getElementById('collab-modal').remove();
-    setTimeout(function(){ if(window.ngoPoliceFIRView) window.ngoPoliceFIRView(); }, 500);
-  } catch(e) { window.toast('❌ Failed: ' + e.message); }
-};
-
-// ── RECENT POSTS for Home tab ──
-window.ngoRenderRecentPosts = function() {
-  var el = document.getElementById('ngo-recent-posts');
-  if(!el) return;
-  var posts = (window._allPosts||[]).slice(0,5);
-  if(!posts.length) { el.innerHTML = '<div style="text-align:center;padding:16px;color:#94a3b8;font-size:13px;">No posts yet</div>'; return; }
-  el.innerHTML = posts.map(function(p) {
-    var tc = p.type==='lost'?'#FEE2E2':p.type==='found'?'#D1FAE5':'#FEF3C7';
-    var tt = p.type==='lost'?'#DC2626':p.type==='found'?'#059669':'#D97706';
-    var tl = p.type==='lost'?'L':p.type==='found'?'F':'M';
-    var timeStr = '';
-    if(p.createdAt&&p.createdAt.seconds){ var d=new Date(p.createdAt.seconds*1000); timeStr=d.toLocaleDateString('en-IN'); }
-    var dot = p.firStatus==='accepted'?'🟢':p.firStatus==='rejected'?'🔴':'🟡';
-    return '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f1f5f9;">'
-      + '<div style="width:34px;height:34px;background:'+tc+';border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:'+tt+';flex-shrink:0;">'+tl+'</div>'
-      + '<div style="flex:1;min-width:0;"><div style="font-size:13px;font-weight:700;color:#1e293b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(p.item||'—')+'</div>'
-      + '<div style="font-size:11px;color:#94a3b8;">📍 '+(p.loc||'—')+' · '+timeStr+'</div></div>'
-      + '<div style="font-size:14px;">'+dot+'</div></div>';
-  }).join('');
-};
-
-// ── FIR OFFICIAL NOTICE ──
-window._showFIROfficialNotice = function(firId) {
-  var existing = document.getElementById('fir-official-notice-modal');
-  if(existing) existing.remove();
-  var modal = document.createElement('div');
-  modal.id = 'fir-official-notice-modal';
-  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:flex-end;justify-content:center;';
-  modal.innerHTML = '<div style="background:white;border-radius:20px 20px 0 0;padding:24px;width:100%;max-height:88vh;overflow-y:auto;">'
-    + '<div style="width:40px;height:4px;background:#e2e8f0;border-radius:2px;margin:0 auto 18px;"></div>'
-    + '<div style="background:linear-gradient(135deg,#0a1628,#1a3a6b);border-radius:14px;padding:18px;margin-bottom:16px;text-align:center;">'
-    + '<div style="font-size:28px;margin-bottom:6px;">🏛️</div>'
-    + '<div style="font-family:\'Sora\',sans-serif;font-size:15px;font-weight:800;color:white;">FindBack — Official Notice</div>'
-    + '<div style="font-size:11px;color:rgba(255,255,255,0.55);margin-top:4px;">India Lost & Found Platform · S1</div></div>'
-    + '<div style="background:#f0f7ff;border:2px solid #1e4d8c;border-radius:12px;padding:16px;margin-bottom:14px;text-align:center;">'
-    + '<div style="font-size:11px;font-weight:700;color:#1e4d8c;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">Reference ID</div>'
-    + '<div style="font-family:monospace;font-size:20px;font-weight:800;color:#0a1628;letter-spacing:2px;">'+firId+'</div>'
-    + '<div style="font-size:11px;color:#64748b;margin-top:5px;">Police station par yeh ID le jaao</div></div>'
-    + '<div style="background:#fef3c7;border:1.5px solid #D97706;border-radius:12px;padding:14px;margin-bottom:14px;">'
-    + '<div style="font-size:13px;font-weight:700;color:#92400e;margin-bottom:8px;">⚠️ Zaroori Soochna</div>'
-    + '<div style="font-size:12px;color:#78350f;line-height:1.9;">🔸 Yeh sirf ek <strong>Draft FIR</strong> hai<br>🔸 Officially registered nahi hai<br>🔸 <strong>Police Station par jaake submit karo</strong><br>🔸 Jab tak verify nahi hogi — FIR final nahi hogi<br>🔸 Galat info dena IPC Section 182 offense hai</div></div>'
-    + '<div style="display:flex;gap:10px;">'
-    + '<button onclick="document.getElementById(\'fir-official-notice-modal\').remove();" style="flex:1;padding:13px;background:#f1f5f9;color:#475569;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">Close</button>'
-    + '<button onclick="navigator.clipboard&&navigator.clipboard.writeText(\''+firId+'\').then(function(){window.toast(\'📋 ID copied: '+firId+'\');});" style="flex:1;padding:13px;background:linear-gradient(135deg,#0a1628,#1a3a6b);color:white;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">📋 Copy ID</button>'
-    + '</div></div>';
-  document.body.appendChild(modal);
-  modal.addEventListener('click', function(e){ if(e.target===modal) modal.remove(); });
-};
-
-// Hook generateFIR to show notice
-(function(){
-  var _origGen = window.generateFIR;
-  window.generateFIR = function() {
-    if(_origGen) _origGen();
-    var state = document.getElementById('fir-state') ? document.getElementById('fir-state').value : '';
-    var dist  = document.getElementById('fir-district') ? document.getElementById('fir-district').value : '';
-    var loc   = [dist, state].filter(Boolean).join(', ');
-    var firId = window._generateFIRId(loc);
-    window._currentFIRId = firId;
-    setTimeout(function(){ window._showFIROfficialNotice(firId); }, 400);
-  };
-})();
-
-// ── AI DUPLICATE DETECTION ──
-window._checkAIDuplicate = function(item, loc, contact) {
-  var posts = window._allPosts || [];
-  if(!posts.length) return null;
-  var itemL = (item||'').toLowerCase().trim();
-  var locPart = (loc||'').toLowerCase().split(',')[0].trim();
-  var contactClean = (contact||'').replace(/\D/g,'').slice(-10);
-  var best = null, bestScore = 0;
-  posts.forEach(function(p) {
-    var score = 0;
-    var pContact = (p.contact||'').replace(/\D/g,'').slice(-10);
-    if(contactClean && pContact && contactClean === pContact) score += 50;
-    var pItemL = (p.item||'').toLowerCase().trim();
-    if(itemL && pItemL && (itemL === pItemL || itemL.includes(pItemL) || pItemL.includes(itemL))) score += 30;
-    var pLocPart = (p.loc||'').toLowerCase().split(',')[0].trim();
-    if(locPart && pLocPart && locPart === pLocPart) score += 20;
-    if(score >= 60 && score > bestScore) { best = p; bestScore = score; }
-  });
-  return best ? {post:best, score:bestScore} : null;
-};
-
-// Wrap submitToFirebase with duplicate check + PS alert
-(function(){
-  var _origSubmit = window.submitToFirebase;
-  window.submitToFirebase = async function() {
-    var mState   = document.getElementById('m-state')   ? document.getElementById('m-state').value.trim()   : '';
-    var mDist    = document.getElementById('m-district') ? document.getElementById('m-district').value.trim(): '';
-    var mArea    = document.getElementById('m-loc')      ? document.getElementById('m-loc').value.trim()     : '';
-    var mItem    = document.getElementById('m-item')     ? document.getElementById('m-item').value.trim()    : '';
-    var mContact = document.getElementById('m-contact')  ? document.getElementById('m-contact').value.trim() : '';
-    var mType    = window.currentModal || 'lost';
-    var mDesc    = document.getElementById('m-desc')     ? document.getElementById('m-desc').value.trim()    : '';
-    var mCat     = document.getElementById('m-category') ? document.getElementById('m-category').value       : '';
-    var mDate    = document.getElementById('m-date')     ? document.getElementById('m-date').value           : '';
-    var loc      = [mArea, mDist, mState].filter(Boolean).join(', ');
-
-    // Duplicate check
-    var match = window._checkAIDuplicate(mItem, loc, mContact);
-    if(match) {
-      var proceed = false;
-      var msg = '🤖 AI ne detect kiya:\n\nSimilar post already exist karti hai:\n"'+match.post.item+'" at '+match.post.loc+'\nMatch: '+match.score+'%\n\nPhir bhi submit karein?';
-      if(!confirm(msg)) return;
-    }
-
-    if(_origSubmit) await _origSubmit();
-
-    // Auto PS alert
-    if(mItem && loc) {
-      setTimeout(async function(){
-        try {
-          var m = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-          var firId = window._generateFIRId(loc);
-          await m.addDoc(m.collection(window._db, 'police_notifications'), {
-            firId: firId, postType: mType, postItem: mItem, postLoc: loc,
-            postContact: '+91'+mContact, postDesc: mDesc, postCat: mCat, postDate: mDate,
-            postAuthor: window._currentUser?(window._currentUser.displayName||'Anonymous'):'Anonymous',
-            targetState: mState, targetDistrict: mDist,
-            district: mDist, state: mState,
-            createdAt: m.serverTimestamp(), status: 'unread', notifiedOrgs: []
-          });
-        } catch(e){ console.warn('PS alert err:',e); }
-      }, 2000);
-    }
-  };
-})();
-
-// ── OVERRIDE ngoLoadDashboard ──
-(function(){
-  var _orig = window.ngoLoadDashboard;
-  window.ngoLoadDashboard = function() {
-    // Update date strip
-    var ds = document.getElementById('ngo-date-strip');
-    if(ds) {
-      var now = new Date();
-      ds.textContent = now.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'})+' · '+now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-    }
-    // Update stats
-    var posts = window._allPosts || [];
-    var el = function(id){ return document.getElementById(id); };
-    if(el('ngo-stat-lost'))    el('ngo-stat-lost').textContent    = posts.filter(function(p){return p.type==='lost';}).length;
-    if(el('ngo-stat-found'))   el('ngo-stat-found').textContent   = posts.filter(function(p){return p.type==='found';}).length;
-    if(el('ngo-stat-missing')) el('ngo-stat-missing').textContent = posts.filter(function(p){return p.type==='missing';}).length;
-    if(el('ngo-stat-resolved'))el('ngo-stat-resolved').textContent= posts.filter(function(p){return p.status==='resolved';}).length;
-
-    // Load other functions
-    window.ngoRenderAreaStats  && window.ngoRenderAreaStats();
-    window.ngoRenderMissing    && window.ngoRenderMissing();
-    window.ngoRenderResolved   && window.ngoRenderResolved();
-    window.ngoRenderRecentPosts && window.ngoRenderRecentPosts();
-
-    // FIR queue auto load
-    setTimeout(function(){ window.ngoPoliceFIRView && window.ngoPoliceFIRView(); }, 500);
-  };
-})();
-
-// Restore NGO session on page load
-window.addEventListener('load', function(){
-  var org = sessionStorage.getItem('ngo_org');
-  if(org) {
-    var lw = document.getElementById('ngo-login-wall');
-    var db = document.getElementById('ngo-dashboard');
-    var on = document.getElementById('ngo-org-name');
-    if(lw) lw.style.display = 'none';
-    if(db) db.style.display = 'block';
-    if(on) on.textContent = org;
-    setTimeout(function(){ if(window.ngoLoadDashboard) window.ngoLoadDashboard(); }, 400);
-  }
-});
-
-console.log('✅ NGO Dashboard v3 loaded — Tabs + FIR + Collab + AI + Notice');
 </script>
 </body>
 </html>
