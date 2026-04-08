@@ -719,6 +719,12 @@ window.submitToFirebase=async function(){
 };
 window.deletePost=async function(id){
   if(!confirm((window.APP_LANG==='hi')?'यह पोस्ट डिलीट करना चाहते हो?':'Delete this post?'))return;
+  // Only post owner (current user) can permanently delete
+  var post=(window._allPosts||[]).find(function(p){return p.id===id;});
+  if(!post){window.toast('❌ Post not found');return;}
+  if(!window._currentUser||window._currentUser.uid!==post.uid){
+    window.toast('❌ Sirf post owner hi delete kar sakta hai');return;
+  }
   try{await deleteDoc(doc(db,"posts",id));window.toast('🗑️ Post deleted!');showPage('home');}catch(e){window.toast('❌ Delete failed.');}
 };
 window.submitEdit=async function(){
@@ -2502,13 +2508,14 @@ window.ngoPoliceFIRView = async function() {
 
   var posts = window._allPosts || [];
 
-  // Filter
+  // Filter — firHidden posts FIR queue se hide honge, main page pe safe rahenge
   var filtered = window._firFilter && window._firFilter !== 'all'
     ? posts.filter(function(p) {
+        if(p.firHidden) return false;
         if(window._firFilter==='pending') return !p.firStatus || p.firStatus==='pending';
         return p.firStatus === window._firFilter;
       })
-    : posts;
+    : posts.filter(function(p){ return !p.firHidden; });
 
   // Fraud detection
   var nameCounts = {};
@@ -2605,13 +2612,19 @@ window.ngoPoliceFIRAction = async function(postId, action) {
 
 // ── DELETE ──
 window.ngoPoliceFIRDelete = async function(postId) {
-  if(!confirm('Delete this post permanently?')) return;
+  // NGO/Police dashboard se sirf FIR queue se hide hoga
+  // Main page pe post safe rahegi — data lost nahi hoga
+  if(!confirm('Yeh FIR queue se remove ho jaayegi.\n\nMain page pe post dikhti rahegi (data safe).\n\nConfirm?')) return;
   try {
-    var m=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    await m.deleteDoc(m.doc(window._db,'posts',postId));
-    window.toast('🗑️ Deleted!');
-    setTimeout(function(){window.ngoPoliceFIRView&&window.ngoPoliceFIRView();},600);
-  } catch(e){window.toast('❌ Failed');}
+    var m = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    await m.updateDoc(m.doc(window._db, 'posts', postId), {
+      firHidden: true,
+      firHiddenAt: m.serverTimestamp(),
+      firHiddenBy: sessionStorage.getItem('ngo_org') || 'Officer'
+    });
+    window.toast('✅ FIR queue se remove kiya — main page safe hai');
+    setTimeout(function(){ window.ngoPoliceFIRView && window.ngoPoliceFIRView(); }, 600);
+  } catch(e) { window.toast('❌ Failed: ' + e.message); }
 };
 
 // ── COLLABORATION PANEL ──
