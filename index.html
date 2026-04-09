@@ -1257,7 +1257,24 @@ function showPage(id){
   if(id==='reward')setTimeout(()=>{if(window.loadRewardPosts)window.loadRewardPosts();},100);
   if(id==='map')setTimeout(()=>{if(window.initMap)window.initMap();},100);
   if(id==='success')setTimeout(loadSuccessWall,100);
-  if(id==='ngo')setTimeout(function(){if(window.ngoLoadDashboard&&document.getElementById('ngo-dashboard')&&document.getElementById('ngo-dashboard').style.display!=='none')window.ngoLoadDashboard();},100);}catch(e){console.warn('showPage err:',e);}
+  if(id==='ngo'){
+    setTimeout(function(){
+      var org = sessionStorage.getItem('ngo_org');
+      var db  = document.getElementById('ngo-dashboard');
+      var lw  = document.getElementById('ngo-login-wall');
+      if(org && db && db.style.display==='none') {
+        // Restore session when NGO page is opened
+        if(!window._ngoUser) window._ngoUser = {};
+        window._ngoUser.district = sessionStorage.getItem('ngo_district')||'';
+        window._ngoUser.state    = sessionStorage.getItem('ngo_state')||'';
+        var type = sessionStorage.getItem('ngo_type') || 'police';
+        window._ngoUser.type = type;
+        if(window._fbOpen) _fbOpen(org, type);
+      } else if(db && db.style.display!=='none' && window.ngoLoadDashboard) {
+        window.ngoLoadDashboard();
+      }
+    },150);
+  }}catch(e){console.warn('showPage err:',e);}
 }
 window.showPage=showPage;
 
@@ -1845,7 +1862,6 @@ window.printQR=function(){
 .fb-gov-header{
   background:linear-gradient(135deg,var(--nav) 0%,var(--nav2) 100%);
   padding:0;
-  position:sticky;top:56px;z-index:100;
 }
 .fb-gov-topbar{
   display:flex;align-items:center;gap:10px;
@@ -1925,7 +1941,7 @@ window.printQR=function(){
 /* ── LAYOUT SHELL ── */
 .fb-shell{
   display:flex;
-  min-height:calc(100vh - 56px);
+  min-height:100vh;
   background:var(--bg);
 }
 
@@ -2063,10 +2079,7 @@ window.printQR=function(){
   padding:6px 14px;
   display:flex;align-items:center;gap:6px;
   flex-wrap:wrap;
-  position:sticky;top:calc(56px + 90px);z-index:40;
-}
-@media(max-width:768px){
-  .fb-toolbar{top:calc(56px + 110px);}
+  position:sticky;top:0;z-index:40;
 }
 .fb-dd{position:relative;}
 .fb-dd-btn{
@@ -2081,6 +2094,7 @@ window.printQR=function(){
 .fb-dd-btn.active{background:var(--accent-lt);border-color:var(--accent-bd);color:var(--accent);font-weight:600;}
 .fb-dd-arr{font-size:9px;color:var(--muted2);transition:transform .15s;}
 .fb-dd-btn.open .fb-dd-arr{transform:rotate(180deg);}
+.fb-dd-btn.fb-dd-open .fb-dd-arr{transform:rotate(180deg);}
 .fb-dd-menu{
   position:absolute;top:calc(100% + 4px);left:0;
   background:var(--white);border:1px solid var(--border);
@@ -2088,6 +2102,7 @@ window.printQR=function(){
   min-width:160px;z-index:200;display:none;overflow:hidden;
 }
 .fb-dd-menu.open{display:block;animation:fbDrop .1s ease;}
+.fb-dd-menu.fb-dd-show{display:block;animation:fbDrop .1s ease;}
 @keyframes fbDrop{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
 .fb-dd-item{
   padding:8px 12px;font-size:11px;color:var(--muted);
@@ -2338,6 +2353,19 @@ window.printQR=function(){
             <div class="fb-form-row"><label class="fb-lbl">Address</label><input type="text" id="ngo-reg-address" placeholder="Street, Area" class="fb-inp"></div>
             <div class="fb-form-row"><label class="fb-lbl">PIN Code</label><input type="tel" id="ngo-reg-pin" placeholder="6-digit" maxlength="6" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6)" class="fb-inp"></div>
 
+            <div class="fb-form-sec">📸 Identity Proof</div>
+            <div class="fb-form-row">
+              <label class="fb-lbl">Profile Photo</label>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div id="ngo-photo-preview" style="width:52px;height:52px;border-radius:10px;background:#f1f5f9;border:2px dashed #e2e8f0;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden;">👤</div>
+                <div>
+                  <input type="file" id="ngo-reg-photo" accept="image/*" style="display:none;" onchange="ngoPreviewPhoto(this)">
+                  <button type="button" onclick="document.getElementById('ngo-reg-photo').click()" style="padding:7px 12px;background:#f1f5f9;border:1.5px solid #e2e8f0;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;color:#475569;">📷 Upload Photo</button>
+                  <div style="font-size:9px;color:#94a3b8;margin-top:3px;">Optional — Admin review ke liye</div>
+                </div>
+              </div>
+            </div>
+            <div class="fb-form-row"><label class="fb-lbl">ID Proof Type</label><select id="ngo-reg-id-type" class="fb-sel"><option value="">— Select —</option><option value="aadhar">Aadhar Card</option><option value="pan">PAN Card</option><option value="service_id">Service ID Card</option><option value="passport">Passport</option><option value="voter">Voter ID</option></select></div>
             <div class="fb-form-sec">🔐 Credentials</div>
             <div class="fb-form-row"><label class="fb-lbl">Email ★</label><input type="email" id="ngo-reg-email" placeholder="official@email.com" class="fb-inp"></div>
             <div class="fb-form-row" style="margin-bottom:16px;"><label class="fb-lbl">Password ★</label><input type="password" id="ngo-reg-pass" placeholder="Min 6 chars" class="fb-inp"></div>
@@ -3141,7 +3169,7 @@ window.ngoFirebaseLogin = async function() {
     var org=ud.orgName||cred.user.displayName||'Organization';
     window._ngoUser={uid:cred.user.uid,email:email,name:cred.user.displayName,org:org,type:ud.userType,district:ud.district||'',state:ud.state||''};
     sessionStorage.setItem('ngo_org',org); sessionStorage.setItem('ngo_uid',cred.user.uid);
-    sessionStorage.setItem('ngo_district',ud.district||''); sessionStorage.setItem('ngo_state',ud.state||'');
+    sessionStorage.setItem('ngo_district',ud.district||''); sessionStorage.setItem('ngo_state',ud.state||''); sessionStorage.setItem('ngo_type',ud.userType||'police');
     _fbOpen(org, ud.userType);
   } catch(e) {
     var msg=e.code==='auth/invalid-credential'?'❌ Wrong email or password':e.code==='auth/too-many-requests'?'❌ Too many attempts':'❌ '+(e.message||'Failed');
@@ -3151,6 +3179,17 @@ window.ngoFirebaseLogin = async function() {
 };
 
 // ── FIREBASE REGISTER ──
+// Photo preview
+window.ngoPreviewPhoto = function(input) {
+  if(!input.files||!input.files[0]) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var prev = document.getElementById('ngo-photo-preview');
+    if(prev) prev.innerHTML = '<img src="'+e.target.result+'" style="width:100%;height:100%;object-fit:cover;">';
+  };
+  reader.readAsDataURL(input.files[0]);
+};
+
 window.ngoFirebaseRegister = async function() {
   var name=document.getElementById('ngo-reg-name')?.value.trim()||'';
   var phone=document.getElementById('ngo-reg-phone')?.value.trim()||'';
@@ -3174,15 +3213,31 @@ window.ngoFirebaseRegister = async function() {
     var fM=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
     var cred=await aM.createUserWithEmailAndPassword(window._auth,email,pass);
     await aM.updateProfile(cred.user,{displayName:name});
+    // Photo upload
+    var photoInput = document.getElementById('ngo-reg-photo');
+    var photoData = '';
+    var idType = document.getElementById('ngo-reg-id-type')?.value||'';
+    if(photoInput && photoInput.files && photoInput.files[0]) {
+      try {
+        var file = photoInput.files[0];
+        if(file.size < 300000) { // < 300KB only
+          photoData = await new Promise(function(res) {
+            var r = new FileReader();
+            r.onload = function(e){ res(e.target.result); };
+            r.readAsDataURL(file);
+          });
+        }
+      } catch(e){}
+    }
     await fM.setDoc(fM.doc(window._db,'users',cred.user.uid),{
       displayName:name,orgName:org,userType:type,role:'ngo',email:email,
       phone:'+91'+phone,psName:ps,state:state,district:district,address:address,pinCode:pin,
-      location:[ps,district,state].filter(Boolean).join(', '),createdAt:fM.serverTimestamp(),verified:false
+      location:[ps,district,state].filter(Boolean).join(', '),photoData:photoData,idProofType:idType,createdAt:fM.serverTimestamp(),verified:false
     });
     var orgDisplay=org+(ps?' · '+ps:'');
     window._ngoUser={uid:cred.user.uid,email:email,name:name,org:orgDisplay,type:type,district:district,state:state};
     sessionStorage.setItem('ngo_org',orgDisplay); sessionStorage.setItem('ngo_uid',cred.user.uid);
-    sessionStorage.setItem('ngo_district',district); sessionStorage.setItem('ngo_state',state);
+    sessionStorage.setItem('ngo_district',district); sessionStorage.setItem('ngo_state',state); sessionStorage.setItem('ngo_type',type);
     _fbOpen(orgDisplay, type);
   } catch(e){
     var msg=e.code==='auth/email-already-in-use'?'❌ Email registered — Login karo':'❌ '+(e.message||'Failed');
@@ -3219,7 +3274,7 @@ window.ngoLogout = async function() {
   var lw=document.getElementById('ngo-login-wall'), db=document.getElementById('ngo-dashboard');
   if(lw)lw.style.display='block'; if(db)db.style.display='none';
   sessionStorage.removeItem('ngo_org'); sessionStorage.removeItem('ngo_uid');
-  sessionStorage.removeItem('ngo_district'); sessionStorage.removeItem('ngo_state');
+  sessionStorage.removeItem('ngo_district'); sessionStorage.removeItem('ngo_state'); sessionStorage.removeItem('ngo_type');
   window._ngoUser=null; window.toast('👋 Logged out!');
 };
 
@@ -3252,16 +3307,18 @@ window._generateFIRId = window._generateFIRId || function(loc) {
   return 'FB-'+sc+'-'+new Date().getFullYear()+'-'+String(Math.floor(Math.random()*9000)+1000);
 };
 
-// Restore session
+// Restore session — only when NGO page is active
 window.addEventListener('load', function() {
   var org = sessionStorage.getItem('ngo_org');
-  if(org) {
-    if(!window._ngoUser) window._ngoUser = {};
-    window._ngoUser.district = sessionStorage.getItem('ngo_district')||'';
-    window._ngoUser.state    = sessionStorage.getItem('ngo_state')||'';
-    var type = window._ngoUser.type || 'police';
-    _fbOpen(org, type);
-  }
+  if(!org) return;
+  // Only restore if user navigated to NGO page
+  var pageNgo = document.getElementById('page-ngo');
+  if(!pageNgo || !pageNgo.classList.contains('active')) return;
+  if(!window._ngoUser) window._ngoUser = {};
+  window._ngoUser.district = sessionStorage.getItem('ngo_district')||'';
+  window._ngoUser.state    = sessionStorage.getItem('ngo_state')||'';
+  var type = window._ngoUser.type || sessionStorage.getItem('ngo_type') || 'police';
+  _fbOpen(org, type);
 });
 
 // Auto refresh on new posts
