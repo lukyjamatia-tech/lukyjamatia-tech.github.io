@@ -1828,14 +1828,20 @@ window.printQR=function(){
 .fb-portal{font-family:'Inter',sans-serif;font-size:13px;color:var(--text);}
 
 /* ── APP SHELL ── */
-.fb-shell{display:flex;min-height:calc(100vh - 56px);overflow:visible;}
+.fb-shell{display:flex;min-height:calc(100vh - 56px);}
 
-/* ── SIDEBAR ── */
+/* ── SIDEBAR — hidden on mobile, slide in ── */
 .fb-sb{
   width:var(--sb);background:var(--navy);
   display:flex;flex-direction:column;flex-shrink:0;
-  overflow:hidden;position:relative;
+  overflow-y:auto;overflow-x:hidden;position:fixed;
+  top:56px;left:0;bottom:0;z-index:200;
+  transform:translateX(-100%);
+  transition:transform .25s cubic-bezier(.4,0,.2,1);
 }
+.fb-sb.fb-sb-open{transform:translateX(0);}
+.fb-sb-overlay{display:none;position:fixed;inset:0;top:56px;background:rgba(0,0,0,.4);z-index:199;}
+.fb-sb-overlay.open{display:block;}
 /* Sidebar header */
 .fb-sb-top{padding:12px 12px 8px;border-bottom:1px solid rgba(255,255,255,.05);}
 .fb-sb-brand{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
@@ -1872,7 +1878,7 @@ window.printQR=function(){
 .fb-sb-qbtn.add{background:rgba(37,99,235,.1);color:rgba(147,197,253,.85);border:1px solid rgba(37,99,235,.12);}
 
 /* ── RIGHT PANEL ── */
-.fb-right{flex:1;display:flex;flex-direction:column;overflow:visible;min-width:0;}
+.fb-right{flex:1;display:flex;flex-direction:column;overflow:visible;min-width:0;width:100%;}
 
 /* Topbar */
 .fb-topbar{height:var(--tb);background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:8px;flex-shrink:0;}
@@ -1916,10 +1922,10 @@ window.printQR=function(){
 .fb-result-ct b{color:var(--text2);}
 
 /* ── EMAIL LIST + DETAIL ── */
-.fb-split{flex:1;display:flex;overflow:visible;}
+.fb-split{flex:1;display:flex;overflow:visible;flex-direction:column;}
 
 /* Email list */
-.fb-list{flex:1;overflow-y:visible;background:var(--white);min-height:0;}
+.fb-list{flex:1;overflow-y:auto;background:var(--white);min-height:200px;}
 .fb-list::-webkit-scrollbar{width:4px;}
 .fb-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 
@@ -1958,8 +1964,8 @@ window.printQR=function(){
 .fp-id{background:#eff6ff;color:#1d4ed8;font-family:'DM Mono',monospace,monospace;font-size:8px;letter-spacing:.3px;}
 
 /* ── DETAIL PANEL ── */
-.fb-detail{width:0;overflow:hidden;background:var(--white);border-left:1px solid var(--border);transition:width .2s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;flex-shrink:0;}
-.fb-detail.fb-detail-open{width:300px;}
+.fb-detail{display:none;background:var(--white);border-top:1px solid var(--border);flex-direction:column;flex-shrink:0;width:100%;}
+.fb-detail.fb-detail-open{display:flex;}
 .fb-detail-top{padding:10px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0;}
 .fb-detail-close{width:24px;height:24px;border-radius:5px;border:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;color:var(--muted);flex-shrink:0;}
 .fb-detail-title{font-size:12px;font-weight:700;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -2056,6 +2062,8 @@ window.printQR=function(){
 
   <!-- MAIN DASHBOARD -->
   <div id="ngo-dashboard" style="display:none;min-height:100%;">
+    <!-- Sidebar overlay for mobile -->
+    <div class="fb-sb-overlay" id="fb-sb-overlay" onclick="fbCloseSidebar()"></div>
     <div class="fb-shell">
 
       <!-- ═══ SIDEBAR ═══ -->
@@ -2610,8 +2618,27 @@ window.fbDetailAddNote = async function() {
 };
 
 // ── NAV SWITCHER ──
+// ── SIDEBAR TOGGLE ──
+window.fbToggleSidebar = function() {
+  var sb = document.getElementById('fb-sb');
+  var ov = document.getElementById('fb-sb-overlay');
+  if(!sb) return;
+  var isOpen = sb.classList.contains('fb-sb-open');
+  sb.classList.toggle('fb-sb-open', !isOpen);
+  if(ov) ov.classList.toggle('open', !isOpen);
+  document.body.style.overflow = isOpen ? '' : 'hidden';
+};
+window.fbCloseSidebar = function() {
+  var sb = document.getElementById('fb-sb');
+  var ov = document.getElementById('fb-sb-overlay');
+  if(sb) sb.classList.remove('fb-sb-open');
+  if(ov) ov.classList.remove('open');
+  document.body.style.overflow = '';
+};
+
 window._fbCurrentNav = 'home';
 window.fbSwitchNav = function(tab, btn, mode) {
+  fbCloseSidebar();
   window._fbCurrentNav = tab;
   document.querySelectorAll('.fb-nav-item').forEach(function(b){
     b.classList.remove('fb-active','fb-ngo-active');
