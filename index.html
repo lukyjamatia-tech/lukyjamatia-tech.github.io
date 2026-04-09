@@ -1808,156 +1808,354 @@ window.printQR=function(){
 };
 </script>
 <!-- ═══════════════════════════════════════════
-     FINDBACK — EMAIL-STYLE ROLE-BASED PORTAL
+     FINDBACK — NIC GOV MAIL STYLE DASHBOARD
+     Responsive: Mobile + Desktop
      ═══════════════════════════════════════════ -->
 <style>
-/* ── PORTAL DESIGN SYSTEM ── */
-:root{
-  --navy:#0f172a;--navy2:#1e293b;
-  --blue:#2563eb;--blue-lt:#eff6ff;--blue-bd:#bfdbfe;
-  --green:#16a34a;--green-lt:#f0fdf4;
-  --red:#dc2626;--red-lt:#fef2f2;
-  --amber:#d97706;--amber-lt:#fffbeb;
-  --purple:#7c3aed;
-  --bg:#f8fafc;--white:#ffffff;
-  --border:#e2e8f0;--border2:#f1f5f9;
-  --text:#0f172a;--text2:#334155;--muted:#64748b;--muted2:#94a3b8;
-  --sb:220px;--tb:48px;--bar:40px;
-}
+/* ── RESET FOR PORTAL ── */
+.fb-portal{font-family:'Inter',sans-serif;font-size:13px;color:#1e293b;}
 .fb-portal *{box-sizing:border-box;}
-.fb-portal{font-family:'Inter',sans-serif;font-size:13px;color:var(--text);}
 
-/* ── APP SHELL ── */
-.fb-shell{display:block;width:100%;}
-
-/* NGO page override - block not flex */
-#page-ngo{display:none!important;}
-#page-ngo.active{display:block!important;}
-
-/* ── SIDEBAR — fixed overlay on mobile ── */
-.fb-sb{
-  width:260px;background:var(--navy);
-  display:flex;flex-direction:column;
-  overflow-y:auto;overflow-x:hidden;position:fixed;
-  top:56px;left:0;bottom:0;z-index:200;
-  transform:translateX(-100%);
-  transition:transform .25s cubic-bezier(.4,0,.2,1);
-  box-shadow:4px 0 20px rgba(0,0,0,.3);
+/* ── CSS VARIABLES ── */
+.fb-portal{
+  --nav:#1a3a6b;
+  --nav2:#142d57;
+  --accent:#2563eb;
+  --accent-lt:#eff6ff;
+  --accent-bd:#bfdbfe;
+  --green:#16a34a;
+  --green-lt:#f0fdf4;
+  --red:#dc2626;
+  --amber:#d97706;
+  --white:#ffffff;
+  --bg:#f4f6f9;
+  --card:#ffffff;
+  --border:#dde1e7;
+  --text:#1e293b;
+  --muted:#64748b;
+  --muted2:#94a3b8;
+  --sb-w:220px;
 }
-.fb-sb.fb-sb-open{transform:translateX(0);}
-.fb-sb-overlay{display:none;position:fixed;inset:0;top:56px;background:rgba(0,0,0,.45);z-index:199;}
-.fb-sb-overlay.open{display:block;}
-/* Sidebar header */
-.fb-sb-top{padding:12px 12px 8px;border-bottom:1px solid rgba(255,255,255,.05);}
-.fb-sb-brand{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
-.fb-sb-brand-icon{width:26px;height:26px;background:var(--blue);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
-.fb-sb-brand-name{font-family:'Sora',sans-serif;font-size:13px;font-weight:800;color:#fff;letter-spacing:-.3px;}
-.fb-sb-brand-sub{font-size:8px;color:rgba(255,255,255,.28);letter-spacing:1px;text-transform:uppercase;margin-top:1px;}
-/* Profile */
-.fb-sb-profile{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:7px;padding:6px 8px;cursor:pointer;}
-.fb-sb-av{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;flex-shrink:0;}
-.fb-sb-pname{font-size:10px;font-weight:600;color:#fff;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.fb-sb-ptype{font-size:8px;color:rgba(255,255,255,.32);margin-top:1px;}
-.fb-sb-live{width:5px;height:5px;background:#4ade80;border-radius:50%;box-shadow:0 0 0 2px rgba(74,222,128,.15);flex-shrink:0;animation:fbPulse 2s infinite;}
-@keyframes fbPulse{0%,100%{opacity:1}50%{opacity:.3}}
-/* Location chip */
-.fb-sb-loc{display:flex;align-items:center;gap:5px;margin:7px 0 3px;padding:4px 7px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.12);border-radius:6px;font-size:8px;font-weight:600;color:rgba(74,222,128,.75);}
-.fb-sb-loc-note{font-size:7px;color:rgba(255,255,255,.18);padding:0 1px;line-height:1.4;}
-/* Nav */
-.fb-nav{flex:1;overflow-y:auto;padding:4px 0 80px;}
-.fb-nav::-webkit-scrollbar{width:0;}
-.fb-nav-sec{padding:8px 12px 2px;font-size:7px;font-weight:800;color:rgba(255,255,255,.2);letter-spacing:1.5px;text-transform:uppercase;}
-.fb-nav-item{display:flex;align-items:center;gap:7px;padding:6px 12px;font-size:11px;font-weight:500;color:rgba(255,255,255,.42);cursor:pointer;position:relative;transition:all .1s;border-left:2px solid transparent;border:none;background:transparent;width:100%;text-align:left;font-family:'Inter',sans-serif;}
-.fb-nav-item:hover{color:rgba(255,255,255,.72);background:rgba(255,255,255,.03);}
-.fb-nav-item.fb-active{color:#fff;font-weight:600;background:rgba(255,255,255,.05);border-left:2px solid var(--blue);}
-.fb-nav-item.fb-ngo-active{color:#fff;font-weight:600;background:rgba(255,255,255,.05);border-left:2px solid #4ade80;}
-.fb-nav-icon{width:22px;height:22px;border-radius:5px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;}
-.fb-nav-item.fb-active .fb-nav-icon{background:rgba(37,99,235,.5);}
-.fb-nav-item.fb-ngo-active .fb-nav-icon{background:rgba(22,163,74,.4);}
-.fb-nav-ct{margin-left:auto;background:rgba(239,68,68,.85);color:#fff;font-size:7px;font-weight:800;padding:1px 5px;border-radius:8px;min-width:14px;text-align:center;}
-/* Footer quick btns */
-.fb-sb-footer{padding:8px 12px 10px;border-top:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;gap:4px;}
-.fb-sb-qbtn{display:flex;align-items:center;gap:6px;padding:6px 9px;border-radius:7px;font-size:10px;font-weight:600;border:none;cursor:pointer;width:100%;font-family:'Inter',sans-serif;transition:opacity .1s;}
-.fb-sb-qbtn:active{opacity:.8;}
-.fb-sb-qbtn.alert{background:rgba(220,38,38,.1);color:rgba(252,165,165,.85);border:1px solid rgba(220,38,38,.12);}
-.fb-sb-qbtn.add{background:rgba(37,99,235,.1);color:rgba(147,197,253,.85);border:1px solid rgba(37,99,235,.12);}
 
-/* ── RIGHT PANEL ── */
-.fb-right{display:flex;flex-direction:column;width:100%;min-height:100vh;}
+/* ── PAGE OVERRIDE ── */
+#page-ngo{display:none!important;}
+#page-ngo.active{display:block!important;width:100%;min-height:100vh;}
 
-/* Topbar */
-.fb-topbar{height:var(--tb);background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:8px;position:sticky;top:56px;z-index:50;}
-.fb-topbar-search{flex:1;max-width:300px;position:relative;}
-.fb-topbar-search input{width:100%;padding:6px 10px 6px 28px;background:var(--bg);border:1px solid var(--border);border-radius:7px;font-size:11px;font-family:'Inter',sans-serif;outline:none;color:var(--text);transition:border-color .15s;}
-.fb-topbar-search input:focus{border-color:var(--blue);}
-.fb-topbar-search .fb-si{position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted2);}
-.fb-tb-right{margin-left:auto;display:flex;align-items:center;gap:6px;}
-.fb-tb-icon{width:28px;height:28px;border-radius:7px;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;position:relative;}
-.fb-notif-dot{position:absolute;top:-2px;right:-2px;width:6px;height:6px;background:var(--red);border-radius:50%;border:1.5px solid #fff;}
-.fb-role-tag{display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap;}
-.fb-role-tag.police{background:var(--blue-lt);color:var(--blue);border:1.5px solid var(--blue-bd);}
-.fb-role-tag.ngo{background:var(--green-lt);color:var(--green);border:1.5px solid #bbf7d0;}
-.fb-tb-profile{display:flex;align-items:center;gap:5px;padding:3px 8px 3px 3px;border:1px solid var(--border);border-radius:7px;cursor:pointer;background:var(--white);}
-.fb-tb-av{width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#fff;}
-.fb-tb-pname{font-size:11px;font-weight:600;color:var(--text2);}
+/* ── TOP GOV HEADER ── */
+.fb-gov-header{
+  background:linear-gradient(135deg,var(--nav) 0%,var(--nav2) 100%);
+  padding:0;
+  position:sticky;top:56px;z-index:100;
+}
+.fb-gov-topbar{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 16px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+.fb-gov-logo{
+  display:flex;align-items:center;gap:10px;flex:1;min-width:0;
+}
+.fb-gov-emblem{
+  width:34px;height:34px;flex-shrink:0;
+  background:rgba(255,255,255,.12);
+  border-radius:50%;border:2px solid rgba(255,255,255,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;
+}
+.fb-gov-title{
+  font-family:'Sora',sans-serif;
+  font-size:14px;font-weight:800;color:#fff;
+  letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.fb-gov-sub{
+  font-size:8px;color:rgba(255,255,255,.5);
+  letter-spacing:1px;text-transform:uppercase;margin-top:1px;
+}
+.fb-gov-actions{
+  display:flex;align-items:center;gap:6px;flex-shrink:0;
+}
+.fb-ham{
+  background:rgba(255,255,255,.1);border:none;
+  width:32px;height:32px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:14px;color:#fff;
+}
+.fb-bell-btn{
+  background:rgba(255,255,255,.1);border:none;
+  width:32px;height:32px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:13px;color:#fff;position:relative;
+}
+.fb-bell-dot{
+  position:absolute;top:4px;right:4px;
+  width:6px;height:6px;background:#ef4444;
+  border-radius:50%;border:1.5px solid var(--nav);
+}
+.fb-role-chip{
+  padding:3px 9px;border-radius:20px;
+  font-size:9px;font-weight:700;
+  display:none;
+}
+.fb-role-chip.police{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.2);}
+.fb-role-chip.ngo{background:rgba(74,222,128,.15);color:#4ade80;border:1px solid rgba(74,222,128,.2);}
+
+/* Saffron stripe */
+.fb-gov-stripe{height:3px;background:linear-gradient(90deg,#ff9933,#ff9933 33%,#fff 33%,#fff 66%,#138808 66%);}
+
+/* Search bar */
+.fb-gov-search{
+  padding:6px 16px;
+  background:rgba(255,255,255,.06);
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.fb-search-inner{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:7px;padding:7px 12px;
+  max-width:400px;
+}
+.fb-search-inner input{
+  background:transparent;border:none;outline:none;
+  font-size:12px;color:#fff;flex:1;font-family:'Inter',sans-serif;
+}
+.fb-search-inner input::placeholder{color:rgba(255,255,255,.4);}
+.fb-search-inner .fb-si{font-size:12px;color:rgba(255,255,255,.4);}
+
+/* ── LAYOUT SHELL ── */
+.fb-shell{
+  display:flex;
+  min-height:calc(100vh - 56px);
+  background:var(--bg);
+}
+
+/* ── SIDEBAR ── */
+.fb-sb{
+  width:var(--sb-w);
+  background:var(--white);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  flex-shrink:0;
+  overflow-y:auto;
+  /* Desktop: always visible */
+  position:relative;
+  transition:transform .25s ease;
+}
+/* Mobile: hidden by default */
+@media(max-width:768px){
+  .fb-sb{
+    position:fixed;
+    top:56px;left:0;bottom:0;
+    z-index:150;
+    transform:translateX(-100%);
+    box-shadow:4px 0 20px rgba(0,0,0,.15);
+  }
+  .fb-sb.fb-open{transform:translateX(0);}
+}
+.fb-sb-overlay{
+  display:none;position:fixed;
+  inset:0;top:56px;
+  background:rgba(0,0,0,.4);z-index:149;
+}
+@media(max-width:768px){
+  .fb-sb-overlay.fb-open{display:block;}
+}
+
+/* Sidebar profile section */
+.fb-sb-profile{
+  padding:14px 14px 10px;
+  border-bottom:1px solid var(--border);
+}
+.fb-sb-av-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.fb-sb-av{
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:800;color:#fff;flex-shrink:0;
+}
+.fb-sb-av.police{background:linear-gradient(135deg,#1a3a6b,#2563eb);}
+.fb-sb-av.ngo{background:linear-gradient(135deg,#065f46,#16a34a);}
+.fb-sb-org{font-size:12px;font-weight:700;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fb-sb-type{font-size:10px;color:var(--muted);margin-top:1px;}
+
+/* Mini stats in sidebar */
+.fb-sb-stats{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.fb-sb-stat{background:var(--bg);border-radius:7px;padding:6px 8px;text-align:center;}
+.fb-sb-stat-n{font-family:'Sora',sans-serif;font-size:16px;font-weight:800;line-height:1;}
+.fb-sb-stat-l{font-size:8px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-top:2px;}
+
+/* Location badge */
+.fb-loc-badge{
+  margin:8px 14px 0;
+  padding:5px 9px;
+  background:#f0fdf4;border:1px solid #bbf7d0;
+  border-radius:6px;font-size:9px;font-weight:700;color:#065f46;
+  display:none;
+}
+.fb-loc-badge.show{display:flex;align-items:center;gap:5px;}
+.fb-filter-note{
+  font-size:8px;color:var(--muted2);
+  padding:4px 14px;line-height:1.4;
+}
+
+/* Nav groups */
+.fb-nav-group{padding:6px 0;}
+.fb-nav-head{
+  padding:6px 14px 3px;
+  font-size:9px;font-weight:700;
+  color:var(--muted2);letter-spacing:1.2px;text-transform:uppercase;
+}
+.fb-nav-item{
+  display:flex;align-items:center;gap:9px;
+  padding:7px 14px;
+  font-size:12px;font-weight:500;
+  color:var(--muted);cursor:pointer;
+  border:none;background:transparent;
+  width:100%;text-align:left;
+  transition:all .12s;
+  position:relative;font-family:'Inter',sans-serif;
+  border-left:3px solid transparent;
+}
+.fb-nav-item:hover{background:#f8fafc;color:var(--text);}
+.fb-nav-item.active{
+  background:var(--accent-lt);color:var(--accent);
+  font-weight:700;border-left-color:var(--accent);
+}
+.fb-nav-item.ngo-active{
+  background:var(--green-lt);color:var(--green);
+  font-weight:700;border-left-color:var(--green);
+}
+.fb-nav-icon{
+  width:24px;height:24px;border-radius:6px;
+  background:#f1f5f9;display:flex;align-items:center;
+  justify-content:center;font-size:11px;flex-shrink:0;
+}
+.fb-nav-item.active .fb-nav-icon{background:var(--accent);color:#fff;}
+.fb-nav-item.ngo-active .fb-nav-icon{background:var(--green);color:#fff;}
+.fb-nav-badge{
+  margin-left:auto;background:#ef4444;color:#fff;
+  font-size:8px;font-weight:800;
+  padding:1px 5px;border-radius:8px;min-width:16px;text-align:center;
+}
+
+/* Sidebar footer */
+.fb-sb-footer{
+  margin-top:auto;padding:10px 12px;
+  border-top:1px solid var(--border);
+  display:flex;flex-direction:column;gap:5px;
+}
+.fb-sb-btn{
+  display:flex;align-items:center;gap:7px;
+  padding:8px 10px;border-radius:7px;
+  font-size:11px;font-weight:700;border:1.5px solid;
+  cursor:pointer;width:100%;font-family:'Inter',sans-serif;
+}
+.fb-sb-btn.danger{background:#fef2f2;color:#dc2626;border-color:#fecaca;}
+.fb-sb-btn.primary{background:var(--accent-lt);color:var(--accent);border-color:var(--accent-bd);}
+.fb-sb-btn.logout{background:#f8fafc;color:var(--muted);border-color:var(--border);}
+
+/* ── MAIN CONTENT ── */
+.fb-main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;}
 
 /* Toolbar */
-.fb-toolbar{height:var(--bar);background:var(--white);border-bottom:1px solid var(--border);padding:0 14px;display:flex;align-items:center;gap:5px;overflow-x:auto;scrollbar-width:none;position:sticky;top:calc(56px + var(--tb));z-index:49;}
-.fb-toolbar::-webkit-scrollbar{display:none;}
-/* Dropdown */
-.fb-dd{position:relative;flex-shrink:0;}
-.fb-dd-btn{display:flex;align-items:center;gap:4px;padding:4px 9px;background:var(--white);border:1px solid var(--border);border-radius:6px;font-size:11px;font-weight:500;color:var(--text2);cursor:pointer;white-space:nowrap;transition:all .1s;font-family:'Inter',sans-serif;}
+.fb-toolbar{
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+  padding:6px 14px;
+  display:flex;align-items:center;gap:6px;
+  flex-wrap:wrap;
+  position:sticky;top:calc(56px + 90px);z-index:40;
+}
+@media(max-width:768px){
+  .fb-toolbar{top:calc(56px + 110px);}
+}
+.fb-dd{position:relative;}
+.fb-dd-btn{
+  display:flex;align-items:center;gap:5px;
+  padding:5px 10px;background:var(--white);
+  border:1px solid var(--border);border-radius:6px;
+  font-size:11px;font-weight:500;color:var(--muted);
+  cursor:pointer;white-space:nowrap;
+  transition:all .12s;font-family:'Inter',sans-serif;
+}
 .fb-dd-btn:hover{border-color:#94a3b8;color:var(--text);}
-.fb-dd-btn.fb-dd-active{background:var(--blue-lt);border-color:var(--blue-bd);color:var(--blue);font-weight:600;}
-.fb-dd-arr{font-size:8px;color:var(--muted2);transition:transform .15s;}
-.fb-dd-btn.fb-dd-open .fb-dd-arr{transform:rotate(180deg);}
-.fb-dd-menu{position:absolute;top:calc(100% + 3px);left:0;background:var(--white);border:1px solid var(--border);border-radius:8px;box-shadow:0 6px 18px rgba(15,23,42,.1);min-width:155px;z-index:300;overflow:hidden;display:none;}
-.fb-dd-menu.fb-dd-show{display:block;animation:fbDrop .1s ease;}
+.fb-dd-btn.active{background:var(--accent-lt);border-color:var(--accent-bd);color:var(--accent);font-weight:600;}
+.fb-dd-arr{font-size:9px;color:var(--muted2);transition:transform .15s;}
+.fb-dd-btn.open .fb-dd-arr{transform:rotate(180deg);}
+.fb-dd-menu{
+  position:absolute;top:calc(100% + 4px);left:0;
+  background:var(--white);border:1px solid var(--border);
+  border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.1);
+  min-width:160px;z-index:200;display:none;overflow:hidden;
+}
+.fb-dd-menu.open{display:block;animation:fbDrop .1s ease;}
 @keyframes fbDrop{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
-.fb-dd-sec{padding:5px 11px 2px;font-size:8px;font-weight:700;color:var(--muted2);letter-spacing:1px;text-transform:uppercase;}
-.fb-dd-item{padding:7px 11px;font-size:11px;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .08s;}
-.fb-dd-item:hover{background:var(--bg);}
-.fb-dd-item.fb-selected{background:var(--blue-lt);color:var(--blue);font-weight:600;}
-.fb-dd-sep{height:1px;background:var(--border2);margin:3px 0;}
-.fb-tb-div{width:1px;height:18px;background:var(--border);margin:0 2px;flex-shrink:0;}
-.fb-sort-btn{padding:4px 8px;border-radius:6px;font-size:10px;font-weight:600;color:var(--muted);cursor:pointer;border:none;background:transparent;font-family:'Inter',sans-serif;transition:color .1s;flex-shrink:0;}
-.fb-sort-btn:hover{color:var(--text);}
-.fb-sort-btn.fb-sort-active{color:var(--blue);background:var(--blue-lt);}
-.fb-result-ct{margin-left:auto;font-size:10px;color:var(--muted2);font-weight:500;white-space:nowrap;flex-shrink:0;}
-.fb-result-ct b{color:var(--text2);}
+.fb-dd-item{
+  padding:8px 12px;font-size:11px;color:var(--muted);
+  cursor:pointer;transition:background .08s;
+  display:flex;align-items:center;gap:7px;
+}
+.fb-dd-item:hover{background:var(--bg);color:var(--text);}
+.fb-dd-item.sel{background:var(--accent-lt);color:var(--accent);font-weight:700;}
+.fb-dd-sep{height:1px;background:#f1f5f9;margin:3px 0;}
+.fb-sort-btn{
+  padding:5px 9px;border-radius:6px;font-size:11px;font-weight:500;
+  color:var(--muted);border:1px solid transparent;
+  cursor:pointer;background:transparent;font-family:'Inter',sans-serif;
+  transition:all .12s;
+}
+.fb-sort-btn.active{color:var(--accent);background:var(--accent-lt);border-color:var(--accent-bd);}
+.fb-result-ct{margin-left:auto;font-size:11px;color:var(--muted2);}
+.fb-result-ct b{color:var(--text);}
+.fb-div{width:1px;height:18px;background:var(--border);}
 
-/* ── EMAIL LIST + DETAIL ── */
-.fb-split{display:flex;flex-direction:column;width:100%;}
+/* ── EMAIL LIST ── */
+.fb-list-area{flex:1;overflow-y:auto;background:var(--white);}
+.fb-list-area::-webkit-scrollbar{width:5px;}
+.fb-list-area::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:3px;}
 
-/* Email list */
-.fb-list{background:var(--white);width:100%;}
-.fb-list::-webkit-scrollbar{width:4px;}
-.fb-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
-
-/* Date group header */
-.fb-date-hd{position:sticky;top:0;z-index:5;padding:6px 14px;background:rgba(248,250,252,.96);backdrop-filter:blur(4px);border-bottom:1px solid var(--border2);font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.3px;display:flex;align-items:center;gap:6px;}
-.fb-date-hd::after{content:'';flex:1;height:1px;background:var(--border2);margin-left:4px;}
+.fb-date-grp{
+  position:sticky;top:0;z-index:5;
+  padding:6px 16px;
+  background:rgba(244,246,249,.97);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid #eef1f5;
+  font-size:10px;font-weight:700;color:var(--muted);
+  display:flex;align-items:center;gap:8px;
+}
+.fb-date-grp::after{content:'';flex:1;height:1px;background:#eef1f5;}
 
 /* Email row */
-.fb-row{display:flex;align-items:center;padding:9px 14px;border-bottom:1px solid var(--border2);cursor:pointer;gap:10px;transition:background .08s;position:relative;}
-.fb-row:hover{background:#fafbfc;}
-.fb-row.fb-unread{background:var(--white);}
-.fb-row.fb-unread .fb-row-subject{font-weight:700;color:var(--text);}
-.fb-row.fb-selected{background:var(--blue-lt);}
-.fb-row-dot{width:6px;height:6px;background:var(--blue);border-radius:50%;flex-shrink:0;opacity:0;}
-.fb-unread .fb-row-dot{opacity:1;}
-.fb-row-av{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;flex-shrink:0;}
-.fb-row-body{flex:1;min-width:0;}
-.fb-row-top{display:flex;align-items:center;gap:7px;margin-bottom:2px;}
-.fb-row-from{font-size:11px;font-weight:600;color:var(--text2);white-space:nowrap;}
-.fb-row-subject{font-size:11px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;}
-.fb-row-preview{font-size:10px;color:var(--muted2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.fb-row-meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
-.fb-row-time{font-size:10px;color:var(--muted2);white-space:nowrap;}
-.fb-row-pills{display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end;}
+.fb-erow{
+  display:flex;align-items:center;
+  padding:10px 16px;gap:11px;
+  border-bottom:1px solid #f4f6f9;
+  cursor:pointer;transition:background .08s;
+}
+.fb-erow:hover{background:#fafbfc;}
+.fb-erow.unread{background:#fff;}
+.fb-erow.unread .fb-erow-subject{font-weight:700;color:var(--text);}
+.fb-erow.selected{background:var(--accent-lt)!important;}
+.fb-erow-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--accent);flex-shrink:0;opacity:0;
+}
+.fb-erow.unread .fb-erow-dot{opacity:1;}
+.fb-erow-av{
+  width:32px;height:32px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:#fff;flex-shrink:0;
+}
+.fb-erow-body{flex:1;min-width:0;}
+.fb-erow-top{display:flex;align-items:center;gap:7px;margin-bottom:2px;flex-wrap:wrap;}
+.fb-erow-from{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;}
+.fb-erow-subject{font-size:12px;color:#475569;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fb-erow-preview{font-size:11px;color:var(--muted2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fb-erow-meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
+.fb-erow-time{font-size:10px;color:var(--muted2);white-space:nowrap;}
+.fb-erow-pills{display:flex;gap:3px;justify-content:flex-end;flex-wrap:wrap;}
 
 /* Pills */
-.fp{display:inline-flex;align-items:center;gap:2px;padding:1px 6px;border-radius:20px;font-size:9px;font-weight:700;white-space:nowrap;}
+.fp{display:inline-flex;align-items:center;gap:2px;padding:2px 7px;border-radius:20px;font-size:9px;font-weight:700;}
 .fp-lost{background:#fef2f2;color:#dc2626;}
 .fp-found{background:#f0fdf4;color:#16a34a;}
 .fp-missing{background:#fffbeb;color:#d97706;}
@@ -1965,100 +2163,185 @@ window.printQR=function(){
 .fp-accepted{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;}
 .fp-rejected{background:#fef2f2;color:#dc2626;border:1px solid #fecaca;}
 .fp-fraud{background:#fef2f2;color:#dc2626;border:1px solid #fecaca;}
-.fp-resolved{background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;}
-.fp-id{background:#eff6ff;color:#1d4ed8;font-family:'DM Mono',monospace,monospace;font-size:8px;letter-spacing:.3px;}
+.fp-id{background:var(--accent-lt);color:#1d4ed8;font-family:monospace;font-size:8px;letter-spacing:.3px;}
 
 /* ── DETAIL PANEL ── */
-.fb-detail{display:none;background:var(--white);border-top:1px solid var(--border);width:100%;}
-.fb-detail.fb-detail-open{display:block;}
-.fb-detail-top{padding:10px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0;}
-.fb-detail-close{width:24px;height:24px;border-radius:5px;border:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;color:var(--muted);flex-shrink:0;}
+/* Desktop: side panel */
+.fb-split{display:flex;flex:1;overflow:hidden;}
+.fb-detail{
+  width:0;overflow:hidden;
+  background:var(--white);
+  border-left:1px solid var(--border);
+  display:flex;flex-direction:column;
+  transition:width .2s ease;flex-shrink:0;
+}
+.fb-detail.open{width:320px;}
+/* Mobile: full screen overlay */
+@media(max-width:768px){
+  .fb-split{display:block;flex:1;overflow-y:auto;}
+  .fb-detail{
+    position:fixed;inset:0;top:56px;
+    width:100%!important;z-index:100;
+    transform:translateX(100%);transition:transform .25s ease;
+    overflow-y:auto;
+  }
+  .fb-detail.open{transform:translateX(0);}
+  .fb-list-area{height:auto;}
+}
+.fb-detail-top{
+  padding:10px 14px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:8px;
+  position:sticky;top:0;background:var(--white);z-index:5;flex-shrink:0;
+}
+.fb-detail-close{
+  width:26px;height:26px;border-radius:6px;
+  border:1px solid var(--border);background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:12px;color:var(--muted);flex-shrink:0;
+}
 .fb-detail-title{font-size:12px;font-weight:700;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.fb-detail-body{flex:1;overflow-y:auto;padding:12px;}
+.fb-detail-body{flex:1;overflow-y:auto;padding:14px;}
 .fb-detail-body::-webkit-scrollbar{width:3px;}
-.fb-detail-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
-.fb-fir-badge{font-family:'DM Mono',monospace,monospace;font-size:10px;font-weight:500;background:var(--blue-lt);border:1px solid var(--blue-bd);color:var(--blue);padding:6px 10px;border-radius:7px;text-align:center;margin-bottom:11px;letter-spacing:.5px;}
-.fb-dfield{margin-bottom:9px;}
-.fb-dfield-lbl{font-size:8px;font-weight:700;color:var(--muted2);letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;}
-.fb-dfield-val{font-size:11px;color:var(--text2);font-weight:500;line-height:1.5;}
-.fb-note-item{background:var(--bg);border-left:2px solid var(--blue);border-radius:0 5px 5px 0;padding:6px 8px;margin-bottom:5px;}
-.fb-note-by{font-size:8px;font-weight:700;color:var(--blue);margin-bottom:2px;}
-.fb-note-txt{font-size:10px;color:var(--text2);}
-.fb-note-input{width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:7px;font-size:11px;font-family:'Inter',sans-serif;outline:none;resize:none;height:54px;color:var(--text);margin-top:5px;background:var(--bg);}
-.fb-note-input:focus{border-color:var(--blue);background:#fff;}
-.fb-detail-actions{padding:10px 12px;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:5px;flex-shrink:0;}
-.fb-daction{padding:7px;border-radius:7px;font-size:10px;font-weight:700;border:1.5px solid;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:4px;transition:opacity .1s;}
-.fb-daction:active{opacity:.8;}
-.fb-daction.acc{background:#f0fdf4;color:#16a34a;border-color:#bbf7d0;}
-.fb-daction.rej{background:#fef2f2;color:#dc2626;border-color:#fecaca;}
-.fb-daction.call{background:var(--blue-lt);color:var(--blue);border-color:var(--blue-bd);}
-.fb-daction.hide{background:var(--bg);color:var(--muted);border-color:var(--border);}
-.fb-daction.collab{background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;border:none;grid-column:1/-1;padding:9px;}
+.fb-fir-id{
+  font-family:monospace;font-size:11px;
+  background:var(--accent-lt);border:1px solid var(--accent-bd);
+  color:var(--accent);padding:7px;border-radius:7px;
+  text-align:center;margin-bottom:12px;letter-spacing:.5px;
+}
+.fb-df{margin-bottom:9px;}
+.fb-df-lbl{font-size:9px;font-weight:700;color:var(--muted2);letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;}
+.fb-df-val{font-size:12px;color:#475569;font-weight:500;line-height:1.5;}
+.fb-note-item{background:var(--bg);border-left:2px solid var(--accent);border-radius:0 5px 5px 0;padding:7px 9px;margin-bottom:5px;}
+.fb-note-by{font-size:9px;font-weight:700;color:var(--accent);margin-bottom:2px;}
+.fb-note-txt{font-size:11px;color:#475569;}
+.fb-note-inp{width:100%;padding:8px;border:1px solid var(--border);border-radius:7px;font-size:11px;font-family:'Inter',sans-serif;outline:none;resize:none;height:56px;background:var(--bg);margin-top:5px;}
+.fb-note-inp:focus{border-color:var(--accent);background:#fff;}
+.fb-detail-actions{padding:10px 14px;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:5px;flex-shrink:0;background:var(--white);}
+.fb-da{
+  padding:8px;border-radius:7px;font-size:11px;font-weight:700;
+  border:1.5px solid;cursor:pointer;font-family:'Inter',sans-serif;
+  display:flex;align-items:center;justify-content:center;gap:4px;
+}
+.fb-da.acc{background:#f0fdf4;color:#16a34a;border-color:#bbf7d0;}
+.fb-da.rej{background:#fef2f2;color:#dc2626;border-color:#fecaca;}
+.fb-da.call{background:var(--accent-lt);color:var(--accent);border-color:var(--accent-bd);}
+.fb-da.hide{background:var(--bg);color:var(--muted);border-color:var(--border);}
+.fb-da.collab{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border:none;grid-column:1/-1;padding:9px;}
 
-/* ── ALERT MODAL ── */
-.fb-modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:500;align-items:flex-end;justify-content:center;}
-.fb-modal-overlay.fb-modal-open{display:flex;}
-.fb-modal-box{background:var(--white);border-radius:16px 16px 0 0;padding:18px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 -6px 24px rgba(15,23,42,.12);}
+/* ── LOGIN WALL ── */
+.fb-login-wall{
+  min-height:calc(100vh - 56px);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:20px;
+  background:linear-gradient(160deg,#f0f7ff,#f8fafc 60%,#f0fdf4);
+}
+.fb-login-card{
+  background:#fff;border:1px solid var(--border);
+  border-radius:14px;width:100%;max-width:380px;
+  box-shadow:0 12px 36px rgba(0,0,0,.08);overflow:hidden;
+}
+.fb-login-hd{
+  background:linear-gradient(135deg,var(--nav),var(--nav2));
+  padding:18px 20px;text-align:center;
+}
+.fb-login-icon{
+  width:52px;height:52px;border-radius:14px;
+  background:rgba(255,255,255,.15);
+  border:2px solid rgba(255,255,255,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;margin:0 auto 10px;
+}
+.fb-login-title{font-family:'Sora',sans-serif;font-size:18px;font-weight:800;color:#fff;}
+.fb-login-sub{font-size:10px;color:rgba(255,255,255,.5);margin-top:3px;letter-spacing:.5px;}
+.fb-tab-bar{display:flex;border-bottom:1px solid var(--border);}
+.fb-tab{
+  flex:1;padding:11px;border:none;background:transparent;
+  font-size:12px;font-weight:600;cursor:pointer;
+  font-family:'Inter',sans-serif;color:var(--muted2);
+  border-bottom:2px solid transparent;transition:all .15s;
+}
+.fb-tab.active{color:var(--text);border-bottom-color:var(--accent);background:#fafcff;}
+.fb-login-body{padding:18px;}
+.fb-err{display:none;background:#fef2f2;border:1px solid #fecaca;border-radius:7px;padding:8px 12px;font-size:11px;color:#dc2626;margin-bottom:12px;text-align:center;}
+.fb-lbl{display:block;font-size:9px;font-weight:700;color:var(--muted2);letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px;}
+.fb-inp{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:var(--text);transition:border-color .15s;background:#fff;}
+.fb-inp:focus{border-color:var(--accent);}
+.fb-sel{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:var(--text);background:#fff;cursor:pointer;}
+.fb-form-row{margin-bottom:10px;}
+.fb-form-sec{font-size:8px;font-weight:800;color:var(--muted2);letter-spacing:1.5px;text-transform:uppercase;padding:10px 0 6px;border-bottom:1px solid #f1f5f9;margin-bottom:8px;}
+.fb-submit-btn{width:100%;padding:11px;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;}
+.fb-submit-btn.police{background:linear-gradient(135deg,#1a3a6b,#2563eb);color:#fff;box-shadow:0 3px 12px rgba(37,99,235,.2);}
+.fb-submit-btn.green{background:linear-gradient(135deg,#065f46,#16a34a);color:#fff;box-shadow:0 3px 12px rgba(22,163,74,.2);}
 
-/* ── HIDDEN COMPAT ── */
-.fb-compat-hidden{display:none!important;}
+/* ── MODAL ── */
+.fb-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:flex-end;justify-content:center;}
+.fb-modal-bg.open{display:flex;}
+.fb-modal-box{background:#fff;border-radius:16px 16px 0 0;padding:20px;width:100%;max-width:480px;max-height:85vh;overflow-y:auto;box-shadow:0 -6px 24px rgba(0,0,0,.12);}
+
+/* ── EMPTY / LOADING ── */
+.fb-empty{text-align:center;padding:48px 20px;color:var(--muted2);}
+.fb-empty-icon{font-size:32px;margin-bottom:10px;opacity:.4;}
+.fb-empty-title{font-size:14px;font-weight:600;color:#334155;margin-bottom:4px;}
+.fb-empty-sub{font-size:12px;}
 </style>
 
-<div class="page fb-portal" id="page-ngo" style="display:none;flex-direction:column;width:100%;min-height:100vh;">
+<div class="page fb-portal" id="page-ngo">
 
   <!-- LOGIN WALL -->
   <div id="ngo-login-wall">
-    <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 16px;background:linear-gradient(135deg,#f0f7ff 0%,#f8fafc 60%,#f0fdf4 100%);">
-
+    <div class="fb-login-wall">
       <div style="text-align:center;margin-bottom:20px;">
-        <div style="width:52px;height:52px;background:linear-gradient(135deg,#2563eb,#1d4ed8);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 12px;box-shadow:0 6px 18px rgba(37,99,235,.22);">🏛️</div>
-        <div style="font-family:'Sora',sans-serif;font-size:20px;font-weight:800;color:#0f172a;letter-spacing:-.4px;">FindBack Command</div>
-        <div style="font-size:11px;color:#94a3b8;margin-top:3px;">Police · NGO · Authorized Access</div>
-        <div style="display:flex;gap:5px;justify-content:center;margin-top:8px;">
-          <span class="fp fp-id" style="font-size:9px;font-family:'Inter',sans-serif;">🚔 Police</span>
+        <div style="display:flex;gap:6px;justify-content:center;margin-bottom:10px;">
+          <span class="fp fp-id" style="font-family:'Inter',sans-serif;font-size:9px;">🚔 Police</span>
           <span class="fp fp-found" style="font-size:9px;">🏛️ NGO</span>
           <span class="fp fp-pending" style="font-size:9px;">🏢 Govt</span>
         </div>
       </div>
 
-      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;width:100%;max-width:380px;overflow:hidden;box-shadow:0 12px 36px rgba(15,23,42,.08);">
-        <!-- Tab bar -->
-        <div style="display:flex;border-bottom:1px solid #f1f5f9;">
-          <button class="fb-login-tab-btn active" id="ngo-tab-login" onclick="ngoAuthTab('login')" style="flex:1;padding:12px;border:none;background:transparent;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;color:#1e293b;border-bottom:2px solid #2563eb;">🔑 Sign In</button>
-          <button class="fb-login-tab-btn" id="ngo-tab-register" onclick="ngoAuthTab('register')" style="flex:1;padding:12px;border:none;background:transparent;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;color:#94a3b8;border-bottom:2px solid transparent;">📝 Register</button>
+      <div class="fb-login-card">
+        <div class="fb-login-hd">
+          <div class="fb-login-icon">🏛️</div>
+          <div class="fb-login-title">FindBack Command</div>
+          <div class="fb-login-sub">POLICE · NGO · AUTHORIZED ACCESS</div>
         </div>
-        <div style="padding:18px;">
-          <!-- Error -->
-          <div id="ngo-auth-err" style="display:none;background:#fef2f2;border:1px solid #fecaca;border-radius:7px;padding:8px 12px;font-size:11px;color:#dc2626;margin-bottom:12px;text-align:center;"></div>
+
+        <div class="fb-tab-bar">
+          <button class="fb-tab active" id="ngo-tab-login" onclick="ngoAuthTab('login')">🔑 Sign In</button>
+          <button class="fb-tab" id="ngo-tab-register" onclick="ngoAuthTab('register')">📝 Register</button>
+        </div>
+
+        <div class="fb-login-body">
+          <div class="fb-err" id="ngo-auth-err"></div>
 
           <!-- LOGIN -->
           <div id="ngo-form-login">
-            <div style="margin-bottom:11px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px;">Email</label><input type="email" id="ngo-login-email" placeholder="official@email.com" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;transition:border-color .15s;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div>
-            <div style="margin-bottom:18px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px;">Password</label><input type="password" id="ngo-login-pass" placeholder="••••••••" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div>
-            <button onclick="ngoFirebaseLogin()" id="ngo-login-btn" style="width:100%;padding:11px;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 3px 12px rgba(37,99,235,.22);">Sign In →</button>
+            <div class="fb-form-row"><label class="fb-lbl">Email</label><input type="email" id="ngo-login-email" placeholder="official@email.com" class="fb-inp"></div>
+            <div class="fb-form-row" style="margin-bottom:18px;"><label class="fb-lbl">Password</label><input type="password" id="ngo-login-pass" placeholder="••••••••" class="fb-inp"></div>
+            <button onclick="ngoFirebaseLogin()" id="ngo-login-btn" class="fb-submit-btn police">Sign In to Command Portal →</button>
           </div>
 
           <!-- REGISTER -->
-          <div id="ngo-form-register" style="display:none;max-height:56vh;overflow-y:auto;padding-right:2px;">
-            <div style="font-size:8px;font-weight:800;color:#94a3b8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid #f1f5f9;">👤 Personal</div>
-            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">Full Name ★</label><input type="text" id="ngo-reg-name" placeholder="Officer / Staff Name" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div>
-            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">Contact ★</label><div style="display:flex;gap:5px;"><div style="padding:8px 9px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:7px;font-size:10px;font-weight:700;color:#64748b;white-space:nowrap;flex-shrink:0;">+91</div><input type="tel" id="ngo-reg-phone" placeholder="10-digit" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)" style="flex:1;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div></div>
+          <div id="ngo-form-register" style="display:none;max-height:54vh;overflow-y:auto;padding-right:2px;">
+            <div class="fb-form-sec">👤 Personal Details</div>
+            <div class="fb-form-row"><label class="fb-lbl">Full Name ★</label><input type="text" id="ngo-reg-name" placeholder="Officer / Staff Name" class="fb-inp"></div>
+            <div class="fb-form-row"><label class="fb-lbl">Contact ★</label><div style="display:flex;gap:5px;"><div style="padding:9px 10px;background:#f8fafc;border:1.5px solid var(--border);border-radius:8px;font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap;flex-shrink:0;">+91</div><input type="tel" id="ngo-reg-phone" placeholder="10-digit" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)" class="fb-inp"></div></div>
 
-            <div style="font-size:8px;font-weight:800;color:#94a3b8;letter-spacing:1.5px;text-transform:uppercase;margin:10px 0 8px;padding-bottom:5px;border-bottom:1px solid #f1f5f9;">🏛️ Organization</div>
-            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">Org Name ★</label><input type="text" id="ngo-reg-org" placeholder="e.g. West Tripura Police" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div>
-            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">Type ★</label><select id="ngo-reg-type" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;background:#fff;"><option value="police">🚔 Police Station</option><option value="ngo">🏛️ NGO</option><option value="government">🏢 Government</option><option value="hospital">🏥 Hospital</option><option value="other">📋 Other</option></select></div>
-            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">Police Station</label><input type="text" id="ngo-reg-ps" placeholder="e.g. Agartala PS" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div>
+            <div class="fb-form-sec">🏛️ Organization</div>
+            <div class="fb-form-row"><label class="fb-lbl">Org Name ★</label><input type="text" id="ngo-reg-org" placeholder="e.g. West Tripura Police" class="fb-inp"></div>
+            <div class="fb-form-row"><label class="fb-lbl">Type ★</label><select id="ngo-reg-type" class="fb-sel"><option value="police">🚔 Police Station</option><option value="ngo">🏛️ NGO</option><option value="government">🏢 Government</option><option value="hospital">🏥 Hospital</option><option value="other">📋 Other</option></select></div>
+            <div class="fb-form-row"><label class="fb-lbl">Police Station Name</label><input type="text" id="ngo-reg-ps" placeholder="e.g. Agartala PS" class="fb-inp"></div>
 
-            <div style="font-size:8px;font-weight:800;color:#94a3b8;letter-spacing:1.5px;text-transform:uppercase;margin:10px 0 8px;padding-bottom:5px;border-bottom:1px solid #f1f5f9;">📍 Location</div>
-            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">State ★</label><select id="ngo-reg-state" onchange="ngoRegStateChange()" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;background:#fff;"><option value="">— Select —</option></select></div>
-            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">District ★</label><select id="ngo-reg-district" disabled style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;background:#fff;"><option value="">— Select State —</option></select></div>
-            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">Address</label><input type="text" id="ngo-reg-address" placeholder="Street, Area" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div>
-            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">PIN Code</label><input type="tel" id="ngo-reg-pin" placeholder="6-digit" maxlength="6" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6)" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div>
+            <div class="fb-form-sec">📍 Location</div>
+            <div class="fb-form-row"><label class="fb-lbl">State ★</label><select id="ngo-reg-state" onchange="ngoRegStateChange()" class="fb-sel"><option value="">— Select —</option></select></div>
+            <div class="fb-form-row"><label class="fb-lbl">District ★</label><select id="ngo-reg-district" disabled class="fb-sel"><option value="">— Select State —</option></select></div>
+            <div class="fb-form-row"><label class="fb-lbl">Address</label><input type="text" id="ngo-reg-address" placeholder="Street, Area" class="fb-inp"></div>
+            <div class="fb-form-row"><label class="fb-lbl">PIN Code</label><input type="tel" id="ngo-reg-pin" placeholder="6-digit" maxlength="6" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6)" class="fb-inp"></div>
 
-            <div style="font-size:8px;font-weight:800;color:#94a3b8;letter-spacing:1.5px;text-transform:uppercase;margin:10px 0 8px;padding-bottom:5px;border-bottom:1px solid #f1f5f9;">🔐 Credentials</div>
-            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">Email ★</label><input type="email" id="ngo-reg-email" placeholder="official@email.com" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div>
-            <div style="margin-bottom:16px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">Password ★</label><input type="password" id="ngo-reg-pass" placeholder="Min 6 chars" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div>
-            <button onclick="ngoFirebaseRegister()" id="ngo-reg-btn" style="width:100%;padding:11px;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 3px 12px rgba(22,163,74,.2);">Create Account →</button>
+            <div class="fb-form-sec">🔐 Credentials</div>
+            <div class="fb-form-row"><label class="fb-lbl">Email ★</label><input type="email" id="ngo-reg-email" placeholder="official@email.com" class="fb-inp"></div>
+            <div class="fb-form-row" style="margin-bottom:16px;"><label class="fb-lbl">Password ★</label><input type="password" id="ngo-reg-pass" placeholder="Min 6 chars" class="fb-inp"></div>
+            <button onclick="ngoFirebaseRegister()" id="ngo-reg-btn" class="fb-submit-btn green">Create Account →</button>
           </div>
         </div>
       </div>
@@ -2067,222 +2350,229 @@ window.printQR=function(){
 
   <!-- MAIN DASHBOARD -->
   <div id="ngo-dashboard" style="display:none;">
-    <!-- Sidebar overlay for mobile -->
+
+    <!-- GOV STYLE HEADER -->
+    <div class="fb-gov-header">
+      <div class="fb-gov-stripe"></div>
+      <div class="fb-gov-topbar">
+        <button class="fb-ham" onclick="fbToggleSidebar()" id="fb-ham-btn">☰</button>
+        <div class="fb-gov-logo">
+          <div class="fb-gov-emblem">🏛️</div>
+          <div>
+            <div class="fb-gov-title">FindBack Command Portal</div>
+            <div class="fb-gov-sub">Police · NGO · Government of India</div>
+          </div>
+        </div>
+        <div class="fb-gov-actions">
+          <div class="fb-role-chip" id="fb-role-chip">🚔 Police</div>
+          <button class="fb-bell-btn" onclick="fbSwitchNav('alerts',null)">
+            🔔<span class="fb-bell-dot" id="fb-bell-dot" style="display:none;"></span>
+          </button>
+          <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border-radius:7px;padding:4px 10px;cursor:pointer;" onclick="ngoLogout()">
+            <div id="fb-av" style="width:20px;height:20px;border-radius:5px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;">U</div>
+            <span id="fb-topbar-org" style="font-size:10px;font-weight:600;color:#fff;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Officer</span>
+          </div>
+        </div>
+      </div>
+      <div class="fb-gov-search">
+        <div class="fb-search-inner">
+          <span class="fb-si">🔍</span>
+          <input type="text" placeholder="Search cases, name, location..." id="fb-global-search" oninput="fbGlobalSearch(this.value)">
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR OVERLAY -->
     <div class="fb-sb-overlay" id="fb-sb-overlay" onclick="fbCloseSidebar()"></div>
+
+    <!-- SHELL -->
     <div class="fb-shell">
 
-      <!-- ═══ SIDEBAR ═══ -->
+      <!-- SIDEBAR -->
       <aside class="fb-sb" id="fb-sb">
-        <div class="fb-sb-top">
-          <div class="fb-sb-brand">
-            <div class="fb-sb-brand-icon">🏛️</div>
-            <div><div class="fb-sb-brand-name">FindBack</div><div class="fb-sb-brand-sub">Command</div></div>
-          </div>
-          <div class="fb-sb-profile">
-            <div class="fb-sb-av" id="fb-sb-av" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);">U</div>
+        <div class="fb-sb-profile">
+          <div class="fb-sb-av-row">
+            <div class="fb-sb-av police" id="fb-sb-av">U</div>
             <div style="flex:1;min-width:0;">
-              <div class="fb-sb-pname" id="ngo-org-name">Organization</div>
-              <div class="fb-sb-ptype" id="fb-sb-ptype">🚔 Police</div>
+              <div class="fb-sb-org" id="ngo-org-name">Organization</div>
+              <div class="fb-sb-type" id="fb-sb-type">🚔 Police Station</div>
             </div>
-            <div class="fb-sb-live"></div>
           </div>
-          <div class="fb-sb-loc" id="fb-loc-chip">📍 <span id="fb-loc-text">—</span></div>
-          <div class="fb-sb-loc-note">🔍 Sirf is district ke posts dikh rahe hain</div>
+          <div class="fb-sb-stats">
+            <div class="fb-sb-stat"><div class="fb-sb-stat-n" id="ngo-stat-lost" style="color:#dc2626;">0</div><div class="fb-sb-stat-l" style="color:#dc2626;">Lost</div></div>
+            <div class="fb-sb-stat"><div class="fb-sb-stat-n" id="ngo-stat-found" style="color:#16a34a;">0</div><div class="fb-sb-stat-l" style="color:#16a34a;">Found</div></div>
+            <div class="fb-sb-stat"><div class="fb-sb-stat-n" id="ngo-stat-missing" style="color:#d97706;">0</div><div class="fb-sb-stat-l" style="color:#d97706;">Missing</div></div>
+            <div class="fb-sb-stat"><div class="fb-sb-stat-n" id="ngo-stat-resolved" style="color:#2563eb;">0</div><div class="fb-sb-stat-l" style="color:#2563eb;">Solved</div></div>
+          </div>
         </div>
 
-        <nav class="fb-nav">
-          <!-- Stats mini -->
-          <div style="padding:8px 10px 4px;display:grid;grid-template-columns:1fr 1fr;gap:4px;">
-            <div style="background:rgba(255,255,255,.05);border-radius:6px;padding:5px;text-align:center;"><div id="ngo-stat-lost" style="font-family:'Sora',sans-serif;font-size:14px;font-weight:800;color:#f87171;">0</div><div style="font-size:7px;color:rgba(248,113,113,.55);font-weight:700;text-transform:uppercase;">Lost</div></div>
-            <div style="background:rgba(255,255,255,.05);border-radius:6px;padding:5px;text-align:center;"><div id="ngo-stat-found" style="font-family:'Sora',sans-serif;font-size:14px;font-weight:800;color:#4ade80;">0</div><div style="font-size:7px;color:rgba(74,222,128,.55);font-weight:700;text-transform:uppercase;">Found</div></div>
-            <div style="background:rgba(255,255,255,.05);border-radius:6px;padding:5px;text-align:center;"><div id="ngo-stat-missing" style="font-family:'Sora',sans-serif;font-size:14px;font-weight:800;color:#fbbf24;">0</div><div style="font-size:7px;color:rgba(251,191,36,.55);font-weight:700;text-transform:uppercase;">Missing</div></div>
-            <div style="background:rgba(255,255,255,.05);border-radius:6px;padding:5px;text-align:center;"><div id="ngo-stat-resolved" style="font-family:'Sora',sans-serif;font-size:14px;font-weight:800;color:#60a5fa;">0</div><div style="font-size:7px;color:rgba(96,165,250,.55);font-weight:700;text-transform:uppercase;">Solved</div></div>
-          </div>
+        <div class="fb-loc-badge" id="fb-loc-badge">📍 <span id="fb-loc-text">—</span></div>
+        <div class="fb-filter-note" id="fb-filter-note" style="display:none;">🔍 Sirf is district ke posts dikh rahe hain</div>
 
-          <!-- Police nav -->
-          <div id="fb-nav-police">
-            <div class="fb-nav-sec">Overview</div>
-            <button class="fb-nav-item fb-active" id="fnav-home" onclick="fbSwitchNav('home',this)"><div class="fb-nav-icon">🏠</div>Dashboard</button>
-            <div class="fb-nav-sec">Cases</div>
-            <button class="fb-nav-item" id="fnav-fir" onclick="fbSwitchNav('fir',this)"><div class="fb-nav-icon">📋</div>FIR Management<span class="fb-nav-ct" id="fnav-fir-ct" style="display:none;">0</span></button>
-            <button class="fb-nav-item" id="fnav-missing" onclick="fbSwitchNav('missing',this)"><div class="fb-nav-icon">🚨</div>Missing Reports<span class="fb-nav-ct" id="fnav-miss-ct" style="display:none;">0</span></button>
+        <!-- POLICE NAV -->
+        <div id="fb-nav-police">
+          <div class="fb-nav-group">
+            <div class="fb-nav-head">Overview</div>
+            <button class="fb-nav-item active" id="fnav-home" onclick="fbSwitchNav('home',this)"><div class="fb-nav-icon">🏠</div>Dashboard</button>
+          </div>
+          <div class="fb-nav-group">
+            <div class="fb-nav-head">Case Management</div>
+            <button class="fb-nav-item" id="fnav-fir" onclick="fbSwitchNav('fir',this)"><div class="fb-nav-icon">📋</div>FIR Management<span class="fb-nav-badge" id="fnav-fir-ct" style="display:none;">0</span></button>
+            <button class="fb-nav-item" id="fnav-missing" onclick="fbSwitchNav('missing',this)"><div class="fb-nav-icon">🚨</div>Missing Reports<span class="fb-nav-badge" id="fnav-miss-ct" style="display:none;">0</span></button>
             <button class="fb-nav-item" id="fnav-cases" onclick="fbSwitchNav('cases',this)"><div class="fb-nav-icon">📂</div>All Cases</button>
             <button class="fb-nav-item" id="fnav-resolved" onclick="fbSwitchNav('resolved',this)"><div class="fb-nav-icon">✅</div>Resolved</button>
-            <div class="fb-nav-sec">Operations</div>
-            <button class="fb-nav-item" id="fnav-alerts" onclick="fbSwitchNav('alerts',this)"><div class="fb-nav-icon">🔔</div>Alerts<span class="fb-nav-ct" id="fnav-alert-ct" style="display:none;">0</span></button>
+          </div>
+          <div class="fb-nav-group">
+            <div class="fb-nav-head">Operations</div>
+            <button class="fb-nav-item" id="fnav-alerts" onclick="fbSwitchNav('alerts',this)"><div class="fb-nav-icon">🔔</div>Alerts<span class="fb-nav-badge" id="fnav-alert-ct" style="display:none;">0</span></button>
             <button class="fb-nav-item" id="fnav-analytics" onclick="fbSwitchNav('analytics',this)"><div class="fb-nav-icon">📊</div>Analytics</button>
             <button class="fb-nav-item" id="fnav-fraud" onclick="fbSwitchNav('fraud',this)"><div class="fb-nav-icon">⚠️</div>Fraud Monitor</button>
             <button class="fb-nav-item" id="fnav-collab" onclick="fbSwitchNav('collab',this)"><div class="fb-nav-icon">🤝</div>Collaboration</button>
             <button class="fb-nav-item" id="fnav-reports" onclick="fbSwitchNav('reports',this)"><div class="fb-nav-icon">📥</div>Export</button>
           </div>
+        </div>
 
-          <!-- NGO nav -->
-          <div id="fb-nav-ngo" style="display:none;">
-            <div class="fb-nav-sec">Overview</div>
-            <button class="fb-nav-item fb-ngo-active" id="fnav-ngo-home" onclick="fbSwitchNav('home',this,'ngo')"><div class="fb-nav-icon">🏠</div>Dashboard</button>
-            <div class="fb-nav-sec">Case Work</div>
-            <button class="fb-nav-item" id="fnav-ngo-missing" onclick="fbSwitchNav('missing',this,'ngo')"><div class="fb-nav-icon">🧍</div>Missing Persons<span class="fb-nav-ct" id="fnav-ngo-miss-ct" style="display:none;">0</span></button>
+        <!-- NGO NAV -->
+        <div id="fb-nav-ngo" style="display:none;">
+          <div class="fb-nav-group">
+            <div class="fb-nav-head">Overview</div>
+            <button class="fb-nav-item ngo-active" id="fnav-ngo-home" onclick="fbSwitchNav('home',this,'ngo')"><div class="fb-nav-icon">🏠</div>Dashboard</button>
+          </div>
+          <div class="fb-nav-group">
+            <div class="fb-nav-head">Case Work</div>
+            <button class="fb-nav-item" id="fnav-ngo-missing" onclick="fbSwitchNav('missing',this,'ngo')"><div class="fb-nav-icon">🧍</div>Missing Persons<span class="fb-nav-badge" id="fnav-ngo-miss-ct" style="display:none;">0</span></button>
             <button class="fb-nav-item" id="fnav-ngo-rescue" onclick="fbSwitchNav('rescue',this,'ngo')"><div class="fb-nav-icon">🚑</div>Rescue Requests</button>
             <button class="fb-nav-item" id="fnav-ngo-cases" onclick="fbSwitchNav('cases',this,'ngo')"><div class="fb-nav-icon">📂</div>Case Follow-up</button>
             <button class="fb-nav-item" id="fnav-ngo-resolved" onclick="fbSwitchNav('resolved',this,'ngo')"><div class="fb-nav-icon">✅</div>Resolved</button>
-            <div class="fb-nav-sec">Field Ops</div>
+          </div>
+          <div class="fb-nav-group">
+            <div class="fb-nav-head">Field Ops</div>
             <button class="fb-nav-item" id="fnav-ngo-volunteers" onclick="fbSwitchNav('volunteers',this,'ngo')"><div class="fb-nav-icon">🙋</div>Volunteers</button>
             <button class="fb-nav-item" id="fnav-ngo-shelter" onclick="fbSwitchNav('shelter',this,'ngo')"><div class="fb-nav-icon">🏠</div>Shelter Mgmt</button>
-            <div class="fb-nav-sec">Reports</div>
+          </div>
+          <div class="fb-nav-group">
+            <div class="fb-nav-head">Reports</div>
             <button class="fb-nav-item" id="fnav-ngo-analytics" onclick="fbSwitchNav('analytics',this,'ngo')"><div class="fb-nav-icon">📊</div>Analytics</button>
             <button class="fb-nav-item" id="fnav-ngo-alerts" onclick="fbSwitchNav('alerts',this,'ngo')"><div class="fb-nav-icon">🔔</div>Alerts</button>
             <button class="fb-nav-item" id="fnav-ngo-collab" onclick="fbSwitchNav('collab',this,'ngo')"><div class="fb-nav-icon">🤝</div>Collab</button>
             <button class="fb-nav-item" id="fnav-ngo-reports" onclick="fbSwitchNav('reports',this,'ngo')"><div class="fb-nav-icon">📥</div>Export</button>
           </div>
-        </nav>
+        </div>
 
         <div class="fb-sb-footer">
-          <button class="fb-sb-qbtn alert" onclick="fbOpenAlertModal()">📢 Raise Alert</button>
-          <button class="fb-sb-qbtn add" onclick="fbSwitchNav('fir',null)">➕ New Case</button>
-          <button class="fb-sb-qbtn" onclick="ngoLogout()" style="background:rgba(239,68,68,.06);color:rgba(252,165,165,.6);border:1px solid rgba(239,68,68,.08);">🚪 Logout</button>
+          <button class="fb-sb-btn danger" onclick="fbOpenAlertModal()">📢 Raise Alert</button>
+          <button class="fb-sb-btn primary" onclick="fbSwitchNav('fir',null)">➕ New Case</button>
+          <button class="fb-sb-btn logout" onclick="ngoLogout()">🚪 Logout</button>
         </div>
       </aside>
 
-      <!-- RIGHT -->
-      <div class="fb-right">
-
-        <!-- Topbar -->
-        <div class="fb-topbar">
-          <div class="fb-topbar-search">
-            <span class="fb-si">🔍</span>
-            <input type="text" id="fb-global-search" placeholder="Search cases, names, locations..." oninput="fbGlobalSearch(this.value)">
-          </div>
-          <div class="fb-tb-right">
-            <div class="fb-tb-icon" onclick="fbSwitchNav('alerts',null)">🔔<span class="fb-notif-dot" id="fb-notif-dot" style="display:none;"></span></div>
-            <div class="fb-role-tag police" id="fb-role-tag">🚔 Police</div>
-            <div class="fb-tb-profile">
-              <div class="fb-tb-av" id="fb-tb-av" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);">U</div>
-              <span class="fb-tb-pname" id="fb-tb-pname">Loading...</span>
-              <span style="font-size:9px;color:#94a3b8;margin-left:2px;">▾</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Toolbar — dropdowns -->
+      <!-- MAIN -->
+      <div class="fb-main">
+        <!-- Toolbar -->
         <div class="fb-toolbar" id="fb-toolbar">
-          <!-- Type -->
           <div class="fb-dd" id="fdd-type">
             <button class="fb-dd-btn" onclick="fbToggleDD('fdd-type')" id="fdd-type-btn"><span id="fdd-type-lbl">📋 All Types</span><span class="fb-dd-arr">▾</span></button>
             <div class="fb-dd-menu" id="fdd-type-menu">
-              <div class="fb-dd-item fb-selected" onclick="fbApplyFilter('type','all','📋 All Types','fdd-type')">📋 All Types</div>
+              <div class="fb-dd-item sel" onclick="fbApplyFilter('type','all','📋 All Types','fdd-type')">📋 All Types</div>
               <div class="fb-dd-sep"></div>
               <div class="fb-dd-item" onclick="fbApplyFilter('type','lost','😟 Lost','fdd-type')">😟 Lost Items</div>
               <div class="fb-dd-item" onclick="fbApplyFilter('type','found','🎉 Found','fdd-type')">🎉 Found Items</div>
               <div class="fb-dd-item" onclick="fbApplyFilter('type','missing','⚠️ Missing','fdd-type')">⚠️ Missing Persons</div>
             </div>
           </div>
-          <!-- Status -->
           <div class="fb-dd" id="fdd-status">
             <button class="fb-dd-btn" onclick="fbToggleDD('fdd-status')" id="fdd-status-btn"><span id="fdd-status-lbl">⏳ All Status</span><span class="fb-dd-arr">▾</span></button>
             <div class="fb-dd-menu" id="fdd-status-menu">
-              <div class="fb-dd-item fb-selected" onclick="fbApplyFilter('status','all','⏳ All Status','fdd-status')">All Status</div>
+              <div class="fb-dd-item sel" onclick="fbApplyFilter('status','all','⏳ All Status','fdd-status')">All Status</div>
               <div class="fb-dd-sep"></div>
               <div class="fb-dd-item" onclick="fbApplyFilter('status','pending','⏳ Pending','fdd-status')">⏳ Pending</div>
               <div class="fb-dd-item" onclick="fbApplyFilter('status','accepted','✅ Accepted','fdd-status')">✅ Accepted</div>
               <div class="fb-dd-item" onclick="fbApplyFilter('status','rejected','❌ Rejected','fdd-status')">❌ Rejected</div>
             </div>
           </div>
-          <!-- Date -->
           <div class="fb-dd" id="fdd-date">
             <button class="fb-dd-btn" onclick="fbToggleDD('fdd-date')" id="fdd-date-btn"><span id="fdd-date-lbl">📅 All Time</span><span class="fb-dd-arr">▾</span></button>
             <div class="fb-dd-menu" id="fdd-date-menu">
-              <div class="fb-dd-item fb-selected" onclick="fbApplyFilter('date','all','📅 All Time','fdd-date')">📅 All Time</div>
+              <div class="fb-dd-item sel" onclick="fbApplyFilter('date','all','📅 All Time','fdd-date')">📅 All Time</div>
               <div class="fb-dd-sep"></div>
               <div class="fb-dd-item" onclick="fbApplyFilter('date','today','📅 Today','fdd-date')">Today</div>
               <div class="fb-dd-item" onclick="fbApplyFilter('date','week','📅 This Week','fdd-date')">This Week</div>
               <div class="fb-dd-item" onclick="fbApplyFilter('date','month','📅 This Month','fdd-date')">This Month</div>
             </div>
           </div>
-          <!-- Fraud -->
           <div class="fb-dd" id="fdd-fraud">
             <button class="fb-dd-btn" onclick="fbToggleDD('fdd-fraud')" id="fdd-fraud-btn"><span id="fdd-fraud-lbl">🛡️ All</span><span class="fb-dd-arr">▾</span></button>
             <div class="fb-dd-menu" id="fdd-fraud-menu">
-              <div class="fb-dd-item fb-selected" onclick="fbApplyFilter('fraud','all','🛡️ All','fdd-fraud')">🛡️ All Posts</div>
+              <div class="fb-dd-item sel" onclick="fbApplyFilter('fraud','all','🛡️ All','fdd-fraud')">🛡️ All Posts</div>
               <div class="fb-dd-sep"></div>
-              <div class="fb-dd-item" onclick="fbApplyFilter('fraud','fraud','⚠️ Fraud Only','fdd-fraud')">⚠️ Fraud Alerts</div>
-              <div class="fb-dd-item" onclick="fbApplyFilter('fraud','clean','✅ Clean Only','fdd-fraud')">✅ Clean Only</div>
+              <div class="fb-dd-item" onclick="fbApplyFilter('fraud','fraud','⚠️ Fraud','fdd-fraud')">⚠️ Fraud Only</div>
+              <div class="fb-dd-item" onclick="fbApplyFilter('fraud','clean','✅ Clean','fdd-fraud')">✅ Clean Only</div>
             </div>
           </div>
-          <!-- Sort -->
-          <div class="fb-tb-div"></div>
-          <button class="fb-sort-btn fb-sort-active" id="fb-sort-new" onclick="fbSetSort('newest',this)">↓ Newest</button>
+          <div class="fb-div"></div>
+          <button class="fb-sort-btn active" id="fb-sort-new" onclick="fbSetSort('newest',this)">↓ Newest</button>
           <button class="fb-sort-btn" id="fb-sort-old" onclick="fbSetSort('oldest',this)">↑ Oldest</button>
-          <!-- Result count -->
           <div class="fb-result-ct" id="fb-result-ct"><b>0</b> cases</div>
         </div>
 
-        <!-- EMAIL LIST + DETAIL SPLIT -->
+        <!-- Email list + detail split -->
         <div class="fb-split">
-
-          <!-- Email list -->
-          <div class="fb-list" id="fb-email-list">
-            <div style="text-align:center;padding:32px;color:#94a3b8;font-size:12px;">
-              <div style="font-size:28px;margin-bottom:8px;">📬</div>
-              Loading cases...
-            </div>
+          <div class="fb-list-area" id="fb-email-list">
+            <div class="fb-empty"><div class="fb-empty-icon">📬</div><div class="fb-empty-title">Loading...</div></div>
           </div>
-
-          <!-- Detail panel -->
           <div class="fb-detail" id="fb-detail-panel">
             <div class="fb-detail-top">
-              <div class="fb-detail-close" onclick="fbCloseDetail()">×</div>
+              <div class="fb-detail-close" onclick="fbCloseDetail()">✕</div>
               <div class="fb-detail-title" id="fb-detail-title">Case Details</div>
             </div>
             <div class="fb-detail-body">
-              <div class="fb-fir-badge" id="fb-detail-fir-id">—</div>
-              <div class="fb-dfield"><div class="fb-dfield-lbl">Type</div><div class="fb-dfield-val" id="fb-detail-type">—</div></div>
-              <div class="fb-dfield"><div class="fb-dfield-lbl">Item / Name</div><div class="fb-dfield-val" id="fb-detail-name">—</div></div>
-              <div class="fb-dfield"><div class="fb-dfield-lbl">Location</div><div class="fb-dfield-val" id="fb-detail-loc">—</div></div>
-              <div class="fb-dfield"><div class="fb-dfield-lbl">Reported By</div><div class="fb-dfield-val" id="fb-detail-by">—</div></div>
-              <div class="fb-dfield"><div class="fb-dfield-lbl">Contact</div><div class="fb-dfield-val" id="fb-detail-contact">—</div></div>
-              <div class="fb-dfield"><div class="fb-dfield-lbl">Date & Time</div><div class="fb-dfield-val" id="fb-detail-date">—</div></div>
-              <div class="fb-dfield"><div class="fb-dfield-lbl">Description</div><div class="fb-dfield-val" id="fb-detail-desc" style="color:#64748b;font-size:11px;line-height:1.6;">—</div></div>
-              <div class="fb-dfield"><div class="fb-dfield-lbl">Status</div><div class="fb-dfield-val" id="fb-detail-status">—</div></div>
-              <!-- Collab notes -->
-              <div class="fb-dfield" style="margin-top:12px;">
-                <div class="fb-dfield-lbl" style="margin-bottom:6px;">Collaboration Notes</div>
+              <div class="fb-fir-id" id="fb-detail-fir-id">—</div>
+              <div class="fb-df"><div class="fb-df-lbl">Type</div><div class="fb-df-val" id="fb-detail-type">—</div></div>
+              <div class="fb-df"><div class="fb-df-lbl">Item / Name</div><div class="fb-df-val" id="fb-detail-name">—</div></div>
+              <div class="fb-df"><div class="fb-df-lbl">Location</div><div class="fb-df-val" id="fb-detail-loc">—</div></div>
+              <div class="fb-df"><div class="fb-df-lbl">Reported By</div><div class="fb-df-val" id="fb-detail-by">—</div></div>
+              <div class="fb-df"><div class="fb-df-lbl">Contact</div><div class="fb-df-val" id="fb-detail-contact">—</div></div>
+              <div class="fb-df"><div class="fb-df-lbl">Date & Time</div><div class="fb-df-val" id="fb-detail-date">—</div></div>
+              <div class="fb-df"><div class="fb-df-lbl">Description</div><div class="fb-df-val" id="fb-detail-desc" style="font-size:11px;color:var(--muted);line-height:1.6;">—</div></div>
+              <div class="fb-df"><div class="fb-df-lbl">Status</div><div class="fb-df-val" id="fb-detail-status">—</div></div>
+              <div class="fb-df" style="margin-top:12px;">
+                <div class="fb-df-lbl" style="margin-bottom:6px;">Collaboration Notes</div>
                 <div id="fb-detail-notes"></div>
-                <textarea class="fb-note-input" id="fb-detail-note-input" placeholder="Note likhiye..."></textarea>
+                <textarea class="fb-note-inp" id="fb-detail-note-inp" placeholder="Note likhiye..."></textarea>
               </div>
             </div>
             <div class="fb-detail-actions">
-              <button class="fb-daction acc" id="fb-dact-accept" onclick="fbDetailAction('accepted')">✅ Accept</button>
-              <button class="fb-daction rej" id="fb-dact-reject" onclick="fbDetailAction('rejected')">❌ Reject</button>
-              <button class="fb-daction call" id="fb-dact-call">📞 Call</button>
-              <button class="fb-daction hide" id="fb-dact-hide" onclick="fbDetailHide()">🙈 Hide</button>
-              <button class="fb-daction collab" onclick="fbDetailAddNote()">🤝 Add Note & Collaborate</button>
+              <button class="fb-da acc" onclick="fbDetailAction('accepted')">✅ Accept</button>
+              <button class="fb-da rej" onclick="fbDetailAction('rejected')">❌ Reject</button>
+              <button class="fb-da call" id="fb-da-call">📞 Call</button>
+              <button class="fb-da hide" onclick="fbDetailHide()">🙈 Hide</button>
+              <button class="fb-da collab" onclick="fbDetailAddNote()">🤝 Add Note & Collaborate</button>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
 
+    <!-- Alert Modal -->
+    <div class="fb-modal-bg" id="fb-alert-modal" onclick="if(event.target===this)fbCloseAlertModal()">
+      <div class="fb-modal-box">
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">
+          <div style="width:32px;height:32px;background:#dc2626;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">📢</div>
+          <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;">Raise Emergency Alert</div>
+        </div>
+        <div class="fb-form-row"><label class="fb-lbl">Alert Type</label><select id="fb-alert-type" class="fb-sel"><option>🧍 Missing Person</option><option>🚨 Emergency Rescue</option><option>⚠️ Suspicious Activity</option><option>📢 General Alert</option></select></div>
+        <div class="fb-form-row"><label class="fb-lbl">Description</label><textarea id="fb-alert-desc" class="fb-inp" style="min-height:70px;resize:vertical;" placeholder="Alert details..."></textarea></div>
+        <div class="fb-form-row" style="margin-bottom:16px;"><label class="fb-lbl">Location</label><input type="text" id="fb-alert-loc" class="fb-inp" placeholder="Area / Landmark"></div>
+        <div style="display:flex;gap:8px;">
+          <button onclick="fbCloseAlertModal()" style="flex:1;padding:11px;background:#f8fafc;color:var(--muted);border:1px solid var(--border);border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">Cancel</button>
+          <button onclick="fbSendAlert()" style="flex:2;padding:11px;background:#dc2626;color:#fff;border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">📢 Send Alert</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Alert Modal -->
-  <div class="fb-modal-overlay" id="fb-alert-modal" onclick="if(event.target===this)fbCloseAlertModal()">
-    <div class="fb-modal-box">
-      <div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">
-        <div style="width:32px;height:32px;background:#dc2626;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">📢</div>
-        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#0f172a;">Raise Emergency Alert</div>
-      </div>
-      <div style="margin-bottom:10px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px;">Alert Type</label><select id="fb-alert-type" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;background:#fff;"><option>🧍 Missing Person</option><option>🚨 Emergency Rescue</option><option>⚠️ Suspicious Activity</option><option>📢 General Alert</option></select></div>
-      <div style="margin-bottom:10px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px;">Description</label><textarea id="fb-alert-desc" placeholder="Alert details..." style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;resize:none;height:70px;color:#0f172a;"></textarea></div>
-      <div style="margin-bottom:14px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px;">Location</label><input type="text" id="fb-alert-loc" placeholder="Area / Landmark" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;"></div>
-      <div style="display:flex;gap:8px;">
-        <button onclick="fbCloseAlertModal()" style="flex:1;padding:11px;background:#f8fafc;color:#64748b;border:1px solid #e2e8f0;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">Cancel</button>
-        <button onclick="fbSendAlert()" style="flex:2;padding:11px;background:#dc2626;color:#fff;border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">📢 Send Alert</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Hidden compat elements -->
-  <div class="fb-compat-hidden">
+  <!-- Hidden compat -->
+  <div style="display:none!important;">
     <select id="ngo-filter-type"></select>
     <table><tbody id="ngo-posts-tbody"></tbody></table>
     <div id="ngo-area-stats"></div>
@@ -2292,7 +2582,6 @@ window.printQR=function(){
     <span id="ngo-notif-badge"></span>
     <div id="ngo-fraud-banner"><div id="ngo-fraud-list"></div></div>
   </div>
-
 </div>
 
 
@@ -2628,17 +2917,15 @@ window.fbToggleSidebar = function() {
   var sb = document.getElementById('fb-sb');
   var ov = document.getElementById('fb-sb-overlay');
   if(!sb) return;
-  var isOpen = sb.classList.contains('fb-sb-open');
-  sb.classList.toggle('fb-sb-open', !isOpen);
-  if(ov) ov.classList.toggle('open', !isOpen);
-  document.body.style.overflow = isOpen ? '' : 'hidden';
+  var isOpen = sb.classList.contains('fb-open');
+  sb.classList.toggle('fb-open', !isOpen);
+  if(ov) ov.classList.toggle('fb-open', !isOpen);
 };
 window.fbCloseSidebar = function() {
   var sb = document.getElementById('fb-sb');
   var ov = document.getElementById('fb-sb-overlay');
-  if(sb) sb.classList.remove('fb-sb-open');
-  if(ov) ov.classList.remove('open');
-  document.body.style.overflow = '';
+  if(sb) sb.classList.remove('fb-open');
+  if(ov) ov.classList.remove('fb-open');
 };
 
 window._fbCurrentNav = 'home';
@@ -2789,11 +3076,14 @@ window.fbSetRole = function(type) {
 
   var tag = document.getElementById('fb-role-tag');
   if(tag) { tag.className = 'fb-role-tag ' + (isPolice?'police':'ngo'); tag.textContent = isPolice?'🚔 Police':'🏛️ NGO'; }
+  var chip = document.getElementById('fb-role-chip');
+  if(chip) { chip.className = 'fb-role-chip ' + (isPolice?'police':'ngo'); chip.textContent = isPolice?'🚔 Police':'🏛️ NGO'; chip.style.display='flex'; }
 
   var sbAv = document.getElementById('fb-sb-av');
-  if(sbAv) sbAv.style.background = isPolice ? 'linear-gradient(135deg,#2563eb,#1d4ed8)' : 'linear-gradient(135deg,#16a34a,#15803d)';
-
-  var ptype = document.getElementById('fb-sb-ptype');
+  if(sbAv) {
+    sbAv.className = 'fb-sb-av ' + (isPolice?'police':'ngo');
+  }
+  var ptype = document.getElementById('fb-sb-type');
   if(ptype) ptype.textContent = isPolice ? '🚔 Police Station' : '🏛️ NGO';
 };
 
@@ -2906,15 +3196,16 @@ function _fbOpen(org, type) {
   if(lw)lw.style.display='none'; if(db)db.style.display='block';
   // Set org name
   var on=document.getElementById('ngo-org-name'); if(on)on.textContent=org;
-  var tp=document.getElementById('fb-tb-pname'); if(tp)tp.textContent=org;
+  var tp=document.getElementById('fb-topbar-org'); if(tp)tp.textContent=org;
   // Set avatar
   var sbAv=document.getElementById('fb-sb-av'); if(sbAv)sbAv.textContent=(org[0]||'O').toUpperCase();
-  var tbAv=document.getElementById('fb-tb-av'); if(tbAv){tbAv.textContent=(org[0]||'O').toUpperCase();}
+  var tbAv=document.getElementById('fb-av'); if(tbAv)tbAv.textContent=(org[0]||'O').toUpperCase();
   // Location
   var district=sessionStorage.getItem('ngo_district')||'', state=sessionStorage.getItem('ngo_state')||'';
   var locText=[district,state].filter(Boolean).join(', ');
-  var lc=document.getElementById('fb-loc-chip'); if(lc)lc.style.display=locText?'flex':'none';
+  var lc=document.getElementById('fb-loc-badge'); if(lc){lc.classList.toggle('show',!!locText);}
   var lt=document.getElementById('fb-loc-text'); if(lt)lt.textContent=locText||'—';
+  var fn=document.getElementById('fb-filter-note'); if(fn)fn.style.display=locText?'block':'none';
   // Role
   window.fbSetRole(type);
   window.toast('✅ Welcome, '+org+'!');
@@ -3016,6 +3307,7 @@ window.addEventListener('load', function() {
 
 console.log('✅ FindBack Email-Style Dashboard loaded');
 </script>
+
 
 
 
