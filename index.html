@@ -1862,6 +1862,9 @@ window.printQR=function(){
 .fb-gov-header{
   background:linear-gradient(135deg,var(--nav) 0%,var(--nav2) 100%);
   padding:0;
+  position:sticky;
+  top:56px;
+  z-index:90;
 }
 .fb-gov-topbar{
   display:flex;align-items:center;gap:10px;
@@ -1941,7 +1944,7 @@ window.printQR=function(){
 /* ── LAYOUT SHELL ── */
 .fb-shell{
   display:flex;
-  min-height:100vh;
+  min-height:calc(100vh - 56px - 92px);
   background:var(--bg);
 }
 
@@ -2079,7 +2082,7 @@ window.printQR=function(){
   padding:6px 14px;
   display:flex;align-items:center;gap:6px;
   flex-wrap:wrap;
-  position:sticky;top:0;z-index:40;
+  position:sticky;top:calc(56px + 92px);z-index:40;
 }
 .fb-dd{position:relative;}
 .fb-dd-btn{
@@ -2141,9 +2144,9 @@ window.printQR=function(){
 
 /* Email row */
 .fb-erow{
-  display:flex;align-items:center;
-  padding:10px 16px;gap:11px;
-  border-bottom:1px solid #f4f6f9;
+  display:flex;align-items:flex-start;
+  padding:12px 16px;gap:11px;
+  border-bottom:1px solid #f0f4f8;
   cursor:pointer;transition:background .08s;
 }
 .fb-erow:hover{background:#fafbfc;}
@@ -2160,14 +2163,14 @@ window.printQR=function(){
   display:flex;align-items:center;justify-content:center;
   font-size:11px;font-weight:800;color:#fff;flex-shrink:0;
 }
-.fb-erow-body{flex:1;min-width:0;}
-.fb-erow-top{display:flex;align-items:center;gap:7px;margin-bottom:2px;flex-wrap:wrap;}
+.fb-erow-body{flex:1;min-width:0;overflow:hidden;}
+.fb-erow-top{display:flex;align-items:center;gap:6px;margin-bottom:3px;}
 .fb-erow-from{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;}
 .fb-erow-subject{font-size:12px;color:#475569;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .fb-erow-preview{font-size:11px;color:var(--muted2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.fb-erow-meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
+.fb-erow-meta{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;min-width:60px;}
 .fb-erow-time{font-size:10px;color:var(--muted2);white-space:nowrap;}
-.fb-erow-pills{display:flex;gap:3px;justify-content:flex-end;flex-wrap:wrap;}
+.fb-erow-pills{display:flex;gap:3px;justify-content:flex-end;flex-wrap:wrap;max-width:100px;}
 
 /* Pills */
 .fp{display:inline-flex;align-items:center;gap:2px;padding:2px 7px;border-radius:20px;font-size:9px;font-weight:700;}
@@ -2812,17 +2815,23 @@ window.fbRenderEmailList = function() {
       var fraudPill = isFraud ? '<span class="fp fp-fraud">⚠️ Fraud</span>' : '';
       var idPill = firId ? '<span class="fp fp-id">' + firId + '</span>' : '';
 
-      html += '<div class="fb-row ' + (isUnread?'fb-unread':'') + '" id="fbrow-' + p.id + '" onclick="fbOpenDetail(\'' + p.id + '\')">'
-        + '<div class="fb-row-dot"></div>'
-        + '<div class="fb-row-av" style="background:' + avColor + ';">' + avLetter + '</div>'
-        + '<div class="fb-row-body">'
-          + '<div class="fb-row-top"><span class="fb-row-from">' + name + '</span>' + typePill + fraudPill + '</div>'
-          + '<div class="fb-row-subject">' + (p.item||'—') + ' · ' + (p.loc||'—') + '</div>'
-          + '<div class="fb-row-preview">' + (p.desc ? p.desc.substring(0,80) + (p.desc.length>80?'...':'') : 'No description') + '</div>'
+      html += '<div style="background:#fff;border-bottom:1px solid #eef1f5;padding:13px 16px;cursor:pointer;transition:background .08s;" id="fbrow-' + p.id + '" onclick="fbOpenDetail(\'' + p.id + '\')" onmouseover="this.style.background=\'#f8fafc\'" onmouseout="this.style.background=\'#fff\'">'
+        // Row 1: Type + Status + Time
+        + '<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;flex-wrap:wrap;">'
+          + typePill
+          + statusPill
+          + (fraudPill||'')
+          + '<span style="margin-left:auto;font-size:10px;color:#94a3b8;">' + timeStr + '</span>'
         + '</div>'
-        + '<div class="fb-row-meta">'
-          + '<span class="fb-row-time">' + timeStr + '</span>'
-          + '<div class="fb-row-pills">' + idPill + statusPill + '</div>'
+        // Row 2: Item name (bold if unread)
+        + '<div style="font-size:13px;font-weight:' + (isUnread?'700':'600') + ';color:#1e293b;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + (p.item||'—') + '</div>'
+        // Row 3: Location
+        + '<div style="font-size:11px;color:#64748b;margin-bottom:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">📍 ' + (p.loc||'—') + '</div>'
+        // Row 4: Reporter + Contact + FIR ID
+        + '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">'
+          + '<span style="font-size:10px;color:#94a3b8;display:flex;align-items:center;gap:3px;"><span style="width:18px;height:18px;border-radius:5px;background:' + avColor + ';display:inline-flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#fff;">' + avLetter + '</span>' + name + '</span>'
+          + (p.contact ? '<span style="font-size:10px;color:#94a3b8;">📱 ' + p.contact + '</span>' : '')
+          + (idPill||'')
         + '</div>'
         + '</div>';
     });
