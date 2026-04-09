@@ -441,7 +441,59 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
 <div class="page" id="page-register"><div class="page-content" style="display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 120px);"><div style="margin-bottom:16px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div><div class="auth-card"><div class="auth-logo"><div class="brand">Find<span>Back</span> S1</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Create your free account</div></div><div id="reg-success" class="alert-success">✅ Account created!</div><div class="form-group"><label>👤 Full Name</label><div class="input-icon-wrap"><span class="icon">👤</span><input type="text" id="r-name" placeholder="Your full name"></div></div><div class="form-group"><label>📧 Email</label><div class="input-icon-wrap"><span class="icon">📧</span><input type="email" id="r-email" placeholder="your@email.com"></div></div><div class="form-group"><label>📱 Phone</label><div class="input-icon-wrap"><span class="icon">📱</span><input type="tel" id="r-phone" placeholder="+91 XXXXX XXXXX"></div></div><div class="form-group"><label>🔒 Password</label><div class="input-icon-wrap"><span class="icon">🔒</span><input type="password" id="r-pass" placeholder="Strong password"></div></div><div class="form-check"><input type="checkbox" id="r-agree"><label for="r-agree">I agree to <a onclick="showPage('terms')" style="color:var(--orange);cursor:pointer;">Terms</a> &amp; <a onclick="showPage('privacy')" style="color:var(--orange);cursor:pointer;">Privacy</a></label></div><button class="btn-primary" style="width:100%" onclick="doRegister()">Create Account</button><div class="auth-switch">Have account? <a onclick="showPage('login')">Log In</a></div></div></div></div>
 
 <!-- ADMIN -->
-<div class="page" id="page-admin"><div class="page-content"><div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div><div class="page-title">Admin Panel 🛡️</div><div id="admin-login-wall"><div class="auth-card" style="max-width:100%;"><div style="text-align:center;margin-bottom:16px;"><div style="font-size:36px;">🔐</div><div style="font-family:'Sora',sans-serif;font-weight:700;margin-top:8px;">Admin Access Only</div></div><div class="form-group"><label>Username</label><input type="text" id="a-user" placeholder="admin"></div><div class="form-group"><label>Password</label><input type="password" id="a-pass" placeholder="••••••••"></div><button class="btn-primary" style="width:100%" onclick="adminLogin()">Enter Admin</button></div></div><div id="admin-dashboard" style="display:none;"><div class="admin-grid"><div class="admin-stat"><div class="val" id="admin-total">0</div><div class="key">📋 Total</div></div><div class="admin-stat"><div class="val" id="admin-lost">0</div><div class="key">😟 Lost</div></div><div class="admin-stat"><div class="val" id="admin-found">0</div><div class="key">🎉 Found</div></div><div class="admin-stat"><div class="val" id="admin-missing">0</div><div class="key">⚠️ Missing</div></div></div><div class="admin-actions"><button class="btn-sm btn-success" onclick="refreshAdminStats()">🔄 Refresh</button></div><table class="admin-table"><thead><tr><th>Title</th><th>Type</th><th>Action</th></tr></thead><tbody id="admin-posts-tbody"><tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:20px;">No posts yet</td></tr></tbody></table><div style="margin-top:20px;"><button class="btn-sm btn-danger" onclick="adminLogout()">🚪 Logout</button></div></div></div></div>
+<div class="page" id="page-admin"><div class="page-content"><div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div><div class="page-title">Admin Panel 🛡️</div><div id="admin-login-wall"><div class="auth-card" style="max-width:100%;"><div style="text-align:center;margin-bottom:16px;"><div style="font-size:36px;">🔐</div><div style="font-family:'Sora',sans-serif;font-weight:700;margin-top:8px;">Admin Access Only</div></div><div class="form-group"><label>Username</label><input type="text" id="a-user" placeholder="admin"></div><div class="form-group"><label>Password</label><input type="password" id="a-pass" placeholder="••••••••"></div><button class="btn-primary" style="width:100%" onclick="adminLogin()">Enter Admin</button></div></div><div id="admin-dashboard" style="display:none;"><div class="admin-grid"><div class="admin-stat"><div class="val" id="admin-total">0</div><div class="key">📋 Total</div></div><div class="admin-stat"><div class="val" id="admin-lost">0</div><div class="key">😟 Lost</div></div><div class="admin-stat"><div class="val" id="admin-found">0</div><div class="key">🎉 Found</div></div><div class="admin-stat"><div class="val" id="admin-missing">0</div><div class="key">⚠️ Missing</div></div></div><div class="admin-actions"><button class="btn-sm btn-success" onclick="refreshAdminStats()">🔄 Refresh</button></div><table class="admin-table"><thead><tr><th>Title</th><th>Type</th><th>Action</th></tr></thead><tbody id="admin-posts-tbody"><tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:20px;">No posts yet</td></tr></tbody></table><div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;">
+  <button class="btn-sm btn-danger" onclick="adminLogout()">🚪 Logout</button>
+  <button class="btn-sm" style="background:#24292e;color:white;" onclick="document.getElementById('github-push-panel').style.display=document.getElementById('github-push-panel').style.display==='none'?'block':'none'">🐙 Push to GitHub</button>
+</div>
+
+<!-- GITHUB PUSH PANEL -->
+<div id="github-push-panel" style="display:none;margin-top:16px;background:#f6f8fa;border:1.5px solid #e2e8f0;border-radius:14px;padding:18px;">
+  <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px;">
+    🐙 Push to GitHub
+  </div>
+  <div style="font-size:12px;color:#64748b;margin-bottom:14px;">index.html seedha GitHub repo mein push kar do</div>
+
+  <div style="margin-bottom:10px;">
+    <label style="display:block;font-size:11px;font-weight:700;color:#64748b;margin-bottom:4px;">GitHub Personal Access Token</label>
+    <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+      style="width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none;">
+    <div style="font-size:10px;color:#94a3b8;margin-top:4px;">
+      github.com/settings/tokens → Generate new token → repo permission ✓
+    </div>
+  </div>
+
+  <div style="margin-bottom:10px;">
+    <label style="display:block;font-size:11px;font-weight:700;color:#64748b;margin-bottom:4px;">Repository Owner</label>
+    <input type="text" id="gh-owner" value="lukyjamatia-tech"
+      style="width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none;">
+  </div>
+
+  <div style="margin-bottom:10px;">
+    <label style="display:block;font-size:11px;font-weight:700;color:#64748b;margin-bottom:4px;">Repository Name</label>
+    <input type="text" id="gh-repo" value="lukyjamatia-tech.github.io"
+      style="width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none;">
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <label style="display:block;font-size:11px;font-weight:700;color:#64748b;margin-bottom:4px;">Commit Message</label>
+    <input type="text" id="gh-msg" value="FindBack S1 update"
+      style="width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;outline:none;">
+  </div>
+
+  <!-- Status -->
+  <div id="gh-status" style="display:none;padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:12px;"></div>
+
+  <button onclick="githubPush()" id="gh-push-btn"
+    style="width:100%;padding:13px;background:#24292e;color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;">
+    🚀 Push to GitHub
+  </button>
+
+  <div style="margin-top:10px;font-size:10px;color:#94a3b8;text-align:center;line-height:1.6;">
+    Token browser mein save nahi hota — sirf yahi session ke liye use hoga
+  </div>
+</div>
+
+</div></div></div></div>
 
 <!-- REPORT MODAL -->
 <div class="modal-overlay" id="report-modal">
@@ -1776,7 +1828,7 @@ window.printQR=function(){
 .fb-portal{font-family:'Inter',sans-serif;font-size:13px;color:var(--text);}
 
 /* ── APP SHELL ── */
-.fb-shell{display:flex;height:calc(100vh - 56px);overflow:hidden;}
+.fb-shell{display:flex;min-height:calc(100vh - 56px);overflow:visible;}
 
 /* ── SIDEBAR ── */
 .fb-sb{
@@ -1801,7 +1853,7 @@ window.printQR=function(){
 .fb-sb-loc{display:flex;align-items:center;gap:5px;margin:7px 0 3px;padding:4px 7px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.12);border-radius:6px;font-size:8px;font-weight:600;color:rgba(74,222,128,.75);}
 .fb-sb-loc-note{font-size:7px;color:rgba(255,255,255,.18);padding:0 1px;line-height:1.4;}
 /* Nav */
-.fb-nav{flex:1;overflow-y:auto;padding:4px 0;}
+.fb-nav{flex:1;overflow-y:auto;padding:4px 0 80px;}
 .fb-nav::-webkit-scrollbar{width:0;}
 .fb-nav-sec{padding:8px 12px 2px;font-size:7px;font-weight:800;color:rgba(255,255,255,.2);letter-spacing:1.5px;text-transform:uppercase;}
 .fb-nav-item{display:flex;align-items:center;gap:7px;padding:6px 12px;font-size:11px;font-weight:500;color:rgba(255,255,255,.42);cursor:pointer;position:relative;transition:all .1s;border-left:2px solid transparent;border:none;background:transparent;width:100%;text-align:left;font-family:'Inter',sans-serif;}
@@ -1820,7 +1872,7 @@ window.printQR=function(){
 .fb-sb-qbtn.add{background:rgba(37,99,235,.1);color:rgba(147,197,253,.85);border:1px solid rgba(37,99,235,.12);}
 
 /* ── RIGHT PANEL ── */
-.fb-right{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.fb-right{flex:1;display:flex;flex-direction:column;overflow:visible;min-width:0;}
 
 /* Topbar */
 .fb-topbar{height:var(--tb);background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:8px;flex-shrink:0;}
@@ -1864,10 +1916,10 @@ window.printQR=function(){
 .fb-result-ct b{color:var(--text2);}
 
 /* ── EMAIL LIST + DETAIL ── */
-.fb-split{flex:1;display:flex;overflow:hidden;}
+.fb-split{flex:1;display:flex;overflow:visible;}
 
 /* Email list */
-.fb-list{flex:1;overflow-y:auto;background:var(--white);}
+.fb-list{flex:1;overflow-y:visible;background:var(--white);min-height:0;}
 .fb-list::-webkit-scrollbar{width:4px;}
 .fb-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 
@@ -2003,7 +2055,7 @@ window.printQR=function(){
   </div>
 
   <!-- MAIN DASHBOARD -->
-  <div id="ngo-dashboard" style="display:none;">
+  <div id="ngo-dashboard" style="display:none;min-height:100%;">
     <div class="fb-shell">
 
       <!-- ═══ SIDEBAR ═══ -->
@@ -4049,6 +4101,98 @@ function _goPage(pg){
   setTimeout(function(){var g=document.getElementById('listings-grid');if(g)g.scrollIntoView({behavior:'smooth',block:'start'});},60);
 }
 window.removePagination=function(){var o=document.getElementById('pagination-bar');if(o)o.remove();};
+
+window.githubPush = async function() {
+  var token  = document.getElementById('gh-token')?.value.trim();
+  var owner  = document.getElementById('gh-owner')?.value.trim();
+  var repo   = document.getElementById('gh-repo')?.value.trim();
+  var msg    = document.getElementById('gh-msg')?.value.trim() || 'FindBack S1 update';
+  var btn    = document.getElementById('gh-push-btn');
+  var status = document.getElementById('gh-status');
+
+  if(!token){ ghStatus('error','⚠️ GitHub token daalo'); return; }
+  if(!owner || !repo){ ghStatus('error','⚠️ Owner aur repo name daalo'); return; }
+
+  btn.textContent = '⏳ Pushing...'; btn.disabled = true;
+  ghStatus('info','🔄 GitHub se current file fetch ho rahi hai...');
+
+  try {
+    var filePath = 'index.html';
+    var apiBase  = 'https://api.github.com/repos/' + owner + '/' + repo + '/contents/' + filePath;
+
+    // Step 1: Get current SHA
+    ghStatus('info','📡 Fetching current SHA...');
+    var getRes = await fetch(apiBase, {
+      headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github.v3+json' }
+    });
+
+    var sha = null;
+    if(getRes.ok) {
+      var getJson = await getRes.json();
+      sha = getJson.sha;
+      ghStatus('info','✅ SHA mili: ' + sha.substring(0,7) + '... — ab content push ho raha hai...');
+    } else if(getRes.status === 404) {
+      ghStatus('info','ℹ️ File exist nahi karti — naya create hoga...');
+    } else if(getRes.status === 401) {
+      ghStatus('error','❌ Token invalid hai ya expired — naya token banao'); btn.textContent='🚀 Push to GitHub'; btn.disabled=false; return;
+    } else {
+      ghStatus('error','❌ GitHub error: ' + getRes.status + ' ' + getRes.statusText); btn.textContent='🚀 Push to GitHub'; btn.disabled=false; return;
+    }
+
+    // Step 2: Get current page HTML
+    ghStatus('info','📄 Current page HTML encode ho rahi hai...');
+    var html = document.documentElement.outerHTML;
+    var encoded = btoa(unescape(encodeURIComponent(html)));
+
+    // Step 3: Push to GitHub
+    ghStatus('info','🚀 GitHub pe push ho rahi hai...');
+    var body = { message: msg, content: encoded };
+    if(sha) body.sha = sha;
+
+    var pushRes = await fetch(apiBase, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+
+    if(pushRes.ok) {
+      var pushJson = await pushRes.json();
+      var commitUrl = pushJson.commit?.html_url || '#';
+      ghStatus('success',
+        '🎉 Successfully pushed!<br>' +
+        '📝 Commit: <a href="' + commitUrl + '" target="_blank" style="color:#16a34a;font-weight:700;">' +
+        pushJson.commit?.sha?.substring(0,7) + '</a><br>' +
+        '🌐 Live in ~1 min: <a href="https://' + owner + '.github.io" target="_blank" style="color:#16a34a;font-weight:700;">' +
+        owner + '.github.io</a>'
+      );
+      if(window.toast) window.toast('✅ GitHub pe push ho gaya!');
+    } else {
+      var errJson = await pushRes.json().catch(function(){ return {}; });
+      ghStatus('error','❌ Push failed: ' + (errJson.message || pushRes.status));
+    }
+
+  } catch(e) {
+    ghStatus('error','❌ Network error: ' + e.message);
+  }
+
+  btn.textContent = '🚀 Push to GitHub'; btn.disabled = false;
+};
+
+function ghStatus(type, msg) {
+  var el = document.getElementById('gh-status');
+  if(!el) return;
+  var styles = {
+    info:    'background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;',
+    success: 'background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d;',
+    error:   'background:#fef2f2;border:1px solid #fecaca;color:#dc2626;'
+  };
+  el.style.cssText = (styles[type]||styles.info) + 'padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:12px;display:block;';
+  el.innerHTML = msg;
+}
 
 </script>
 </body>
