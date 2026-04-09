@@ -2160,6 +2160,8 @@ window.printQR=function(){
         <div class="fb-sidebar-header">
           <div id="ngo-org-name" class="fb-sidebar-org">Organization</div>
           <div id="fb-sidebar-date" class="fb-sidebar-sub">—</div>
+          <div id="fb-location-badge" style="display:none;margin-top:5px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;color:#065f46;">📍 <span id="fb-location-text">—</span></div>
+          <div id="fb-filter-notice" style="display:none;margin-top:4px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:3px 8px;font-size:9px;color:#1d4ed8;line-height:1.4;">🔍 Sirf apne district ke posts dikh rahe hain</div>
           <!-- Mini stats -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:10px;">
             <div style="background:#fef2f2;border-radius:7px;padding:6px;text-align:center;"><div id="ngo-stat-lost" style="font-family:'Sora',sans-serif;font-size:16px;font-weight:800;color:#dc2626;">0</div><div style="font-size:8px;color:#dc2626;font-weight:700;">LOST</div></div>
@@ -2509,6 +2511,51 @@ window.printQR=function(){
 // Police + NGO Complete System
 // ═══════════════════════════════════════════════
 
+// ── LOCATION FILTER — Sirf apne district ke posts ──
+window._getLocalPosts = function() {
+  var posts = window._allPosts || [];
+  var user  = window._ngoUser || {};
+  var district = (user.district || sessionStorage.getItem('ngo_district') || '').toLowerCase().trim();
+  var state    = (user.state    || sessionStorage.getItem('ngo_state')    || '').toLowerCase().trim();
+
+  // Agar koi district/state nahi set hai — saare posts dikhaao (fallback)
+  if(!district && !state) return posts;
+
+  return posts.filter(function(p) {
+    var loc = (p.loc || '').toLowerCase();
+    // District match karo (loc mein district ka naam ho)
+    if(district && loc.includes(district)) return true;
+    // State match karo (agar district na mile)
+    if(!district && state && loc.includes(state)) return true;
+    return false;
+  });
+};
+
+// Sidebar mein location badge update karo
+window._fbUpdateLocationBadge = function() {
+  var user = window._ngoUser || {};
+  var district = user.district || sessionStorage.getItem('ngo_district') || '';
+  var state    = user.state    || sessionStorage.getItem('ngo_state')    || '';
+  var locText  = [district, state].filter(Boolean).join(', ');
+
+  // Update sidebar date strip
+  var sd = document.getElementById('fb-sidebar-date');
+  if(sd) {
+    var now = new Date();
+    sd.textContent = now.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
+  }
+
+  // Show location badge
+  var lb = document.getElementById('fb-location-badge');
+  var lt = document.getElementById('fb-location-text');
+  var fn = document.getElementById('fb-filter-notice');
+  if(lb && lt && locText) {
+    lt.textContent = locText;
+    lb.style.display = 'block';
+    if(fn) fn.style.display = 'block';
+  }
+};
+
 // ── SIDEBAR TOGGLE ──
 window.fbToggleSidebar = function() {
   var sb = document.getElementById('fb-sidebar');
@@ -2604,7 +2651,8 @@ window.ngoSwitchTab = function(tab) {
 window.fbGlobalSearch = function(val) {
   val = (val||'').toLowerCase().trim();
   if(!val) { window.fbRenderRecentTable(); return; }
-  var posts = (window._allPosts||[]).filter(function(p) {
+  var localPosts = window._getLocalPosts ? window._getLocalPosts() : (window._allPosts||[]);
+  var posts = localPosts.filter(function(p) {
     return (p.item||'').toLowerCase().includes(val)
         || (p.loc||'').toLowerCase().includes(val)
         || (p.authorName||'').toLowerCase().includes(val)
@@ -2632,7 +2680,7 @@ window.ngoPoliceFIRView = async function() {
   var el = document.getElementById('ngo-fir-queue-list');
   if(!el) return;
   el.innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;font-size:12px;">Loading...</div>';
-  var posts = window._allPosts || [];
+  var posts = window._getLocalPosts ? window._getLocalPosts() : (window._allPosts||[]);
 
   // Fraud detection
   var nc = {}, cc = {};
@@ -2765,7 +2813,8 @@ window.ngoPoliceFIRDelete = async function(postId) {
 window._caseTypeFilter = 'all';
 window.fbFilterCases = function(type) { window._caseTypeFilter = type; window.fbRenderCasesTable(); };
 window.fbRenderCasesTable = function() {
-  var posts = (window._allPosts||[]).filter(function(p){
+  var allLocal = window._getLocalPosts ? window._getLocalPosts() : (window._allPosts||[]);
+  var posts = allLocal.filter(function(p){
     if(window._caseTypeFilter==='all') return true;
     return p.type === window._caseTypeFilter;
   });
@@ -2804,7 +2853,7 @@ window._renderCasesTableData = function(posts) {
 
 // ── RECENT TABLE (Home) ──
 window.fbRenderRecentTable = function() {
-  var posts = (window._allPosts||[]).filter(function(p){return !p.firHidden;}).slice(0,8);
+  var posts = (window._getLocalPosts?window._getLocalPosts():(window._allPosts||[])).filter(function(p){return !p.firHidden;}).slice(0,8);
   var tbody = document.getElementById('fb-recent-tbody');
   if(!tbody) return;
   if(!posts.length) { tbody.innerHTML='<tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:16px;">No posts yet</td></tr>'; return; }
@@ -2827,7 +2876,7 @@ window.fbRenderRecentTable = function() {
 
 // ── MISSING ──
 window.ngoRenderMissing = function() {
-  var posts = (window._allPosts||[]).filter(function(p){return p.type==='missing'&&p.status!=='resolved';});
+  var posts = (window._getLocalPosts?window._getLocalPosts():(window._allPosts||[])).filter(function(p){return p.type==='missing'&&p.status!=='resolved';});
   var el = document.getElementById('ngo-missing-list'); if(!el) return;
   var badge = document.getElementById('fb-missing-badge');
   if(badge){badge.textContent=posts.length+' open';badge.style.display=posts.length?'inline-flex':'none';}
@@ -2854,7 +2903,8 @@ window.ngoRenderMissing = function() {
 // ── ANALYTICS ──
 window.ngoRenderAreaStats = function(sortBy) {
   sortBy = sortBy || 'total';
-  var posts = window._allPosts || [], areaMap = {};
+  var posts = window._getLocalPosts ? window._getLocalPosts() : (window._allPosts||[]);
+  var areaMap = {};
   posts.forEach(function(p) {
     if(!p.loc) return;
     var area = p.loc.split(',')[0].trim();
@@ -2890,7 +2940,7 @@ window.ngoRenderAreaStats = function(sortBy) {
 
 // ── RESOLVED ──
 window.ngoRenderResolved = function() {
-  var posts = (window._allPosts||[]).filter(function(p){return p.status==='resolved';}).slice(0,10);
+  var posts = (window._getLocalPosts?window._getLocalPosts():(window._allPosts||[])).filter(function(p){return p.status==='resolved';}).slice(0,10);
   var el = document.getElementById('ngo-resolved-list'); if(!el) return;
   if(!posts.length){el.innerHTML='<div style="text-align:center;padding:16px;color:#94a3b8;font-size:12px;">No resolved cases yet</div>';return;}
   el.innerHTML = posts.map(function(p){
@@ -2904,7 +2954,8 @@ window.ngoRenderResolved = function() {
 
 // ── FRAUD MONITOR ──
 window.ngoCheckFraud = function() {
-  var posts = window._allPosts || [], nc = {}, cc = {};
+  var posts = window._getLocalPosts ? window._getLocalPosts() : (window._allPosts||[]);
+  var nc = {}, cc = {};
   posts.forEach(function(p){
     var n=(p.authorName||'').toLowerCase().trim(); if(n&&n!=='anonymous') nc[n]=(nc[n]||0)+1;
     var c=(p.contact||'').replace(/\D/g,'').slice(-10); if(c&&c.length===10) cc[c]=(cc[c]||0)+1;
@@ -3045,8 +3096,11 @@ window.ngoFirebaseLogin = async function() {
       if(btn){btn.textContent='Sign In to Command Portal →';btn.disabled=false;} return;
     }
     var org=ud.orgName||cred.user.displayName||'Organization';
-    window._ngoUser={uid:cred.user.uid,email:email,name:cred.user.displayName,org:org,type:ud.userType};
-    sessionStorage.setItem('ngo_org',org); sessionStorage.setItem('ngo_uid',cred.user.uid);
+    window._ngoUser={uid:cred.user.uid,email:email,name:cred.user.displayName,org:org,type:ud.userType,district:ud.district||'',state:ud.state||''};
+    sessionStorage.setItem('ngo_org',org);
+    sessionStorage.setItem('ngo_uid',cred.user.uid);
+    sessionStorage.setItem('ngo_district', ud.district||'');
+    sessionStorage.setItem('ngo_state',    ud.state||'');
     _fbOpenDashboard(org, ud.userType);
   } catch(e){
     var msg=e.code==='auth/invalid-credential'?'❌ Wrong email or password':e.code==='auth/too-many-requests'?'❌ Too many attempts':'❌ '+(e.message||'Login failed');
@@ -3088,8 +3142,11 @@ window.ngoFirebaseRegister = async function() {
       createdAt:fM.serverTimestamp(),verified:false
     });
     var orgDisplay=org+(ps?' · '+ps:'');
-    window._ngoUser={uid:cred.user.uid,email:email,name:name,org:orgDisplay,type:type};
-    sessionStorage.setItem('ngo_org',orgDisplay); sessionStorage.setItem('ngo_uid',cred.user.uid);
+    window._ngoUser={uid:cred.user.uid,email:email,name:name,org:orgDisplay,type:type,district:district,state:state};
+    sessionStorage.setItem('ngo_org',orgDisplay);
+    sessionStorage.setItem('ngo_uid',cred.user.uid);
+    sessionStorage.setItem('ngo_district', district);
+    sessionStorage.setItem('ngo_state',    state);
     _fbOpenDashboard(orgDisplay, type);
   } catch(e){
     var msg=e.code==='auth/email-already-in-use'?'❌ Email registered — Login karo':'❌ '+(e.message||'Failed');
@@ -3112,6 +3169,7 @@ function _fbOpenDashboard(org, type) {
   // Set role
   window._fbSetRole(type);
   window.toast('✅ Welcome, '+org+'!');
+  if(window._fbUpdateLocationBadge) window._fbUpdateLocationBadge();
   if(window.ngoLoadDashboard) window.ngoLoadDashboard();
 }
 
@@ -3127,7 +3185,7 @@ window.ngoLogout = async function() {
 
 // ── LOAD DASHBOARD ──
 window.ngoLoadDashboard = function() {
-  var posts=window._allPosts||[];
+  var posts = window._getLocalPosts ? window._getLocalPosts() : (window._allPosts||[]);
   var el=function(id){return document.getElementById(id);};
   var lost=posts.filter(function(p){return p.type==='lost';}).length;
   var found=posts.filter(function(p){return p.type==='found';}).length;
@@ -3167,6 +3225,10 @@ window.addEventListener('load',function(){
   if(org){
     var ud=window._ngoUser;
     var type=(ud&&ud.type)||'police';
+    // Restore district/state
+    if(!window._ngoUser) window._ngoUser={};
+    window._ngoUser.district = sessionStorage.getItem('ngo_district')||'';
+    window._ngoUser.state    = sessionStorage.getItem('ngo_state')||'';
     var lw=document.getElementById('ngo-login-wall'),db=document.getElementById('ngo-dashboard');
     if(lw)lw.style.display='none'; if(db)db.style.display='block';
     var on=document.getElementById('ngo-org-name'); if(on)on.textContent=org;
