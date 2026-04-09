@@ -1756,1304 +1756,974 @@ window.printQR=function(){
 };
 </script>
 <!-- ═══════════════════════════════════════════
-     FINDBACK — ROLE-BASED POLICE + NGO PORTAL
+     FINDBACK — EMAIL-STYLE ROLE-BASED PORTAL
      ═══════════════════════════════════════════ -->
 <style>
-/* ── DESIGN SYSTEM ── */
+/* ── PORTAL DESIGN SYSTEM ── */
 :root{
-  --p-navy:#0f1f3d;--p-blue:#1a3a6b;--p-accent:#2563eb;
-  --n-green:#064e3b;--n-accent:#059669;
-  --border:#e8edf2;--bg:#f4f6f9;
-  --text:#1e293b;--muted:#64748b;--card:#fff;
+  --navy:#0f172a;--navy2:#1e293b;
+  --blue:#2563eb;--blue-lt:#eff6ff;--blue-bd:#bfdbfe;
+  --green:#16a34a;--green-lt:#f0fdf4;
+  --red:#dc2626;--red-lt:#fef2f2;
+  --amber:#d97706;--amber-lt:#fffbeb;
+  --purple:#7c3aed;
+  --bg:#f8fafc;--white:#ffffff;
+  --border:#e2e8f0;--border2:#f1f5f9;
+  --text:#0f172a;--text2:#334155;--muted:#64748b;--muted2:#94a3b8;
+  --sb:220px;--tb:48px;--bar:40px;
 }
 .fb-portal *{box-sizing:border-box;}
-.fb-portal{font-family:'Inter',sans-serif;background:var(--bg);}
+.fb-portal{font-family:'Inter',sans-serif;font-size:13px;color:var(--text);}
 
-/* TOP BAR */
-.fb-topbar{
-  background:#fff;border-bottom:1px solid var(--border);
-  padding:0 14px;height:50px;display:flex;align-items:center;gap:8px;
-  position:sticky;top:56px;z-index:40;
-}
-.fb-topbar-search{
-  flex:1;position:relative;max-width:280px;
-}
-.fb-topbar-search input{
-  width:100%;padding:7px 10px 7px 30px;
-  background:#f8fafc;border:1px solid var(--border);
-  border-radius:8px;font-size:12px;font-family:'Inter',sans-serif;
-  outline:none;color:var(--text);
-}
-.fb-topbar-search input:focus{border-color:var(--p-accent);}
-.fb-topbar-search .ico{position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--muted);}
-.fb-icon-btn{
-  width:34px;height:34px;border-radius:8px;border:1px solid var(--border);
-  background:#fff;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;font-size:15px;position:relative;flex-shrink:0;
-  transition:background .15s;
-}
-.fb-icon-btn:hover{background:#f8fafc;}
-.fb-badge{
-  position:absolute;top:-4px;right:-4px;
-  background:#ef4444;color:#fff;font-size:8px;font-weight:800;
-  padding:1px 4px;border-radius:8px;border:1.5px solid #fff;
-  min-width:14px;text-align:center;
-}
-.fb-role-pill{
-  display:flex;align-items:center;gap:5px;
-  padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;
-  border:1.5px solid;white-space:nowrap;
-}
-.fb-role-police{background:#eff6ff;color:#1e4d8c;border-color:#bfdbfe;}
-.fb-role-ngo{background:#f0fdf4;color:#065f46;border-color:#bbf7d0;}
+/* ── APP SHELL ── */
+.fb-shell{display:flex;height:calc(100vh - 56px);overflow:hidden;}
 
-/* MAIN LAYOUT */
-.fb-layout{display:flex;min-height:calc(100vh - 106px);}
+/* ── SIDEBAR ── */
+.fb-sb{
+  width:var(--sb);background:var(--navy);
+  display:flex;flex-direction:column;flex-shrink:0;
+  overflow:hidden;position:relative;
+}
+/* Sidebar header */
+.fb-sb-top{padding:12px 12px 8px;border-bottom:1px solid rgba(255,255,255,.05);}
+.fb-sb-brand{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.fb-sb-brand-icon{width:26px;height:26px;background:var(--blue);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.fb-sb-brand-name{font-family:'Sora',sans-serif;font-size:13px;font-weight:800;color:#fff;letter-spacing:-.3px;}
+.fb-sb-brand-sub{font-size:8px;color:rgba(255,255,255,.28);letter-spacing:1px;text-transform:uppercase;margin-top:1px;}
+/* Profile */
+.fb-sb-profile{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:7px;padding:6px 8px;cursor:pointer;}
+.fb-sb-av{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;flex-shrink:0;}
+.fb-sb-pname{font-size:10px;font-weight:600;color:#fff;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fb-sb-ptype{font-size:8px;color:rgba(255,255,255,.32);margin-top:1px;}
+.fb-sb-live{width:5px;height:5px;background:#4ade80;border-radius:50%;box-shadow:0 0 0 2px rgba(74,222,128,.15);flex-shrink:0;animation:fbPulse 2s infinite;}
+@keyframes fbPulse{0%,100%{opacity:1}50%{opacity:.3}}
+/* Location chip */
+.fb-sb-loc{display:flex;align-items:center;gap:5px;margin:7px 0 3px;padding:4px 7px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.12);border-radius:6px;font-size:8px;font-weight:600;color:rgba(74,222,128,.75);}
+.fb-sb-loc-note{font-size:7px;color:rgba(255,255,255,.18);padding:0 1px;line-height:1.4;}
+/* Nav */
+.fb-nav{flex:1;overflow-y:auto;padding:4px 0;}
+.fb-nav::-webkit-scrollbar{width:0;}
+.fb-nav-sec{padding:8px 12px 2px;font-size:7px;font-weight:800;color:rgba(255,255,255,.2);letter-spacing:1.5px;text-transform:uppercase;}
+.fb-nav-item{display:flex;align-items:center;gap:7px;padding:6px 12px;font-size:11px;font-weight:500;color:rgba(255,255,255,.42);cursor:pointer;position:relative;transition:all .1s;border-left:2px solid transparent;border:none;background:transparent;width:100%;text-align:left;font-family:'Inter',sans-serif;}
+.fb-nav-item:hover{color:rgba(255,255,255,.72);background:rgba(255,255,255,.03);}
+.fb-nav-item.fb-active{color:#fff;font-weight:600;background:rgba(255,255,255,.05);border-left:2px solid var(--blue);}
+.fb-nav-item.fb-ngo-active{color:#fff;font-weight:600;background:rgba(255,255,255,.05);border-left:2px solid #4ade80;}
+.fb-nav-icon{width:22px;height:22px;border-radius:5px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;}
+.fb-nav-item.fb-active .fb-nav-icon{background:rgba(37,99,235,.5);}
+.fb-nav-item.fb-ngo-active .fb-nav-icon{background:rgba(22,163,74,.4);}
+.fb-nav-ct{margin-left:auto;background:rgba(239,68,68,.85);color:#fff;font-size:7px;font-weight:800;padding:1px 5px;border-radius:8px;min-width:14px;text-align:center;}
+/* Footer quick btns */
+.fb-sb-footer{padding:8px 12px 10px;border-top:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;gap:4px;}
+.fb-sb-qbtn{display:flex;align-items:center;gap:6px;padding:6px 9px;border-radius:7px;font-size:10px;font-weight:600;border:none;cursor:pointer;width:100%;font-family:'Inter',sans-serif;transition:opacity .1s;}
+.fb-sb-qbtn:active{opacity:.8;}
+.fb-sb-qbtn.alert{background:rgba(220,38,38,.1);color:rgba(252,165,165,.85);border:1px solid rgba(220,38,38,.12);}
+.fb-sb-qbtn.add{background:rgba(37,99,235,.1);color:rgba(147,197,253,.85);border:1px solid rgba(37,99,235,.12);}
 
-/* SIDEBAR */
-.fb-sidebar{
-  width:200px;background:#fff;border-right:1px solid var(--border);
-  flex-shrink:0;overflow-y:auto;
-  transition:width .2s;
-}
-.fb-sidebar-header{
-  padding:14px 12px 10px;border-bottom:1px solid var(--border);
-}
-.fb-sidebar-org{
-  font-size:12px;font-weight:700;color:var(--text);
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-}
-.fb-sidebar-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+/* ── RIGHT PANEL ── */
+.fb-right{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 
-.fb-nav-section{
-  padding:10px 12px 4px;
-  font-size:9px;font-weight:800;color:#94a3b8;
-  letter-spacing:1.5px;text-transform:uppercase;
-}
-.fb-nav-item{
-  display:flex;align-items:center;gap:9px;
-  padding:8px 12px;font-size:12px;font-weight:500;
-  color:#475569;cursor:pointer;border:none;background:transparent;
-  width:100%;text-align:left;transition:all .12s;position:relative;
-}
-.fb-nav-item:hover{background:#f8fafc;color:var(--text);}
-.fb-nav-item.active{
-  color:var(--p-accent);font-weight:700;
-  background:linear-gradient(90deg,#eff6ff,#f8fafc);
-}
-.fb-nav-item.active::before{
-  content:'';position:absolute;left:0;top:0;bottom:0;
-  width:2.5px;background:var(--p-accent);border-radius:0 2px 2px 0;
-}
-.fb-nav-item.ngo-active{color:var(--n-accent);}
-.fb-nav-item.ngo-active::before{background:var(--n-accent);}
-.fb-nav-icon{
-  width:28px;height:28px;border-radius:7px;background:#f1f5f9;
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;flex-shrink:0;transition:background .12s;
-}
-.fb-nav-item.active .fb-nav-icon{background:var(--p-accent);color:#fff;}
-.fb-nav-item.ngo-active .fb-nav-icon{background:var(--n-accent);color:#fff;}
-.fb-nav-count{
-  margin-left:auto;background:#ef4444;color:#fff;
-  font-size:9px;font-weight:800;padding:1px 5px;border-radius:8px;
-}
+/* Topbar */
+.fb-topbar{height:var(--tb);background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:8px;flex-shrink:0;}
+.fb-topbar-search{flex:1;max-width:300px;position:relative;}
+.fb-topbar-search input{width:100%;padding:6px 10px 6px 28px;background:var(--bg);border:1px solid var(--border);border-radius:7px;font-size:11px;font-family:'Inter',sans-serif;outline:none;color:var(--text);transition:border-color .15s;}
+.fb-topbar-search input:focus{border-color:var(--blue);}
+.fb-topbar-search .fb-si{position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted2);}
+.fb-tb-right{margin-left:auto;display:flex;align-items:center;gap:6px;}
+.fb-tb-icon{width:28px;height:28px;border-radius:7px;border:1px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;position:relative;}
+.fb-notif-dot{position:absolute;top:-2px;right:-2px;width:6px;height:6px;background:var(--red);border-radius:50%;border:1.5px solid #fff;}
+.fb-role-tag{display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap;}
+.fb-role-tag.police{background:var(--blue-lt);color:var(--blue);border:1.5px solid var(--blue-bd);}
+.fb-role-tag.ngo{background:var(--green-lt);color:var(--green);border:1.5px solid #bbf7d0;}
+.fb-tb-profile{display:flex;align-items:center;gap:5px;padding:3px 8px 3px 3px;border:1px solid var(--border);border-radius:7px;cursor:pointer;background:var(--white);}
+.fb-tb-av{width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#fff;}
+.fb-tb-pname{font-size:11px;font-weight:600;color:var(--text2);}
 
-.fb-sidebar-footer{
-  padding:10px 12px;border-top:1px solid var(--border);margin-top:auto;
-}
-.fb-quick-btn{
-  display:flex;align-items:center;gap:6px;
-  padding:8px 10px;border-radius:8px;border:none;
-  width:100%;font-size:12px;font-weight:700;cursor:pointer;
-  font-family:'Inter',sans-serif;margin-bottom:5px;transition:opacity .15s;
-}
-.fb-quick-btn:active{opacity:.8;}
+/* Toolbar */
+.fb-toolbar{height:var(--bar);background:var(--white);border-bottom:1px solid var(--border);padding:0 14px;display:flex;align-items:center;gap:5px;flex-shrink:0;overflow-x:auto;scrollbar-width:none;}
+.fb-toolbar::-webkit-scrollbar{display:none;}
+/* Dropdown */
+.fb-dd{position:relative;flex-shrink:0;}
+.fb-dd-btn{display:flex;align-items:center;gap:4px;padding:4px 9px;background:var(--white);border:1px solid var(--border);border-radius:6px;font-size:11px;font-weight:500;color:var(--text2);cursor:pointer;white-space:nowrap;transition:all .1s;font-family:'Inter',sans-serif;}
+.fb-dd-btn:hover{border-color:#94a3b8;color:var(--text);}
+.fb-dd-btn.fb-dd-active{background:var(--blue-lt);border-color:var(--blue-bd);color:var(--blue);font-weight:600;}
+.fb-dd-arr{font-size:8px;color:var(--muted2);transition:transform .15s;}
+.fb-dd-btn.fb-dd-open .fb-dd-arr{transform:rotate(180deg);}
+.fb-dd-menu{position:absolute;top:calc(100% + 3px);left:0;background:var(--white);border:1px solid var(--border);border-radius:8px;box-shadow:0 6px 18px rgba(15,23,42,.1);min-width:155px;z-index:300;overflow:hidden;display:none;}
+.fb-dd-menu.fb-dd-show{display:block;animation:fbDrop .1s ease;}
+@keyframes fbDrop{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.fb-dd-sec{padding:5px 11px 2px;font-size:8px;font-weight:700;color:var(--muted2);letter-spacing:1px;text-transform:uppercase;}
+.fb-dd-item{padding:7px 11px;font-size:11px;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .08s;}
+.fb-dd-item:hover{background:var(--bg);}
+.fb-dd-item.fb-selected{background:var(--blue-lt);color:var(--blue);font-weight:600;}
+.fb-dd-sep{height:1px;background:var(--border2);margin:3px 0;}
+.fb-tb-div{width:1px;height:18px;background:var(--border);margin:0 2px;flex-shrink:0;}
+.fb-sort-btn{padding:4px 8px;border-radius:6px;font-size:10px;font-weight:600;color:var(--muted);cursor:pointer;border:none;background:transparent;font-family:'Inter',sans-serif;transition:color .1s;flex-shrink:0;}
+.fb-sort-btn:hover{color:var(--text);}
+.fb-sort-btn.fb-sort-active{color:var(--blue);background:var(--blue-lt);}
+.fb-result-ct{margin-left:auto;font-size:10px;color:var(--muted2);font-weight:500;white-space:nowrap;flex-shrink:0;}
+.fb-result-ct b{color:var(--text2);}
 
-/* MAIN CONTENT */
-.fb-main{flex:1;padding:14px;overflow-x:hidden;}
+/* ── EMAIL LIST + DETAIL ── */
+.fb-split{flex:1;display:flex;overflow:hidden;}
 
-/* CARDS */
-.fb-card{
-  background:#fff;border-radius:12px;border:1px solid var(--border);
-  padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.04);
-}
-.fb-card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
-.fb-card-title{font-size:13px;font-weight:700;color:var(--text);}
-.fb-card-sub{font-size:10px;color:var(--muted);margin-top:1px;}
+/* Email list */
+.fb-list{flex:1;overflow-y:auto;background:var(--white);}
+.fb-list::-webkit-scrollbar{width:4px;}
+.fb-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 
-/* STAT CARDS */
-.fb-stat{
-  background:#fff;border-radius:12px;border:1px solid var(--border);
-  padding:14px;position:relative;overflow:hidden;
-  box-shadow:0 1px 3px rgba(0,0,0,.04);
-}
-.fb-stat::after{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  border-radius:12px 12px 0 0;
-}
-.fb-stat.red::after{background:linear-gradient(90deg,#dc2626,#f87171);}
-.fb-stat.blue::after{background:linear-gradient(90deg,#2563eb,#60a5fa);}
-.fb-stat.green::after{background:linear-gradient(90deg,#059669,#34d399);}
-.fb-stat.amber::after{background:linear-gradient(90deg,#d97706,#fbbf24);}
-.fb-stat.purple::after{background:linear-gradient(90deg,#7c3aed,#a78bfa);}
-.fb-stat-num{
-  font-family:'Sora',sans-serif;font-size:26px;font-weight:800;
-  line-height:1;margin:6px 0 4px;
-}
-.fb-stat-label{font-size:9px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;}
-.fb-stat-sub{font-size:10px;color:var(--muted);margin-top:2px;}
-.fb-stat-icon{
-  position:absolute;right:12px;top:16px;
-  font-size:22px;opacity:.12;
-}
+/* Date group header */
+.fb-date-hd{position:sticky;top:0;z-index:5;padding:6px 14px;background:rgba(248,250,252,.96);backdrop-filter:blur(4px);border-bottom:1px solid var(--border2);font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.3px;display:flex;align-items:center;gap:6px;}
+.fb-date-hd::after{content:'';flex:1;height:1px;background:var(--border2);margin-left:4px;}
 
-/* PILLS / BADGES */
-.fb-pill{
-  display:inline-flex;align-items:center;gap:3px;
-  padding:2px 8px;border-radius:20px;
-  font-size:10px;font-weight:700;
-}
-.fb-pill.missing{background:#fef3c7;color:#d97706;border:1px solid #fde68a;}
-.fb-pill.found{background:#dcfce7;color:#16a34a;border:1px solid #bbf7d0;}
-.fb-pill.fir{background:#dbeafe;color:#1d4ed8;border:1px solid #bfdbfe;}
-.fb-pill.alert{background:#fee2e2;color:#dc2626;border:1px solid #fecaca;}
-.fb-pill.resolved{background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;}
-.fb-pill.pending{background:#fffbeb;color:#b45309;border:1px solid #fde68a;}
+/* Email row */
+.fb-row{display:flex;align-items:center;padding:9px 14px;border-bottom:1px solid var(--border2);cursor:pointer;gap:10px;transition:background .08s;position:relative;}
+.fb-row:hover{background:#fafbfc;}
+.fb-row.fb-unread{background:var(--white);}
+.fb-row.fb-unread .fb-row-subject{font-weight:700;color:var(--text);}
+.fb-row.fb-selected{background:var(--blue-lt);}
+.fb-row-dot{width:6px;height:6px;background:var(--blue);border-radius:50%;flex-shrink:0;opacity:0;}
+.fb-unread .fb-row-dot{opacity:1;}
+.fb-row-av{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;flex-shrink:0;}
+.fb-row-body{flex:1;min-width:0;}
+.fb-row-top{display:flex;align-items:center;gap:7px;margin-bottom:2px;}
+.fb-row-from{font-size:11px;font-weight:600;color:var(--text2);white-space:nowrap;}
+.fb-row-subject{font-size:11px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;}
+.fb-row-preview{font-size:10px;color:var(--muted2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fb-row-meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;}
+.fb-row-time{font-size:10px;color:var(--muted2);white-space:nowrap;}
+.fb-row-pills{display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end;}
 
-/* BUTTONS */
-.fb-btn{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:6px 11px;border-radius:7px;font-size:11px;font-weight:700;
-  cursor:pointer;border:1.5px solid transparent;
-  font-family:'Inter',sans-serif;transition:all .12s;white-space:nowrap;
-}
-.fb-btn:active{transform:scale(.96);}
-.fb-btn-primary{background:#2563eb;color:#fff;border-color:#2563eb;box-shadow:0 2px 6px rgba(37,99,235,.2);}
-.fb-btn-primary:hover{background:#1d4ed8;}
-.fb-btn-green{background:#059669;color:#fff;border-color:#059669;}
-.fb-btn-danger{background:#fef2f2;color:#dc2626;border-color:#fecaca;}
-.fb-btn-neutral{background:#f8fafc;color:#475569;border-color:#e2e8f0;}
-.fb-btn-ghost{background:transparent;color:#2563eb;border-color:#bfdbfe;}
+/* Pills */
+.fp{display:inline-flex;align-items:center;gap:2px;padding:1px 6px;border-radius:20px;font-size:9px;font-weight:700;white-space:nowrap;}
+.fp-lost{background:#fef2f2;color:#dc2626;}
+.fp-found{background:#f0fdf4;color:#16a34a;}
+.fp-missing{background:#fffbeb;color:#d97706;}
+.fp-pending{background:#f8fafc;color:#64748b;border:1px solid #e2e8f0;}
+.fp-accepted{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;}
+.fp-rejected{background:#fef2f2;color:#dc2626;border:1px solid #fecaca;}
+.fp-fraud{background:#fef2f2;color:#dc2626;border:1px solid #fecaca;}
+.fp-resolved{background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;}
+.fp-id{background:#eff6ff;color:#1d4ed8;font-family:'DM Mono',monospace,monospace;font-size:8px;letter-spacing:.3px;}
 
-/* TABLE */
-.fb-table{width:100%;border-collapse:collapse;font-size:11px;}
-.fb-table th{
-  background:#f8fafc;padding:8px 10px;text-align:left;
-  font-size:9px;font-weight:800;color:#94a3b8;letter-spacing:.8px;
-  text-transform:uppercase;border-bottom:1px solid var(--border);
-}
-.fb-table td{
-  padding:9px 10px;border-bottom:1px solid #f8fafc;
-  color:#475569;vertical-align:middle;
-}
-.fb-table tr:hover td{background:#fafbfc;}
-.fb-table tr:last-child td{border-bottom:none;}
+/* ── DETAIL PANEL ── */
+.fb-detail{width:0;overflow:hidden;background:var(--white);border-left:1px solid var(--border);transition:width .2s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;flex-shrink:0;}
+.fb-detail.fb-detail-open{width:300px;}
+.fb-detail-top{padding:10px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.fb-detail-close{width:24px;height:24px;border-radius:5px;border:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px;color:var(--muted);flex-shrink:0;}
+.fb-detail-title{font-size:12px;font-weight:700;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fb-detail-body{flex:1;overflow-y:auto;padding:12px;}
+.fb-detail-body::-webkit-scrollbar{width:3px;}
+.fb-detail-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.fb-fir-badge{font-family:'DM Mono',monospace,monospace;font-size:10px;font-weight:500;background:var(--blue-lt);border:1px solid var(--blue-bd);color:var(--blue);padding:6px 10px;border-radius:7px;text-align:center;margin-bottom:11px;letter-spacing:.5px;}
+.fb-dfield{margin-bottom:9px;}
+.fb-dfield-lbl{font-size:8px;font-weight:700;color:var(--muted2);letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;}
+.fb-dfield-val{font-size:11px;color:var(--text2);font-weight:500;line-height:1.5;}
+.fb-note-item{background:var(--bg);border-left:2px solid var(--blue);border-radius:0 5px 5px 0;padding:6px 8px;margin-bottom:5px;}
+.fb-note-by{font-size:8px;font-weight:700;color:var(--blue);margin-bottom:2px;}
+.fb-note-txt{font-size:10px;color:var(--text2);}
+.fb-note-input{width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:7px;font-size:11px;font-family:'Inter',sans-serif;outline:none;resize:none;height:54px;color:var(--text);margin-top:5px;background:var(--bg);}
+.fb-note-input:focus{border-color:var(--blue);background:#fff;}
+.fb-detail-actions{padding:10px 12px;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:5px;flex-shrink:0;}
+.fb-daction{padding:7px;border-radius:7px;font-size:10px;font-weight:700;border:1.5px solid;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:4px;transition:opacity .1s;}
+.fb-daction:active{opacity:.8;}
+.fb-daction.acc{background:#f0fdf4;color:#16a34a;border-color:#bbf7d0;}
+.fb-daction.rej{background:#fef2f2;color:#dc2626;border-color:#fecaca;}
+.fb-daction.call{background:var(--blue-lt);color:var(--blue);border-color:var(--blue-bd);}
+.fb-daction.hide{background:var(--bg);color:var(--muted);border-color:var(--border);}
+.fb-daction.collab{background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;border:none;grid-column:1/-1;padding:9px;}
 
-/* DROPDOWN */
-.fb-dd-wrap{position:relative;display:inline-block;}
-.fb-dd-btn{
-  display:flex;align-items:center;gap:5px;
-  padding:6px 10px;background:#fff;border:1px solid var(--border);
-  border-radius:7px;font-size:11px;font-weight:600;color:#475569;
-  cursor:pointer;font-family:'Inter',sans-serif;transition:all .12s;
-}
-.fb-dd-btn:hover{border-color:#94a3b8;}
-.fb-dd-menu{
-  position:absolute;top:calc(100% + 3px);right:0;
-  background:#fff;border:1px solid var(--border);border-radius:8px;
-  box-shadow:0 8px 20px rgba(0,0,0,.09);min-width:150px;z-index:100;
-  display:none;overflow:hidden;
-}
-.fb-dd-menu.open{display:block;animation:fbDrop .12s ease;}
-@keyframes fbDrop{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
-.fb-dd-item{
-  padding:8px 12px;font-size:12px;color:#475569;cursor:pointer;
-  transition:background .1s;display:flex;align-items:center;gap:6px;
-}
-.fb-dd-item:hover{background:#f8fafc;color:var(--text);}
-.fb-dd-item.active{background:#eff6ff;color:#1d4ed8;font-weight:700;}
-.fb-dd-sep{height:1px;background:#f1f5f9;margin:3px 0;}
+/* ── ALERT MODAL ── */
+.fb-modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:500;align-items:flex-end;justify-content:center;}
+.fb-modal-overlay.fb-modal-open{display:flex;}
+.fb-modal-box{background:var(--white);border-radius:16px 16px 0 0;padding:18px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 -6px 24px rgba(15,23,42,.12);}
 
-/* ALERT BANNER */
-.fb-alert-banner{
-  background:linear-gradient(135deg,#fef2f2,#fff5f5);
-  border:1px solid #fecaca;border-radius:10px;
-  padding:11px 14px;margin-bottom:12px;
-}
-
-/* INPUT */
-.fb-input{
-  width:100%;padding:8px 11px;border:1.5px solid var(--border);
-  border-radius:8px;font-size:12px;font-family:'Inter',sans-serif;
-  outline:none;color:var(--text);transition:border-color .15s;
-}
-.fb-input:focus{border-color:#2563eb;}
-.fb-select{
-  width:100%;padding:8px 11px;border:1.5px solid var(--border);
-  border-radius:8px;font-size:12px;font-family:'Inter',sans-serif;
-  outline:none;color:var(--text);background:#fff;cursor:pointer;
-}
-.fb-label{
-  display:block;font-size:10px;font-weight:700;color:var(--muted);
-  letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px;
-}
-
-/* PROGRESS */
-.fb-progress{height:4px;background:#f1f5f9;border-radius:2px;overflow:hidden;}
-.fb-progress-fill{height:100%;border-radius:2px;transition:width .5s;}
-
-/* ANIMATIONS */
-@keyframes fbSlide{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.fb-animate{animation:fbSlide .2s ease forwards;}
-
-/* LOGIN */
-.fb-login-wrap{
-  min-height:calc(100vh - 106px);display:flex;
-  align-items:center;justify-content:center;padding:20px;
-  background:linear-gradient(135deg,#f0f7ff 0%,#f8fafc 60%,#f0fdf4 100%);
-}
-.fb-login-card{
-  background:#fff;border:1px solid var(--border);
-  border-radius:18px;width:100%;max-width:400px;
-  box-shadow:0 16px 48px rgba(0,0,0,.08);overflow:hidden;
-}
-.fb-login-tabs{display:flex;border-bottom:1px solid #f1f5f9;}
-.fb-login-tab{
-  flex:1;padding:13px;border:none;background:transparent;
-  font-size:13px;font-weight:600;cursor:pointer;
-  font-family:'Inter',sans-serif;color:#94a3b8;
-  border-bottom:2px solid transparent;transition:all .15s;
-}
-.fb-login-tab.active{color:#1e293b;border-bottom-color:#2563eb;background:#fafcff;}
-
-/* CASE DETAIL MODAL */
-.fb-modal-overlay{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);
-  z-index:500;align-items:flex-end;justify-content:center;
-}
-.fb-modal-overlay.open{display:flex;}
-.fb-modal{
-  background:#fff;border-radius:18px 18px 0 0;
-  padding:20px;width:100%;max-height:88vh;overflow-y:auto;
-  box-shadow:0 -8px 28px rgba(0,0,0,.12);
-}
-
-/* Responsive: hide sidebar on small screens, show via toggle */
-@media(max-width:500px){
-  .fb-sidebar{position:fixed;left:-200px;top:106px;bottom:0;z-index:30;transition:left .25s;}
-  .fb-sidebar.open{left:0;}
-  .fb-sidebar-overlay-bg{display:none;position:fixed;inset:0;top:106px;background:rgba(0,0,0,.3);z-index:29;}
-  .fb-sidebar-overlay-bg.open{display:block;}
-}
+/* ── HIDDEN COMPAT ── */
+.fb-compat-hidden{display:none!important;}
 </style>
 
 <div class="page fb-portal" id="page-ngo">
 
-  <!-- ══ LOGIN WALL ══ -->
+  <!-- LOGIN WALL -->
   <div id="ngo-login-wall">
-    <div class="fb-login-wrap">
-      <div style="width:100%;max-width:400px;">
+    <div style="min-height:calc(100vh - 120px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#f0f7ff 0%,#f8fafc 60%,#f0fdf4 100%);">
 
-        <!-- Hero -->
-        <div style="text-align:center;margin-bottom:22px;">
-          <div style="width:56px;height:56px;background:linear-gradient(135deg,#1e4d8c,#2563eb);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 12px;box-shadow:0 6px 20px rgba(37,99,235,.22);">🏛️</div>
-          <div style="font-family:'Sora',sans-serif;font-size:20px;font-weight:800;color:#1e293b;letter-spacing:-.4px;">FindBack Command</div>
-          <div style="font-size:11px;color:#94a3b8;margin-top:3px;">Police · NGO · Authorized Access Only</div>
-          <div style="display:flex;gap:6px;justify-content:center;margin-top:10px;">
-            <span class="fb-pill fir">🚔 Police</span>
-            <span class="fb-pill found">🏛️ NGO</span>
-            <span class="fb-pill pending">🏢 Govt</span>
-          </div>
+      <div style="text-align:center;margin-bottom:20px;">
+        <div style="width:52px;height:52px;background:linear-gradient(135deg,#2563eb,#1d4ed8);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 12px;box-shadow:0 6px 18px rgba(37,99,235,.22);">🏛️</div>
+        <div style="font-family:'Sora',sans-serif;font-size:20px;font-weight:800;color:#0f172a;letter-spacing:-.4px;">FindBack Command</div>
+        <div style="font-size:11px;color:#94a3b8;margin-top:3px;">Police · NGO · Authorized Access</div>
+        <div style="display:flex;gap:5px;justify-content:center;margin-top:8px;">
+          <span class="fp fp-id" style="font-size:9px;font-family:'Inter',sans-serif;">🚔 Police</span>
+          <span class="fp fp-found" style="font-size:9px;">🏛️ NGO</span>
+          <span class="fp fp-pending" style="font-size:9px;">🏢 Govt</span>
         </div>
+      </div>
 
-        <div class="fb-login-card">
-          <div class="fb-login-tabs">
-            <button class="fb-login-tab active" id="ngo-tab-login" onclick="ngoAuthTab('login')">🔑 Sign In</button>
-            <button class="fb-login-tab" id="ngo-tab-register" onclick="ngoAuthTab('register')">📝 Register</button>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;width:100%;max-width:380px;overflow:hidden;box-shadow:0 12px 36px rgba(15,23,42,.08);">
+        <!-- Tab bar -->
+        <div style="display:flex;border-bottom:1px solid #f1f5f9;">
+          <button class="fb-login-tab-btn active" id="ngo-tab-login" onclick="ngoAuthTab('login')" style="flex:1;padding:12px;border:none;background:transparent;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;color:#1e293b;border-bottom:2px solid #2563eb;">🔑 Sign In</button>
+          <button class="fb-login-tab-btn" id="ngo-tab-register" onclick="ngoAuthTab('register')" style="flex:1;padding:12px;border:none;background:transparent;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;color:#94a3b8;border-bottom:2px solid transparent;">📝 Register</button>
+        </div>
+        <div style="padding:18px;">
+          <!-- Error -->
+          <div id="ngo-auth-err" style="display:none;background:#fef2f2;border:1px solid #fecaca;border-radius:7px;padding:8px 12px;font-size:11px;color:#dc2626;margin-bottom:12px;text-align:center;"></div>
+
+          <!-- LOGIN -->
+          <div id="ngo-form-login">
+            <div style="margin-bottom:11px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px;">Email</label><input type="email" id="ngo-login-email" placeholder="official@email.com" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;transition:border-color .15s;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div>
+            <div style="margin-bottom:18px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px;">Password</label><input type="password" id="ngo-login-pass" placeholder="••••••••" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div>
+            <button onclick="ngoFirebaseLogin()" id="ngo-login-btn" style="width:100%;padding:11px;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 3px 12px rgba(37,99,235,.22);">Sign In →</button>
           </div>
-          <div style="padding:18px;">
-            <div id="ngo-auth-err" style="display:none;background:#fef2f2;border:1px solid #fecaca;border-radius:7px;padding:8px 12px;font-size:11px;color:#dc2626;margin-bottom:12px;text-align:center;"></div>
 
-            <!-- LOGIN -->
-            <div id="ngo-form-login">
-              <div style="margin-bottom:11px;"><label class="fb-label">Email</label><input type="email" id="ngo-login-email" placeholder="official@email.com" class="fb-input"></div>
-              <div style="margin-bottom:18px;"><label class="fb-label">Password</label><input type="password" id="ngo-login-pass" placeholder="••••••••" class="fb-input"></div>
-              <button onclick="ngoFirebaseLogin()" id="ngo-login-btn" class="fb-btn fb-btn-primary" style="width:100%;justify-content:center;padding:12px;font-size:13px;">Sign In to Command Portal →</button>
-            </div>
+          <!-- REGISTER -->
+          <div id="ngo-form-register" style="display:none;max-height:56vh;overflow-y:auto;padding-right:2px;">
+            <div style="font-size:8px;font-weight:800;color:#94a3b8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid #f1f5f9;">👤 Personal</div>
+            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">Full Name ★</label><input type="text" id="ngo-reg-name" placeholder="Officer / Staff Name" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div>
+            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">Contact ★</label><div style="display:flex;gap:5px;"><div style="padding:8px 9px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:7px;font-size:10px;font-weight:700;color:#64748b;white-space:nowrap;flex-shrink:0;">+91</div><input type="tel" id="ngo-reg-phone" placeholder="10-digit" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)" style="flex:1;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div></div>
 
-            <!-- REGISTER -->
-            <div id="ngo-form-register" style="display:none;max-height:55vh;overflow-y:auto;padding-right:2px;">
-              <div style="font-size:9px;font-weight:800;color:#94a3b8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #f1f5f9;">👤 Personal</div>
-              <div style="margin-bottom:9px;"><label class="fb-label">Full Name ★</label><input type="text" id="ngo-reg-name" placeholder="Officer / Staff Name" class="fb-input"></div>
-              <div style="margin-bottom:9px;"><label class="fb-label">Contact ★</label><div style="display:flex;gap:5px;"><div style="padding:8px 9px;background:#f8fafc;border:1.5px solid var(--border);border-radius:8px;font-size:11px;font-weight:700;color:#64748b;white-space:nowrap;flex-shrink:0;">+91</div><input type="tel" id="ngo-reg-phone" placeholder="10-digit" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)" class="fb-input"></div></div>
+            <div style="font-size:8px;font-weight:800;color:#94a3b8;letter-spacing:1.5px;text-transform:uppercase;margin:10px 0 8px;padding-bottom:5px;border-bottom:1px solid #f1f5f9;">🏛️ Organization</div>
+            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">Org Name ★</label><input type="text" id="ngo-reg-org" placeholder="e.g. West Tripura Police" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div>
+            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">Type ★</label><select id="ngo-reg-type" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;background:#fff;"><option value="police">🚔 Police Station</option><option value="ngo">🏛️ NGO</option><option value="government">🏢 Government</option><option value="hospital">🏥 Hospital</option><option value="other">📋 Other</option></select></div>
+            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">Police Station</label><input type="text" id="ngo-reg-ps" placeholder="e.g. Agartala PS" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div>
 
-              <div style="font-size:9px;font-weight:800;color:#94a3b8;letter-spacing:1.5px;text-transform:uppercase;margin:10px 0 8px;padding-bottom:6px;border-bottom:1px solid #f1f5f9;">🏛️ Organization</div>
-              <div style="margin-bottom:9px;"><label class="fb-label">Org Name ★</label><input type="text" id="ngo-reg-org" placeholder="e.g. West Tripura Police" class="fb-input"></div>
-              <div style="margin-bottom:9px;"><label class="fb-label">Type ★</label><select id="ngo-reg-type" class="fb-select"><option value="police">🚔 Police Station</option><option value="ngo">🏛️ NGO</option><option value="government">🏢 Government</option><option value="hospital">🏥 Hospital</option><option value="other">📋 Other</option></select></div>
-              <div style="margin-bottom:9px;"><label class="fb-label">Police Station Name</label><input type="text" id="ngo-reg-ps" placeholder="e.g. Agartala PS" class="fb-input"></div>
+            <div style="font-size:8px;font-weight:800;color:#94a3b8;letter-spacing:1.5px;text-transform:uppercase;margin:10px 0 8px;padding-bottom:5px;border-bottom:1px solid #f1f5f9;">📍 Location</div>
+            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">State ★</label><select id="ngo-reg-state" onchange="ngoRegStateChange()" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;background:#fff;"><option value="">— Select —</option></select></div>
+            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">District ★</label><select id="ngo-reg-district" disabled style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;background:#fff;"><option value="">— Select State —</option></select></div>
+            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">Address</label><input type="text" id="ngo-reg-address" placeholder="Street, Area" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div>
+            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">PIN Code</label><input type="tel" id="ngo-reg-pin" placeholder="6-digit" maxlength="6" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6)" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div>
 
-              <div style="font-size:9px;font-weight:800;color:#94a3b8;letter-spacing:1.5px;text-transform:uppercase;margin:10px 0 8px;padding-bottom:6px;border-bottom:1px solid #f1f5f9;">📍 Location</div>
-              <div style="margin-bottom:9px;"><label class="fb-label">State ★</label><select id="ngo-reg-state" onchange="ngoRegStateChange()" class="fb-select"><option value="">— Select —</option></select></div>
-              <div style="margin-bottom:9px;"><label class="fb-label">District ★</label><select id="ngo-reg-district" disabled class="fb-select"><option value="">— Select State —</option></select></div>
-              <div style="margin-bottom:9px;"><label class="fb-label">Address</label><input type="text" id="ngo-reg-address" placeholder="Street, Area, Landmark" class="fb-input"></div>
-              <div style="margin-bottom:9px;"><label class="fb-label">PIN Code</label><input type="tel" id="ngo-reg-pin" placeholder="6-digit PIN" maxlength="6" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6)" class="fb-input"></div>
-
-              <div style="font-size:9px;font-weight:800;color:#94a3b8;letter-spacing:1.5px;text-transform:uppercase;margin:10px 0 8px;padding-bottom:6px;border-bottom:1px solid #f1f5f9;">🔐 Credentials</div>
-              <div style="margin-bottom:9px;"><label class="fb-label">Email ★</label><input type="email" id="ngo-reg-email" placeholder="official@email.com" class="fb-input"></div>
-              <div style="margin-bottom:16px;"><label class="fb-label">Password ★</label><input type="password" id="ngo-reg-pass" placeholder="Min 6 chars" class="fb-input"></div>
-              <button onclick="ngoFirebaseRegister()" id="ngo-reg-btn" class="fb-btn fb-btn-green" style="width:100%;justify-content:center;padding:12px;font-size:13px;">Create Official Account →</button>
-            </div>
+            <div style="font-size:8px;font-weight:800;color:#94a3b8;letter-spacing:1.5px;text-transform:uppercase;margin:10px 0 8px;padding-bottom:5px;border-bottom:1px solid #f1f5f9;">🔐 Credentials</div>
+            <div style="margin-bottom:8px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">Email ★</label><input type="email" id="ngo-reg-email" placeholder="official@email.com" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div>
+            <div style="margin-bottom:16px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;">Password ★</label><input type="password" id="ngo-reg-pass" placeholder="Min 6 chars" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'"></div>
+            <button onclick="ngoFirebaseRegister()" id="ngo-reg-btn" style="width:100%;padding:11px;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 3px 12px rgba(22,163,74,.2);">Create Account →</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ══ MAIN DASHBOARD ══ -->
+  <!-- MAIN DASHBOARD -->
   <div id="ngo-dashboard" style="display:none;">
+    <div class="fb-shell">
 
-    <!-- TOP BAR -->
-    <div class="fb-topbar">
-      <button onclick="fbToggleSidebar()" style="background:none;border:none;padding:5px;cursor:pointer;border-radius:7px;color:#475569;display:flex;align-items:center;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='none'">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
-
-      <!-- Search -->
-      <div class="fb-topbar-search">
-        <span class="ico">🔍</span>
-        <input type="text" id="fb-global-search" placeholder="Search case, name, location..." oninput="fbGlobalSearch(this.value)">
-      </div>
-
-      <div style="margin-left:auto;display:flex;align-items:center;gap:6px;">
-        <!-- Notifications -->
-        <div class="fb-icon-btn" onclick="ngoSwitchTab('alerts')">
-          🔔
-          <span class="fb-badge" id="fb-notif-count" style="display:none;">0</span>
+      <!-- ═══ SIDEBAR ═══ -->
+      <aside class="fb-sb" id="fb-sb">
+        <div class="fb-sb-top">
+          <div class="fb-sb-brand">
+            <div class="fb-sb-brand-icon">🏛️</div>
+            <div><div class="fb-sb-brand-name">FindBack</div><div class="fb-sb-brand-sub">Command</div></div>
+          </div>
+          <div class="fb-sb-profile">
+            <div class="fb-sb-av" id="fb-sb-av" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);">U</div>
+            <div style="flex:1;min-width:0;">
+              <div class="fb-sb-pname" id="ngo-org-name">Organization</div>
+              <div class="fb-sb-ptype" id="fb-sb-ptype">🚔 Police</div>
+            </div>
+            <div class="fb-sb-live"></div>
+          </div>
+          <div class="fb-sb-loc" id="fb-loc-chip">📍 <span id="fb-loc-text">—</span></div>
+          <div class="fb-sb-loc-note">🔍 Sirf is district ke posts dikh rahe hain</div>
         </div>
 
-        <!-- Role pill -->
-        <div id="fb-role-pill" class="fb-role-pill fb-role-police">🚔 Police</div>
+        <nav class="fb-nav">
+          <!-- Stats mini -->
+          <div style="padding:8px 10px 4px;display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+            <div style="background:rgba(255,255,255,.05);border-radius:6px;padding:5px;text-align:center;"><div id="ngo-stat-lost" style="font-family:'Sora',sans-serif;font-size:14px;font-weight:800;color:#f87171;">0</div><div style="font-size:7px;color:rgba(248,113,113,.55);font-weight:700;text-transform:uppercase;">Lost</div></div>
+            <div style="background:rgba(255,255,255,.05);border-radius:6px;padding:5px;text-align:center;"><div id="ngo-stat-found" style="font-family:'Sora',sans-serif;font-size:14px;font-weight:800;color:#4ade80;">0</div><div style="font-size:7px;color:rgba(74,222,128,.55);font-weight:700;text-transform:uppercase;">Found</div></div>
+            <div style="background:rgba(255,255,255,.05);border-radius:6px;padding:5px;text-align:center;"><div id="ngo-stat-missing" style="font-family:'Sora',sans-serif;font-size:14px;font-weight:800;color:#fbbf24;">0</div><div style="font-size:7px;color:rgba(251,191,36,.55);font-weight:700;text-transform:uppercase;">Missing</div></div>
+            <div style="background:rgba(255,255,255,.05);border-radius:6px;padding:5px;text-align:center;"><div id="ngo-stat-resolved" style="font-family:'Sora',sans-serif;font-size:14px;font-weight:800;color:#60a5fa;">0</div><div style="font-size:7px;color:rgba(96,165,250,.55);font-weight:700;text-transform:uppercase;">Solved</div></div>
+          </div>
 
-        <!-- Profile dropdown -->
-        <div class="fb-dd-wrap">
-          <div class="fb-dd-btn" onclick="fbToggleDD('profile')">
-            <span style="width:22px;height:22px;background:linear-gradient(135deg,#1e4d8c,#2563eb);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;" id="fb-avatar">P</span>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          <!-- Police nav -->
+          <div id="fb-nav-police">
+            <div class="fb-nav-sec">Overview</div>
+            <button class="fb-nav-item fb-active" id="fnav-home" onclick="fbSwitchNav('home',this)"><div class="fb-nav-icon">🏠</div>Dashboard</button>
+            <div class="fb-nav-sec">Cases</div>
+            <button class="fb-nav-item" id="fnav-fir" onclick="fbSwitchNav('fir',this)"><div class="fb-nav-icon">📋</div>FIR Management<span class="fb-nav-ct" id="fnav-fir-ct" style="display:none;">0</span></button>
+            <button class="fb-nav-item" id="fnav-missing" onclick="fbSwitchNav('missing',this)"><div class="fb-nav-icon">🚨</div>Missing Reports<span class="fb-nav-ct" id="fnav-miss-ct" style="display:none;">0</span></button>
+            <button class="fb-nav-item" id="fnav-cases" onclick="fbSwitchNav('cases',this)"><div class="fb-nav-icon">📂</div>All Cases</button>
+            <button class="fb-nav-item" id="fnav-resolved" onclick="fbSwitchNav('resolved',this)"><div class="fb-nav-icon">✅</div>Resolved</button>
+            <div class="fb-nav-sec">Operations</div>
+            <button class="fb-nav-item" id="fnav-alerts" onclick="fbSwitchNav('alerts',this)"><div class="fb-nav-icon">🔔</div>Alerts<span class="fb-nav-ct" id="fnav-alert-ct" style="display:none;">0</span></button>
+            <button class="fb-nav-item" id="fnav-analytics" onclick="fbSwitchNav('analytics',this)"><div class="fb-nav-icon">📊</div>Analytics</button>
+            <button class="fb-nav-item" id="fnav-fraud" onclick="fbSwitchNav('fraud',this)"><div class="fb-nav-icon">⚠️</div>Fraud Monitor</button>
+            <button class="fb-nav-item" id="fnav-collab" onclick="fbSwitchNav('collab',this)"><div class="fb-nav-icon">🤝</div>Collaboration</button>
+            <button class="fb-nav-item" id="fnav-reports" onclick="fbSwitchNav('reports',this)"><div class="fb-nav-icon">📥</div>Export</button>
           </div>
-          <div class="fb-dd-menu" id="profile-menu">
-            <div class="fb-dd-item" style="font-weight:700;color:#1e293b;" id="fb-profile-name">Officer</div>
-            <div class="fb-dd-sep"></div>
-            <div class="fb-dd-item" onclick="ngoLogout()">🚪 Logout</div>
+
+          <!-- NGO nav -->
+          <div id="fb-nav-ngo" style="display:none;">
+            <div class="fb-nav-sec">Overview</div>
+            <button class="fb-nav-item fb-ngo-active" id="fnav-ngo-home" onclick="fbSwitchNav('home',this,'ngo')"><div class="fb-nav-icon">🏠</div>Dashboard</button>
+            <div class="fb-nav-sec">Case Work</div>
+            <button class="fb-nav-item" id="fnav-ngo-missing" onclick="fbSwitchNav('missing',this,'ngo')"><div class="fb-nav-icon">🧍</div>Missing Persons<span class="fb-nav-ct" id="fnav-ngo-miss-ct" style="display:none;">0</span></button>
+            <button class="fb-nav-item" id="fnav-ngo-rescue" onclick="fbSwitchNav('rescue',this,'ngo')"><div class="fb-nav-icon">🚑</div>Rescue Requests</button>
+            <button class="fb-nav-item" id="fnav-ngo-cases" onclick="fbSwitchNav('cases',this,'ngo')"><div class="fb-nav-icon">📂</div>Case Follow-up</button>
+            <button class="fb-nav-item" id="fnav-ngo-resolved" onclick="fbSwitchNav('resolved',this,'ngo')"><div class="fb-nav-icon">✅</div>Resolved</button>
+            <div class="fb-nav-sec">Field Ops</div>
+            <button class="fb-nav-item" id="fnav-ngo-volunteers" onclick="fbSwitchNav('volunteers',this,'ngo')"><div class="fb-nav-icon">🙋</div>Volunteers</button>
+            <button class="fb-nav-item" id="fnav-ngo-shelter" onclick="fbSwitchNav('shelter',this,'ngo')"><div class="fb-nav-icon">🏠</div>Shelter Mgmt</button>
+            <div class="fb-nav-sec">Reports</div>
+            <button class="fb-nav-item" id="fnav-ngo-analytics" onclick="fbSwitchNav('analytics',this,'ngo')"><div class="fb-nav-icon">📊</div>Analytics</button>
+            <button class="fb-nav-item" id="fnav-ngo-alerts" onclick="fbSwitchNav('alerts',this,'ngo')"><div class="fb-nav-icon">🔔</div>Alerts</button>
+            <button class="fb-nav-item" id="fnav-ngo-collab" onclick="fbSwitchNav('collab',this,'ngo')"><div class="fb-nav-icon">🤝</div>Collab</button>
+            <button class="fb-nav-item" id="fnav-ngo-reports" onclick="fbSwitchNav('reports',this,'ngo')"><div class="fb-nav-icon">📥</div>Export</button>
           </div>
+        </nav>
+
+        <div class="fb-sb-footer">
+          <button class="fb-sb-qbtn alert" onclick="fbOpenAlertModal()">📢 Raise Alert</button>
+          <button class="fb-sb-qbtn add" onclick="fbSwitchNav('fir',null)">➕ New Case</button>
+          <button class="fb-sb-qbtn" onclick="ngoLogout()" style="background:rgba(239,68,68,.06);color:rgba(252,165,165,.6);border:1px solid rgba(239,68,68,.08);">🚪 Logout</button>
+        </div>
+      </aside>
+
+      <!-- RIGHT -->
+      <div class="fb-right">
+
+        <!-- Topbar -->
+        <div class="fb-topbar">
+          <div class="fb-topbar-search">
+            <span class="fb-si">🔍</span>
+            <input type="text" id="fb-global-search" placeholder="Search cases, names, locations..." oninput="fbGlobalSearch(this.value)">
+          </div>
+          <div class="fb-tb-right">
+            <div class="fb-tb-icon" onclick="fbSwitchNav('alerts',null)">🔔<span class="fb-notif-dot" id="fb-notif-dot" style="display:none;"></span></div>
+            <div class="fb-role-tag police" id="fb-role-tag">🚔 Police</div>
+            <div class="fb-tb-profile">
+              <div class="fb-tb-av" id="fb-tb-av" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);">U</div>
+              <span class="fb-tb-pname" id="fb-tb-pname">Loading...</span>
+              <span style="font-size:9px;color:#94a3b8;margin-left:2px;">▾</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toolbar — dropdowns -->
+        <div class="fb-toolbar" id="fb-toolbar">
+          <!-- Type -->
+          <div class="fb-dd" id="fdd-type">
+            <button class="fb-dd-btn" onclick="fbToggleDD('fdd-type')" id="fdd-type-btn"><span id="fdd-type-lbl">📋 All Types</span><span class="fb-dd-arr">▾</span></button>
+            <div class="fb-dd-menu" id="fdd-type-menu">
+              <div class="fb-dd-item fb-selected" onclick="fbApplyFilter('type','all','📋 All Types','fdd-type')">📋 All Types</div>
+              <div class="fb-dd-sep"></div>
+              <div class="fb-dd-item" onclick="fbApplyFilter('type','lost','😟 Lost','fdd-type')">😟 Lost Items</div>
+              <div class="fb-dd-item" onclick="fbApplyFilter('type','found','🎉 Found','fdd-type')">🎉 Found Items</div>
+              <div class="fb-dd-item" onclick="fbApplyFilter('type','missing','⚠️ Missing','fdd-type')">⚠️ Missing Persons</div>
+            </div>
+          </div>
+          <!-- Status -->
+          <div class="fb-dd" id="fdd-status">
+            <button class="fb-dd-btn" onclick="fbToggleDD('fdd-status')" id="fdd-status-btn"><span id="fdd-status-lbl">⏳ All Status</span><span class="fb-dd-arr">▾</span></button>
+            <div class="fb-dd-menu" id="fdd-status-menu">
+              <div class="fb-dd-item fb-selected" onclick="fbApplyFilter('status','all','⏳ All Status','fdd-status')">All Status</div>
+              <div class="fb-dd-sep"></div>
+              <div class="fb-dd-item" onclick="fbApplyFilter('status','pending','⏳ Pending','fdd-status')">⏳ Pending</div>
+              <div class="fb-dd-item" onclick="fbApplyFilter('status','accepted','✅ Accepted','fdd-status')">✅ Accepted</div>
+              <div class="fb-dd-item" onclick="fbApplyFilter('status','rejected','❌ Rejected','fdd-status')">❌ Rejected</div>
+            </div>
+          </div>
+          <!-- Date -->
+          <div class="fb-dd" id="fdd-date">
+            <button class="fb-dd-btn" onclick="fbToggleDD('fdd-date')" id="fdd-date-btn"><span id="fdd-date-lbl">📅 All Time</span><span class="fb-dd-arr">▾</span></button>
+            <div class="fb-dd-menu" id="fdd-date-menu">
+              <div class="fb-dd-item fb-selected" onclick="fbApplyFilter('date','all','📅 All Time','fdd-date')">📅 All Time</div>
+              <div class="fb-dd-sep"></div>
+              <div class="fb-dd-item" onclick="fbApplyFilter('date','today','📅 Today','fdd-date')">Today</div>
+              <div class="fb-dd-item" onclick="fbApplyFilter('date','week','📅 This Week','fdd-date')">This Week</div>
+              <div class="fb-dd-item" onclick="fbApplyFilter('date','month','📅 This Month','fdd-date')">This Month</div>
+            </div>
+          </div>
+          <!-- Fraud -->
+          <div class="fb-dd" id="fdd-fraud">
+            <button class="fb-dd-btn" onclick="fbToggleDD('fdd-fraud')" id="fdd-fraud-btn"><span id="fdd-fraud-lbl">🛡️ All</span><span class="fb-dd-arr">▾</span></button>
+            <div class="fb-dd-menu" id="fdd-fraud-menu">
+              <div class="fb-dd-item fb-selected" onclick="fbApplyFilter('fraud','all','🛡️ All','fdd-fraud')">🛡️ All Posts</div>
+              <div class="fb-dd-sep"></div>
+              <div class="fb-dd-item" onclick="fbApplyFilter('fraud','fraud','⚠️ Fraud Only','fdd-fraud')">⚠️ Fraud Alerts</div>
+              <div class="fb-dd-item" onclick="fbApplyFilter('fraud','clean','✅ Clean Only','fdd-fraud')">✅ Clean Only</div>
+            </div>
+          </div>
+          <!-- Sort -->
+          <div class="fb-tb-div"></div>
+          <button class="fb-sort-btn fb-sort-active" id="fb-sort-new" onclick="fbSetSort('newest',this)">↓ Newest</button>
+          <button class="fb-sort-btn" id="fb-sort-old" onclick="fbSetSort('oldest',this)">↑ Oldest</button>
+          <!-- Result count -->
+          <div class="fb-result-ct" id="fb-result-ct"><b>0</b> cases</div>
+        </div>
+
+        <!-- EMAIL LIST + DETAIL SPLIT -->
+        <div class="fb-split">
+
+          <!-- Email list -->
+          <div class="fb-list" id="fb-email-list">
+            <div style="text-align:center;padding:32px;color:#94a3b8;font-size:12px;">
+              <div style="font-size:28px;margin-bottom:8px;">📬</div>
+              Loading cases...
+            </div>
+          </div>
+
+          <!-- Detail panel -->
+          <div class="fb-detail" id="fb-detail-panel">
+            <div class="fb-detail-top">
+              <div class="fb-detail-close" onclick="fbCloseDetail()">×</div>
+              <div class="fb-detail-title" id="fb-detail-title">Case Details</div>
+            </div>
+            <div class="fb-detail-body">
+              <div class="fb-fir-badge" id="fb-detail-fir-id">—</div>
+              <div class="fb-dfield"><div class="fb-dfield-lbl">Type</div><div class="fb-dfield-val" id="fb-detail-type">—</div></div>
+              <div class="fb-dfield"><div class="fb-dfield-lbl">Item / Name</div><div class="fb-dfield-val" id="fb-detail-name">—</div></div>
+              <div class="fb-dfield"><div class="fb-dfield-lbl">Location</div><div class="fb-dfield-val" id="fb-detail-loc">—</div></div>
+              <div class="fb-dfield"><div class="fb-dfield-lbl">Reported By</div><div class="fb-dfield-val" id="fb-detail-by">—</div></div>
+              <div class="fb-dfield"><div class="fb-dfield-lbl">Contact</div><div class="fb-dfield-val" id="fb-detail-contact">—</div></div>
+              <div class="fb-dfield"><div class="fb-dfield-lbl">Date & Time</div><div class="fb-dfield-val" id="fb-detail-date">—</div></div>
+              <div class="fb-dfield"><div class="fb-dfield-lbl">Description</div><div class="fb-dfield-val" id="fb-detail-desc" style="color:#64748b;font-size:11px;line-height:1.6;">—</div></div>
+              <div class="fb-dfield"><div class="fb-dfield-lbl">Status</div><div class="fb-dfield-val" id="fb-detail-status">—</div></div>
+              <!-- Collab notes -->
+              <div class="fb-dfield" style="margin-top:12px;">
+                <div class="fb-dfield-lbl" style="margin-bottom:6px;">Collaboration Notes</div>
+                <div id="fb-detail-notes"></div>
+                <textarea class="fb-note-input" id="fb-detail-note-input" placeholder="Note likhiye..."></textarea>
+              </div>
+            </div>
+            <div class="fb-detail-actions">
+              <button class="fb-daction acc" id="fb-dact-accept" onclick="fbDetailAction('accepted')">✅ Accept</button>
+              <button class="fb-daction rej" id="fb-dact-reject" onclick="fbDetailAction('rejected')">❌ Reject</button>
+              <button class="fb-daction call" id="fb-dact-call">📞 Call</button>
+              <button class="fb-daction hide" id="fb-dact-hide" onclick="fbDetailHide()">🙈 Hide</button>
+              <button class="fb-daction collab" onclick="fbDetailAddNote()">🤝 Add Note & Collaborate</button>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- SIDEBAR OVERLAY (mobile) -->
-    <div class="fb-sidebar-overlay-bg" id="fb-sb-overlay" onclick="fbCloseSidebar()"></div>
-
-    <div class="fb-layout">
-
-      <!-- ── SIDEBAR ── -->
-      <div class="fb-sidebar" id="fb-sidebar">
-        <div class="fb-sidebar-header">
-          <div id="ngo-org-name" class="fb-sidebar-org">Organization</div>
-          <div id="fb-sidebar-date" class="fb-sidebar-sub">—</div>
-          <div id="fb-location-badge" style="display:none;margin-top:5px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;color:#065f46;">📍 <span id="fb-location-text">—</span></div>
-          <div id="fb-filter-notice" style="display:none;margin-top:4px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:3px 8px;font-size:9px;color:#1d4ed8;line-height:1.4;">🔍 Sirf apne district ke posts dikh rahe hain</div>
-          <!-- Mini stats -->
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:10px;">
-            <div style="background:#fef2f2;border-radius:7px;padding:6px;text-align:center;"><div id="ngo-stat-lost" style="font-family:'Sora',sans-serif;font-size:16px;font-weight:800;color:#dc2626;">0</div><div style="font-size:8px;color:#dc2626;font-weight:700;">LOST</div></div>
-            <div style="background:#f0fdf4;border-radius:7px;padding:6px;text-align:center;"><div id="ngo-stat-found" style="font-family:'Sora',sans-serif;font-size:16px;font-weight:800;color:#059669;">0</div><div style="font-size:8px;color:#059669;font-weight:700;">FOUND</div></div>
-            <div style="background:#fffbeb;border-radius:7px;padding:6px;text-align:center;"><div id="ngo-stat-missing" style="font-family:'Sora',sans-serif;font-size:16px;font-weight:800;color:#d97706;">0</div><div style="font-size:8px;color:#d97706;font-weight:700;">MISSING</div></div>
-            <div style="background:#eff6ff;border-radius:7px;padding:6px;text-align:center;"><div id="ngo-stat-resolved" style="font-family:'Sora',sans-serif;font-size:16px;font-weight:800;color:#2563eb;">0</div><div style="font-size:8px;color:#2563eb;font-weight:700;">SOLVED</div></div>
-          </div>
-        </div>
-
-        <!-- POLICE NAV -->
-        <div id="fb-nav-police">
-          <div class="fb-nav-section">Overview</div>
-          <button class="fb-nav-item active" id="fnav-home" onclick="ngoSwitchTab('home');fbCloseSidebar()"><div class="fb-nav-icon">🏠</div>Dashboard</button>
-
-          <div class="fb-nav-section">Case Management</div>
-          <button class="fb-nav-item" id="fnav-fir" onclick="ngoSwitchTab('fir');fbCloseSidebar()"><div class="fb-nav-icon">📋</div>FIR Management<span class="fb-nav-count" id="fnav-fir-ct" style="display:none;">0</span></button>
-          <button class="fb-nav-item" id="fnav-missing" onclick="ngoSwitchTab('missing');fbCloseSidebar()"><div class="fb-nav-icon">🚨</div>Missing Reports<span class="fb-nav-count" id="fnav-miss-ct" style="display:none;">0</span></button>
-          <button class="fb-nav-item" id="fnav-cases" onclick="ngoSwitchTab('cases');fbCloseSidebar()"><div class="fb-nav-icon">📂</div>All Cases</button>
-          <button class="fb-nav-item" id="fnav-resolved" onclick="ngoSwitchTab('resolved');fbCloseSidebar()"><div class="fb-nav-icon">✅</div>Resolved Cases</button>
-
-          <div class="fb-nav-section">Operations</div>
-          <button class="fb-nav-item" id="fnav-alerts" onclick="ngoSwitchTab('alerts');fbCloseSidebar()"><div class="fb-nav-icon">🔔</div>Alerts<span class="fb-nav-count" id="fnav-alert-ct" style="display:none;">0</span></button>
-          <button class="fb-nav-item" id="fnav-analytics" onclick="ngoSwitchTab('analytics');fbCloseSidebar()"><div class="fb-nav-icon">📊</div>Reports & Analytics</button>
-          <button class="fb-nav-item" id="fnav-fraud" onclick="ngoSwitchTab('fraud');fbCloseSidebar()"><div class="fb-nav-icon">⚠️</div>Fraud Monitor</button>
-
-          <div class="fb-nav-section">Tools</div>
-          <button class="fb-nav-item" id="fnav-reports" onclick="ngoSwitchTab('reports');fbCloseSidebar()"><div class="fb-nav-icon">📥</div>Export Reports</button>
-          <button class="fb-nav-item" id="fnav-collab" onclick="ngoSwitchTab('collab');fbCloseSidebar()"><div class="fb-nav-icon">🤝</div>Collaboration</button>
-        </div>
-
-        <!-- NGO NAV -->
-        <div id="fb-nav-ngo" style="display:none;">
-          <div class="fb-nav-section">Overview</div>
-          <button class="fb-nav-item ngo-active" id="fnav-ngo-home" onclick="ngoSwitchTab('home');fbCloseSidebar()"><div class="fb-nav-icon">🏠</div>Dashboard</button>
-
-          <div class="fb-nav-section">Case Work</div>
-          <button class="fb-nav-item" id="fnav-ngo-missing" onclick="ngoSwitchTab('missing');fbCloseSidebar()"><div class="fb-nav-icon">🧍</div>Missing Persons<span class="fb-nav-count" id="fnav-ngo-miss-ct" style="display:none;">0</span></button>
-          <button class="fb-nav-item" id="fnav-ngo-rescue" onclick="ngoSwitchTab('rescue');fbCloseSidebar()"><div class="fb-nav-icon">🚑</div>Rescue Requests</button>
-          <button class="fb-nav-item" id="fnav-ngo-cases" onclick="ngoSwitchTab('cases');fbCloseSidebar()"><div class="fb-nav-icon">📂</div>Case Follow-up</button>
-          <button class="fb-nav-item" id="fnav-ngo-resolved" onclick="ngoSwitchTab('resolved');fbCloseSidebar()"><div class="fb-nav-icon">✅</div>Resolved</button>
-
-          <div class="fb-nav-section">Field Ops</div>
-          <button class="fb-nav-item" id="fnav-ngo-volunteers" onclick="ngoSwitchTab('volunteers');fbCloseSidebar()"><div class="fb-nav-icon">🙋</div>Volunteers</button>
-          <button class="fb-nav-item" id="fnav-ngo-shelter" onclick="ngoSwitchTab('shelter');fbCloseSidebar()"><div class="fb-nav-icon">🏠</div>Shelter Mgmt</button>
-
-          <div class="fb-nav-section">Reports</div>
-          <button class="fb-nav-item" id="fnav-ngo-analytics" onclick="ngoSwitchTab('analytics');fbCloseSidebar()"><div class="fb-nav-icon">📊</div>Analytics</button>
-          <button class="fb-nav-item" id="fnav-ngo-alerts" onclick="ngoSwitchTab('alerts');fbCloseSidebar()"><div class="fb-nav-icon">🔔</div>Alerts</button>
-          <button class="fb-nav-item" id="fnav-ngo-reports" onclick="ngoSwitchTab('reports');fbCloseSidebar()"><div class="fb-nav-icon">📥</div>Export</button>
-          <button class="fb-nav-item" id="fnav-ngo-collab" onclick="ngoSwitchTab('collab');fbCloseSidebar()"><div class="fb-nav-icon">🤝</div>Collab</button>
-        </div>
-
-        <!-- Footer quick actions -->
-        <div class="fb-sidebar-footer">
-          <button onclick="fbRaiseAlert()" class="fb-quick-btn" style="background:#fef2f2;color:#dc2626;border:1.5px solid #fecaca;">
-            📢 Raise Alert
-          </button>
-          <button onclick="ngoSwitchTab('fir')" class="fb-quick-btn" style="background:#eff6ff;color:#1d4ed8;border:1.5px solid #bfdbfe;">
-            ➕ Add New Case
-          </button>
-        </div>
+  <!-- Alert Modal -->
+  <div class="fb-modal-overlay" id="fb-alert-modal" onclick="if(event.target===this)fbCloseAlertModal()">
+    <div class="fb-modal-box">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">
+        <div style="width:32px;height:32px;background:#dc2626;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;">📢</div>
+        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;color:#0f172a;">Raise Emergency Alert</div>
       </div>
-
-      <!-- ── TAB CONTENT ── -->
-      <div class="fb-main" id="fb-main">
-
-        <!-- ════ HOME ════ -->
-        <div id="ntab-content-home" class="fb-animate">
-
-          <!-- Fraud banner -->
-          <div id="ngo-fraud-banner" style="display:none;" class="fb-alert-banner">
-            <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;"><span>🚨</span><span style="font-size:12px;font-weight:700;color:#dc2626;">Suspicious Activity Detected</span></div>
-            <div id="ngo-fraud-list" style="font-size:11px;color:#7f1d1d;line-height:1.8;"></div>
-          </div>
-
-          <!-- POLICE stats -->
-          <div id="fb-police-stats" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
-            <div class="fb-stat red"><div class="fb-stat-label">Missing Cases</div><div class="fb-stat-num" id="ps-missing" style="color:#dc2626;">0</div><div class="fb-stat-sub">Open reports</div><div class="fb-stat-icon">🧍</div></div>
-            <div class="fb-stat blue"><div class="fb-stat-label">Active FIRs</div><div class="fb-stat-num" id="ps-fir" style="color:#2563eb;">0</div><div class="fb-stat-sub">Pending review</div><div class="fb-stat-icon">📋</div></div>
-            <div class="fb-stat green"><div class="fb-stat-label">Solved Cases</div><div class="fb-stat-num" id="ps-solved" style="color:#059669;">0</div><div class="fb-stat-sub">All time</div><div class="fb-stat-icon">✅</div></div>
-            <div class="fb-stat amber"><div class="fb-stat-label">Total Reports</div><div class="fb-stat-num" id="ps-total" style="color:#d97706;">0</div><div class="fb-stat-sub">On platform</div><div class="fb-stat-icon">📊</div></div>
-          </div>
-
-          <!-- NGO stats -->
-          <div id="fb-ngo-stats" style="display:none;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
-            <div class="fb-stat red"><div class="fb-stat-label">Missing Reports</div><div class="fb-stat-num" id="ns-missing" style="color:#dc2626;">0</div><div class="fb-stat-sub">Need attention</div><div class="fb-stat-icon">🧍</div></div>
-            <div class="fb-stat green"><div class="fb-stat-label">Active Shelters</div><div class="fb-stat-num" style="color:#059669;">—</div><div class="fb-stat-sub">S2 feature</div><div class="fb-stat-icon">🏠</div></div>
-            <div class="fb-stat purple"><div class="fb-stat-label">Volunteers</div><div class="fb-stat-num" style="color:#7c3aed;">—</div><div class="fb-stat-sub">S2 feature</div><div class="fb-stat-icon">🙋</div></div>
-            <div class="fb-stat amber"><div class="fb-stat-label">Cases Resolved</div><div class="fb-stat-num" id="ns-resolved" style="color:#d97706;">0</div><div class="fb-stat-sub">All time</div><div class="fb-stat-icon">✅</div></div>
-          </div>
-
-          <!-- Quick actions -->
-          <div class="fb-card" style="margin-bottom:12px;">
-            <div class="fb-card-hd"><div><div class="fb-card-title">⚡ Quick Actions</div></div></div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;" id="fb-quick-actions">
-              <button onclick="ngoSwitchTab('fir')" style="display:flex;align-items:center;gap:8px;padding:11px;background:#f0f7ff;border:1.5px solid #bfdbfe;border-radius:9px;cursor:pointer;width:100%;font-family:'Inter',sans-serif;" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#f0f7ff'"><div style="width:30px;height:30px;background:#2563eb;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">📋</div><div style="text-align:left;"><div style="font-size:11px;font-weight:700;color:#1e293b;">FIR Queue</div><div style="font-size:9px;color:#64748b;">Review cases</div></div></button>
-              <button onclick="ngoSwitchTab('missing')" style="display:flex;align-items:center;gap:8px;padding:11px;background:#fff8f8;border:1.5px solid #fecaca;border-radius:9px;cursor:pointer;width:100%;font-family:'Inter',sans-serif;" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#fff8f8'"><div style="width:30px;height:30px;background:#dc2626;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🚨</div><div style="text-align:left;"><div style="font-size:11px;font-weight:700;color:#1e293b;">Missing</div><div style="font-size:9px;color:#64748b;">Priority cases</div></div></button>
-              <button onclick="ngoSwitchTab('analytics')" style="display:flex;align-items:center;gap:8px;padding:11px;background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:9px;cursor:pointer;width:100%;font-family:'Inter',sans-serif;" onmouseover="this.style.background='#dcfce7'" onmouseout="this.style.background='#f0fdf4'"><div style="width:30px;height:30px;background:#059669;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">📊</div><div style="text-align:left;"><div style="font-size:11px;font-weight:700;color:#1e293b;">Analytics</div><div style="font-size:9px;color:#64748b;">Area data</div></div></button>
-              <button onclick="fbRaiseAlert()" style="display:flex;align-items:center;gap:8px;padding:11px;background:#fef2f2;border:1.5px solid #fecaca;border-radius:9px;cursor:pointer;width:100%;font-family:'Inter',sans-serif;" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#fef2f2'"><div style="width:30px;height:30px;background:#dc2626;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">📢</div><div style="text-align:left;"><div style="font-size:11px;font-weight:700;color:#1e293b;">Raise Alert</div><div style="font-size:9px;color:#64748b;">Emergency</div></div></button>
-            </div>
-          </div>
-
-          <!-- Recent cases table -->
-          <div class="fb-card">
-            <div class="fb-card-hd">
-              <div><div class="fb-card-title">Recent Cases</div><div class="fb-card-sub">Latest activity</div></div>
-              <button onclick="ngoSwitchTab('cases')" class="fb-btn fb-btn-ghost" style="font-size:11px;">View All →</button>
-            </div>
-            <div style="overflow-x:auto;">
-              <table class="fb-table" id="fb-recent-table">
-                <thead><tr><th>Item / Name</th><th>Type</th><th>Location</th><th>Status</th><th>Action</th></tr></thead>
-                <tbody id="fb-recent-tbody"><tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:20px;">Loading...</td></tr></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- ════ FIR QUEUE ════ -->
-        <div id="ntab-content-fir" style="display:none;" class="fb-animate">
-          <div class="fb-card">
-            <div class="fb-card-hd">
-              <div><div class="fb-card-title">📋 FIR Management</div><div class="fb-card-sub">Review, verify and action</div></div>
-              <div style="display:flex;gap:6px;align-items:center;">
-                <div class="fb-dd-wrap">
-                  <div class="fb-dd-btn" onclick="fbToggleDD('fir-filter')"><span id="fir-filter-lbl">All</span><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
-                  <div class="fb-dd-menu" id="fir-filter-menu">
-                    <div class="fb-dd-item active" onclick="ngoFilterFIR('all');fbSetDDLabel('fir-filter','All')">🔍 All</div>
-                    <div class="fb-dd-item" onclick="ngoFilterFIR('pending');fbSetDDLabel('fir-filter','⏳ Pending')">⏳ Pending</div>
-                    <div class="fb-dd-item" onclick="ngoFilterFIR('accepted');fbSetDDLabel('fir-filter','✅ Accepted')">✅ Accepted</div>
-                    <div class="fb-dd-item" onclick="ngoFilterFIR('rejected');fbSetDDLabel('fir-filter','❌ Rejected')">❌ Rejected</div>
-                    <div class="fb-dd-sep"></div>
-                    <div class="fb-dd-item" onclick="ngoFilterFIR('lost');fbSetDDLabel('fir-filter','😟 Lost')">😟 Lost</div>
-                    <div class="fb-dd-item" onclick="ngoFilterFIR('found');fbSetDDLabel('fir-filter','🎉 Found')">🎉 Found</div>
-                    <div class="fb-dd-item" onclick="ngoFilterFIR('missing');fbSetDDLabel('fir-filter','⚠️ Missing')">⚠️ Missing</div>
-                  </div>
-                </div>
-                <button onclick="ngoPoliceFIRView&&ngoPoliceFIRView()" class="fb-btn fb-btn-primary">🔄 Refresh</button>
-              </div>
-            </div>
-            <!-- Search -->
-            <div style="position:relative;margin-bottom:12px;">
-              <span style="position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:12px;color:#94a3b8;">🔍</span>
-              <input type="text" id="fir-search-input" placeholder="Search by item, location, name, contact..." class="fb-input" style="padding-left:28px;" oninput="ngoSearchFIR(this.value)">
-            </div>
-            <div id="ngo-fir-queue-list"><div style="text-align:center;padding:32px;color:#94a3b8;font-size:12px;"><div style="font-size:28px;margin-bottom:8px;">📋</div>Refresh karo</div></div>
-          </div>
-        </div>
-
-        <!-- ════ ALL CASES ════ -->
-        <div id="ntab-content-cases" style="display:none;" class="fb-animate">
-          <div class="fb-card">
-            <div class="fb-card-hd">
-              <div><div class="fb-card-title">📂 All Cases</div><div class="fb-card-sub">Complete case registry</div></div>
-              <div style="display:flex;gap:6px;">
-                <div class="fb-dd-wrap">
-                  <div class="fb-dd-btn" onclick="fbToggleDD('cases-type')"><span id="cases-type-lbl">All Types</span><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
-                  <div class="fb-dd-menu" id="cases-type-menu">
-                    <div class="fb-dd-item active" onclick="fbFilterCases('all');fbSetDDLabel('cases-type','All Types')">All Types</div>
-                    <div class="fb-dd-item" onclick="fbFilterCases('lost');fbSetDDLabel('cases-type','😟 Lost')">😟 Lost</div>
-                    <div class="fb-dd-item" onclick="fbFilterCases('found');fbSetDDLabel('cases-type','🎉 Found')">🎉 Found</div>
-                    <div class="fb-dd-item" onclick="fbFilterCases('missing');fbSetDDLabel('cases-type','⚠️ Missing')">⚠️ Missing</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div style="overflow-x:auto;">
-              <table class="fb-table">
-                <thead><tr><th>FIR ID</th><th>Item / Name</th><th>Type</th><th>Location</th><th>Reported By</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
-                <tbody id="fb-cases-tbody"><tr><td colspan="8" style="text-align:center;color:#94a3b8;padding:20px;">Loading...</td></tr></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- ════ MISSING ════ -->
-        <div id="ntab-content-missing" style="display:none;" class="fb-animate">
-          <div class="fb-card">
-            <div class="fb-card-hd">
-              <div><div class="fb-card-title">🚨 Missing Reports</div><div class="fb-card-sub">Priority open cases</div></div>
-              <span id="fb-missing-badge" style="display:none;" class="fb-pill alert">0 open</span>
-            </div>
-            <div id="ngo-missing-list"><div style="text-align:center;padding:24px;color:#94a3b8;font-size:12px;">Loading...</div></div>
-          </div>
-        </div>
-
-        <!-- ════ ANALYTICS ════ -->
-        <div id="ntab-content-analytics" style="display:none;" class="fb-animate">
-          <div class="fb-card" style="margin-bottom:12px;">
-            <div class="fb-card-hd">
-              <div><div class="fb-card-title">📊 Reports & Analytics</div><div class="fb-card-sub">Area-wise data</div></div>
-              <div class="fb-dd-wrap">
-                <div class="fb-dd-btn" onclick="fbToggleDD('analytics-sort')"><span id="analytics-sort-lbl">📉 Most Posts</span><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
-                <div class="fb-dd-menu" id="analytics-sort-menu">
-                  <div class="fb-dd-item active" onclick="ngoRenderAreaStats('total');fbSetDDLabel('analytics-sort','📉 Most Posts')">📉 Most Posts</div>
-                  <div class="fb-dd-item" onclick="ngoRenderAreaStats('lost');fbSetDDLabel('analytics-sort','😟 Most Lost')">😟 Most Lost</div>
-                  <div class="fb-dd-item" onclick="ngoRenderAreaStats('missing');fbSetDDLabel('analytics-sort','⚠️ Most Missing')">⚠️ Most Missing</div>
-                  <div class="fb-dd-item" onclick="ngoRenderAreaStats('resolved');fbSetDDLabel('analytics-sort','✅ Most Resolved')">✅ Most Resolved</div>
-                </div>
-              </div>
-            </div>
-            <div id="ngo-area-stats"><div style="text-align:center;padding:24px;color:#94a3b8;font-size:12px;">Loading...</div></div>
-          </div>
-        </div>
-
-        <!-- ════ ALERTS ════ -->
-        <div id="ntab-content-alerts" style="display:none;" class="fb-animate">
-          <div class="fb-card">
-            <div class="fb-card-hd">
-              <div><div class="fb-card-title">🔔 Alerts & Notifications</div></div>
-              <button onclick="ngoLoadNotifications&&ngoLoadNotifications()" class="fb-btn fb-btn-primary">🔄 Refresh</button>
-            </div>
-            <div id="ngo-notifications-list"><div style="text-align:center;padding:32px;color:#94a3b8;font-size:12px;"><div style="font-size:28px;margin-bottom:8px;">🔔</div>Refresh karo</div></div>
-            <span id="ngo-notif-badge" style="display:none;"></span>
-          </div>
-        </div>
-
-        <!-- ════ RESOLVED ════ -->
-        <div id="ntab-content-resolved" style="display:none;" class="fb-animate">
-          <div class="fb-card">
-            <div class="fb-card-hd"><div><div class="fb-card-title">✅ Resolved Cases</div></div></div>
-            <div id="ngo-resolved-list"><div style="text-align:center;padding:24px;color:#94a3b8;font-size:12px;">Loading...</div></div>
-          </div>
-        </div>
-
-        <!-- ════ FRAUD MONITOR ════ -->
-        <div id="ntab-content-fraud" style="display:none;" class="fb-animate">
-          <div class="fb-card">
-            <div class="fb-card-hd">
-              <div><div class="fb-card-title">⚠️ Fraud Monitor</div><div class="fb-card-sub">AI-based suspicious activity detection</div></div>
-              <button onclick="ngoCheckFraud()" class="fb-btn fb-btn-primary">🔍 Scan Now</button>
-            </div>
-            <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px;margin-bottom:12px;">
-              <div style="font-size:11px;font-weight:700;color:#d97706;margin-bottom:5px;">🤖 Detection Rules</div>
-              <div style="font-size:11px;color:#92400e;line-height:1.8;">🔸 Same name — 3+ posts → Fraud Alert<br>🔸 Same contact — 3+ posts → Suspicious<br>🔸 Same item + area → Duplicate Check</div>
-            </div>
-            <div id="ngo-fraud-scan-result"><div style="text-align:center;padding:16px;color:#94a3b8;font-size:12px;">Scan karo fraud activity dekhne ke liye</div></div>
-          </div>
-        </div>
-
-        <!-- ════ RESCUE (NGO) ════ -->
-        <div id="ntab-content-rescue" style="display:none;" class="fb-animate">
-          <div class="fb-card">
-            <div class="fb-card-hd"><div><div class="fb-card-title">🚑 Rescue Requests</div><div class="fb-card-sub">Active rescue operations</div></div></div>
-            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px;text-align:center;">
-              <div style="font-size:28px;margin-bottom:8px;">🚑</div>
-              <div style="font-size:13px;font-weight:600;color:#065f46;margin-bottom:4px;">Rescue Management</div>
-              <div style="font-size:11px;color:#374151;">Missing persons ki immediate rescue coordination.<br>Missing tab se connected hai.</div>
-              <button onclick="ngoSwitchTab('missing')" class="fb-btn fb-btn-green" style="margin-top:12px;">View Missing Cases →</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- ════ VOLUNTEERS (NGO) ════ -->
-        <div id="ntab-content-volunteers" style="display:none;" class="fb-animate">
-          <div class="fb-card">
-            <div class="fb-card-hd"><div><div class="fb-card-title">🙋 Volunteer Management</div></div></div>
-            <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
-              <div style="font-size:28px;margin-bottom:8px;">🔮</div>
-              <div style="font-size:13px;font-weight:600;color:#1e293b;margin-bottom:4px;">Coming in S2</div>
-              <div style="font-size:11px;color:#64748b;">Full volunteer database, task assignment, GPS tracking</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ════ SHELTER (NGO) ════ -->
-        <div id="ntab-content-shelter" style="display:none;" class="fb-animate">
-          <div class="fb-card">
-            <div class="fb-card-hd"><div><div class="fb-card-title">🏠 Shelter Management</div></div></div>
-            <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center;">
-              <div style="font-size:28px;margin-bottom:8px;">🔮</div>
-              <div style="font-size:13px;font-weight:600;color:#1e293b;margin-bottom:4px;">Coming in S2</div>
-              <div style="font-size:11px;color:#64748b;">Shelter capacity, occupancy, resource management</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ════ COLLABORATION ════ -->
-        <div id="ntab-content-collab" style="display:none;" class="fb-animate">
-          <div class="fb-card">
-            <div class="fb-card-hd"><div><div class="fb-card-title">🤝 Police-NGO Collaboration</div><div class="fb-card-sub">Joint case management</div></div></div>
-            <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:14px;margin-bottom:12px;">
-              <div style="font-size:12px;font-weight:700;color:#1d4ed8;margin-bottom:5px;">💡 How it works</div>
-              <div style="font-size:11px;color:#1e40af;line-height:1.8;">1. FIR Queue mein jaao<br>2. Kisi bhi case pe <strong>🤝 Collab</strong> button dabao<br>3. Notes add karo — Police + NGO dono dekh sakte hain<br>4. Accept/Reject/Update karo</div>
-            </div>
-            <button onclick="ngoSwitchTab('fir')" class="fb-btn fb-btn-primary" style="width:100%;justify-content:center;padding:11px;">📋 Go to FIR Queue →</button>
-          </div>
-        </div>
-
-        <!-- ════ REPORTS ════ -->
-        <div id="ntab-content-reports" style="display:none;" class="fb-animate">
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <div class="fb-card" style="display:flex;align-items:center;gap:12px;">
-              <div style="width:42px;height:42px;background:linear-gradient(135deg,#1e4d8c,#2563eb);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">📥</div>
-              <div style="flex:1;"><div style="font-size:13px;font-weight:700;color:#1e293b;">CSV Export</div><div style="font-size:11px;color:#94a3b8;">All cases — Excel compatible</div></div>
-              <button onclick="ngoExportCSV()" class="fb-btn fb-btn-primary">Download</button>
-            </div>
-            <div class="fb-card" style="display:flex;align-items:center;gap:12px;">
-              <div style="width:42px;height:42px;background:linear-gradient(135deg,#059669,#16a34a);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">📄</div>
-              <div style="flex:1;"><div style="font-size:13px;font-weight:700;color:#1e293b;">PDF Report</div><div style="font-size:11px;color:#94a3b8;">Official printable format</div></div>
-              <button onclick="ngoExportReport()" class="fb-btn fb-btn-green">Generate</button>
-            </div>
-            <div class="fb-card" style="display:flex;align-items:center;gap:12px;">
-              <div style="width:42px;height:42px;background:linear-gradient(135deg,#d97706,#f59e0b);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">📊</div>
-              <div style="flex:1;"><div style="font-size:13px;font-weight:700;color:#1e293b;">Analytics</div><div style="font-size:11px;color:#94a3b8;">Area-wise breakdown</div></div>
-              <button onclick="ngoSwitchTab('analytics')" class="fb-btn fb-btn-neutral">View</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Hidden compat -->
-        <div style="display:none;">
-          <select id="ngo-filter-type" onchange="ngoRenderPosts()"></select>
-          <table><tbody id="ngo-posts-tbody"></tbody></table>
-        </div>
-
-      </div><!-- fb-main -->
-    </div><!-- fb-layout -->
-
-    <!-- Raise Alert Modal -->
-    <div class="fb-modal-overlay" id="fb-alert-modal" onclick="if(event.target===this)this.classList.remove('open')">
-      <div class="fb-modal" style="max-width:500px;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-          <div style="width:36px;height:36px;background:#dc2626;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;">📢</div>
-          <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:#1e293b;">Raise Emergency Alert</div>
-        </div>
-        <div style="margin-bottom:12px;"><label class="fb-label">Alert Type</label>
-          <select class="fb-select" id="alert-type">
-            <option>🧍 Missing Person</option><option>🚨 Emergency Rescue</option><option>⚠️ Suspicious Activity</option><option>📢 General Alert</option>
-          </select>
-        </div>
-        <div style="margin-bottom:12px;"><label class="fb-label">Description</label><textarea class="fb-input" id="alert-desc" placeholder="Alert details..." style="min-height:70px;resize:vertical;"></textarea></div>
-        <div style="margin-bottom:16px;"><label class="fb-label">Location</label><input type="text" class="fb-input" id="alert-loc" placeholder="Area / Landmark"></div>
-        <div style="display:flex;gap:8px;">
-          <button onclick="document.getElementById('fb-alert-modal').classList.remove('open')" class="fb-btn fb-btn-neutral" style="flex:1;justify-content:center;padding:11px;">Cancel</button>
-          <button onclick="fbSendAlert()" class="fb-btn fb-btn-danger" style="flex:2;justify-content:center;padding:11px;background:#dc2626;color:#fff;border-color:#dc2626;">📢 Send Alert</button>
-        </div>
+      <div style="margin-bottom:10px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px;">Alert Type</label><select id="fb-alert-type" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;background:#fff;"><option>🧍 Missing Person</option><option>🚨 Emergency Rescue</option><option>⚠️ Suspicious Activity</option><option>📢 General Alert</option></select></div>
+      <div style="margin-bottom:10px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px;">Description</label><textarea id="fb-alert-desc" placeholder="Alert details..." style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;resize:none;height:70px;color:#0f172a;"></textarea></div>
+      <div style="margin-bottom:14px;"><label style="display:block;font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px;">Location</label><input type="text" id="fb-alert-loc" placeholder="Area / Landmark" style="width:100%;padding:8px 11px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:'Inter',sans-serif;outline:none;color:#0f172a;"></div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="fbCloseAlertModal()" style="flex:1;padding:11px;background:#f8fafc;color:#64748b;border:1px solid #e2e8f0;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">Cancel</button>
+        <button onclick="fbSendAlert()" style="flex:2;padding:11px;background:#dc2626;color:#fff;border:none;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">📢 Send Alert</button>
       </div>
     </div>
+  </div>
 
-  </div><!-- ngo-dashboard -->
-</div><!-- page-ngo -->
+  <!-- Hidden compat elements -->
+  <div class="fb-compat-hidden">
+    <select id="ngo-filter-type"></select>
+    <table><tbody id="ngo-posts-tbody"></tbody></table>
+    <div id="ngo-area-stats"></div>
+    <div id="ngo-missing-list"></div>
+    <div id="ngo-resolved-list"></div>
+    <div id="ngo-notifications-list"></div>
+    <span id="ngo-notif-badge"></span>
+    <div id="ngo-fraud-banner"><div id="ngo-fraud-list"></div></div>
+  </div>
+
+</div>
 
 
 <script>
 // ═══════════════════════════════════════════════
-// FINDBACK — Role-Based Dashboard Scripts
-// Police + NGO Complete System
+// FINDBACK EMAIL-STYLE DASHBOARD — Complete Scripts
 // ═══════════════════════════════════════════════
 
-// ── LOCATION FILTER — Sirf apne district ke posts ──
+// ── STATE ──
+window._fbRole      = 'police';
+window._fbFilters   = { type:'all', status:'all', date:'all', fraud:'all' };
+window._fbSort      = 'newest';
+window._fbSearchQ   = '';
+window._fbOpenPostId = null;
+window._fbFraudNames = [];
+window._fbFraudConts = [];
+
+// ── LOCATION FILTER ──
 window._getLocalPosts = function() {
-  var posts = window._allPosts || [];
-  var user  = window._ngoUser || {};
+  var posts    = window._allPosts || [];
+  var user     = window._ngoUser  || {};
   var district = (user.district || sessionStorage.getItem('ngo_district') || '').toLowerCase().trim();
   var state    = (user.state    || sessionStorage.getItem('ngo_state')    || '').toLowerCase().trim();
-
-  // Agar koi district/state nahi set hai — saare posts dikhaao (fallback)
   if(!district && !state) return posts;
-
   return posts.filter(function(p) {
     var loc = (p.loc || '').toLowerCase();
-    // District match karo (loc mein district ka naam ho)
     if(district && loc.includes(district)) return true;
-    // State match karo (agar district na mile)
     if(!district && state && loc.includes(state)) return true;
     return false;
   });
 };
 
-// Sidebar mein location badge update karo
-window._fbUpdateLocationBadge = function() {
-  var user = window._ngoUser || {};
-  var district = user.district || sessionStorage.getItem('ngo_district') || '';
-  var state    = user.state    || sessionStorage.getItem('ngo_state')    || '';
-  var locText  = [district, state].filter(Boolean).join(', ');
-
-  // Update sidebar date strip
-  var sd = document.getElementById('fb-sidebar-date');
-  if(sd) {
-    var now = new Date();
-    sd.textContent = now.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
-  }
-
-  // Show location badge
-  var lb = document.getElementById('fb-location-badge');
-  var lt = document.getElementById('fb-location-text');
-  var fn = document.getElementById('fb-filter-notice');
-  if(lb && lt && locText) {
-    lt.textContent = locText;
-    lb.style.display = 'block';
-    if(fn) fn.style.display = 'block';
-  }
-};
-
-// ── SIDEBAR TOGGLE ──
-window.fbToggleSidebar = function() {
-  var sb = document.getElementById('fb-sidebar');
-  var ov = document.getElementById('fb-sb-overlay');
-  if(!sb) return;
-  var open = sb.classList.contains('open');
-  sb.classList.toggle('open', !open);
-  if(ov) ov.classList.toggle('open', !open);
-};
-window.fbCloseSidebar = function() {
-  var sb = document.getElementById('fb-sidebar');
-  var ov = document.getElementById('fb-sb-overlay');
-  if(sb) sb.classList.remove('open');
-  if(ov) ov.classList.remove('open');
-};
-
 // ── DROPDOWN SYSTEM ──
 window.fbToggleDD = function(id) {
   var menu = document.getElementById(id + '-menu');
+  var btn  = document.getElementById(id + '-btn');
   if(!menu) return;
-  var isOpen = menu.classList.contains('open');
-  document.querySelectorAll('.fb-dd-menu').forEach(function(m){ m.classList.remove('open'); });
-  if(!isOpen) menu.classList.add('open');
-};
-window.fbSetDDLabel = function(id, label) {
-  var lbl = document.getElementById(id + '-lbl');
-  if(lbl) lbl.textContent = label;
-  var menu = document.getElementById(id + '-menu');
-  if(menu) {
-    menu.classList.remove('open');
-    menu.querySelectorAll('.fb-dd-item').forEach(function(item) {
-      item.classList.toggle('active', item.textContent.trim().startsWith(label.replace(/[🔍⏳✅❌😟🎉⚠️📉📊]/g,'').trim()));
-    });
-  }
+  var isOpen = menu.classList.contains('fb-dd-show');
+  document.querySelectorAll('.fb-dd-menu').forEach(function(m){ m.classList.remove('fb-dd-show'); });
+  document.querySelectorAll('.fb-dd-btn').forEach(function(b){ b.classList.remove('fb-dd-open'); });
+  if(!isOpen) { menu.classList.add('fb-dd-show'); if(btn) btn.classList.add('fb-dd-open'); }
 };
 document.addEventListener('click', function(e) {
-  if(!e.target.closest('.fb-dd-wrap')) {
-    document.querySelectorAll('.fb-dd-menu').forEach(function(m){ m.classList.remove('open'); });
+  if(!e.target.closest('.fb-dd')) {
+    document.querySelectorAll('.fb-dd-menu').forEach(function(m){ m.classList.remove('fb-dd-show'); });
+    document.querySelectorAll('.fb-dd-btn').forEach(function(b){ b.classList.remove('fb-dd-open'); });
   }
 });
-
-// ── ROLE DETECTION ──
-window._fbRole = 'police'; // default
-window._fbSetRole = function(type) {
-  window._fbRole = (type === 'ngo') ? 'ngo' : 'police';
-  // Switch sidebar nav
-  var policeNav = document.getElementById('fb-nav-police');
-  var ngoNav    = document.getElementById('fb-nav-ngo');
-  if(policeNav) policeNav.style.display = window._fbRole === 'police' ? 'block' : 'none';
-  if(ngoNav)    ngoNav.style.display    = window._fbRole === 'ngo'    ? 'block' : 'none';
-  // Switch role pill
-  var pill = document.getElementById('fb-role-pill');
-  if(pill) {
-    if(window._fbRole === 'police') {
-      pill.className = 'fb-role-pill fb-role-police';
-      pill.textContent = '🚔 Police';
-    } else {
-      pill.className = 'fb-role-pill fb-role-ngo';
-      pill.textContent = '🏛️ NGO';
-    }
+window.fbApplyFilter = function(type, val, label, ddId) {
+  window._fbFilters[type] = val;
+  var lbl = document.getElementById(ddId + '-lbl');
+  if(lbl) lbl.textContent = label;
+  var btn = document.getElementById(ddId + '-btn');
+  if(btn) { btn.classList.toggle('fb-dd-active', val !== 'all'); btn.classList.remove('fb-dd-open'); }
+  var menu = document.getElementById(ddId + '-menu');
+  if(menu) {
+    menu.classList.remove('fb-dd-show');
+    menu.querySelectorAll('.fb-dd-item').forEach(function(el){ el.classList.remove('fb-selected'); });
+    if(event && event.target) event.target.classList.add('fb-selected');
   }
-  // Switch stat cards
-  var ps = document.getElementById('fb-police-stats');
-  var ns = document.getElementById('fb-ngo-stats');
-  if(ps) ps.style.display = window._fbRole === 'police' ? 'grid' : 'none';
-  if(ns) ns.style.display = window._fbRole === 'ngo'    ? 'grid' : 'none';
+  window.fbRenderEmailList();
 };
 
-// ── TAB SWITCHER ──
-var _allTabs = ['home','fir','cases','missing','analytics','alerts','resolved','fraud','rescue','volunteers','shelter','collab','reports'];
-window.ngoSwitchTab = function(tab) {
-  _allTabs.forEach(function(t) {
-    var el = document.getElementById('ntab-content-' + t);
-    if(el) el.style.display = t === tab ? 'block' : 'none';
-  });
-  // Update active nav
-  document.querySelectorAll('.fb-nav-item').forEach(function(b){ b.classList.remove('active','ngo-active'); });
-  var activeClass = window._fbRole === 'ngo' ? 'ngo-active' : 'active';
-  var navId = 'fnav-' + (window._fbRole === 'ngo' ? 'ngo-' : '') + tab;
-  var navEl = document.getElementById(navId) || document.getElementById('fnav-' + tab);
-  if(navEl) navEl.classList.add(activeClass);
-
-  if(tab === 'missing')   { window.ngoRenderMissing   && window.ngoRenderMissing(); }
-  if(tab === 'analytics') { window.ngoRenderAreaStats  && window.ngoRenderAreaStats('total'); }
-  if(tab === 'resolved')  { window.ngoRenderResolved   && window.ngoRenderResolved(); }
-  if(tab === 'alerts')    { window.ngoLoadNotifications && window.ngoLoadNotifications(); }
-  if(tab === 'fir')       { window.ngoPoliceFIRView    && window.ngoPoliceFIRView(); }
-  if(tab === 'cases')     { window.fbRenderCasesTable  && window.fbRenderCasesTable(); }
-  if(tab === 'fraud')     { window.ngoCheckFraud       && window.ngoCheckFraud(); }
+// ── SORT ──
+window.fbSetSort = function(dir, btn) {
+  window._fbSort = dir;
+  document.querySelectorAll('.fb-sort-btn').forEach(function(b){ b.classList.remove('fb-sort-active'); });
+  if(btn) btn.classList.add('fb-sort-active');
+  window.fbRenderEmailList();
 };
 
 // ── GLOBAL SEARCH ──
 window.fbGlobalSearch = function(val) {
-  val = (val||'').toLowerCase().trim();
-  if(!val) { window.fbRenderRecentTable(); return; }
-  var localPosts = window._getLocalPosts ? window._getLocalPosts() : (window._allPosts||[]);
-  var posts = localPosts.filter(function(p) {
-    return (p.item||'').toLowerCase().includes(val)
-        || (p.loc||'').toLowerCase().includes(val)
-        || (p.authorName||'').toLowerCase().includes(val)
-        || (p.contact||'').includes(val);
-  });
-  window._renderCasesTableData(posts.slice(0, 20));
+  window._fbSearchQ = (val || '').toLowerCase().trim();
+  window.fbRenderEmailList();
 };
 
-// ── FIR SEARCH + FILTER ──
-window._firFilter = 'all';
-window._firSearchQ = '';
-window.ngoFilterFIR = function(f) { window._firFilter = f; window.ngoPoliceFIRView && window.ngoPoliceFIRView(); };
-window.ngoSearchFIR = function(v) { window._firSearchQ = (v||'').toLowerCase().trim(); window.ngoPoliceFIRView && window.ngoPoliceFIRView(); };
-
-// ── FIR ID ──
-window._generateFIRId = function(loc) {
-  var codes = {'Tripura':'TRP','Delhi':'DL','Maharashtra':'MH','Uttar Pradesh':'UP','West Bengal':'WB','Bihar':'BR','Rajasthan':'RJ','Gujarat':'GJ','Karnataka':'KA','Tamil Nadu':'TN','Andhra Pradesh':'AP','Telangana':'TG','Madhya Pradesh':'MP','Assam':'AS','Kerala':'KL','Odisha':'OD','Jharkhand':'JH','Uttarakhand':'UK','Punjab':'PB','Haryana':'HR','Himachal Pradesh':'HP','Jammu and Kashmir':'JK','Manipur':'MN','Meghalaya':'ML','Mizoram':'MZ','Nagaland':'NL','Sikkim':'SK','Arunachal Pradesh':'AR','Goa':'GA','Chhattisgarh':'CG','Chandigarh':'CH'};
-  var state = ((loc||'').split(',').pop()||'').trim();
-  var sc = codes[state] || state.substring(0,3).toUpperCase() || 'IN';
-  return 'FB-' + sc + '-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random()*9000)+1000);
-};
-
-// ── FIR QUEUE ──
-window.ngoPoliceFIRView = async function() {
-  var el = document.getElementById('ngo-fir-queue-list');
-  if(!el) return;
-  el.innerHTML = '<div style="text-align:center;padding:20px;color:#94a3b8;font-size:12px;">Loading...</div>';
-  var posts = window._getLocalPosts ? window._getLocalPosts() : (window._allPosts||[]);
-
-  // Fraud detection
+// ── FRAUD DETECTION ──
+window._fbDetectFraud = function(posts) {
   var nc = {}, cc = {};
   posts.forEach(function(p) {
     var n = (p.authorName||'').toLowerCase().trim();
     if(n && n !== 'anonymous') nc[n] = (nc[n]||0)+1;
     var c = (p.contact||'').replace(/\D/g,'').slice(-10);
-    if(c && c.length===10) cc[c] = (cc[c]||0)+1;
+    if(c && c.length === 10) cc[c] = (cc[c]||0)+1;
   });
-  var fraudNames = Object.keys(nc).filter(function(n){return nc[n]>=3;});
-  var fraudConts = Object.keys(cc).filter(function(c){return cc[c]>=3;});
+  window._fbFraudNames = Object.keys(nc).filter(function(n){return nc[n]>=3;});
+  window._fbFraudConts = Object.keys(cc).filter(function(c){return cc[c]>=3;});
+};
+window._fbIsFraud = function(p) {
+  var name = (p.authorName||'').toLowerCase().trim();
+  var cont = (p.contact||'').replace(/\D/g,'').slice(-10);
+  return window._fbFraudNames.indexOf(name) >= 0 || window._fbFraudConts.indexOf(cont) >= 0;
+};
 
-  // Fraud banner
-  var fb = document.getElementById('ngo-fraud-banner'), fl = document.getElementById('ngo-fraud-list');
-  if(fb && fl) {
-    var alerts = fraudNames.map(function(n){return '• <b>'+n+'</b> — '+nc[n]+' posts';});
-    fraudConts.forEach(function(c){ alerts.push('• Contact +91'+c+' — '+cc[c]+' posts'); });
-    if(alerts.length) { fb.style.display='block'; fl.innerHTML=alerts.join('<br>'); }
-    else fb.style.display='none';
-  }
+// ── AVATAR COLOR ──
+var _avColors = ['#2563eb','#7c3aed','#dc2626','#16a34a','#d97706','#0891b2','#be185d','#0f766e','#6366f1','#b45309'];
+window._fbAvColor = function(name) {
+  var h = 0;
+  for(var i=0;i<name.length;i++) h = (h + name.charCodeAt(i)) % _avColors.length;
+  return _avColors[h];
+};
 
-  // Filter
-  var filtered = posts.filter(function(p) {
+// ── APPLY FILTERS ──
+window._fbApplyAllFilters = function(posts) {
+  var f = window._fbFilters;
+  return posts.filter(function(p) {
     if(p.firHidden) return false;
-    if(window._firFilter==='pending')  return !p.firStatus || p.firStatus==='pending';
-    if(window._firFilter==='accepted') return p.firStatus==='accepted';
-    if(window._firFilter==='rejected') return p.firStatus==='rejected';
-    if(window._firFilter==='lost')     return p.type==='lost';
-    if(window._firFilter==='found')    return p.type==='found';
-    if(window._firFilter==='missing')  return p.type==='missing';
+    if(f.type !== 'all' && p.type !== f.type) return false;
+    if(f.status === 'pending'  && p.firStatus && p.firStatus !== 'pending') return false;
+    if(f.status === 'accepted' && p.firStatus !== 'accepted') return false;
+    if(f.status === 'rejected' && p.firStatus !== 'rejected') return false;
+    if(f.fraud === 'fraud' && !window._fbIsFraud(p)) return false;
+    if(f.fraud === 'clean' && window._fbIsFraud(p)) return false;
+    if(f.date !== 'all' && p.createdAt && p.createdAt.seconds) {
+      var now = Date.now(), ts = p.createdAt.seconds * 1000;
+      if(f.date === 'today'  && now - ts > 86400000) return false;
+      if(f.date === 'week'   && now - ts > 604800000) return false;
+      if(f.date === 'month'  && now - ts > 2592000000) return false;
+    }
+    if(window._fbSearchQ) {
+      var q = window._fbSearchQ;
+      if(!(p.item||'').toLowerCase().includes(q) &&
+         !(p.loc||'').toLowerCase().includes(q) &&
+         !(p.authorName||'').toLowerCase().includes(q) &&
+         !(p.contact||'').includes(q)) return false;
+    }
     return true;
+  }).sort(function(a,b){
+    var ta = a.createdAt&&a.createdAt.seconds ? a.createdAt.seconds : 0;
+    var tb = b.createdAt&&b.createdAt.seconds ? b.createdAt.seconds : 0;
+    return window._fbSort === 'newest' ? tb - ta : ta - tb;
   });
-  // Search
-  if(window._firSearchQ) {
-    var q = window._firSearchQ;
-    filtered = filtered.filter(function(p) {
-      return (p.item||'').toLowerCase().includes(q)
-          || (p.loc||'').toLowerCase().includes(q)
-          || (p.authorName||'').toLowerCase().includes(q)
-          || (p.contact||'').includes(q);
-    });
-  }
+};
 
-  // Nav badge
-  var pending = posts.filter(function(p){return !p.firHidden&&(!p.firStatus||p.firStatus==='pending');}).length;
-  ['fnav-fir-ct','fnav-ngo-fir-ct'].forEach(function(id){
-    var nb=document.getElementById(id); if(nb){nb.textContent=pending;nb.style.display=pending?'inline-flex':'none';}
-  });
-  var bell = document.getElementById('fb-notif-count'); if(bell){bell.textContent=pending;bell.style.display=pending?'flex':'none';}
+// ── RENDER EMAIL LIST ──
+window.fbRenderEmailList = function() {
+  var listEl = document.getElementById('fb-email-list');
+  if(!listEl) return;
 
-  if(!filtered.length) {
-    el.innerHTML = '<div style="text-align:center;padding:32px;color:#94a3b8;font-size:12px;"><div style="font-size:28px;margin-bottom:8px;">📋</div>No cases found</div>';
+  var allPosts = window._getLocalPosts ? window._getLocalPosts() : (window._allPosts||[]);
+  window._fbDetectFraud(allPosts);
+
+  var posts = window._fbApplyAllFilters(allPosts);
+
+  // Update result count
+  var rc = document.getElementById('fb-result-ct');
+  var district = (window._ngoUser||{}).district || sessionStorage.getItem('ngo_district') || '';
+  if(rc) rc.innerHTML = '<b>' + posts.length + '</b> cases' + (district ? ' · ' + district : '');
+
+  // Pending badges
+  var pending = allPosts.filter(function(p){ return !p.firHidden && (!p.firStatus || p.firStatus === 'pending'); }).length;
+  var missing = allPosts.filter(function(p){ return p.type === 'missing' && p.status !== 'resolved'; }).length;
+  ['fnav-fir-ct','fnav-alert-ct'].forEach(function(id){ var el=document.getElementById(id); if(el){el.textContent=pending;el.style.display=pending?'inline-flex':'none';} });
+  ['fnav-miss-ct','fnav-ngo-miss-ct'].forEach(function(id){ var el=document.getElementById(id); if(el){el.textContent=missing;el.style.display=missing?'inline-flex':'none';} });
+  var nd = document.getElementById('fb-notif-dot'); if(nd) nd.style.display = pending ? 'block' : 'none';
+
+  if(!posts.length) {
+    listEl.innerHTML = '<div style="text-align:center;padding:48px 20px;color:#94a3b8;"><div style="font-size:32px;margin-bottom:10px;opacity:.4;">📭</div><div style="font-size:14px;font-weight:600;color:#334155;margin-bottom:4px;">No cases found</div><div style="font-size:12px;">Filter change karo ya search clear karo</div></div>';
     return;
   }
 
-  el.innerHTML = filtered.map(function(p) {
-    var firId = p.firId || '—';
-    var d = p.createdAt&&p.createdAt.seconds ? new Date(p.createdAt.seconds*1000) : null;
-    var timeStr = d ? d.toLocaleDateString('en-IN')+' '+d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}) : '—';
-    var typeClass = p.type==='lost'?'fir':p.type==='found'?'found':'alert';
-    var typeLabel = p.type==='lost'?'😟 Lost':p.type==='found'?'🎉 Found':'⚠️ Missing';
-    var sClass = p.firStatus==='accepted'?'found':p.firStatus==='rejected'?'alert':'pending';
-    var sLabel = p.firStatus==='accepted'?'✅ Accepted':p.firStatus==='rejected'?'❌ Rejected':'⏳ Pending';
-    var isFraud = fraudNames.indexOf((p.authorName||'').toLowerCase().trim())>=0 || fraudConts.indexOf((p.contact||'').replace(/\D/g,'').slice(-10))>=0;
+  // Group by date
+  var groups = {};
+  var groupOrder = [];
+  posts.forEach(function(p) {
+    var label = 'Unknown Date';
+    if(p.createdAt && p.createdAt.seconds) {
+      var d = new Date(p.createdAt.seconds * 1000);
+      var today = new Date(); today.setHours(0,0,0,0);
+      var yesterday = new Date(today); yesterday.setDate(yesterday.getDate()-1);
+      var pd = new Date(d); pd.setHours(0,0,0,0);
+      if(pd.getTime() === today.getTime()) label = 'Today — ' + d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+      else if(pd.getTime() === yesterday.getTime()) label = 'Yesterday — ' + d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+      else label = d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'short',year:'numeric'});
+    }
+    if(!groups[label]) { groups[label] = []; groupOrder.push(label); }
+    groups[label].push(p);
+  });
 
-    return '<div style="background:#fff;border:1px solid '+(isFraud?'#fecaca':'#e8edf2')+';border-left:3px solid '+(p.firStatus==='accepted'?'#059669':p.firStatus==='rejected'?'#dc2626':isFraud?'#ef4444':'#2563eb')+';border-radius:10px;padding:13px;margin-bottom:8px;">'
-      // Header
-      +'<div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:8px;">'
-      +'<span style="font-family:monospace;font-size:10px;font-weight:800;color:#1e4d8c;background:#eff6ff;border:1px solid #bfdbfe;padding:2px 7px;border-radius:5px;">'+(firId==='—'?'PENDING':firId)+'</span>'
-      +'<span class="fb-pill '+typeClass+'">'+typeLabel+'</span>'
-      +(isFraud?'<span class="fb-pill alert">⚠️ Fraud</span>':'')
-      +'<span class="fb-pill '+sClass+'" style="margin-left:auto;">'+sLabel+'</span>'
-      +'</div>'
-      // Item
-      +'<div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:3px;">'+(p.item||'—')+'</div>'
-      +'<div style="font-size:11px;color:#64748b;margin-bottom:8px;">📍 '+(p.loc||'—')+'</div>'
-      // Meta chips
-      +'<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;">'
-      +'<span style="background:#f8fafc;border:1px solid #e8edf2;border-radius:5px;padding:2px 7px;font-size:10px;color:#64748b;">👤 '+(p.authorName||'Anon')+'</span>'
-      +'<span style="background:#f8fafc;border:1px solid #e8edf2;border-radius:5px;padding:2px 7px;font-size:10px;color:#64748b;">🕐 '+timeStr+'</span>'
-      +(p.contact?'<span style="background:#f8fafc;border:1px solid #e8edf2;border-radius:5px;padding:2px 7px;font-size:10px;color:#64748b;">📱 '+p.contact+'</span>':'')
-      +'</div>'
-      // Description
-      +(p.desc?'<div style="background:#f8fafc;border-radius:7px;padding:8px 10px;font-size:11px;color:#475569;line-height:1.6;margin-bottom:10px;">'+p.desc.substring(0,120)+(p.desc.length>120?'...':'')+'</div>':'')
-      // Actions
-      +'<div style="display:flex;gap:5px;flex-wrap:wrap;">'
-      +'<button onclick="ngoPoliceFIRAction(\''+p.id+'\',\'accepted\')" class="fb-btn fb-btn-green">✅ Accept</button>'
-      +'<button onclick="ngoPoliceFIRAction(\''+p.id+'\',\'rejected\')" class="fb-btn fb-btn-danger">❌ Reject</button>'
-      +'<button onclick="window.openEditModal&&window.openEditModal(\''+p.id+'\')" class="fb-btn fb-btn-neutral">✏️ Edit</button>'
-      +'<button onclick="ngoPoliceFIRDelete(\''+p.id+'\')" class="fb-btn fb-btn-neutral" title="Hide from queue">🙈 Hide</button>'
-      +'<button onclick="ngoOpenCollabPanel(\''+p.id+'\')" class="fb-btn fb-btn-primary" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);border-color:transparent;">🤝 Collab</button>'
-      +(p.contact?'<a href="tel:'+p.contact+'" class="fb-btn fb-btn-green" style="text-decoration:none;">📞</a>':'')
-      +'</div>'
-      +'</div>';
-  }).join('');
+  var html = '';
+  groupOrder.forEach(function(label) {
+    html += '<div class="fb-date-hd">' + label + '</div>';
+    groups[label].forEach(function(p) {
+      var firId = p.firId || '';
+      var isFraud = window._fbIsFraud(p);
+      var isUnread = !p.firStatus || p.firStatus === 'pending';
+      var name = (p.authorName || 'Anonymous');
+      var avLetter = (name[0]||'?').toUpperCase();
+      var avColor = window._fbAvColor(name);
+      var timeStr = '—';
+      if(p.createdAt&&p.createdAt.seconds) {
+        var d = new Date(p.createdAt.seconds*1000);
+        var today = new Date(); today.setHours(0,0,0,0);
+        if(d >= today) timeStr = d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+        else timeStr = d.toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+      }
+      var typePill = p.type==='lost'?'<span class="fp fp-lost">😟 Lost</span>':p.type==='found'?'<span class="fp fp-found">🎉 Found</span>':'<span class="fp fp-missing">⚠️ Missing</span>';
+      var statusPill = p.firStatus==='accepted'?'<span class="fp fp-accepted">✅ Accepted</span>':p.firStatus==='rejected'?'<span class="fp fp-rejected">❌ Rejected</span>':'<span class="fp fp-pending">⏳ Pending</span>';
+      var fraudPill = isFraud ? '<span class="fp fp-fraud">⚠️ Fraud</span>' : '';
+      var idPill = firId ? '<span class="fp fp-id">' + firId + '</span>' : '';
+
+      html += '<div class="fb-row ' + (isUnread?'fb-unread':'') + '" id="fbrow-' + p.id + '" onclick="fbOpenDetail(\'' + p.id + '\')">'
+        + '<div class="fb-row-dot"></div>'
+        + '<div class="fb-row-av" style="background:' + avColor + ';">' + avLetter + '</div>'
+        + '<div class="fb-row-body">'
+          + '<div class="fb-row-top"><span class="fb-row-from">' + name + '</span>' + typePill + fraudPill + '</div>'
+          + '<div class="fb-row-subject">' + (p.item||'—') + ' · ' + (p.loc||'—') + '</div>'
+          + '<div class="fb-row-preview">' + (p.desc ? p.desc.substring(0,80) + (p.desc.length>80?'...':'') : 'No description') + '</div>'
+        + '</div>'
+        + '<div class="fb-row-meta">'
+          + '<span class="fb-row-time">' + timeStr + '</span>'
+          + '<div class="fb-row-pills">' + idPill + statusPill + '</div>'
+        + '</div>'
+        + '</div>';
+    });
+  });
+
+  listEl.innerHTML = html;
 };
 
-// ── ACCEPT / REJECT ──
-window.ngoPoliceFIRAction = async function(postId, action) {
-  if(!confirm((action==='accepted'?'Accept':'Reject')+' this case?')) return;
+// ── OPEN DETAIL ──
+window.fbOpenDetail = function(postId) {
+  var p = (window._allPosts||[]).find(function(x){ return x.id === postId; });
+  if(!p) return;
+  window._fbOpenPostId = postId;
+
+  // Mark selected
+  document.querySelectorAll('.fb-row').forEach(function(r){ r.classList.remove('fb-selected'); });
+  var row = document.getElementById('fbrow-' + postId);
+  if(row) row.classList.add('fb-selected');
+
+  // Populate detail
+  var firId = p.firId || '—';
+  var isFraud = window._fbIsFraud(p);
+  var d = p.createdAt&&p.createdAt.seconds ? new Date(p.createdAt.seconds*1000) : null;
+  var dateStr = d ? d.toLocaleDateString('en-IN') + ' · ' + d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}) : '—';
+
+  var typePill = p.type==='lost'?'<span class="fp fp-lost">😟 Lost</span>':p.type==='found'?'<span class="fp fp-found">🎉 Found</span>':'<span class="fp fp-missing">⚠️ Missing</span>';
+  var statusPill = p.firStatus==='accepted'?'<span class="fp fp-accepted">✅ Accepted</span>':p.firStatus==='rejected'?'<span class="fp fp-rejected">❌ Rejected</span>':'<span class="fp fp-pending">⏳ Pending</span>';
+
+  var el = function(id){ return document.getElementById(id); };
+  if(el('fb-detail-title'))   el('fb-detail-title').textContent = p.item || '—';
+  if(el('fb-detail-fir-id'))  el('fb-detail-fir-id').textContent = firId;
+  if(el('fb-detail-type'))    el('fb-detail-type').innerHTML = typePill + (isFraud?' <span class="fp fp-fraud">⚠️ Fraud</span>':'');
+  if(el('fb-detail-name'))    el('fb-detail-name').textContent = p.item || '—';
+  if(el('fb-detail-loc'))     el('fb-detail-loc').textContent = '📍 ' + (p.loc || '—');
+  if(el('fb-detail-by'))      el('fb-detail-by').textContent = p.authorName || 'Anonymous';
+  if(el('fb-detail-contact')) el('fb-detail-contact').textContent = p.contact ? '📱 ' + p.contact : '—';
+  if(el('fb-detail-date'))    el('fb-detail-date').textContent = dateStr;
+  if(el('fb-detail-desc'))    el('fb-detail-desc').textContent = p.desc || 'No description';
+  if(el('fb-detail-status'))  el('fb-detail-status').innerHTML = statusPill;
+
+  // Call button
+  var callBtn = el('fb-dact-call');
+  if(callBtn) {
+    if(p.contact) { callBtn.onclick = function(){ window.location.href = 'tel:'+p.contact; }; callBtn.style.display = ''; }
+    else callBtn.style.display = 'none';
+  }
+
+  // Notes
+  var notesEl = el('fb-detail-notes');
+  if(notesEl) {
+    var collab = p.collaboration || [];
+    notesEl.innerHTML = collab.length === 0
+      ? '<div style="background:#f8fafc;border-radius:6px;padding:10px;text-align:center;font-size:11px;color:#94a3b8;margin-bottom:6px;">No notes yet</div>'
+      : collab.map(function(n){ return '<div class="fb-note-item"><div class="fb-note-by">'+n.by+' · '+n.at+'</div><div class="fb-note-txt">'+n.note+'</div></div>'; }).join('');
+  }
+  if(el('fb-detail-note-input')) el('fb-detail-note-input').value = '';
+
+  document.getElementById('fb-detail-panel').classList.add('fb-detail-open');
+};
+
+window.fbCloseDetail = function() {
+  document.getElementById('fb-detail-panel').classList.remove('fb-detail-open');
+  document.querySelectorAll('.fb-row').forEach(function(r){ r.classList.remove('fb-selected'); });
+  window._fbOpenPostId = null;
+};
+
+// ── DETAIL ACTIONS ──
+window.fbDetailAction = async function(action) {
+  if(!window._fbOpenPostId) return;
+  if(!confirm((action==='accepted'?'Accept':'Reject') + ' this case?')) return;
   try {
     var m = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    var post = (window._allPosts||[]).find(function(p){return p.id===postId;});
+    var post = (window._allPosts||[]).find(function(p){ return p.id===window._fbOpenPostId; });
     var firId = (post&&post.firId) ? post.firId : window._generateFIRId(post?post.loc:'');
-    await m.updateDoc(m.doc(window._db,'posts',postId), {
+    await m.updateDoc(m.doc(window._db,'posts',window._fbOpenPostId), {
       firStatus:action, firId:firId,
       firActionAt:m.serverTimestamp(),
       firActionBy:sessionStorage.getItem('ngo_org')||'Officer'
     });
     window.toast(action==='accepted'?'✅ Accepted! ID: '+firId:'❌ Rejected');
-    setTimeout(function(){ window.ngoPoliceFIRView&&window.ngoPoliceFIRView(); }, 800);
+    fbCloseDetail();
+    setTimeout(fbRenderEmailList, 800);
   } catch(e){ window.toast('❌ Failed: '+e.message); }
 };
 
-// ── HIDE FROM QUEUE ──
-window.ngoPoliceFIRDelete = async function(postId) {
+window.fbDetailHide = async function() {
+  if(!window._fbOpenPostId) return;
   if(!confirm('FIR queue se hide karna chahte ho?\nMain page pe post safe rahegi.')) return;
   try {
     var m = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    await m.updateDoc(m.doc(window._db,'posts',postId), {
+    await m.updateDoc(m.doc(window._db,'posts',window._fbOpenPostId), {
       firHidden:true, firHiddenAt:m.serverTimestamp(),
       firHiddenBy:sessionStorage.getItem('ngo_org')||'Officer'
     });
     window.toast('👁️ Hidden — main page safe');
-    setTimeout(function(){ window.ngoPoliceFIRView&&window.ngoPoliceFIRView(); }, 600);
+    fbCloseDetail();
+    setTimeout(fbRenderEmailList, 600);
   } catch(e){ window.toast('❌ Failed'); }
 };
 
-// ── ALL CASES TABLE ──
-window._caseTypeFilter = 'all';
-window.fbFilterCases = function(type) { window._caseTypeFilter = type; window.fbRenderCasesTable(); };
-window.fbRenderCasesTable = function() {
-  var allLocal = window._getLocalPosts ? window._getLocalPosts() : (window._allPosts||[]);
-  var posts = allLocal.filter(function(p){
-    if(window._caseTypeFilter==='all') return true;
-    return p.type === window._caseTypeFilter;
+window.fbDetailAddNote = async function() {
+  if(!window._fbOpenPostId) return;
+  var input = document.getElementById('fb-detail-note-input');
+  if(!input||!input.value.trim()){ window.toast('⚠️ Note likhiye'); return; }
+  var note = input.value.trim();
+  var org  = sessionStorage.getItem('ngo_org') || 'Officer';
+  var at   = new Date().toLocaleDateString('en-IN') + ' ' + new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  try {
+    var m = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    await m.updateDoc(m.doc(window._db,'posts',window._fbOpenPostId), { collaboration: m.arrayUnion({by:org,note:note,at:at}) });
+    window.toast('✅ Note added!');
+    fbCloseDetail();
+    setTimeout(function(){ fbRenderEmailList(); }, 500);
+  } catch(e){ window.toast('❌ Failed'); }
+};
+
+// ── NAV SWITCHER ──
+window._fbCurrentNav = 'home';
+window.fbSwitchNav = function(tab, btn, mode) {
+  window._fbCurrentNav = tab;
+  document.querySelectorAll('.fb-nav-item').forEach(function(b){
+    b.classList.remove('fb-active','fb-ngo-active');
   });
-  window._renderCasesTableData(posts);
-};
-window._renderCasesTableData = function(posts) {
-  var tbody = document.getElementById('fb-cases-tbody');
-  if(!tbody) return;
-  if(!posts.length) { tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:#94a3b8;padding:20px;">No cases found</td></tr>'; return; }
-  tbody.innerHTML = posts.slice(0,50).map(function(p) {
-    var firId = p.firId || '—';
-    var d = p.createdAt&&p.createdAt.seconds ? new Date(p.createdAt.seconds*1000) : null;
-    var dateStr = d ? d.toLocaleDateString('en-IN') : '—';
-    var typeClass = p.type==='lost'?'fir':p.type==='found'?'found':'alert';
-    var typeLabel = p.type==='lost'?'😟 Lost':p.type==='found'?'🎉 Found':'⚠️ Missing';
-    var sClass = p.firStatus==='accepted'?'found':p.firStatus==='rejected'?'alert':'pending';
-    var sLabel = p.firStatus==='accepted'?'✅ Accepted':p.firStatus==='rejected'?'❌ Rejected':'⏳ Pending';
-    return '<tr>'
-      +'<td style="font-family:monospace;font-size:10px;color:#1e4d8c;font-weight:700;">'+(firId==='—'?'—':firId)+'</td>'
-      +'<td style="font-weight:600;color:#1e293b;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(p.item||'—')+'</td>'
-      +'<td><span class="fb-pill '+typeClass+'">'+typeLabel+'</span></td>'
-      +'<td style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;">📍 '+(p.loc||'—')+'</td>'
-      +'<td style="font-size:10px;">👤 '+(p.authorName||'Anon')+'</td>'
-      +'<td style="font-size:10px;color:#64748b;">'+dateStr+'</td>'
-      +'<td><span class="fb-pill '+sClass+'">'+sLabel+'</span></td>'
-      +'<td>'
-        +'<div style="display:flex;gap:4px;">'
-        +'<button onclick="window.openDetail&&window.openDetail(\''+p.id+'\')" class="fb-btn fb-btn-neutral" style="padding:4px 8px;font-size:10px;">👁️</button>'
-        +'<button onclick="ngoOpenCollabPanel(\''+p.id+'\')" class="fb-btn fb-btn-primary" style="padding:4px 8px;font-size:10px;background:#6366f1;border:none;">🤝</button>'
-        +(p.contact?'<a href="tel:'+p.contact+'" class="fb-btn fb-btn-green" style="padding:4px 8px;font-size:10px;text-decoration:none;">📞</a>':'')
-        +'</div>'
-      +'</td>'
-      +'</tr>';
-  }).join('');
-};
+  if(btn) btn.classList.add(window._fbRole === 'ngo' ? 'fb-ngo-active' : 'fb-active');
 
-// ── RECENT TABLE (Home) ──
-window.fbRenderRecentTable = function() {
-  var posts = (window._getLocalPosts?window._getLocalPosts():(window._allPosts||[])).filter(function(p){return !p.firHidden;}).slice(0,8);
-  var tbody = document.getElementById('fb-recent-tbody');
-  if(!tbody) return;
-  if(!posts.length) { tbody.innerHTML='<tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:16px;">No posts yet</td></tr>'; return; }
-  tbody.innerHTML = posts.map(function(p) {
-    var typeClass = p.type==='lost'?'fir':p.type==='found'?'found':'alert';
-    var typeLabel = p.type==='lost'?'😟 Lost':p.type==='found'?'🎉 Found':'⚠️';
-    var sClass = p.firStatus==='accepted'?'found':p.firStatus==='rejected'?'alert':'pending';
-    var sLabel = p.firStatus==='accepted'?'✅':p.firStatus==='rejected'?'❌':'⏳';
-    return '<tr>'
-      +'<td style="font-weight:600;color:#1e293b;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+(p.item||'—')+'</td>'
-      +'<td><span class="fb-pill '+typeClass+'">'+typeLabel+'</span></td>'
-      +'<td style="font-size:10px;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">📍 '+(p.loc||'—')+'</td>'
-      +'<td><span class="fb-pill '+sClass+'">'+sLabel+'</span></td>'
-      +'<td>'
-        +'<button onclick="window.openDetail&&window.openDetail(\''+p.id+'\')" class="fb-btn fb-btn-neutral" style="padding:4px 8px;font-size:10px;">👁️</button>'
-      +'</td>'
-      +'</tr>';
-  }).join('');
-};
+  // Show/hide toolbar
+  var toolbar = document.getElementById('fb-toolbar');
+  var showToolbar = (tab === 'home' || tab === 'fir' || tab === 'cases' || tab === 'missing' || tab === 'resolved' || tab === 'alerts');
+  if(toolbar) toolbar.style.display = showToolbar ? 'flex' : 'none';
 
-// ── MISSING ──
-window.ngoRenderMissing = function() {
-  var posts = (window._getLocalPosts?window._getLocalPosts():(window._allPosts||[])).filter(function(p){return p.type==='missing'&&p.status!=='resolved';});
-  var el = document.getElementById('ngo-missing-list'); if(!el) return;
-  var badge = document.getElementById('fb-missing-badge');
-  if(badge){badge.textContent=posts.length+' open';badge.style.display=posts.length?'inline-flex':'none';}
-  ['fnav-miss-ct','fnav-ngo-miss-ct'].forEach(function(id){
-    var nb=document.getElementById(id);if(nb){nb.textContent=posts.length;nb.style.display=posts.length?'inline-flex':'none';}
-  });
-  if(!posts.length){el.innerHTML='<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px;text-align:center;"><div style="font-size:24px;margin-bottom:6px;">🎉</div><div style="font-size:13px;font-weight:600;color:#059669;">No open missing cases</div></div>';return;}
-  el.innerHTML = posts.map(function(p) {
-    var d = p.createdAt&&p.createdAt.seconds ? new Date(p.createdAt.seconds*1000).toLocaleDateString('en-IN') : '';
-    return '<div style="background:#fff;border:1px solid #fecaca;border-left:3px solid #dc2626;border-radius:9px;padding:12px;margin-bottom:8px;">'
-      +'<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">'
-      +'<div style="flex:1;min-width:0;">'
-      +'<div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:2px;">🚨 '+(p.item||'—')+'</div>'
-      +'<div style="font-size:11px;color:#64748b;">📍 '+(p.loc||'—')+(d?' · 📅 '+d:'')+'</div>'
-      +'<div style="font-size:11px;color:#64748b;margin-top:2px;">👤 '+(p.authorName||'—')+(p.contact?' · 📱 '+p.contact:'')+'</div>'
-      +'</div>'
-      +'<div style="display:flex;flex-direction:column;gap:5px;flex-shrink:0;">'
-      +(p.contact?'<a href="tel:'+p.contact+'" class="fb-btn fb-btn-green" style="text-decoration:none;justify-content:center;">📞 Call</a>':'')
-      +'<button onclick="ngoOpenCollabPanel(\''+p.id+'\')" class="fb-btn fb-btn-primary" style="justify-content:center;background:#6366f1;border:none;">🤝</button>'
-      +'</div></div></div>';
-  }).join('');
-};
-
-// ── ANALYTICS ──
-window.ngoRenderAreaStats = function(sortBy) {
-  sortBy = sortBy || 'total';
-  var posts = window._getLocalPosts ? window._getLocalPosts() : (window._allPosts||[]);
-  var areaMap = {};
-  posts.forEach(function(p) {
-    if(!p.loc) return;
-    var area = p.loc.split(',')[0].trim();
-    if(!areaMap[area]) areaMap[area] = {lost:0,found:0,missing:0,resolved:0};
-    if(p.type==='lost') areaMap[area].lost++;
-    else if(p.type==='found') areaMap[area].found++;
-    else if(p.type==='missing') areaMap[area].missing++;
-    if(p.status==='resolved') areaMap[area].resolved++;
-  });
-  var areas = Object.entries(areaMap).sort(function(a,b){
-    if(sortBy==='lost')    return b[1].lost-a[1].lost;
-    if(sortBy==='missing') return b[1].missing-a[1].missing;
-    if(sortBy==='resolved')return b[1].resolved-a[1].resolved;
-    return (b[1].lost+b[1].found+b[1].missing)-(a[1].lost+a[1].found+a[1].missing);
-  }).slice(0,10);
-  var el = document.getElementById('ngo-area-stats'); if(!el) return;
-  if(!areas.length){el.innerHTML='<div style="text-align:center;padding:16px;color:#94a3b8;font-size:12px;">No data yet</div>';return;}
-  var maxTotal = Math.max.apply(null,areas.map(function(e){return e[1].lost+e[1].found+e[1].missing;}));
-  el.innerHTML = '<table class="fb-table"><thead><tr><th>Area</th><th>Lost</th><th>Found</th><th>Missing</th><th>Resolved%</th></tr></thead><tbody>'
-    + areas.map(function(e) {
-      var a=e[0],s=e[1],total=s.lost+s.found+s.missing,pct=total>0?Math.round(s.resolved/total*100):0;
-      var bw = maxTotal>0?Math.round(total/maxTotal*80):0;
-      return '<tr>'
-        +'<td><div style="font-weight:600;color:#1e293b;font-size:11px;">'+a+'</div>'
-        +'<div class="fb-progress" style="width:'+bw+'%;min-width:20px;margin-top:3px;"><div class="fb-progress-fill" style="width:'+pct+'%;background:linear-gradient(90deg,#2563eb,#60a5fa);"></div></div></td>'
-        +'<td style="color:#dc2626;font-weight:700;">'+s.lost+'</td>'
-        +'<td style="color:#059669;font-weight:700;">'+s.found+'</td>'
-        +'<td style="color:#d97706;font-weight:700;">'+s.missing+'</td>'
-        +'<td><span class="fb-pill '+(pct>=50?'found':'pending')+'">'+pct+'%</span></td>'
-        +'</tr>';
-    }).join('')+'</tbody></table>';
-};
-
-// ── RESOLVED ──
-window.ngoRenderResolved = function() {
-  var posts = (window._getLocalPosts?window._getLocalPosts():(window._allPosts||[])).filter(function(p){return p.status==='resolved';}).slice(0,10);
-  var el = document.getElementById('ngo-resolved-list'); if(!el) return;
-  if(!posts.length){el.innerHTML='<div style="text-align:center;padding:16px;color:#94a3b8;font-size:12px;">No resolved cases yet</div>';return;}
-  el.innerHTML = posts.map(function(p){
-    return '<div style="background:#fff;border:1px solid #bbf7d0;border-left:3px solid #059669;border-radius:9px;padding:11px;margin-bottom:7px;display:flex;align-items:center;gap:10px;">'
-      +'<span style="font-size:18px;flex-shrink:0;">✅</span>'
-      +'<div><div style="font-size:12px;font-weight:600;color:#1e293b;">'+(p.item||'—')+'</div>'
-      +'<div style="font-size:10px;color:#64748b;">📍 '+(p.loc||'—')+'</div></div>'
-      +'</div>';
-  }).join('');
-};
-
-// ── FRAUD MONITOR ──
-window.ngoCheckFraud = function() {
-  var posts = window._getLocalPosts ? window._getLocalPosts() : (window._allPosts||[]);
-  var nc = {}, cc = {};
-  posts.forEach(function(p){
-    var n=(p.authorName||'').toLowerCase().trim(); if(n&&n!=='anonymous') nc[n]=(nc[n]||0)+1;
-    var c=(p.contact||'').replace(/\D/g,'').slice(-10); if(c&&c.length===10) cc[c]=(cc[c]||0)+1;
-  });
-  var alerts = [];
-  Object.keys(nc).filter(function(n){return nc[n]>=3;}).forEach(function(n){alerts.push({t:'👤 Name',v:n,ct:nc[n]});});
-  Object.keys(cc).filter(function(c){return cc[c]>=3;}).forEach(function(c){alerts.push({t:'📱 Contact',v:'+91'+c,ct:cc[c]});});
-  var el = document.getElementById('ngo-fraud-scan-result'); if(!el) return;
-  if(!alerts.length){
-    el.innerHTML='<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px;text-align:center;"><div style="font-size:22px;margin-bottom:5px;">✅</div><div style="font-size:13px;font-weight:600;color:#059669;">No Fraud Detected</div></div>';
-    return;
+  // Re-render list based on tab
+  if(tab === 'home' || tab === 'fir') {
+    window._fbFilters = { type:'all', status:'all', date:'all', fraud:'all' };
+    window.fbRenderEmailList();
+  } else if(tab === 'missing') {
+    window._fbFilters = { type:'missing', status:'all', date:'all', fraud:'all' };
+    window.fbRenderEmailList();
+  } else if(tab === 'resolved') {
+    // Show resolved posts
+    var posts = (window._getLocalPosts?window._getLocalPosts():(window._allPosts||[])).filter(function(p){ return p.status==='resolved'; });
+    window._renderCustomList(posts, 'Resolved Cases');
+  } else if(tab === 'analytics') {
+    window.ngoRenderAreaStats && window.ngoRenderAreaStats('total');
+  } else if(tab === 'alerts') {
+    window.ngoLoadNotifications && window.ngoLoadNotifications();
+  } else if(tab === 'fraud') {
+    window._renderFraudTab();
+  } else if(tab === 'reports') {
+    window._renderReportsTab();
+  } else if(tab === 'collab') {
+    window._renderCollabTab();
+  } else {
+    window.fbRenderEmailList();
   }
-  el.innerHTML='<div style="font-size:11px;font-weight:700;color:#dc2626;margin-bottom:8px;">⚠️ '+alerts.length+' suspicious activities:</div>'
-    +alerts.map(function(a){
-      return '<div style="background:#fff;border:1px solid #fecaca;border-left:3px solid #ef4444;border-radius:8px;padding:10px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;">'
-        +'<div><div style="font-size:12px;font-weight:700;color:#1e293b;">'+a.t+': '+a.v+'</div>'
-        +'<div style="font-size:10px;color:#64748b;margin-top:1px;">'+a.ct+' posts submitted</div></div>'
-        +'<span class="fb-pill alert">⚠️ Suspicious</span>'
+};
+
+// Custom list renderer for non-email tabs
+window._renderCustomList = function(posts, title) {
+  var listEl = document.getElementById('fb-email-list');
+  if(!listEl) return;
+  if(!posts.length) { listEl.innerHTML = '<div style="text-align:center;padding:48px;color:#94a3b8;"><div style="font-size:28px;margin-bottom:8px;">📭</div>'+title+' empty</div>'; return; }
+  listEl.innerHTML = '<div class="fb-date-hd">'+title+'</div>'
+    + posts.map(function(p){
+      var avColor = window._fbAvColor(p.authorName||'?');
+      var avLetter = ((p.authorName||'?')[0]).toUpperCase();
+      return '<div class="fb-row" onclick="fbOpenDetail(\''+p.id+'\')">'
+        +'<div class="fb-row-dot"></div>'
+        +'<div class="fb-row-av" style="background:'+avColor+';">'+avLetter+'</div>'
+        +'<div class="fb-row-body"><div class="fb-row-subject fb-unread" style="font-weight:600;">'+(p.item||'—')+'</div><div class="fb-row-preview">📍 '+(p.loc||'—')+'</div></div>'
+        +'<div class="fb-row-meta"><span class="fp fp-resolved">✅ Resolved</span></div>'
         +'</div>';
     }).join('');
 };
 
-// ── RAISE ALERT ──
-window.fbRaiseAlert = function() {
+window._renderFraudTab = function() {
+  var listEl = document.getElementById('fb-email-list');
+  if(!listEl) return;
+  var posts = window._getLocalPosts ? window._getLocalPosts() : (window._allPosts||[]);
+  window._fbDetectFraud(posts);
+  var fraudPosts = posts.filter(window._fbIsFraud);
+  if(!fraudPosts.length) {
+    listEl.innerHTML = '<div style="text-align:center;padding:48px;color:#94a3b8;"><div style="font-size:28px;margin-bottom:8px;">✅</div><div style="font-size:14px;font-weight:600;color:#334155;margin-bottom:4px;">No Fraud Detected</div><div style="font-size:12px;">Sab posts normal hain</div></div>';
+    return;
+  }
+  listEl.innerHTML = '<div class="fb-date-hd">⚠️ Suspicious Posts — '+fraudPosts.length+' found</div>'
+    + fraudPosts.map(function(p){
+      var avColor = '#dc2626';
+      var avLetter = ((p.authorName||'?')[0]).toUpperCase();
+      return '<div class="fb-row" onclick="fbOpenDetail(\''+p.id+'\')">'
+        +'<div class="fb-row-dot" style="opacity:1;background:#dc2626;"></div>'
+        +'<div class="fb-row-av" style="background:'+avColor+';">'+avLetter+'</div>'
+        +'<div class="fb-row-body"><div class="fb-row-top"><span class="fb-row-from">'+(p.authorName||'Anon')+'</span><span class="fp fp-fraud">⚠️ Fraud</span></div>'
+        +'<div class="fb-row-subject" style="font-weight:600;">'+(p.item||'—')+' · '+(p.loc||'—')+'</div>'
+        +'<div class="fb-row-preview">Contact: '+(p.contact||'—')+'</div></div>'
+        +'<div class="fb-row-meta"><span class="fp fp-fraud">⚠️</span></div>'
+        +'</div>';
+    }).join('');
+};
+
+window._renderReportsTab = function() {
+  var listEl = document.getElementById('fb-email-list');
+  if(!listEl) return;
+  listEl.innerHTML = '<div class="fb-date-hd">Export Reports</div>'
+    + '<div style="padding:14px;display:flex;flex-direction:column;gap:10px;">'
+    + '<div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px;display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;background:linear-gradient(135deg,#2563eb,#1d4ed8);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">📥</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;color:#0f172a;">CSV Export</div><div style="font-size:11px;color:#64748b;margin-top:1px;">All cases — Excel compatible</div></div><button onclick="ngoExportCSV()" style="padding:8px 14px;background:#2563eb;color:#fff;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">Download</button></div>'
+    + '<div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px;display:flex;align-items:center;gap:12px;"><div style="width:38px;height:38px;background:linear-gradient(135deg,#16a34a,#15803d);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">📄</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;color:#0f172a;">PDF Report</div><div style="font-size:11px;color:#64748b;margin-top:1px;">Official printable format</div></div><button onclick="ngoExportReport()" style="padding:8px 14px;background:#16a34a;color:#fff;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif;">Generate</button></div>'
+    + '</div>';
+};
+
+window._renderCollabTab = function() {
+  var listEl = document.getElementById('fb-email-list');
+  if(!listEl) return;
+  var posts = (window._getLocalPosts?window._getLocalPosts():(window._allPosts||[])).filter(function(p){ return p.collaboration && p.collaboration.length > 0; });
+  if(!posts.length) {
+    listEl.innerHTML = '<div style="text-align:center;padding:48px;color:#94a3b8;"><div style="font-size:28px;margin-bottom:8px;">🤝</div><div style="font-size:13px;font-weight:600;color:#334155;margin-bottom:6px;">No collaboration yet</div><div style="font-size:11px;">FIR Queue mein jaao → kisi bhi case pe 🤝 Add Note dabao</div></div>';
+    return;
+  }
+  listEl.innerHTML = '<div class="fb-date-hd">🤝 Cases with Collaboration Notes</div>'
+    + posts.map(function(p){
+      var avColor = window._fbAvColor(p.authorName||'?');
+      var avLetter = ((p.authorName||'?')[0]).toUpperCase();
+      var lastNote = p.collaboration[p.collaboration.length-1];
+      return '<div class="fb-row" onclick="fbOpenDetail(\''+p.id+'\')">'
+        +'<div class="fb-row-dot"></div>'
+        +'<div class="fb-row-av" style="background:'+avColor+';">'+avLetter+'</div>'
+        +'<div class="fb-row-body"><div class="fb-row-subject" style="font-weight:600;">'+(p.item||'—')+' · '+(p.loc||'—')+'</div>'
+        +'<div class="fb-row-preview">💬 '+lastNote.by+': '+lastNote.note.substring(0,60)+'</div></div>'
+        +'<div class="fb-row-meta"><span class="fp fp-id">'+p.collaboration.length+' notes</span></div>'
+        +'</div>';
+    }).join('');
+};
+
+// ── ALERT MODAL ──
+window.fbOpenAlertModal = function() {
   var modal = document.getElementById('fb-alert-modal');
-  if(modal) modal.classList.add('open');
+  if(modal) modal.classList.add('fb-modal-open');
+};
+window.fbCloseAlertModal = function() {
+  var modal = document.getElementById('fb-alert-modal');
+  if(modal) modal.classList.remove('fb-modal-open');
 };
 window.fbSendAlert = function() {
-  var type = document.getElementById('alert-type')?.value || 'Alert';
-  var desc = document.getElementById('alert-desc')?.value.trim() || '';
-  var loc  = document.getElementById('alert-loc')?.value.trim()  || '';
-  if(!desc){window.toast('⚠️ Description daalo');return;}
-  var msg = '🚨 *FindBack ALERT*\n'+'📢 *'+type+'*\n'+(loc?'📍 *'+loc+'*\n':'')+'━━━━━━━━━━━━━━\n'+desc+'\n\n🔗 FindBack: https://findback.org';
+  var type = document.getElementById('fb-alert-type')?.value || 'Alert';
+  var desc = document.getElementById('fb-alert-desc')?.value.trim() || '';
+  var loc  = document.getElementById('fb-alert-loc')?.value.trim() || '';
+  if(!desc){ window.toast('⚠️ Description daalo'); return; }
+  var msg = '🚨 *FindBack ALERT*\n📢 *'+type+'*\n'+(loc?'📍 *'+loc+'*\n':'')+'━━━━━━━━━━━━━\n'+desc+'\n\n🔗 findback.org';
   window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
-  document.getElementById('fb-alert-modal').classList.remove('open');
+  fbCloseAlertModal();
   window.toast('📢 Alert shared!');
 };
 
-// ── COLLAB PANEL ──
-window.ngoOpenCollabPanel = function(postId) {
-  var e = document.getElementById('collab-modal'); if(e) e.remove();
-  var p = (window._allPosts||[]).find(function(x){return x.id===postId;}); if(!p) return;
-  var collab = p.collaboration||[], firId = p.firId||window._generateFIRId(p.loc);
-  var modal = document.createElement('div');
-  modal.id = 'collab-modal';
-  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;display:flex;align-items:flex-end;justify-content:center;';
-  modal.innerHTML = '<div style="background:#fff;border-radius:16px 16px 0 0;padding:18px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 -6px 24px rgba(0,0,0,.1);">'
-    +'<div style="width:32px;height:3px;background:#e2e8f0;border-radius:2px;margin:0 auto 14px;"></div>'
-    +'<div style="display:flex;align-items:center;gap:9px;margin-bottom:12px;">'
-    +'<div style="width:34px;height:34px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;">🤝</div>'
-    +'<div><div style="font-size:14px;font-weight:700;color:#1e293b;">Collaboration Panel</div>'
-    +'<div style="font-size:10px;color:#64748b;">'+firId+' · '+(p.item||'—')+'</div></div></div>'
-    +'<div style="background:#f8fafc;border:1px solid #e8edf2;border-radius:8px;padding:10px;margin-bottom:12px;">'
-    +'<div style="font-size:12px;font-weight:700;color:#1e293b;margin-bottom:3px;">'+(p.item||'—')+'</div>'
-    +'<div style="font-size:11px;color:#64748b;">📍 '+(p.loc||'—')+' · 👤 '+(p.authorName||'—')+' · 📱 '+(p.contact||'—')+'</div></div>'
-    +'<div style="display:flex;gap:7px;margin-bottom:12px;">'
-    +'<button onclick="ngoPoliceFIRAction(\''+postId+'\',\'accepted\');document.getElementById(\'collab-modal\').remove();" class="fb-btn fb-btn-green" style="flex:1;justify-content:center;padding:10px;">✅ Accept</button>'
-    +'<button onclick="ngoPoliceFIRAction(\''+postId+'\',\'rejected\');document.getElementById(\'collab-modal\').remove();" class="fb-btn fb-btn-danger" style="flex:1;justify-content:center;padding:10px;background:#dc2626;color:#fff;border-color:#dc2626;">❌ Reject</button>'
-    +'</div>'
-    +'<div style="font-size:9px;font-weight:800;color:#94a3b8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;">Notes</div>'
-    +'<div style="max-height:150px;overflow-y:auto;margin-bottom:10px;">'
-    +(collab.length===0?'<div style="background:#f8fafc;border-radius:7px;padding:12px;text-align:center;font-size:12px;color:#94a3b8;">No notes yet</div>'
-      :collab.map(function(n){return '<div style="background:#f8fafc;border-left:2px solid #2563eb;border-radius:7px;padding:8px;margin-bottom:5px;"><div style="font-size:9px;font-weight:700;color:#2563eb;margin-bottom:2px;">'+n.by+' · '+n.at+'</div><div style="font-size:11px;color:#475569;">'+n.note+'</div></div>';}).join('')
-    )+'</div>'
-    +'<textarea id="collab-note-input" placeholder="Note likhiye..." class="fb-input" style="min-height:70px;resize:vertical;margin-bottom:10px;"></textarea>'
-    +'<div style="display:flex;gap:7px;">'
-    +'<button onclick="document.getElementById(\'collab-modal\').remove();" class="fb-btn fb-btn-neutral" style="flex:1;justify-content:center;padding:10px;">Close</button>'
-    +'<button onclick="ngoAddCollabNote(\''+postId+'\')" class="fb-btn fb-btn-primary" style="flex:2;justify-content:center;padding:10px;">📝 Add Note</button>'
-    +'</div></div>';
-  document.body.appendChild(modal);
-  modal.addEventListener('click',function(e){if(e.target===modal) modal.remove();});
-};
+// ── ROLE SWITCH ──
+window._fbRole = 'police';
+window.fbSetRole = function(type) {
+  window._fbRole = type;
+  var isPolice = type === 'police';
+  var pnav = document.getElementById('fb-nav-police');
+  var nnav = document.getElementById('fb-nav-ngo');
+  if(pnav) pnav.style.display = isPolice ? 'block' : 'none';
+  if(nnav) nnav.style.display = isPolice ? 'none' : 'block';
 
-window.ngoAddCollabNote = async function(postId) {
-  var input = document.getElementById('collab-note-input');
-  if(!input||!input.value.trim()){window.toast('⚠️ Note likhiye');return;}
-  var note = input.value.trim(), org = sessionStorage.getItem('ngo_org')||'Officer';
-  var at = new Date().toLocaleDateString('en-IN')+' '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-  try {
-    var m = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    await m.updateDoc(m.doc(window._db,'posts',postId),{collaboration:m.arrayUnion({by:org,note:note,at:at})});
-    window.toast('✅ Note added!');
-    document.getElementById('collab-modal').remove();
-    setTimeout(function(){window.ngoPoliceFIRView&&window.ngoPoliceFIRView();},500);
-  } catch(e){window.toast('❌ Failed');}
+  var tag = document.getElementById('fb-role-tag');
+  if(tag) { tag.className = 'fb-role-tag ' + (isPolice?'police':'ngo'); tag.textContent = isPolice?'🚔 Police':'🏛️ NGO'; }
+
+  var sbAv = document.getElementById('fb-sb-av');
+  if(sbAv) sbAv.style.background = isPolice ? 'linear-gradient(135deg,#2563eb,#1d4ed8)' : 'linear-gradient(135deg,#16a34a,#15803d)';
+
+  var ptype = document.getElementById('fb-sb-ptype');
+  if(ptype) ptype.textContent = isPolice ? '🚔 Police Station' : '🏛️ NGO';
 };
 
 // ── AUTH TAB ──
 window.ngoAuthTab = function(tab) {
-  var lf=document.getElementById('ngo-form-login'),rf=document.getElementById('ngo-form-register');
-  var tl=document.getElementById('ngo-tab-login'),tr=document.getElementById('ngo-tab-register');
+  var lf=document.getElementById('ngo-form-login'), rf=document.getElementById('ngo-form-register');
+  var tl=document.getElementById('ngo-tab-login'), tr=document.getElementById('ngo-tab-register');
   var err=document.getElementById('ngo-auth-err'); if(err) err.style.display='none';
   if(tab==='login'){
     if(lf)lf.style.display='block'; if(rf)rf.style.display='none';
-    if(tl)tl.classList.add('active'); if(tr)tr.classList.remove('active');
+    if(tl){tl.style.color='#1e293b';tl.style.borderBottomColor='#2563eb';} if(tr){tr.style.color='#94a3b8';tr.style.borderBottomColor='transparent';}
   } else {
     if(lf)lf.style.display='none'; if(rf)rf.style.display='block';
-    if(tr)tr.classList.add('active'); if(tl)tl.classList.remove('active');
+    if(tr){tr.style.color='#1e293b';tr.style.borderBottomColor='#2563eb';} if(tl){tl.style.color='#94a3b8';tl.style.borderBottomColor='transparent';}
     setTimeout(window._populateNgoRegStates,50);
   }
 };
@@ -3081,7 +2751,7 @@ window.ngoRegStateChange = function() {
 window.ngoFirebaseLogin = async function() {
   var email=document.getElementById('ngo-login-email')?.value.trim()||'';
   var pass=document.getElementById('ngo-login-pass')?.value.trim()||'';
-  var errEl=document.getElementById('ngo-auth-err'),btn=document.getElementById('ngo-login-btn');
+  var errEl=document.getElementById('ngo-auth-err'), btn=document.getElementById('ngo-login-btn');
   if(!email||!pass){if(errEl){errEl.textContent='⚠️ Email aur password daalo';errEl.style.display='block';}return;}
   if(btn){btn.textContent='Signing in...';btn.disabled=true;}
   try {
@@ -3092,21 +2762,18 @@ window.ngoFirebaseLogin = async function() {
     var ud=uDoc.exists()?uDoc.data():{};
     if(ud.userType!=='ngo'&&ud.userType!=='police'&&ud.userType!=='government'){
       if(errEl){errEl.textContent='❌ Yeh account NGO/Police ke liye nahi hai';errEl.style.display='block';}
-      await window._auth.signOut();
-      if(btn){btn.textContent='Sign In to Command Portal →';btn.disabled=false;} return;
+      await window._auth.signOut(); if(btn){btn.textContent='Sign In →';btn.disabled=false;} return;
     }
     var org=ud.orgName||cred.user.displayName||'Organization';
     window._ngoUser={uid:cred.user.uid,email:email,name:cred.user.displayName,org:org,type:ud.userType,district:ud.district||'',state:ud.state||''};
-    sessionStorage.setItem('ngo_org',org);
-    sessionStorage.setItem('ngo_uid',cred.user.uid);
-    sessionStorage.setItem('ngo_district', ud.district||'');
-    sessionStorage.setItem('ngo_state',    ud.state||'');
-    _fbOpenDashboard(org, ud.userType);
-  } catch(e){
-    var msg=e.code==='auth/invalid-credential'?'❌ Wrong email or password':e.code==='auth/too-many-requests'?'❌ Too many attempts':'❌ '+(e.message||'Login failed');
+    sessionStorage.setItem('ngo_org',org); sessionStorage.setItem('ngo_uid',cred.user.uid);
+    sessionStorage.setItem('ngo_district',ud.district||''); sessionStorage.setItem('ngo_state',ud.state||'');
+    _fbOpen(org, ud.userType);
+  } catch(e) {
+    var msg=e.code==='auth/invalid-credential'?'❌ Wrong email or password':e.code==='auth/too-many-requests'?'❌ Too many attempts':'❌ '+(e.message||'Failed');
     if(errEl){errEl.textContent=msg;errEl.style.display='block';}
   }
-  if(btn){btn.textContent='Sign In to Command Portal →';btn.disabled=false;}
+  if(btn){btn.textContent='Sign In →';btn.disabled=false;}
 };
 
 // ── FIREBASE REGISTER ──
@@ -3122,13 +2789,11 @@ window.ngoFirebaseRegister = async function() {
   var pin=document.getElementById('ngo-reg-pin')?.value.trim()||'';
   var email=document.getElementById('ngo-reg-email')?.value.trim()||'';
   var pass=document.getElementById('ngo-reg-pass')?.value.trim()||'';
-  var errEl=document.getElementById('ngo-auth-err'),btn=document.getElementById('ngo-reg-btn');
-  var missing=[];
-  if(!name)missing.push('Name'); if(!phone||phone.length!==10)missing.push('Contact');
-  if(!org)missing.push('Organization'); if(!state)missing.push('State');
-  if(!district)missing.push('District'); if(!email)missing.push('Email');
-  if(!pass||pass.length<6)missing.push('Password');
-  if(missing.length){if(errEl){errEl.textContent='⚠️ Required: '+missing.join(', ');errEl.style.display='block';}return;}
+  var errEl=document.getElementById('ngo-auth-err'), btn=document.getElementById('ngo-reg-btn');
+  var miss=[];
+  if(!name)miss.push('Name'); if(!phone||phone.length!==10)miss.push('Contact'); if(!org)miss.push('Organization');
+  if(!state)miss.push('State'); if(!district)miss.push('District'); if(!email)miss.push('Email'); if(!pass||pass.length<6)miss.push('Password');
+  if(miss.length){if(errEl){errEl.textContent='⚠️ Required: '+miss.join(', ');errEl.style.display='block';}return;}
   if(btn){btn.textContent='Creating...';btn.disabled=true;} if(errEl)errEl.style.display='none';
   try {
     var aM=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
@@ -3138,38 +2803,37 @@ window.ngoFirebaseRegister = async function() {
     await fM.setDoc(fM.doc(window._db,'users',cred.user.uid),{
       displayName:name,orgName:org,userType:type,role:'ngo',email:email,
       phone:'+91'+phone,psName:ps,state:state,district:district,address:address,pinCode:pin,
-      location:[ps,district,state].filter(Boolean).join(', '),
-      createdAt:fM.serverTimestamp(),verified:false
+      location:[ps,district,state].filter(Boolean).join(', '),createdAt:fM.serverTimestamp(),verified:false
     });
     var orgDisplay=org+(ps?' · '+ps:'');
     window._ngoUser={uid:cred.user.uid,email:email,name:name,org:orgDisplay,type:type,district:district,state:state};
-    sessionStorage.setItem('ngo_org',orgDisplay);
-    sessionStorage.setItem('ngo_uid',cred.user.uid);
-    sessionStorage.setItem('ngo_district', district);
-    sessionStorage.setItem('ngo_state',    state);
-    _fbOpenDashboard(orgDisplay, type);
+    sessionStorage.setItem('ngo_org',orgDisplay); sessionStorage.setItem('ngo_uid',cred.user.uid);
+    sessionStorage.setItem('ngo_district',district); sessionStorage.setItem('ngo_state',state);
+    _fbOpen(orgDisplay, type);
   } catch(e){
     var msg=e.code==='auth/email-already-in-use'?'❌ Email registered — Login karo':'❌ '+(e.message||'Failed');
     if(errEl){errEl.textContent=msg;errEl.style.display='block';}
   }
-  if(btn){btn.textContent='Create Official Account →';btn.disabled=false;}
+  if(btn){btn.textContent='Create Account →';btn.disabled=false;}
 };
 
-function _fbOpenDashboard(org, type) {
-  var lw=document.getElementById('ngo-login-wall'),db=document.getElementById('ngo-dashboard');
+function _fbOpen(org, type) {
+  var lw=document.getElementById('ngo-login-wall'), db=document.getElementById('ngo-dashboard');
   if(lw)lw.style.display='none'; if(db)db.style.display='block';
   // Set org name
   var on=document.getElementById('ngo-org-name'); if(on)on.textContent=org;
+  var tp=document.getElementById('fb-tb-pname'); if(tp)tp.textContent=org;
   // Set avatar
-  var av=document.getElementById('fb-avatar'); if(av)av.textContent=(org[0]||'O').toUpperCase();
-  var pn=document.getElementById('fb-profile-name'); if(pn)pn.textContent=org;
-  // Set date
-  var ds=document.getElementById('fb-sidebar-date');
-  if(ds){var now=new Date();ds.textContent=now.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});}
-  // Set role
-  window._fbSetRole(type);
+  var sbAv=document.getElementById('fb-sb-av'); if(sbAv)sbAv.textContent=(org[0]||'O').toUpperCase();
+  var tbAv=document.getElementById('fb-tb-av'); if(tbAv){tbAv.textContent=(org[0]||'O').toUpperCase();}
+  // Location
+  var district=sessionStorage.getItem('ngo_district')||'', state=sessionStorage.getItem('ngo_state')||'';
+  var locText=[district,state].filter(Boolean).join(', ');
+  var lc=document.getElementById('fb-loc-chip'); if(lc)lc.style.display=locText?'flex':'none';
+  var lt=document.getElementById('fb-loc-text'); if(lt)lt.textContent=locText||'—';
+  // Role
+  window.fbSetRole(type);
   window.toast('✅ Welcome, '+org+'!');
-  if(window._fbUpdateLocationBadge) window._fbUpdateLocationBadge();
   if(window.ngoLoadDashboard) window.ngoLoadDashboard();
 }
 
@@ -3177,83 +2841,67 @@ window.ngoLogin = window.ngoFirebaseLogin;
 
 window.ngoLogout = async function() {
   try{var{signOut}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');await signOut(window._auth);}catch(e){}
-  var lw=document.getElementById('ngo-login-wall'),db=document.getElementById('ngo-dashboard');
+  var lw=document.getElementById('ngo-login-wall'), db=document.getElementById('ngo-dashboard');
   if(lw)lw.style.display='block'; if(db)db.style.display='none';
   sessionStorage.removeItem('ngo_org'); sessionStorage.removeItem('ngo_uid');
+  sessionStorage.removeItem('ngo_district'); sessionStorage.removeItem('ngo_state');
   window._ngoUser=null; window.toast('👋 Logged out!');
 };
 
 // ── LOAD DASHBOARD ──
 window.ngoLoadDashboard = function() {
-  var posts = window._getLocalPosts ? window._getLocalPosts() : (window._allPosts||[]);
-  var el=function(id){return document.getElementById(id);};
-  var lost=posts.filter(function(p){return p.type==='lost';}).length;
-  var found=posts.filter(function(p){return p.type==='found';}).length;
-  var missing=posts.filter(function(p){return p.type==='missing';}).length;
-  var resolved=posts.filter(function(p){return p.status==='resolved';}).length;
-  var pending=posts.filter(function(p){return !p.firHidden&&(!p.firStatus||p.firStatus==='pending');}).length;
-
-  if(el('ngo-stat-lost'))    el('ngo-stat-lost').textContent=lost;
-  if(el('ngo-stat-found'))   el('ngo-stat-found').textContent=found;
-  if(el('ngo-stat-missing')) el('ngo-stat-missing').textContent=missing;
-  if(el('ngo-stat-resolved'))el('ngo-stat-resolved').textContent=resolved;
-
-  // Police stats
-  if(el('ps-missing'))el('ps-missing').textContent=missing;
-  if(el('ps-fir'))    el('ps-fir').textContent=pending;
-  if(el('ps-solved')) el('ps-solved').textContent=resolved;
-  if(el('ps-total'))  el('ps-total').textContent=posts.length;
-  // NGO stats
-  if(el('ns-missing')) el('ns-missing').textContent=missing;
-  if(el('ns-resolved'))el('ns-resolved').textContent=resolved;
-
-  // Nav badges
-  if(el('fnav-fir-ct')){el('fnav-fir-ct').textContent=pending;el('fnav-fir-ct').style.display=pending?'inline-flex':'none';}
-  if(el('fnav-miss-ct')){el('fnav-miss-ct').textContent=missing;el('fnav-miss-ct').style.display=missing?'inline-flex':'none';}
-  if(el('fb-notif-count')){el('fb-notif-count').textContent=pending;el('fb-notif-count').style.display=pending?'flex':'none';}
-
-  window.fbRenderRecentTable && window.fbRenderRecentTable();
-  setTimeout(function(){window.ngoPoliceFIRView&&window.ngoPoliceFIRView();},500);
+  var localPosts = window._getLocalPosts ? window._getLocalPosts() : (window._allPosts||[]);
+  var el = function(id){ return document.getElementById(id); };
+  if(el('ngo-stat-lost'))    el('ngo-stat-lost').textContent    = localPosts.filter(function(p){return p.type==='lost';}).length;
+  if(el('ngo-stat-found'))   el('ngo-stat-found').textContent   = localPosts.filter(function(p){return p.type==='found';}).length;
+  if(el('ngo-stat-missing')) el('ngo-stat-missing').textContent = localPosts.filter(function(p){return p.type==='missing';}).length;
+  if(el('ngo-stat-resolved'))el('ngo-stat-resolved').textContent= localPosts.filter(function(p){return p.status==='resolved';}).length;
+  window.fbRenderEmailList();
 };
 
-// compat functions
-window.ngoRenderPosts = function(){ window.ngoPoliceFIRView&&window.ngoPoliceFIRView(); };
+// Compat functions
+window.ngoRenderPosts  = function(){ window.fbRenderEmailList(); };
+window.ngoRenderAreaStats = function(){};
+window.ngoRenderMissing   = function(){ window.fbSwitchNav('missing',null); };
+window.ngoRenderResolved  = function(){ window.fbSwitchNav('resolved',null); };
+window.ngoPoliceFIRView   = function(){ window.fbRenderEmailList(); };
+window.ngoCheckFraud      = function(){ window.fbSwitchNav('fraud',null); };
+window.ngoExportCSV = window.ngoExportCSV || function(){ window.toast('CSV export...'); };
+window.ngoExportReport = window.ngoExportReport || function(){ window.toast('PDF report...'); };
+
+// ── FIR ID ──
+window._generateFIRId = window._generateFIRId || function(loc) {
+  var codes={'Tripura':'TRP','Delhi':'DL','Maharashtra':'MH','Uttar Pradesh':'UP','West Bengal':'WB','Bihar':'BR','Rajasthan':'RJ','Gujarat':'GJ','Karnataka':'KA','Tamil Nadu':'TN','Andhra Pradesh':'AP','Telangana':'TG','Madhya Pradesh':'MP','Assam':'AS','Kerala':'KL','Odisha':'OD','Jharkhand':'JH','Uttarakhand':'UK','Punjab':'PB','Haryana':'HR','Himachal Pradesh':'HP','Jammu and Kashmir':'JK','Manipur':'MN','Meghalaya':'ML','Mizoram':'MZ','Nagaland':'NL','Sikkim':'SK','Arunachal Pradesh':'AR','Goa':'GA','Chhattisgarh':'CG','Chandigarh':'CH'};
+  var state=((loc||'').split(',').pop()||'').trim();
+  var sc=codes[state]||state.substring(0,3).toUpperCase()||'IN';
+  return 'FB-'+sc+'-'+new Date().getFullYear()+'-'+String(Math.floor(Math.random()*9000)+1000);
+};
 
 // Restore session
-window.addEventListener('load',function(){
-  var org=sessionStorage.getItem('ngo_org');
-  if(org){
-    var ud=window._ngoUser;
-    var type=(ud&&ud.type)||'police';
-    // Restore district/state
-    if(!window._ngoUser) window._ngoUser={};
+window.addEventListener('load', function() {
+  var org = sessionStorage.getItem('ngo_org');
+  if(org) {
+    if(!window._ngoUser) window._ngoUser = {};
     window._ngoUser.district = sessionStorage.getItem('ngo_district')||'';
     window._ngoUser.state    = sessionStorage.getItem('ngo_state')||'';
-    var lw=document.getElementById('ngo-login-wall'),db=document.getElementById('ngo-dashboard');
-    if(lw)lw.style.display='none'; if(db)db.style.display='block';
-    var on=document.getElementById('ngo-org-name'); if(on)on.textContent=org;
-    var av=document.getElementById('fb-avatar'); if(av)av.textContent=(org[0]||'O').toUpperCase();
-    var pn=document.getElementById('fb-profile-name'); if(pn)pn.textContent=org;
-    var ds=document.getElementById('fb-sidebar-date');
-    if(ds){var now=new Date();ds.textContent=now.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});}
-    window._fbSetRole && window._fbSetRole(type);
-    setTimeout(function(){if(window.ngoLoadDashboard)window.ngoLoadDashboard();},400);
+    var type = window._ngoUser.type || 'police';
+    _fbOpen(org, type);
   }
 });
 
-// Auto refresh
+// Auto refresh on new posts
 (function(){
-  var _orig=window._renderAll;
-  window._renderAll=function(){
-    if(_orig)_orig();
-    var db=document.getElementById('ngo-dashboard');
-    if(db&&db.style.display!=='none'){
-      window.ngoLoadDashboard&&window.ngoLoadDashboard();
+  var _orig = window._renderAll;
+  window._renderAll = function() {
+    if(_orig) _orig();
+    var db = document.getElementById('ngo-dashboard');
+    if(db && db.style.display !== 'none') {
+      window.ngoLoadDashboard && window.ngoLoadDashboard();
     }
   };
 })();
 
-// FIR notice hook
+// FIR notice + duplicate check hooks
 (function(){
   var _orig=window.generateFIR;
   window.generateFIR=function(){
@@ -3265,42 +2913,24 @@ window.addEventListener('load',function(){
     setTimeout(function(){if(window._showFIROfficialNotice)window._showFIROfficialNotice(firId);},400);
   };
 })();
-
-// Duplicate + PS alert on submit
 (function(){
   var _orig=window.submitToFirebase;
   window.submitToFirebase=async function(){
-    var mState=document.getElementById('m-state')?.value.trim()||'';
-    var mDist=document.getElementById('m-district')?.value.trim()||'';
-    var mArea=document.getElementById('m-loc')?.value.trim()||'';
-    var mItem=document.getElementById('m-item')?.value.trim()||'';
-    var mContact=document.getElementById('m-contact')?.value.trim()||'';
-    var loc=[mArea,mDist,mState].filter(Boolean).join(', ');
-    var cc=mContact.replace(/\D/g,'').slice(-10);
-    var dupe=(window._allPosts||[]).find(function(p){
-      var pc=(p.contact||'').replace(/\D/g,'').slice(-10);
-      return cc&&pc&&cc===pc&&(p.item||'').toLowerCase()===mItem.toLowerCase();
-    });
-    if(dupe&&!confirm('🤖 Similar post exists: "'+dupe.item+'"\nPhir bhi submit karein?')) return;
+    var mS=document.getElementById('m-state')?.value.trim()||'';
+    var mD=document.getElementById('m-district')?.value.trim()||'';
+    var mA=document.getElementById('m-loc')?.value.trim()||'';
+    var mI=document.getElementById('m-item')?.value.trim()||'';
+    var mC=document.getElementById('m-contact')?.value.trim()||'';
+    var loc=[mA,mD,mS].filter(Boolean).join(', ');
+    var cc=mC.replace(/\D/g,'').slice(-10);
+    var dupe=(window._allPosts||[]).find(function(p){var pc=(p.contact||'').replace(/\D/g,'').slice(-10);return cc&&pc&&cc===pc&&(p.item||'').toLowerCase()===mI.toLowerCase();});
+    if(dupe&&!confirm('🤖 Similar post exists: "'+dupe.item+'"\nPhir bhi submit?')) return;
     if(_orig) await _orig();
-    if(mItem&&loc){
-      setTimeout(async function(){
-        try{
-          var m=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-          await m.addDoc(m.collection(window._db,'police_notifications'),{
-            firId:window._generateFIRId(loc),
-            postType:window.currentModal||'lost',postItem:mItem,postLoc:loc,
-            postContact:'+91'+mContact,district:mDist,state:mState,
-            postAuthor:window._currentUser?(window._currentUser.displayName||'Anonymous'):'Anonymous',
-            createdAt:m.serverTimestamp(),status:'unread'
-          });
-        }catch(e){}
-      },2000);
-    }
+    if(mI&&loc){setTimeout(async function(){try{var m=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');await m.addDoc(m.collection(window._db,'police_notifications'),{firId:window._generateFIRId(loc),postType:window.currentModal||'lost',postItem:mI,postLoc:loc,postContact:'+91'+mC,district:mD,state:mS,postAuthor:window._currentUser?(window._currentUser.displayName||'Anonymous'):'Anonymous',createdAt:m.serverTimestamp(),status:'unread'});}catch(e){}},2000);}
   };
 })();
 
-console.log('✅ FindBack Role-Based Dashboard loaded — Police + NGO');
+console.log('✅ FindBack Email-Style Dashboard loaded');
 </script>
 
 
