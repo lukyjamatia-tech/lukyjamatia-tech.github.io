@@ -18,6 +18,14 @@
   style.textContent = [
     '.fb-shell{display:flex!important;min-height:calc(100vh - 56px - 92px)!important;overflow:visible!important;align-items:flex-start!important;}',
     '.fb-list-area{flex:1;overflow-y:auto!important;min-height:300px!important;}',
+    '#page-ngo.active{background:#f4f6f9!important;position:relative;z-index:10;}',
+    '.fb-shell{display:flex!important;min-height:calc(100vh - 56px - 92px)!important;overflow:visible!important;align-items:flex-start!important;}',
+    '.fb-sb-overlay.fb-open{display:block!important;position:fixed!important;inset:0!important;z-index:149!important;background:rgba(0,0,0,0.5)!important;}',
+    '.fb-gov-topbar{flex-wrap:nowrap!important;overflow:hidden;}',
+    '.fb-gov-logo{min-width:0;flex:1;}',
+    '.fb-gov-title{font-size:12px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}',
+    '.fb-gov-actions{flex-shrink:0;gap:4px!important;}',
+    '.fb-role-chip{display:none!important;}',
     '.fb-dash-stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 14px 18px;}',
     '@media(max-width:650px){.fb-dash-stat-grid{grid-template-columns:repeat(2,1fr);}}',
     '.fb-dash-stat-card{border-radius:12px;padding:16px 14px;color:#fff;position:relative;overflow:hidden;}',
@@ -193,4 +201,24 @@
   });
 
   console.log('✅ FindBack Dashboard Fix loaded');
+
+  /* Fix: sidebar open hone pe background scroll band karo */
+  var _origToggle = window.fbToggleSidebar;
+  window.fbToggleSidebar = function() {
+    if(_origToggle) _origToggle();
+    var sb = document.getElementById('fb-sb');
+    if(sb && sb.classList.contains('fb-open')) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  };
+  window.fbCloseSidebar = function() {
+    var sb = document.getElementById('fb-sb');
+    var ov = document.getElementById('fb-sb-overlay');
+    if(sb) sb.classList.remove('fb-open');
+    if(ov) ov.classList.remove('fb-open');
+    document.body.style.overflow = '';
+  };
 })();
+
