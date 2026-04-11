@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FindBack Command — Police & NGO Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --navy:#0f1724;
+  --navy2:#1a2535;
+  --navy3:#243045;
+  --blue:#3b82f6;
+  --blue2:#60a5fa;
+  --green:#22c55e;
+  --red:#ef4444;
+  --amber:#f59e0b;
+  --white:#ffffff;
+  --gray1:#f8fafc;
+  --gray2:#f1f5f9;
+  --gray3:#e2e8f0;
+  --gray4:#94a3b8;
+  --gray5:#64748b;
+  --text:#0f172a;
+  --sb:240px;
+  --radius:12px;
+}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--gray2);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ── SCREEN STATES ── */
+#screen-login{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 60%,#1e3a5f 100%);padding:24px;}
+#screen-dashboard{display:none;flex:1;flex-direction:column;}
+
+/* ── LOGIN ── */
+.login-card{background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:36px 28px;width:100%;max-width:380px;box-shadow:0 32px 64px rgba(0,0,0,.4);}
+.login-logo{text-align:center;margin-bottom:28px;}
+.login-logo-icon{width:56px;height:56px;background:linear-gradient(135deg,var(--blue),#1d4ed8);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 12px;box-shadow:0 8px 24px rgba(59,130,246,.4);}
+.login-logo-title{font-size:22px;font-weight:700;color:var(--white);letter-spacing:-.3px;}
+.login-logo-sub{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px;}
+
+.login-tabs{display:flex;background:rgba(255,255,255,.06);border-radius:10px;padding:3px;margin-bottom:22px;gap:3px;}
+.login-tab{flex:1;padding:9px;border:none;background:transparent;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;color:rgba(255,255,255,.5);border-radius:8px;transition:all .2s;}
+.login-tab.active{background:rgba(255,255,255,.12);color:var(--white);}
+
+.login-form{display:flex;flex-direction:column;gap:12px;}
+.login-form.hidden{display:none;}
+.l-lbl{font-size:10px;font-weight:600;color:rgba(255,255,255,.4);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;display:block;}
+.l-inp{width:100%;padding:11px 14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:9px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--white);outline:none;transition:border-color .2s;}
+.l-inp:focus{border-color:rgba(59,130,246,.6);background:rgba(255,255,255,.1);}
+.l-inp::placeholder{color:rgba(255,255,255,.25);}
+.l-sel{width:100%;padding:11px 14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:9px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--white);outline:none;cursor:pointer;}
+.l-sel option{background:#1a2535;color:var(--white);}
+.l-err{display:none;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:10px 12px;font-size:12px;color:#fca5a5;text-align:center;}
+.l-btn{padding:13px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;margin-top:4px;}
+.l-btn.police{background:linear-gradient(135deg,var(--blue),#1d4ed8);color:var(--white);box-shadow:0 4px 16px rgba(59,130,246,.3);}
+.l-btn.ngo{background:linear-gradient(135deg,var(--green),#15803d);color:var(--white);box-shadow:0 4px 16px rgba(34,197,94,.3);}
+.l-btn:hover{transform:translateY(-1px);filter:brightness(1.1);}
+
+/* ── DASHBOARD SHELL ── */
+.dash-top{background:var(--navy);padding:14px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,.06);}
+.dash-ham{background:rgba(255,255,255,.08);border:none;width:36px;height:36px;border-radius:9px;color:var(--white);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.dash-brand{font-size:15px;font-weight:700;color:var(--white);flex:1;}
+.dash-brand span{color:var(--blue2);}
+.dash-user{display:flex;align-items:center;gap:8px;}
+.dash-av{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--blue),#1d4ed8);color:var(--white);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.dash-orgname{font-size:12px;font-weight:600;color:rgba(255,255,255,.7);max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.dash-logout{background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.5);font-size:11px;padding:5px 10px;border-radius:7px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+
+/* ── SIDEBAR OVERLAY ── */
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;top:64px;}
+.sb-overlay.open{display:block;}
+.sidebar{
+  position:fixed;left:0;top:64px;bottom:0;
+  width:var(--sb);background:var(--white);
+  border-right:1px solid var(--gray3);
+  display:flex;flex-direction:column;
+  z-index:160;transform:translateX(-100%);
+  transition:transform .25s ease;
+  overflow-y:auto;
+}
+.sidebar.open{transform:translateX(0);}
+
+.sb-profile{padding:16px;border-bottom:1px solid var(--gray3);}
+.sb-av-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.sb-av{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:var(--white);flex-shrink:0;}
+.sb-av.police{background:linear-gradient(135deg,var(--navy),var(--blue));}
+.sb-av.ngo{background:linear-gradient(135deg,#065f46,var(--green));}
+.sb-orgname{font-size:13px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sb-type{font-size:10px;color:var(--gray5);margin-top:1px;}
+
+.sb-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.sb-stat{background:var(--gray2);border-radius:9px;padding:8px 10px;text-align:center;}
+.sb-stat-n{font-family:'DM Mono',monospace;font-size:18px;font-weight:700;line-height:1;}
+.sb-stat-l{font-size:9px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-top:2px;color:var(--gray5);}
+
+.sb-loc{margin:10px 16px 0;padding:7px 10px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;font-size:10px;font-weight:700;color:#065f46;display:none;}
+.sb-loc.show{display:flex;align-items:center;gap:5px;}
+
+.sb-nav{padding:8px 0;}
+.sb-head{padding:6px 16px 3px;font-size:9px;font-weight:700;color:var(--gray4);letter-spacing:1.2px;text-transform:uppercase;}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;font-weight:500;color:var(--gray5);cursor:pointer;border:none;background:transparent;width:100%;text-align:left;font-family:'DM Sans',sans-serif;border-left:3px solid transparent;transition:all .12s;}
+.sb-item:hover{background:var(--gray2);color:var(--text);}
+.sb-item.active{background:#eff6ff;color:var(--blue);font-weight:700;border-left-color:var(--blue);}
+.sb-item.ngo-active{background:#f0fdf4;color:#15803d;font-weight:700;border-left-color:var(--green);}
+.sb-icon{width:26px;height:26px;border-radius:7px;background:var(--gray2);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.sb-item.active .sb-icon{background:var(--blue);color:var(--white);}
+.sb-item.ngo-active .sb-icon{background:var(--green);color:var(--white);}
+.sb-badge{margin-left:auto;background:var(--red);color:var(--white);font-size:9px;font-weight:800;padding:2px 6px;border-radius:8px;min-width:18px;text-align:center;}
+
+.sb-footer{margin-top:auto;padding:12px 14px;border-top:1px solid var(--gray3);display:flex;flex-direction:column;gap:6px;}
+.sb-fbtn{display:flex;align-items:center;gap:7px;padding:10px 12px;border-radius:9px;font-size:12px;font-weight:700;border:1.5px solid;cursor:pointer;font-family:'DM Sans',sans-serif;width:100%;}
+.sb-fbtn.alert{background:#fef2f2;color:var(--red);border-color:#fecaca;}
+.sb-fbtn.new{background:#eff6ff;color:var(--blue);border-color:#bfdbfe;}
+.sb-fbtn.logout{background:var(--gray2);color:var(--gray5);border-color:var(--gray3);}
+
+/* ── MAIN AREA ── */
+.main{flex:1;display:flex;flex-direction:column;min-height:calc(100vh - 64px);}
+
+/* Stats bar */
+.stats-bar{background:var(--white);border-bottom:1px solid var(--gray3);padding:14px 16px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.stat-card{background:var(--gray2);border-radius:11px;padding:12px 14px;text-align:center;position:relative;overflow:hidden;}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent,var(--blue));}
+.stat-val{font-family:'DM Mono',monospace;font-size:24px;font-weight:700;line-height:1;margin-bottom:4px;}
+.stat-lbl{font-size:9px;font-weight:700;color:var(--gray5);letter-spacing:.5px;text-transform:uppercase;}
+
+/* Toolbar */
+.toolbar{background:var(--white);border-bottom:1px solid var(--gray3);padding:10px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;position:sticky;top:64px;z-index:40;}
+.search-wrap{flex:1;min-width:0;position:relative;}
+.search-wrap input{width:100%;padding:8px 12px 8px 34px;background:var(--gray2);border:1.5px solid var(--gray3);border-radius:9px;font-size:12px;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;transition:border-color .2s;}
+.search-wrap input:focus{border-color:var(--blue);background:var(--white);}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--gray4);}
+.tb-filter{padding:7px 11px;border-radius:8px;font-size:11px;font-weight:600;color:var(--gray5);border:1.5px solid var(--gray3);background:var(--white);cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+.tb-filter.active{background:#eff6ff;border-color:#bfdbfe;color:var(--blue);}
+.result-ct{font-size:11px;color:var(--gray4);white-space:nowrap;}
+.result-ct b{color:var(--text);}
+
+/* Case list */
+.case-list{flex:1;overflow-y:auto;background:var(--white);}
+.date-grp{padding:7px 16px;background:rgba(248,250,252,.95);border-bottom:1px solid #eef1f5;font-size:10px;font-weight:700;color:var(--gray4);display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:5;}
+.date-grp::after{content:'';flex:1;height:1px;background:#eef1f5;}
+
+.case-row{padding:14px 16px;border-bottom:1px solid #f0f4f8;cursor:pointer;transition:background .08s;display:flex;flex-direction:column;gap:5px;}
+.case-row:hover{background:#fafbfc;}
+.case-row.unread{background:var(--white);}
+.case-row.selected{background:#eff6ff!important;}
+
+.cr-top{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.cr-title{font-size:14px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;}
+.cr-time{font-size:10px;color:var(--gray4);white-space:nowrap;flex-shrink:0;}
+.cr-loc{font-size:11px;color:var(--gray5);}
+.cr-pills{display:flex;gap:5px;align-items:center;flex-wrap:wrap;}
+
+/* Pills */
+.pill{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:700;}
+.pill-lost{background:#fef2f2;color:var(--red);}
+.pill-found{background:#f0fdf4;color:#15803d;}
+.pill-missing{background:#fffbeb;color:var(--amber);}
+.pill-pending{background:#f8fafc;color:var(--gray5);border:1px solid var(--gray3);}
+.pill-accepted{background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;}
+.pill-rejected{background:#fef2f2;color:var(--red);border:1px solid #fecaca;}
+.pill-id{background:#eff6ff;color:#1d4ed8;font-family:'DM Mono',monospace;font-size:9px;}
+
+/* Reporter row */
+.cr-reporter{display:flex;align-items:center;gap:6px;}
+.cr-av{width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:var(--white);flex-shrink:0;}
+.cr-name{font-size:11px;color:var(--gray5);}
+.cr-contact{font-size:11px;color:var(--gray4);}
+
+/* ── DETAIL PANEL ── */
+.detail-panel{position:fixed;inset:0;top:64px;background:var(--white);z-index:200;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column;}
+.detail-panel.open{transform:translateX(0);}
+.dp-top{padding:12px 16px;border-bottom:1px solid var(--gray3);display:flex;align-items:center;gap:10px;background:var(--white);flex-shrink:0;}
+.dp-close{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--gray3);background:var(--gray2);color:var(--gray5);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.dp-title{font-size:14px;font-weight:700;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.dp-body{flex:1;overflow-y:auto;padding:16px;}
+.dp-fir-id{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:10px;padding:10px;text-align:center;margin-bottom:14px;font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:#1d4ed8;letter-spacing:.5px;}
+.dp-field{margin-bottom:10px;}
+.dp-lbl{font-size:9px;font-weight:700;color:var(--gray4);letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px;}
+.dp-val{font-size:13px;color:var(--gray5);font-weight:500;line-height:1.5;}
+.dp-note{background:var(--gray2);border-left:2px solid var(--blue);border-radius:0 7px 7px 0;padding:8px 10px;margin-bottom:6px;}
+.dp-note-by{font-size:9px;font-weight:700;color:var(--blue);margin-bottom:2px;}
+.dp-note-txt{font-size:11px;color:var(--gray5);}
+.dp-note-inp{width:100%;padding:9px 11px;border:1.5px solid var(--gray3);border-radius:8px;font-size:12px;font-family:'DM Sans',sans-serif;resize:none;height:60px;outline:none;background:var(--gray2);margin-top:6px;}
+.dp-note-inp:focus{border-color:var(--blue);background:var(--white);}
+.dp-actions{padding:12px 16px;border-top:1px solid var(--gray3);display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--white);flex-shrink:0;}
+.dp-btn{padding:10px;border-radius:9px;font-size:12px;font-weight:700;border:1.5px solid;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:5px;}
+.dp-btn.acc{background:#f0fdf4;color:#15803d;border-color:#bbf7d0;}
+.dp-btn.rej{background:#fef2f2;color:var(--red);border-color:#fecaca;}
+.dp-btn.call{background:#eff6ff;color:var(--blue);border-color:#bfdbfe;}
+.dp-btn.hide{background:var(--gray2);color:var(--gray5);border-color:var(--gray3);}
+.dp-btn.note{background:linear-gradient(135deg,#4f46e5,#7c3aed);color:var(--white);border:none;grid-column:1/-1;padding:12px;}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:60px 20px;color:var(--gray4);}
+.empty-icon{font-size:36px;margin-bottom:12px;opacity:.4;}
+.empty-title{font-size:15px;font-weight:700;color:var(--gray5);margin-bottom:4px;}
+.empty-sub{font-size:12px;}
+
+/* ── ALERT MODAL ── */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:flex-end;justify-content:center;}
+.modal-bg.open{display:flex;}
+.modal-box{background:var(--white);border-radius:20px 20px 0 0;padding:22px;width:100%;max-width:480px;}
+.modal-handle{width:40px;height:4px;background:var(--gray3);border-radius:2px;margin:0 auto 16px;}
+.modal-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.m-inp{width:100%;padding:10px 12px;border:1.5px solid var(--gray3);border-radius:9px;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;color:var(--text);margin-bottom:10px;}
+.m-inp:focus{border-color:var(--blue);}
+.m-sel{width:100%;padding:10px 12px;border:1.5px solid var(--gray3);border-radius:9px;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;color:var(--text);background:var(--white);cursor:pointer;margin-bottom:10px;}
+.m-ta{width:100%;padding:10px 12px;border:1.5px solid var(--gray3);border-radius:9px;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;resize:vertical;min-height:80px;margin-bottom:14px;}
+.m-ta:focus{border-color:var(--blue);}
+.m-btns{display:flex;gap:8px;}
+.m-btn{flex:1;padding:12px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;border:none;}
+.m-btn.cancel{background:var(--gray2);color:var(--gray5);}
+.m-btn.send{background:var(--red);color:var(--white);}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:#0f172a;color:var(--white);padding:11px 18px;border-radius:20px;font-size:12px;font-weight:600;opacity:0;pointer-events:none;transition:all .3s;z-index:999;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.3);}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ── REGISTER SECTION ── */
+.reg-scroll{max-height:55vh;overflow-y:auto;padding-right:2px;}
+.sec-head{font-size:9px;font-weight:700;color:rgba(255,255,255,.3);letter-spacing:1.5px;text-transform:uppercase;padding:10px 0 6px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:8px;}
+
+@media(min-width:768px){
+  .sidebar{position:fixed;transform:none;width:var(--sb);}
+  .main{margin-left:var(--sb);}
+  .sb-overlay{display:none!important;}
+  .dash-ham{display:none;}
+  .detail-panel{left:var(--sb);position:fixed;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN SCREEN ── -->
+<div id="screen-login">
+  <div style="text-align:center;margin-bottom:24px;">
+    <div style="font-size:13px;color:rgba(255,255,255,.3);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px;">FindBack</div>
+    <div style="font-size:28px;font-weight:700;color:white;">Command Portal</div>
+    <div style="font-size:12px;color:rgba(255,255,255,.35);margin-top:4px;">Police · NGO · Government of India</div>
+  </div>
+
+  <div class="login-card">
+    <div class="login-tabs">
+      <button class="login-tab active" id="tab-signin" onclick="switchTab('signin')">Sign In</button>
+      <button class="login-tab" id="tab-register" onclick="switchTab('register')">Register</button>
+    </div>
+
+    <div class="l-err" id="auth-err"></div>
+
+    <!-- SIGN IN -->
+    <div class="login-form" id="form-signin">
+      <div><label class="l-lbl">Email</label><input type="email" id="si-email" placeholder="official@email.com" class="l-inp"></div>
+      <div><label class="l-lbl">Password</label><input type="password" id="si-pass" placeholder="••••••••" class="l-inp"></div>
+      <button class="l-btn police" id="si-btn" onclick="doSignIn()">Sign In →</button>
+    </div>
+
+    <!-- REGISTER -->
+    <div class="login-form hidden reg-scroll" id="form-register">
+      <div class="sec-head">Personal</div>
+      <div><label class="l-lbl">Full Name ★</label><input type="text" id="rg-name" placeholder="Officer / Staff Name" class="l-inp"></div>
+      <div><label class="l-lbl">Phone ★</label><div style="display:flex;gap:6px;"><div style="padding:11px 10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:9px;font-size:11px;font-weight:700;color:rgba(255,255,255,.5);white-space:nowrap;">+91</div><input type="tel" id="rg-phone" placeholder="10-digit" maxlength="10" class="l-inp" style="flex:1;" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)"></div></div>
+
+      <div class="sec-head" style="margin-top:8px;">Organization</div>
+      <div><label class="l-lbl">Org Name ★</label><input type="text" id="rg-org" placeholder="e.g. West Tripura Police" class="l-inp"></div>
+      <div><label class="l-lbl">Type ★</label>
+        <select id="rg-type" class="l-sel">
+          <option value="police">🚔 Police Station</option>
+          <option value="ngo">🏛️ NGO</option>
+          <option value="government">🏢 Government</option>
+          <option value="hospital">🏥 Hospital</option>
+        </select>
+      </div>
+      <div><label class="l-lbl">PS Name (if police)</label><input type="text" id="rg-ps" placeholder="e.g. Agartala PS" class="l-inp"></div>
+
+      <div class="sec-head" style="margin-top:8px;">Location</div>
+      <div><label class="l-lbl">State ★</label><select id="rg-state" onchange="rgStateChange()" class="l-sel"><option value="">— Select —</option></select></div>
+      <div><label class="l-lbl">District ★</label><select id="rg-district" disabled class="l-sel"><option value="">— Select State —</option></select></div>
+
+      <div class="sec-head" style="margin-top:8px;">Credentials</div>
+      <div><label class="l-lbl">Email ★</label><input type="email" id="rg-email" placeholder="official@email.com" class="l-inp"></div>
+      <div style="margin-bottom:4px;"><label class="l-lbl">Password ★</label><input type="password" id="rg-pass" placeholder="Min 6 chars" class="l-inp"></div>
+      <button class="l-btn ngo" id="rg-btn" onclick="doRegister()">Create Account →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── DASHBOARD ── -->
+<div id="screen-dashboard">
+  <!-- Top bar -->
+  <div class="dash-top">
+    <button class="dash-ham" onclick="toggleSidebar()">☰</button>
+    <div class="dash-brand">Find<span>Back</span> Command</div>
+    <div class="dash-user">
+      <div class="dash-av" id="db-av">P</div>
+      <div class="dash-orgname" id="db-org">Police</div>
+      <button class="dash-logout" onclick="doLogout()">Logout</button>
+    </div>
+  </div>
+
+  <!-- Sidebar overlay -->
+  <div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-profile">
+      <div class="sb-av-row">
+        <div class="sb-av police" id="sb-av">P</div>
+        <div>
+          <div class="sb-orgname" id="sb-orgname">Organization</div>
+          <div class="sb-type" id="sb-type">🚔 Police Station</div>
+        </div>
+      </div>
+      <div class="sb-stats">
+        <div class="sb-stat"><div class="sb-stat-n" id="sb-lost" style="color:var(--red)">0</div><div class="sb-stat-l" style="color:var(--red)">Lost</div></div>
+        <div class="sb-stat"><div class="sb-stat-n" id="sb-found" style="color:var(--green)">0</div><div class="sb-stat-l" style="color:var(--green)">Found</div></div>
+        <div class="sb-stat"><div class="sb-stat-n" id="sb-missing" style="color:var(--amber)">0</div><div class="sb-stat-l" style="color:var(--amber)">Missing</div></div>
+        <div class="sb-stat"><div class="sb-stat-n" id="sb-resolved" style="color:var(--blue)">0</div><div class="sb-stat-l" style="color:var(--blue)">Solved</div></div>
+      </div>
+      <div class="sb-loc" id="sb-loc">📍 <span id="sb-loc-text">—</span></div>
+    </div>
+
+    <nav class="sb-nav">
+      <div class="sb-head">Cases</div>
+      <button class="sb-item active" id="snav-all" onclick="switchNav('all',this)"><div class="sb-icon">📋</div>All Cases<span class="sb-badge" id="snav-all-ct" style="display:none">0</span></button>
+      <button class="sb-item" id="snav-missing" onclick="switchNav('missing',this)"><div class="sb-icon">🚨</div>Missing<span class="sb-badge" id="snav-miss-ct" style="display:none">0</span></button>
+      <button class="sb-item" id="snav-resolved" onclick="switchNav('resolved',this)"><div class="sb-icon">✅</div>Resolved</button>
+      <div class="sb-head" style="margin-top:8px;">Actions</div>
+      <button class="sb-item" id="snav-collab" onclick="switchNav('collab',this)"><div class="sb-icon">🤝</div>Collaboration</button>
+      <button class="sb-item" id="snav-export" onclick="switchNav('export',this)"><div class="sb-icon">📥</div>Export</button>
+    </nav>
+
+    <div class="sb-footer">
+      <button class="sb-fbtn alert" onclick="openAlertModal()">📢 Raise Alert</button>
+      <button class="sb-fbtn logout" onclick="doLogout()">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <div class="main" id="main-area">
+    <!-- Stats bar -->
+    <div class="stats-bar" id="stats-bar">
+      <div class="stat-card" style="--accent:var(--red)"><div class="stat-val" id="sc-total" style="color:var(--text)">0</div><div class="stat-lbl">Total Cases</div></div>
+      <div class="stat-card" style="--accent:var(--red)"><div class="stat-val" id="sc-lost" style="color:var(--red)">0</div><div class="stat-lbl">Lost</div></div>
+      <div class="stat-card" style="--accent:var(--green)"><div class="stat-val" id="sc-found" style="color:var(--green)">0</div><div class="stat-lbl">Found</div></div>
+      <div class="stat-card" style="--accent:var(--amber)"><div class="stat-val" id="sc-miss" style="color:var(--amber)">0</div><div class="stat-lbl">Missing</div></div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Search cases..." id="search-inp" oninput="doSearch(this.value)">
+      </div>
+      <button class="tb-filter active" id="tf-all" onclick="setTypeFilter('all',this)">All</button>
+      <button class="tb-filter" id="tf-lost" onclick="setTypeFilter('lost',this)">😟 Lost</button>
+      <button class="tb-filter" id="tf-found" onclick="setTypeFilter('found',this)">🎉 Found</button>
+      <button class="tb-filter" id="tf-missing" onclick="setTypeFilter('missing',this)">⚠️ Missing</button>
+      <div class="result-ct"><b id="result-n">0</b> cases</div>
+    </div>
+
+    <!-- Case list -->
+    <div class="case-list" id="case-list">
+      <div class="empty"><div class="empty-icon">📭</div><div class="empty-title">Loading...</div></div>
+    </div>
+  </div>
+
+  <!-- Detail panel -->
+  <div class="detail-panel" id="detail-panel">
+    <div class="dp-top">
+      <button class="dp-close" onclick="closeDetail()">✕</button>
+      <div class="dp-title" id="dp-title">Case Details</div>
+    </div>
+    <div class="dp-body">
+      <div class="dp-fir-id" id="dp-fir-id">—</div>
+      <div class="dp-field"><div class="dp-lbl">Type</div><div class="dp-val" id="dp-type">—</div></div>
+      <div class="dp-field"><div class="dp-lbl">Item / Name</div><div class="dp-val" id="dp-item">—</div></div>
+      <div class="dp-field"><div class="dp-lbl">Location</div><div class="dp-val" id="dp-loc">—</div></div>
+      <div class="dp-field"><div class="dp-lbl">Reported By</div><div class="dp-val" id="dp-by">—</div></div>
+      <div class="dp-field"><div class="dp-lbl">Contact</div><div class="dp-val" id="dp-contact">—</div></div>
+      <div class="dp-field"><div class="dp-lbl">Date</div><div class="dp-val" id="dp-date">—</div></div>
+      <div class="dp-field"><div class="dp-lbl">Description</div><div class="dp-val" id="dp-desc" style="font-size:12px;line-height:1.6;">—</div></div>
+      <div class="dp-field"><div class="dp-lbl">Status</div><div class="dp-val" id="dp-status">—</div></div>
+      <div class="dp-field" style="margin-top:14px;">
+        <div class="dp-lbl" style="margin-bottom:6px;">Collaboration Notes</div>
+        <div id="dp-notes"></div>
+        <textarea class="dp-note-inp" id="dp-note-inp" placeholder="Note likhiye..."></textarea>
+      </div>
+    </div>
+    <div class="dp-actions">
+      <button class="dp-btn acc" onclick="detailAction('accepted')">✅ Accept</button>
+      <button class="dp-btn rej" onclick="detailAction('rejected')">❌ Reject</button>
+      <button class="dp-btn call" id="dp-call">📞 Call</button>
+      <button class="dp-btn hide" onclick="detailHide()">🙈 Hide</button>
+      <button class="dp-btn note" onclick="addNote()">🤝 Add Note & Collaborate</button>
+    </div>
+  </div>
+</div>
+
+<!-- Alert Modal -->
+<div class="modal-bg" id="alert-modal" onclick="if(event.target===this)closeAlertModal()">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title">📢 Raise Alert</div>
+    <select class="m-sel" id="al-type">
+      <option>🧍 Missing Person</option>
+      <option>🚨 Emergency Rescue</option>
+      <option>⚠️ Suspicious Activity</option>
+      <option>📢 General Alert</option>
+    </select>
+    <input type="text" class="m-inp" id="al-loc" placeholder="Location / Landmark">
+    <textarea class="m-ta" id="al-desc" placeholder="Alert details..."></textarea>
+    <div class="m-btns">
+      <button class="m-btn cancel" onclick="closeAlertModal()">Cancel</button>
+      <button class="m-btn send" onclick="sendAlert()">📢 Send Alert</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════
+// FINDBACK COMMAND — Clean Dashboard JS
+// ═══════════════════════════════════════
+
+// ── STATE ──
+var _user = null;
+var _posts = [];
+var _localPosts = [];
+var _openPostId = null;
+var _typeFilter = 'all';
+var _navTab = 'all';
+var _searchQ = '';
+var _db = null, _auth = null;
+
+// ── UTILS ──
+function toast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2800);
+}
+
+function el(id){ return document.getElementById(id); }
+
+function avColor(name) {
+  var colors = ['#2563eb','#7c3aed','#dc2626','#16a34a','#d97706','#0891b2','#be185d'];
+  var h = 0;
+  for(var i=0;i<name.length;i++) h=(h+name.charCodeAt(i))%colors.length;
+  return colors[h];
+}
+
+function timeAgo(ts) {
+  if(!ts) return '—';
+  var d = ts.seconds ? new Date(ts.seconds*1000) : new Date(ts);
+  var diff = Math.floor((Date.now()-d)/1000);
+  if(diff<60) return 'Just now';
+  if(diff<3600) return Math.floor(diff/60)+'m ago';
+  if(diff<86400) return Math.floor(diff/3600)+'h ago';
+  return d.toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+}
+
+function genFIRId(loc) {
+  var codes={'Tripura':'TRP','Delhi':'DL','Maharashtra':'MH','Uttar Pradesh':'UP','West Bengal':'WB','Gujarat':'GJ','Karnataka':'KA','Tamil Nadu':'TN'};
+  var state = ((loc||'').split(',').pop()||'').trim();
+  var sc = codes[state] || state.substring(0,3).toUpperCase() || 'IN';
+  return 'FB-'+sc+'-'+new Date().getFullYear()+'-'+String(Math.floor(Math.random()*9000)+1000);
+}
+
+// ── SIDEBAR ──
+function toggleSidebar() {
+  el('sidebar').classList.toggle('open');
+  el('sb-overlay').classList.toggle('open');
+}
+function closeSidebar() {
+  el('sidebar').classList.remove('open');
+  el('sb-overlay').classList.remove('open');
+}
+
+// ── AUTH TABS ──
+function switchTab(tab) {
+  el('tab-signin').classList.toggle('active', tab==='signin');
+  el('tab-register').classList.toggle('active', tab==='register');
+  el('form-signin').classList.toggle('hidden', tab!=='signin');
+  el('form-register').classList.toggle('hidden', tab!=='register');
+  el('auth-err').style.display='none';
+  if(tab==='register') setTimeout(populateStates,50);
+}
+
+// ── FIREBASE INIT (shared with parent window) ──
+window.addEventListener('load', function(){
+  // Try to connect to Firebase from parent FindBack app
+  var tries = 0;
+  var tryConnect = setInterval(function(){
+    tries++;
+    if(window.opener && window.opener._db) {
+      _db = window.opener._db;
+      _auth = window.opener._auth;
+      clearInterval(tryConnect);
+    }
+    if(tries > 20) clearInterval(tryConnect);
+  }, 300);
+
+  // Load Firebase directly
+  loadFirebase();
+});
+
+function loadFirebase() {
+  Promise.all([
+    import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js'),
+    import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js'),
+    import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js')
+  ]).then(function(mods){
+    var app_mod = mods[0], fs_mod = mods[1], auth_mod = mods[2];
+    var config = {apiKey:'AIzaSyCH1s6Cf2Zx2CZVv5HUUu2P7TwHEqoxWW8',authDomain:'findback-app-34e4f.firebaseapp.com',projectId:'findback-app-34e4f',storageBucket:'findback-app-34e4f.appspot.com',messagingSenderId:'504207496092',appId:'1:504207496092:web:b9d6918639ed23ddad6e59'};
+    var app;
+    try { app = app_mod.getApp('cmd'); } catch(e){ app = app_mod.initializeApp(config,'cmd'); }
+    _db = fs_mod.getFirestore(app);
+    _auth = auth_mod.getAuth(app);
+    window._fsm = fs_mod;
+    window._am = auth_mod;
+
+    // Check if already logged in via session
+    var org = sessionStorage.getItem('cmd_org');
+    if(org) {
+      _user = {
+        org: org,
+        district: sessionStorage.getItem('cmd_district')||'',
+        state: sessionStorage.getItem('cmd_state')||'',
+        type: sessionStorage.getItem('cmd_type')||'police'
+      };
+      openDashboard(_user.org, _user.type);
+    }
+
+    auth_mod.onAuthStateChanged(_auth, function(u){
+      if(!u && el('screen-dashboard').style.display!=='none') {
+        // silently stay if session exists
+      }
+    });
+  }).catch(function(e){ console.warn('Firebase load error:',e); });
+}
+
+// ── SIGN IN ──
+window.doSignIn = async function() {
+  var email = el('si-email').value.trim();
+  var pass = el('si-pass').value.trim();
+  var errEl = el('auth-err');
+  var btn = el('si-btn');
+  if(!email||!pass){ showErr('Email aur password daalo'); return; }
+  btn.textContent='Signing in...'; btn.disabled=true;
+  try {
+    var cred = await window._am.signInWithEmailAndPassword(_auth, email, pass);
+    var {getDoc,doc} = window._fsm;
+    var uDoc = await getDoc(doc(_db,'users',cred.user.uid));
+    var ud = uDoc.exists() ? uDoc.data() : {};
+    if(ud.userType!=='ngo'&&ud.userType!=='police'&&ud.userType!=='government'){
+      showErr('Yeh account Police/NGO ke liye nahi hai');
+      await window._am.signOut(_auth); return;
+    }
+    var org = ud.orgName || cred.user.displayName || 'Organization';
+    _user = {uid:cred.user.uid,org:org,district:ud.district||'',state:ud.state||'',type:ud.userType};
+    sessionStorage.setItem('cmd_org',org);
+    sessionStorage.setItem('cmd_district',ud.district||'');
+    sessionStorage.setItem('cmd_state',ud.state||'');
+    sessionStorage.setItem('cmd_type',ud.userType||'police');
+    openDashboard(org, ud.userType);
+  } catch(e) {
+    showErr(e.code==='auth/invalid-credential'?'Wrong email or password':'Error: '+e.message);
+  }
+  btn.textContent='Sign In →'; btn.disabled=false;
+};
+
+// ── REGISTER ──
+function populateStates() {
+  var sel = el('rg-state');
+  if(!sel||sel.options.length>1) return;
+  // Use INDIA_POLICE_DATA from parent if available
+  var data = (window.opener&&window.opener.INDIA_POLICE_DATA)||window.INDIA_POLICE_DATA||{};
+  Object.keys(data).sort().forEach(function(s){
+    var o=document.createElement('option');o.value=s;o.textContent=s;sel.appendChild(o);
+  });
+}
+function rgStateChange() {
+  var state = el('rg-state').value;
+  var dd = el('rg-district');
+  dd.innerHTML='<option value="">— Select District —</option>'; dd.disabled=true;
+  var data = (window.opener&&window.opener.INDIA_POLICE_DATA)||window.INDIA_POLICE_DATA||{};
+  if(!state||!data[state]) return;
+  Object.keys(data[state]).sort().forEach(function(d){
+    var o=document.createElement('option');o.value=d;o.textContent=d;dd.appendChild(o);
+  });
+  dd.disabled=false;
+}
+
+window.doRegister = async function() {
+  var name=el('rg-name').value.trim(), phone=el('rg-phone').value.trim();
+  var org=el('rg-org').value.trim(), type=el('rg-type').value;
+  var ps=el('rg-ps').value.trim(), state=el('rg-state').value, dist=el('rg-district').value;
+  var email=el('rg-email').value.trim(), pass=el('rg-pass').value.trim();
+  var btn=el('rg-btn');
+  var miss=[];
+  if(!name)miss.push('Name'); if(!phone||phone.length!==10)miss.push('Phone');
+  if(!org)miss.push('Org Name'); if(!state)miss.push('State'); if(!dist)miss.push('District');
+  if(!email)miss.push('Email'); if(!pass||pass.length<6)miss.push('Password(min 6)');
+  if(miss.length){ showErr('Required: '+miss.join(', ')); return; }
+  btn.textContent='Creating...'; btn.disabled=true;
+  try {
+    var {createUserWithEmailAndPassword,updateProfile} = window._am;
+    var {setDoc,doc,serverTimestamp} = window._fsm;
+    var cred = await createUserWithEmailAndPassword(_auth,email,pass);
+    await updateProfile(cred.user,{displayName:name});
+    var orgDisplay=org+(ps?' · '+ps:'');
+    await setDoc(doc(_db,'users',cred.user.uid),{
+      displayName:name,orgName:orgDisplay,userType:type,role:'ngo',email:email,
+      phone:'+91'+phone,psName:ps,state:state,district:dist,createdAt:serverTimestamp(),verified:false
+    });
+    _user={uid:cred.user.uid,org:orgDisplay,district:dist,state:state,type:type};
+    sessionStorage.setItem('cmd_org',orgDisplay);
+    sessionStorage.setItem('cmd_district',dist);
+    sessionStorage.setItem('cmd_state',state);
+    sessionStorage.setItem('cmd_type',type);
+    openDashboard(orgDisplay, type);
+  } catch(e) {
+    showErr(e.code==='auth/email-already-in-use'?'Email already registered. Please sign in.':'Error: '+e.message);
+  }
+  btn.textContent='Create Account →'; btn.disabled=false;
+};
+
+function showErr(msg) {
+  var e=el('auth-err'); e.textContent=msg; e.style.display='block';
+}
+
+// ── OPEN DASHBOARD ──
+function openDashboard(org, type) {
+  el('screen-login').style.display='none';
+  el('screen-dashboard').style.display='flex';
+  el('screen-dashboard').style.flexDirection='column';
+
+  // Set names
+  el('db-av').textContent=(org[0]||'P').toUpperCase();
+  el('db-org').textContent=org;
+  el('sb-av').textContent=(org[0]||'P').toUpperCase();
+  el('sb-av').className='sb-av '+(type==='ngo'?'ngo':'police');
+  el('sb-orgname').textContent=org;
+  el('sb-type').textContent=type==='ngo'?'🏛️ NGO':(type==='government'?'🏢 Government':'🚔 Police Station');
+
+  // Location badge
+  var district=_user.district||'', state=_user.state||'';
+  var locText=[district,state].filter(Boolean).join(', ');
+  if(locText){ el('sb-loc').classList.add('show'); el('sb-loc-text').textContent=locText; }
+
+  toast('✅ Welcome, '+org+'!');
+  startListener();
+}
+
+// ── FIRESTORE LISTENER ──
+function startListener() {
+  var {collection,query,orderBy,onSnapshot} = window._fsm;
+  var q = query(collection(_db,'posts'),orderBy('createdAt','desc'));
+  onSnapshot(q, function(snap){
+    _posts = snap.docs.map(function(d){ return Object.assign({id:d.id},d.data()); });
+    filterLocalPosts();
+    updateStats();
+    renderList();
+  }, function(e){ console.warn('Snapshot error:',e); });
+}
+
+// Filter posts by officer's district/state
+function filterLocalPosts() {
+  var district = (_user.district||'').toLowerCase().trim();
+  var state = (_user.state||'').toLowerCase().trim();
+  if(!district && !state) {
+    _localPosts = _posts;
+    return;
+  }
+  _localPosts = _posts.filter(function(p){
+    var loc=(p.loc||'').toLowerCase();
+    if(district && loc.includes(district)) return true;
+    if(!district && state && loc.includes(state)) return true;
+    return false;
+  });
+}
+
+// ── STATS ──
+function updateStats() {
+  var p = _localPosts;
+  el('sc-total').textContent=p.length;
+  el('sc-lost').textContent=p.filter(function(x){return x.type==='lost';}).length;
+  el('sc-found').textContent=p.filter(function(x){return x.type==='found';}).length;
+  el('sc-miss').textContent=p.filter(function(x){return x.type==='missing';}).length;
+  el('sb-lost').textContent=p.filter(function(x){return x.type==='lost';}).length;
+  el('sb-found').textContent=p.filter(function(x){return x.type==='found';}).length;
+  el('sb-missing').textContent=p.filter(function(x){return x.type==='missing';}).length;
+  el('sb-resolved').textContent=p.filter(function(x){return x.status==='resolved';}).length;
+
+  // Nav badges
+  var miss=p.filter(function(x){return x.type==='missing'&&x.status!=='resolved';}).length;
+  el('snav-miss-ct').textContent=miss; el('snav-miss-ct').style.display=miss?'':'none';
+  var all=p.filter(function(x){return !x.firHidden;}).length;
+  el('snav-all-ct').textContent=all; el('snav-all-ct').style.display=all?'':'none';
+}
+
+// ── FILTER / SEARCH ──
+function getFilteredPosts() {
+  var p = _localPosts;
+  if(_navTab==='missing') p=p.filter(function(x){return x.type==='missing';});
+  else if(_navTab==='resolved') p=p.filter(function(x){return x.status==='resolved';});
+  else if(_navTab==='collab') p=p.filter(function(x){return x.collaboration&&x.collaboration.length>0;});
+  if(_typeFilter!=='all') p=p.filter(function(x){return x.type===_typeFilter;});
+  if(_searchQ) {
+    var q=_searchQ;
+    p=p.filter(function(x){
+      return (x.item||'').toLowerCase().includes(q)||(x.loc||'').toLowerCase().includes(q)||(x.authorName||'').toLowerCase().includes(q);
+    });
+  }
+  p=p.filter(function(x){return !x.firHidden;});
+  return p;
+}
+
+function doSearch(val){ _searchQ=val.toLowerCase().trim(); renderList(); }
+function setTypeFilter(type,btn){
+  _typeFilter=type;
+  document.querySelectorAll('.tb-filter').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  renderList();
+}
+
+// ── NAV ──
+function switchNav(tab, btn) {
+  _navTab=tab;
+  document.querySelectorAll('.sb-item').forEach(function(b){b.classList.remove('active');});
+  if(btn) btn.classList.add('active');
+  closeSidebar();
+  if(tab==='export'){ renderExport(); return; }
+  renderList();
+}
+
+// ── RENDER LIST ──
+function renderList() {
+  var posts = getFilteredPosts();
+  el('result-n').textContent=posts.length;
+  var listEl = el('case-list');
+
+  if(!posts.length){
+    listEl.innerHTML='<div class="empty"><div class="empty-icon">📭</div><div class="empty-title">No cases found</div><div class="empty-sub">Filter change karo ya search clear karo</div></div>';
+    return;
+  }
+
+  // Group by date
+  var groups={}, gOrder=[];
+  posts.forEach(function(p){
+    var label='Unknown';
+    if(p.createdAt&&p.createdAt.seconds){
+      var d=new Date(p.createdAt.seconds*1000);
+      var today=new Date(); today.setHours(0,0,0,0);
+      var yest=new Date(today); yest.setDate(yest.getDate()-1);
+      var pd=new Date(d); pd.setHours(0,0,0,0);
+      if(pd.getTime()===today.getTime()) label='Today — '+d.toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+      else if(pd.getTime()===yest.getTime()) label='Yesterday — '+d.toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+      else label=d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'short',year:'numeric'});
+    }
+    if(!groups[label]){groups[label]=[];gOrder.push(label);}
+    groups[label].push(p);
+  });
+
+  var html='';
+  gOrder.forEach(function(label){
+    html+='<div class="date-grp">'+label+'</div>';
+    groups[label].forEach(function(p){
+      var typePill=p.type==='lost'?'<span class="pill pill-lost">😟 Lost</span>':p.type==='found'?'<span class="pill pill-found">🎉 Found</span>':'<span class="pill pill-missing">⚠️ Missing</span>';
+      var stPill=p.firStatus==='accepted'?'<span class="pill pill-accepted">✅ Accepted</span>':p.firStatus==='rejected'?'<span class="pill pill-rejected">❌ Rejected</span>':'<span class="pill pill-pending">⏳ Pending</span>';
+      var firPill=p.firId?'<span class="pill pill-id">'+p.firId+'</span>':'';
+      var name=p.authorName||'Anonymous';
+      var ac=avColor(name);
+      html+='<div class="case-row unread" id="cr-'+p.id+'" onclick="openDetail(\''+p.id+'\')">'
+        +'<div class="cr-top">'+typePill+stPill+firPill+'<span class="cr-time">'+timeAgo(p.createdAt)+'</span></div>'
+        +'<div class="cr-title">'+escHtml(p.item||'—')+'</div>'
+        +'<div class="cr-loc">📍 '+escHtml(p.loc||'—')+'</div>'
+        +'<div class="cr-pills"><div class="cr-reporter"><div class="cr-av" style="background:'+ac+'">'+name[0].toUpperCase()+'</div><span class="cr-name">'+escHtml(name)+'</span>'+(p.contact?'<span class="cr-contact"> · '+escHtml(p.contact)+'</span>':'')+'</div></div>'
+        +'</div>';
+    });
+  });
+  listEl.innerHTML=html;
+}
+
+function escHtml(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ── OPEN DETAIL ──
+function openDetail(postId) {
+  var p=_posts.find(function(x){return x.id===postId;}); if(!p) return;
+  _openPostId=postId;
+  document.querySelectorAll('.case-row').forEach(function(r){r.classList.remove('selected');});
+  var row=el('cr-'+postId); if(row) row.classList.add('selected');
+
+  var typePill=p.type==='lost'?'<span class="pill pill-lost">😟 Lost</span>':p.type==='found'?'<span class="pill pill-found">🎉 Found</span>':'<span class="pill pill-missing">⚠️ Missing</span>';
+  var stPill=p.firStatus==='accepted'?'<span class="pill pill-accepted">✅ Accepted</span>':p.firStatus==='rejected'?'<span class="pill pill-rejected">❌ Rejected</span>':'<span class="pill pill-pending">⏳ Pending</span>';
+  var d=p.createdAt&&p.createdAt.seconds?new Date(p.createdAt.seconds*1000):null;
+  var dateStr=d?d.toLocaleDateString('en-IN')+ ' · '+d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}):'—';
+
+  el('dp-title').textContent=p.item||'Case Details';
+  el('dp-fir-id').textContent=p.firId||genFIRId(p.loc);
+  el('dp-type').innerHTML=typePill;
+  el('dp-item').textContent=p.item||'—';
+  el('dp-loc').textContent='📍 '+(p.loc||'—');
+  el('dp-by').textContent=p.authorName||'Anonymous';
+  el('dp-contact').textContent=p.contact||'—';
+  el('dp-date').textContent=dateStr;
+  el('dp-desc').textContent=p.desc||'No description';
+  el('dp-status').innerHTML=stPill;
+
+  var callBtn=el('dp-call');
+  if(p.contact){ callBtn.onclick=function(){window.location.href='tel:'+p.contact;}; callBtn.style.opacity='1'; }
+  else{ callBtn.style.opacity='.4'; }
+
+  var notes=p.collaboration||[];
+  el('dp-notes').innerHTML=notes.length?notes.map(function(n){
+    return '<div class="dp-note"><div class="dp-note-by">'+escHtml(n.by||'Officer')+' · '+escHtml(n.at||'')+'</div><div class="dp-note-txt">'+escHtml(n.note||'')+'</div></div>';
+  }).join(''):'<div style="text-align:center;padding:12px;font-size:11px;color:var(--gray4);">No notes yet</div>';
+  el('dp-note-inp').value='';
+
+  el('detail-panel').classList.add('open');
+}
+function closeDetail(){ el('detail-panel').classList.remove('open'); _openPostId=null; }
+
+// ── DETAIL ACTIONS ──
+window.detailAction = async function(action) {
+  if(!_openPostId) return;
+  if(!confirm((action==='accepted'?'Accept':'Reject')+' this case?')) return;
+  try {
+    var {doc,updateDoc,serverTimestamp} = window._fsm;
+    var p=_posts.find(function(x){return x.id===_openPostId;});
+    var firId=(p&&p.firId)||genFIRId(p?p.loc:'');
+    await updateDoc(doc(_db,'posts',_openPostId),{firStatus:action,firId:firId,firActionAt:serverTimestamp(),firActionBy:_user.org||'Officer'});
+    toast(action==='accepted'?'✅ Case accepted! ID: '+firId:'❌ Case rejected');
+    closeDetail();
+  } catch(e){ toast('❌ Failed: '+e.message); }
+};
+
+window.detailHide = async function() {
+  if(!_openPostId) return;
+  if(!confirm('Queue se hide karna chahte ho?')) return;
+  try {
+    var {doc,updateDoc,serverTimestamp} = window._fsm;
+    await updateDoc(doc(_db,'posts',_openPostId),{firHidden:true,firHiddenAt:serverTimestamp()});
+    toast('👁️ Hidden from queue');
+    closeDetail(); renderList();
+  } catch(e){ toast('❌ Failed'); }
+};
+
+window.addNote = async function() {
+  if(!_openPostId) return;
+  var inp=el('dp-note-inp');
+  if(!inp.value.trim()){ toast('⚠️ Note likhiye'); return; }
+  var note=inp.value.trim();
+  var at=new Date().toLocaleDateString('en-IN')+' '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  try {
+    var {doc,updateDoc,arrayUnion} = window._fsm;
+    await updateDoc(doc(_db,'posts',_openPostId),{collaboration:arrayUnion({by:_user.org||'Officer',note:note,at:at})});
+    toast('✅ Note added!');
+    closeDetail();
+  } catch(e){ toast('❌ Failed'); }
+};
+
+// ── ALERT MODAL ──
+function openAlertModal(){ el('alert-modal').classList.add('open'); }
+function closeAlertModal(){ el('alert-modal').classList.remove('open'); }
+window.sendAlert = function() {
+  var type=el('al-type').value, desc=el('al-desc').value.trim(), loc=el('al-loc').value.trim();
+  if(!desc){ toast('⚠️ Description daalo'); return; }
+  var msg='🚨 *FindBack ALERT*\n📢 *'+type+'*\n'+(loc?'📍 *'+loc+'*\n':'')+'━━━━━━━━━━━━━━━━━━━\n'+desc+'\n\n🔗 findback.org';
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+  closeAlertModal(); toast('📢 Alert shared!');
+};
+
+// ── EXPORT ──
+function renderExport() {
+  var listEl=el('case-list');
+  listEl.innerHTML='<div style="padding:16px;">'
+    +'<div style="background:var(--white);border:1px solid var(--gray3);border-radius:12px;padding:16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;">'
+    +'<div style="width:40px;height:40px;background:linear-gradient(135deg,var(--blue),#1d4ed8);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">📥</div>'
+    +'<div style="flex:1;"><div style="font-size:13px;font-weight:700;">CSV Export</div><div style="font-size:11px;color:var(--gray5);margin-top:2px;">All cases — Excel compatible</div></div>'
+    +'<button onclick="exportCSV()" style="padding:8px 14px;background:var(--blue);color:white;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;">Download</button></div>'
+    +'</div>';
+}
+
+window.exportCSV = function() {
+  var posts=getFilteredPosts();
+  var rows=[['ID','Type','Item','Location','Contact','Reporter','Date','Status']];
+  posts.forEach(function(p){
+    var d=p.createdAt&&p.createdAt.seconds?new Date(p.createdAt.seconds*1000).toLocaleDateString('en-IN'):'';
+    rows.push([p.firId||p.id,p.type,p.item||'',p.loc||'',p.contact||'',p.authorName||'',d,p.firStatus||'pending']);
+  });
+  var csv=rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
+  var blob=new Blob([csv],{type:'text/csv'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a'); a.href=url; a.download='findback-cases.csv'; a.click();
+  URL.revokeObjectURL(url);
+  toast('✅ CSV downloaded!');
+};
+
+// ── LOGOUT ──
+window.doLogout = async function() {
+  try { await window._am.signOut(_auth); } catch(e){}
+  sessionStorage.clear();
+  _user=null; _posts=[]; _localPosts=[];
+  el('screen-dashboard').style.display='none';
+  el('screen-login').style.display='flex';
+  toast('👋 Logged out!');
+};
+</script>
+</body>
+</html>
+
