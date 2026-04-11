@@ -3273,6 +3273,7 @@ function _fbOpen(org, type) {
   // Role
   window.fbSetRole(type);
   window.toast('✅ Welcome, '+org+'!');
+  window.location.href='/police-dashboard.html';
   if(window.ngoLoadDashboard) window.ngoLoadDashboard();
 }
 
