@@ -1,0 +1,18 @@
+<svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <rect width="512" height="512" rx="100" fill="#111111"/>
+  
+  <!-- Boomerang logo scaled up (original 100x100 → 512x512, scale ~4x, centered) -->
+  <!-- Center at 256,256 -->
+  <g transform="translate(256,256) scale(4.2) translate(-50,-50)">
+    <path d="M50 50 C50 44 48 36 44 28 C41 22 38 17 38 14 C38 10 41 8 44 9 C47 10 49 14 50 20 C51 26 52 34 54 40 C56 46 56 50 50 50Z" fill="#E8722A"/>
+    <path d="M50 50 C44 52 37 54 30 56 C23 58 17 59 14 57 C11 55 11 51 13 49 C15 47 19 47 25 48 C31 49 38 49 43 48 C48 47 52 46 50 50Z" fill="#E8722A"/>
+    <path d="M50 50 C54 46 60 42 66 40 C72 38 78 37 81 39 C84 41 83 45 81 47 C79 49 75 49 69 50 C63 51 57 52 53 53 C49 54 47 54 50 50Z" fill="#E8722A"/>
+    <circle cx="50" cy="50" r="6.5" fill="#111111"/>
+    <circle cx="50" cy="50" r="3.5" fill="#E8722A"/>
+  </g>
+  
+  <!-- FindBack text -->
+  <text x="256" y="430" font-family="Arial, sans-serif" font-size="52" font-weight="800" fill="white" text-anchor="middle" letter-spacing="-1">Find<tspan fill="#E8722A">Back</tspan></text>
+</svg>
+
