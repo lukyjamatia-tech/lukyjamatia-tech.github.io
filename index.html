@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google-site-verification" content="ryzQx9e1WaNUOuL6HceEoxWGDxHJAwa6saxZiUdtAw0" />
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#E8722A">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FindBack">
+<meta name="application-name" content="FindBack">
+<meta name="description" content="India's trusted lost and found platform. Report lost items, find what others found.">
 <title>FindBack S1 — Find what the world lost</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -4587,6 +4595,15 @@ function ghStatus(type, msg) {
 }
 
 </script>
- script src="dashboard-fix.js"></script> 
+<script src="dashboard-fix.js"></script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('/sw.js')
+      .then(function(r){console.log('FindBack SW:',r.scope);})
+      .catch(function(e){console.warn('SW fail:',e);});
+  });
+}
+</script>
 </body>
 </html>
