@@ -1,26 +1,38 @@
 {
-  "name": "FindBack — India Lost & Found",
+  "name": "FindBack India Lost and Found",
   "short_name": "FindBack",
   "description": "India's trusted lost and found platform. Report lost items, find what others have found.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#111111",
   "theme_color": "#E8722A",
   "orientation": "portrait-primary",
   "lang": "en-IN",
   "categories": ["utilities", "social"],
   "icons": [
     {
-      "src": "https://api.qrserver.com/v1/create-qr-code/?size=192x192&data=findback",
+      "src": "/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "https://api.qrserver.com/v1/create-qr-code/?size=512x512&data=findback",
+      "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ],
   "screenshots": [],
