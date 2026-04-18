@@ -1860,7 +1860,14 @@ window.printQR=function(){
   if(!window._lastQRData)return;
   var d=window._lastQRData;
   var w=window.open('','_blank');
-  var html='<html><head><title>FindBack QR</title></head><body style="text-align:center;padding:20px;font-family:sans-serif;"><div style="border:3px solid #E8722A;border-radius:16px;padding:20px;display:inline-block;"><h2 style="color:#E8722A;">FindBack Tag</h2><img src="QRURL" style="width:180px;height:180px;"><h3>ITEM</h3>NAMEMSG<p style="font-size:12px;color:#E8722A;">Scan to contact</p></div></body></html>';
+  var html='<html><head><title>FindBack QR</title></head><body style="text-align:center;padding:20px;font-family:sans-serif;"><div style="border:3px solid #E8722A;border-radius:16px;padding:20px;display:inline-block;"><h2 style="color:#E8722A;">FindBack Tag</h2><img src="QRURL" style="width:180px;height:180px;"><h3>ITEM</h3>NAMEMSG<p style="font-size:12px;color:#E8722A;">Scan to contact</p></div><script>
+document.addEventListener('contextmenu',function(e){e.preventDefault();});
+document.addEventListener('keydown',function(e){
+  if((e.ctrlKey||e.metaKey)&&e.key==='u'){e.preventDefault();}
+  if(e.key==='F12'){e.preventDefault();}
+});
+</script>
+</body></html>';
   html=html.replace('QRURL',d.qrUrl).replace('ITEM',d.item).replace('NAMEMSG',(d.name?'<p>Owner: '+d.name+'</p>':'')+(d.msg?'<p>'+d.msg+'</p>':''));
   w.document.write(html);w.document.close();
   setTimeout(function(){w.print();},300);
@@ -4638,6 +4645,13 @@ if('serviceWorker' in navigator){
       .catch(function(e){console.warn('SW fail:',e);});
   });
 }
+</script>
+<script>
+document.addEventListener('contextmenu',function(e){e.preventDefault();});
+document.addEventListener('keydown',function(e){
+  if((e.ctrlKey||e.metaKey)&&e.key==='u'){e.preventDefault();}
+  if(e.key==='F12'){e.preventDefault();}
+});
 </script>
 </body>
 </html>
