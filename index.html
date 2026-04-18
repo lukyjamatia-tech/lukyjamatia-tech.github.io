@@ -284,6 +284,7 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
       <div class="stat-hero-box" style="background:rgba(255,255,255,0.85);border-radius:14px;padding:10px 16px;text-align:center;min-width:80px;box-shadow:0 4px 12px rgba(0,0,0,.1);"><div id="stat-lost" style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#DC2626;">0</div><div style="font-size:10px;color:#777;font-weight:600;">😟 Lost</div></div>
       <div class="stat-hero-box" style="background:rgba(255,255,255,0.85);border-radius:14px;padding:10px 16px;text-align:center;min-width:80px;box-shadow:0 4px 12px rgba(0,0,0,.1);"><div id="stat-found" style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#059669;">0</div><div style="font-size:10px;color:#777;font-weight:600;">🎉 Found</div></div>
       <div class="stat-hero-box" style="background:rgba(255,255,255,0.85);border-radius:14px;padding:10px 16px;text-align:center;min-width:80px;box-shadow:0 4px 12px rgba(0,0,0,.1);"><div id="stat-resolved" style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#E8722A;">0</div><div style="font-size:10px;color:#777;font-weight:600;">✅ Reunited</div></div>
+      <div class="stat-hero-box" style="background:rgba(255,255,255,0.85);border-radius:14px;padding:10px 16px;text-align:center;min-width:80px;box-shadow:0 4px 12px rgba(0,0,0,.1);"><div id="stat-users" style="font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:#7C3AED;">0</div><div style="font-size:10px;color:#777;font-weight:600;">👥 Users</div></div>
     </div>
     <div class="home-btns">
       <button class="btn-primary" onclick="openModal('lost')">😟 Report Lost</button>
@@ -863,7 +864,10 @@ window.doRegister=async function(){
   const name=document.getElementById('r-name').value.trim(),email=document.getElementById('r-email').value.trim(),pass=document.getElementById('r-pass').value.trim(),agree=document.getElementById('r-agree').checked;
   if(!name||!email||!pass){window.toast('⚠️ Fill all fields');return;}
   if(!agree){window.toast('⚠️ Agree to Terms first');return;}
-  try{const c=await createUserWithEmailAndPassword(auth,email,pass);await updateProfile(c.user,{displayName:name});document.getElementById('reg-success').style.display='block';setTimeout(()=>showPage('home'),1500);}
+  try{const c=await createUserWithEmailAndPassword(auth,email,pass);await updateProfile(c.user,{displayName:name});
+  // Increment user counter
+  try{const{doc:_d,setDoc:_sd,increment:_inc,getDoc:_gd}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');await _sd(_d(db,'stats','users'),{count:_inc(1)},{merge:true});}catch(e){}
+  document.getElementById('reg-success').style.display='block';setTimeout(()=>showPage('home'),1500);}
   catch(e){window.toast('❌ '+(e.code==='auth/email-already-in-use'?'Email already registered':e.message));}
 };
 window.doLogin=async function(){
@@ -1841,6 +1845,15 @@ function updateHeroStats(){
   var el=document.getElementById('stat-lost');if(el)el.textContent=lc;
   var ef=document.getElementById('stat-found');if(ef)ef.textContent=fc;
   var er=document.getElementById('stat-resolved');if(er)er.textContent=rc;
+  // Load user count from Firestore
+  if(window._db){
+    import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js').then(function(m){
+      m.getDoc(m.doc(window._db,'stats','users')).then(function(d){
+        var eu=document.getElementById('stat-users');
+        if(eu&&d.exists())eu.textContent=d.data().count||0;
+      }).catch(function(){});
+    });
+  }
 }
 window.updateHeroStats=updateHeroStats;
 
