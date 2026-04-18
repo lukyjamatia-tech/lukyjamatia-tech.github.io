@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="google-site-verification" content="ryzQx9e1WaNUOuL6HceEoxWGDxHJAwa6saxZiUdtAw0">
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="ryzQx9e1WaNUOuL6HceEoxWGDxHJAwa6saxZiUdtAw0" />
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#E8722A">
 <meta name="mobile-web-app-capable" content="yes">
@@ -131,7 +132,9 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
 .cat-grid-item{background:var(--gray);border-radius:14px;padding:12px 6px;text-align:center;cursor:pointer;border:2px solid transparent;transition:all .2s;}
 .cat-grid-item:active{transform:scale(0.95);}
 .active-cat-grid{border-color:var(--orange);background:#FFF5EE;}
-.cat-grid-label{font-size:10px;font-weight:700;color:#333;margin-top:2px;}
+.cat-grid-label{font-size:11px;font-weight:700;color:#333;margin-top:4px;}
+#cat-grid-container{grid-template-columns:repeat(3,1fr)!important;gap:12px!important;}
+#cat-grid-container .cat-grid-item>div>div{width:54px!important;height:54px!important;font-size:28px!important;}
 .cat-grid-item{transition:transform .15s,border-color .2s,background .2s;}
 .cat-grid-item:active{transform:scale(0.92);}
 .edit-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:400;align-items:flex-end;justify-content:center;}
