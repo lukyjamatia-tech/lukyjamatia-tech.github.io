@@ -400,7 +400,7 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
     <div class="footer-grid">
       <div class="footer-col"><h5>Company</h5><a onclick="showPage('about')">🏢 About Us</a><a onclick="showPage('contact')">📞 Contact</a><a onclick="showPage('customers')">❤️ Customers</a><a onclick="showPage('success')">🌟 Success Stories</a><a onclick="showPage('trust')">🤝 Trust Score</a></div>
       <div class="footer-col"><h5>Legal</h5><a onclick="showPage('terms')">📜 Terms</a><a onclick="showPage('privacy')">🔒 Privacy</a><a onclick="showPage('disclaimer')">⚠️ Disclaimer</a><a onclick="showPage('copyright')">©️ Copyright</a><a onclick="showPage('qrtag')">🏷️ QR Tag</a><a onclick="showPage('reward')">💰 Reward</a></div>
-      <div class="footer-col"><h5>Account</h5><a onclick="showPage('login')">🔑 Log In</a><a onclick="showPage('register')">📝 Register</a><a onclick="showPage('admin')">🛡️ Admin</a><!-- NGO/Police portal temporarily hidden --></div>
+      <div class="footer-col"><h5>Account</h5><a onclick="showPage('login')">🔑 Log In</a><a onclick="showPage('register')">📝 Register</a><a onclick="showPage('admin')">🛡️ Admin</a><a onclick="showPage('ngo')">🚔 Police/NGO Portal</a></div>
       <div class="footer-col"><h5>Quick Links</h5><a onclick="openModal('lost')">😟 Report Lost</a><a onclick="openModal('found')">🎉 Report Found</a><a onclick="openModal('missing')">⚠️ Report Missing</a><a onclick="showPage('fir')">👮 FIR Help</a></div>
     </div>
     <div class="footer-bottom"><p>©2026 FindBack S1 — Samarendra Jamatia. All rights reserved.</p><div class="footer-bottom-links"><a onclick="showPage('terms')">Terms</a><a onclick="showPage('privacy')">Privacy</a><a onclick="showPage('disclaimer')">Disclaimer</a><a onclick="showPage('contact')">Contact</a></div></div>
@@ -1912,7 +1912,7 @@ window.printQR=function(){
 /* ── PAGE OVERRIDE ── */
 #page-ngo{display:none!important;}
 /* NGO/Police portal temporarily disabled */
-/* #page-ngo.active{display:block!important;width:100%;min-height:100vh;} */
+#page-ngo.active{display:block!important;width:100%;min-height:100vh;}
 
 /* ── TOP GOV HEADER ── */
 .fb-gov-header{
