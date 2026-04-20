@@ -689,10 +689,13 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot, orderBy, query, serverTimestamp, enableNetwork, disableNetwork } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getStorage, ref, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 const firebaseConfig={apiKey:"AIzaSyCH1s6Cf2Zx2CZVv5HUUu2P7TwHEqoxWW8",authDomain:"findback-app-34e4f.firebaseapp.com",projectId:"findback-app-34e4f",storageBucket:"findback-app-34e4f.appspot.com",messagingSenderId:"504207496092",appId:"1:504207496092:web:b9d6918639ed23ddad6e59"};
 const app=initializeApp(firebaseConfig);
 const db=getFirestore(app);
+const storage=getStorage(app);
+window._storage=storage;
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){disableNetwork(db).catch(()=>{});}else{enableNetwork(db).catch(()=>{});}});
 const auth=getAuth(app);
 window._db=db;window._auth=auth;window._allPosts=[];
@@ -789,10 +792,25 @@ window.submitToFirebase=async function(){
   const plateNo=document.getElementById('m-plate-no')?document.getElementById('m-plate-no').value.trim():'';
   const contact=cv?('+91'+cv):'';
   const btn=document.querySelector('#report-modal .btn-primary');
-  if(btn){btn.textContent='Submitting...';btn.disabled=true;}
+  if(btn){btn.textContent='Uploading...';btn.disabled=true;}
   try{
-    const photo=(photos[0]&&photos[0].length<900000)?photos[0]:(photos[0]?photos[0].substring(0,900000):null);
-    await addDoc(collection(db,"posts"),{type,item,loc,date:dv,desc,contact,category:cat,reward:rew,uid,authorName,photo,photoCount:photos.length,idMark,regNo,plateNo,idVerifyType:idType,idVerifyMasked:idMasked,idVerifyPhoto:window._idPhotoData||null,idManualReview:window._idManualReview||false,createdAt:serverTimestamp()});
+    // Upload photos to Firebase Storage
+    let photoURL=null;
+    let photoURLs=[];
+    if(photos&&photos.length>0){
+      if(btn)btn.textContent='📸 Photos upload ho rahi hain...';
+      for(var pi=0;pi<Math.min(photos.length,5);pi++){
+        try{
+          var pRef=ref(storage,'posts/'+(uid||'anon')+'/'+Date.now()+'_'+pi+'.jpg');
+          await uploadString(pRef,photos[pi],'data_url');
+          var pURL=await getDownloadURL(pRef);
+          photoURLs.push(pURL);
+          if(pi===0)photoURL=pURL;
+        }catch(pe){console.warn('Photo upload err:',pe);}
+      }
+    }
+    if(btn)btn.textContent='💾 Saving...';
+    await addDoc(collection(db,"posts"),{type,item,loc,date:dv,desc,contact,category:cat,reward:rew,uid,authorName,photo:photoURL,photos:photoURLs,photoCount:photoURLs.length,idMark,regNo,plateNo,idVerifyType:idType,idVerifyMasked:idMasked,idVerifyPhoto:window._idPhotoData||null,idManualReview:window._idManualReview||false,createdAt:serverTimestamp()});
     document.getElementById('modal-success').style.display='block';
     if(window.checkAreaAlerts)window.checkAreaAlerts({type,item,loc,category:cat});
     if(window._checkMatchAlert)window._checkMatchAlert({type,item,loc,category:cat});
