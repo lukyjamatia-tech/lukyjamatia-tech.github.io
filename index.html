@@ -468,6 +468,9 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
   <div class="form-group"><label>📧 Email</label><div class="input-icon-wrap"><span class="icon">📧</span><input type="email" id="l-email" placeholder="Enter email"></div></div>
   <div class="form-group"><label>🔒 Password</label><div class="input-icon-wrap"><span class="icon">🔒</span><input type="password" id="l-pass" placeholder="Enter password"></div></div>
   <button class="btn-primary" style="width:100%" onclick="doLogin()">Log In</button>
+  <div style="display:flex;align-items:center;gap:10px;margin:14px 0;"><div style="flex:1;height:1px;background:#e0e0e0;"></div><span style="font-size:12px;color:#999;">or</span><div style="flex:1;height:1px;background:#e0e0e0;"></div></div>
+  <button onclick="doGoogleLogin()" style="width:100%;padding:11px 16px;background:white;border:1.5px solid #e0e0e0;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;color:#333;"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M44.5 20H24v8h11.8C34.7 33.9 29.8 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.3-6.3C34.7 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.7 0 20.3-7.9 20.3-21 0-1.3-.1-2.7-.3-4z"/><path fill="#34A853" d="M6.3 14.7l7 5.1C15 16.1 19.2 13 24 13c3.1 0 5.9 1.1 8.1 2.9l6.3-6.3C34.7 5.1 29.6 3 24 3c-7.7 0-14.3 4.5-17.7 11.7z"/><path fill="#FBBC05" d="M24 45c5.8 0 10.8-1.9 14.5-5.2l-6.7-5.5C29.8 36 27 37 24 37c-5.8 0-10.6-3.9-12.3-9.2l-7 5.4C8 40.2 15.4 45 24 45z"/><path fill="#EA4335" d="M44.5 20H24v8h11.8c-.8 2.6-2.4 4.8-4.5 6.3l6.7 5.5C42.3 36.3 45 30.7 45 24c0-1.3-.1-2.7-.5-4z"/></svg>Continue with Google</button>
+  <div style="text-align:center;margin-top:12px;"><a onclick="showForgotPassword()" style="color:var(--orange);font-size:13px;cursor:pointer;font-weight:500;">Forgot Password?</a></div>
 </div>
 <!-- Signup Form -->
 <div id="auth-signup-form" style="display:none;">
@@ -477,6 +480,8 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
   <div class="form-group"><label>🔒 Password</label><div class="input-icon-wrap"><span class="icon">🔒</span><input type="password" id="r2-pass" placeholder="Strong password (min 6 chars)"></div></div>
   <div class="form-check"><input type="checkbox" id="r2-agree"><label for="r2-agree">I agree to <a onclick="showPage('terms')" style="color:var(--orange);cursor:pointer;">Terms</a> &amp; <a onclick="showPage('privacy')" style="color:var(--orange);cursor:pointer;">Privacy</a></label></div>
   <button class="btn-primary" style="width:100%" onclick="doRegisterInline()">Create Free Account</button>
+  <div style="display:flex;align-items:center;gap:10px;margin:14px 0;"><div style="flex:1;height:1px;background:#e0e0e0;"></div><span style="font-size:12px;color:#999;">or</span><div style="flex:1;height:1px;background:#e0e0e0;"></div></div>
+  <button onclick="doGoogleLogin()" style="width:100%;padding:11px 16px;background:white;border:1.5px solid #e0e0e0;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;color:#333;"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M44.5 20H24v8h11.8C34.7 33.9 29.8 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.3-6.3C34.7 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.7 0 20.3-7.9 20.3-21 0-1.3-.1-2.7-.3-4z"/><path fill="#34A853" d="M6.3 14.7l7 5.1C15 16.1 19.2 13 24 13c3.1 0 5.9 1.1 8.1 2.9l6.3-6.3C34.7 5.1 29.6 3 24 3c-7.7 0-14.3 4.5-17.7 11.7z"/><path fill="#FBBC05" d="M24 45c5.8 0 10.8-1.9 14.5-5.2l-6.7-5.5C29.8 36 27 37 24 37c-5.8 0-10.6-3.9-12.3-9.2l-7 5.4C8 40.2 15.4 45 24 45z"/><path fill="#EA4335" d="M44.5 20H24v8h11.8c-.8 2.6-2.4 4.8-4.5 6.3l6.7 5.5C42.3 36.3 45 30.7 45 24c0-1.3-.1-2.7-.5-4z"/></svg>Sign up with Google</button>
 </div>
 </div></div></div>
 
@@ -688,13 +693,13 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot, orderBy, query, serverTimestamp, enableNetwork, disableNetwork } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 const firebaseConfig={apiKey:"AIzaSyCH1s6Cf2Zx2CZVv5HUUu2P7TwHEqoxWW8",authDomain:"findback-app-34e4f.firebaseapp.com",projectId:"findback-app-34e4f",storageBucket:"findback-app-34e4f.appspot.com",messagingSenderId:"504207496092",appId:"1:504207496092:web:b9d6918639ed23ddad6e59"};
 const app=initializeApp(firebaseConfig);
 const db=getFirestore(app);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){disableNetwork(db).catch(()=>{});}else{enableNetwork(db).catch(()=>{});}});
 const auth=getAuth(app);
-window._db=db;window._auth=auth;window._allPosts=[];
+window._db=db;window._auth=auth;window._allPosts=[];window._GAP=GoogleAuthProvider;window._SIP=signInWithPopup;window._SPRE=sendPasswordResetEmail;
 const q=query(collection(db,"posts"),orderBy("createdAt","desc"));
 let _unsub=null;
 function startListener(){
@@ -4656,5 +4661,78 @@ if('serviceWorker' in navigator){
   });
 }
 </script>
+
+<style>
+#mph-btn{position:fixed;bottom:80px;right:16px;z-index:9999;width:60px;height:60px;border-radius:50%;border:none;cursor:pointer;padding:0;overflow:hidden;box-shadow:0 4px 20px rgba(232,114,42,.6);transition:transform .2s;background:#E8722A;}
+#mph-btn:hover{transform:scale(1.1);}
+#mph-btn img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;}
+#mph-badge{position:absolute;top:-2px;right:-2px;background:#22c55e;color:white;font-size:9px;font-weight:700;padding:2px 5px;border-radius:10px;font-family:Inter,sans-serif;}
+#mph-panel{position:fixed;bottom:152px;right:16px;z-index:9998;width:calc(100vw - 32px);max-width:360px;background:white;border-radius:20px;box-shadow:0 8px 32px rgba(0,0,0,.18);display:none;flex-direction:column;overflow:hidden;border:1.5px solid #f0e0d0;max-height:72vh;}
+#mph-panel.open{display:flex;}
+#mph-hdr{background:linear-gradient(135deg,#E8722A,#c45a1a);padding:12px 14px;display:flex;align-items:center;gap:10px;}
+.mph-hav{width:42px;height:42px;border-radius:50%;border:2px solid rgba(255,255,255,.4);object-fit:cover;flex-shrink:0;}
+.mph-hn{font-family:Sora,sans-serif;font-size:15px;font-weight:700;color:white;}
+.mph-hs{font-size:11px;color:rgba(255,255,255,.8);}
+.mph-hx{background:rgba(255,255,255,.2);border:none;color:white;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;margin-left:auto;}
+#mph-lb{padding:8px 14px;background:#fff8f0;border-bottom:1px solid #f0e0d0;display:flex;align-items:center;gap:8px;}
+#mph-lb span{font-size:12px;color:#888;}
+.mlb{padding:4px 12px;border-radius:20px;border:1.5px solid #E8722A;background:white;color:#E8722A;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;}
+.mlb.on{background:#E8722A;color:white;}
+#mph-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;min-height:160px;max-height:40vh;}
+.mm{display:flex;gap:8px;align-items:flex-end;}
+.mm.u{flex-direction:row-reverse;}
+.mm img{width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0;}
+.muav{width:28px;height:28px;border-radius:50%;background:#555;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.mb{background:#f5f5f5;border-radius:16px 16px 16px 4px;padding:10px 13px;max-width:82%;font-size:13px;line-height:1.6;color:#222;}
+.mm.u .mb{background:linear-gradient(135deg,#E8722A,#c45a1a);color:white;border-radius:16px 16px 4px 16px;}
+.mty{display:flex;gap:4px;padding:8px;}
+.mty span{width:7px;height:7px;background:#bbb;border-radius:50%;animation:mtyp .8s infinite;}
+.mty span:nth-child(2){animation-delay:.15s;}
+.mty span:nth-child(3){animation-delay:.3s;}
+@keyframes mtyp{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+#mph-qs{padding:8px 14px;display:flex;gap:6px;overflow-x:auto;border-top:1px solid #f5f5f5;}
+#mph-qs::-webkit-scrollbar{display:none;}
+.mq{white-space:nowrap;padding:6px 12px;border-radius:20px;border:1.5px solid #E8722A;background:white;color:#E8722A;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;flex-shrink:0;}
+.mq:hover{background:#E8722A;color:white;}
+#mph-ir{padding:10px 14px;display:flex;gap:8px;border-top:1px solid #f0f0f0;align-items:center;}
+#mph-inp{flex:1;border:1.5px solid #e0e0e0;border-radius:20px;padding:10px 14px;font-size:13px;font-family:Inter,sans-serif;outline:none;}
+#mph-inp:focus{border-color:#E8722A;}
+#mph-snd{width:38px;height:38px;border-radius:50%;background:#E8722A;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+#mph-tmr{font-size:11px;color:#aaa;padding:3px 14px;text-align:right;background:#fafafa;border-top:1px solid #f5f5f5;}
+#fgm{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:10000;align-items:center;justify-content:center;padding:20px;}
+</style>
+<button id="mph-btn" onclick="mphT()"><img src="https://lukyjamatia-tech.github.io/manphikha.jpg" alt="M" onerror="this.outerHTML='<span style=font-size:26px;line-height:60px>&#129302;</span>'"><span id="mph-badge">AI</span></button>
+<div id="mph-panel">
+  <div id="mph-hdr"><img class="mph-hav" src="https://lukyjamatia-tech.github.io/manphikha.jpg" alt="M" onerror="this.style.display='none'"><div><div class="mph-hn">Manphikha</div><div class="mph-hs">Online - FindBack AI</div></div><button class="mph-hx" onclick="mphT()">X</button></div>
+  <div id="mph-lb"><span>Language:</span><button class="mlb on" id="ml-en" onclick="mphL('en')">English</button><button class="mlb" id="ml-hi" onclick="mphL('hi')">Hindi</button></div>
+  <div id="mph-msgs"></div>
+  <div id="mph-qs"></div>
+  <div id="mph-tmr"></div>
+  <div id="mph-ir"><input id="mph-inp" type="text" placeholder="Ask Manphikha..." onkeydown="if(event.key==='Enter')mphS()"><button id="mph-snd" onclick="mphS()"><svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></button></div>
+</div>
+<div id="fgm"><div style="background:white;border-radius:20px;padding:28px 24px;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,0.2);"><div style="text-align:center;margin-bottom:20px;"><div style="font-size:44px;">&#128273;</div><div style="font-family:Sora,sans-serif;font-size:18px;font-weight:700;margin-top:8px;">Reset Password</div><div style="font-size:13px;color:#777;margin-top:5px;">Enter email to get reset link</div></div><div id="fg-ok" style="display:none;background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:16px;text-align:center;margin-bottom:16px;"><div style="font-size:36px;">&#128231;</div><div style="font-weight:700;color:#16a34a;margin-top:8px;">Email Sent!</div><div style="font-size:13px;color:#555;margin-top:5px;">Check inbox and spam folder</div></div><div id="fg-err" style="display:none;background:#fef2f2;border:1.5px solid #fca5a5;border-radius:10px;padding:11px;font-size:13px;color:#dc2626;text-align:center;margin-bottom:14px;"></div><div id="fg-frm"><div style="margin-bottom:14px;"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Registered Email</label><input type="email" id="fg-em" placeholder="your@email.com" style="width:100%;padding:12px 14px;border:1.5px solid #e0e0e0;border-radius:10px;font-size:14px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;" onkeydown="if(event.key==='Enter')fgSend()" onfocus="this.style.borderColor='#E8722A'" onblur="this.style.borderColor='#e0e0e0'"></div><button onclick="fgSend()" id="fg-btn" style="width:100%;padding:13px;background:#E8722A;color:white;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;">Send Reset Link</button></div><div style="text-align:center;margin-top:14px;"><a onclick="fgClose()" style="color:#999;font-size:13px;cursor:pointer;">Close</a></div></div></div>
+<script>
+var _MU="https://lukyjamatia-tech.github.io/manphikha.jpg";
+var _ML="en",_MT=null,_MC=300,_MO=false;
+var _MD={en:{g:"Namaste! I am Manphikha, FindBack AI assistant. Lost something? Found something? I am here to help!",p:"Ask Manphikha...",q:["Lost something","Found something","FIR help","How to use","Police station"],s:"You are Manphikha, FindBack AI. Reply in English, max 4 lines, warm and helpful."},hi:{g:"Namaskar! Main Manphikha hoon. Kuch khoya? Kuch mila? Main madad karungi!",p:"Manphikha se puchhen...",q:["Kuch kho gaya","Kuch mila","FIR madad","Kaise use karein","Police station"],s:"You are Manphikha. Reply in Hinglish, max 4 lines, helpful."}};
+function mphL(l){_ML=l;document.getElementById("ml-en").classList.toggle("on",l==="en");document.getElementById("ml-hi").classList.toggle("on",l==="hi");document.getElementById("mph-inp").placeholder=_MD[l].p;mphQ();}
+function mphQ(){var d=document.getElementById("mph-qs");d.innerHTML="";_MD[_ML].q.forEach(function(q){var b=document.createElement("button");b.className="mq";b.textContent=q;b.onclick=function(){mphA(q);};d.appendChild(b);});}
+function mphT(){_MO=!_MO;document.getElementById("mph-panel").classList.toggle("open",_MO);if(_MO){mphSt();if(!document.getElementById("mph-msgs").children.length){mphAd(_MD[_ML].g,"ai");mphQ();}document.getElementById("mph-inp").focus();}else{mphSp();}}
+function mphSt(){_MC=300;mphTk();_MT=setInterval(function(){_MC--;mphTk();if(_MC<=0){mphSp();document.getElementById("mph-panel").classList.remove("open");_MO=false;}},1000);}
+function mphSp(){if(_MT){clearInterval(_MT);_MT=null;}document.getElementById("mph-tmr").textContent="";}
+function mphTk(){var m=Math.floor(_MC/60),s=_MC%60;document.getElementById("mph-tmr").textContent="Auto close in "+m+":"+(s<10?"0":"")+s;}
+function mphR(){_MC=300;}
+function mphA(q){document.getElementById("mph-inp").value=q;mphS();}
+function mphS(){var i=document.getElementById("mph-inp"),q=i.value.trim();if(!q)return;i.value="";mphR();mphAd(q,"user");var t="mt"+Date.now();mphTy(t);mphAI(q,t);}
+function mphAd(txt,role){var d=document.getElementById("mph-msgs"),dv=document.createElement("div");dv.className="mm"+(role==="user"?" u":"");var av=role==="user"?'<div class="muav">U</div>':'<img src="'+_MU+'" alt="M">';var bb='<div class="mb">'+txt+"</div>";dv.innerHTML=role==="user"?bb+av:av+bb;d.appendChild(dv);d.scrollTop=d.scrollHeight;}
+function mphTy(id){var d=document.getElementById("mph-msgs"),dv=document.createElement("div");dv.className="mm";dv.id=id;dv.innerHTML='<img src="'+_MU+'" alt="M"><div class="mb"><div class="mty"><span></span><span></span><span></span></div></div>';d.appendChild(dv);d.scrollTop=d.scrollHeight;}
+async function mphAI(q,tid){try{var r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:_MD[_ML].s,messages:[{role:"user",content:q}]})});var data=await r.json();var el=document.getElementById(tid);if(el)el.remove();if(data.content&&data.content[0]){mphAd(data.content[0].text,"ai");}else{mphAd("Sorry, try again!","ai");}}catch(e){var e2=document.getElementById(tid);if(e2)e2.remove();mphAd("Network issue. Visit findback.org","ai");}}
+window.doGoogleLogin=async function(){try{var GAP=window._GAP,SIP=window._SIP,AU=window._auth;if(!GAP||!SIP||!AU){window.toast("Loading... try again.");return;}var p=new GAP();p.setCustomParameters({prompt:"select_account"});var res=await SIP(AU,p);var u=res.user;try{var{doc:_d,setDoc:_s,getDoc:_g}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");var rf=_d(window._db,"users",u.uid);var sn=await _g(rf);if(!sn.exists()){await _s(rf,{name:u.displayName||"User",email:u.email,photo:u.photoURL||"",phone:"",createdAt:new Date().toISOString(),provider:"google"});}}catch(e){}window.toast("Welcome "+(u.displayName||"")+"!");setTimeout(function(){showPage("home");},1000);}catch(e){if(e.code==="auth/popup-closed-by-user"){window.toast("Login cancelled");}else if(e.code==="auth/popup-blocked"){window.toast("Allow popups in browser settings");}else{window.toast("Google login failed.");}}};
+function showForgotPassword(){var m=document.getElementById("fgm");m.style.display="flex";document.getElementById("fg-ok").style.display="none";document.getElementById("fg-err").style.display="none";document.getElementById("fg-frm").style.display="block";var b=document.getElementById("fg-btn");b.disabled=false;b.textContent="Send Reset Link";var le=document.getElementById("l-email");if(le&&le.value)document.getElementById("fg-em").value=le.value;setTimeout(function(){document.getElementById("fg-em").focus();},100);}
+function fgClose(){document.getElementById("fgm").style.display="none";}
+async function fgSend(){var em=document.getElementById("fg-em").value.trim(),err=document.getElementById("fg-err"),btn=document.getElementById("fg-btn");if(!em||!em.includes("@")){err.textContent="Please enter a valid email!";err.style.display="block";return;}err.style.display="none";btn.disabled=true;btn.textContent="Sending...";try{var SPRE=window._SPRE,AU=window._auth;if(!SPRE||!AU){btn.disabled=false;btn.textContent="Send Reset Link";err.textContent="App loading, try again.";err.style.display="block";return;}await SPRE(AU,em);document.getElementById("fg-frm").style.display="none";document.getElementById("fg-ok").style.display="block";setTimeout(fgClose,5000);}catch(e){btn.disabled=false;btn.textContent="Send Reset Link";var msg=e.code==="auth/user-not-found"?"This email is not registered!":e.code==="auth/too-many-requests"?"Too many requests - try again later!":(e.message||"Something went wrong.");err.textContent=msg;err.style.display="block";}}
+document.getElementById("fgm").addEventListener("click",function(e){if(e.target===this)fgClose();});
+</script>
+
 </body>
 </html>
