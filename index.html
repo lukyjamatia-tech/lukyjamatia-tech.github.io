@@ -4717,7 +4717,7 @@ if('serviceWorker' in navigator){
 
 <script>
 var _MU="https://lukyjamatia-tech.github.io/manphikha.jpg";
-var _PU="https://script.google.com/macros/s/AKfycbxAiSxoexBdAoMaqEXeG9jvvZtqB3WqcmYuziTAenPAKz0ajVTMnr47Q9KSoJcyaEbe/exec";
+var _PU="https://script.google.com/macros/s/AKfycbxlsxBCG8qHsm5ZeQKbGLzqs0K4bVPlwoDozoUxyMIRHPMS_1d7jseKb4b2dYkVpVcq/exec";
 var _ML="en",_MT=null,_MC=300,_MO=false;
 var _MD={
   en:{g:"Namaste! I am Manphikha, FindBack AI assistant. Lost something? Found something? I am here to help!",p:"Ask Manphikha...",q:["Lost something","Found something","FIR help","How to use","Police station"],s:"You are Manphikha, a warm and helpful AI assistant for FindBack - India's first dedicated lost and found platform. Help users with: reporting lost/found items, FIR guidance, finding police stations, using FindBack features. Keep responses concise, max 4 lines. Website: findback.org"},
@@ -4726,15 +4726,46 @@ var _MD={
 function mphL(l){_ML=l;document.getElementById("ml-en").classList.toggle("on",l==="en");document.getElementById("ml-hi").classList.toggle("on",l==="hi");document.getElementById("mph-inp").placeholder=_MD[l].p;mphQ();}
 function mphQ(){var d=document.getElementById("mph-qs");d.innerHTML="";_MD[_ML].q.forEach(function(q){var b=document.createElement("button");b.className="mq";b.textContent=q;b.onclick=function(){mphA(q);};d.appendChild(b);});}
 function mphT(){_MO=!_MO;document.getElementById("mph-panel").classList.toggle("open",_MO);if(_MO){mphSt();if(!document.getElementById("mph-msgs").children.length){mphAd(_MD[_ML].g,"ai");mphQ();}document.getElementById("mph-inp").focus();}else{mphSp();}}
-function mphSt(){_MC=300;mphTk();_MT=setInterval(function(){_MC--;mphTk();if(_MC<=0){mphSp();document.getElementById("mph-panel").classList.remove("open");_MO=false;}},1000);}
+function mphSt(){_MC=60;mphTk();_MT=setInterval(function(){_MC--;mphTk();if(_MC<=0){mphSp();document.getElementById("mph-panel").classList.remove("open");_MO=false;}},1000);}
 function mphSp(){if(_MT){clearInterval(_MT);_MT=null;}document.getElementById("mph-tmr").textContent="";}
 function mphTk(){var m=Math.floor(_MC/60),s=_MC%60;document.getElementById("mph-tmr").textContent="Auto close in "+m+":"+(s<10?"0":"")+s;}
-function mphR(){_MC=300;}
+function mphR(){_MC=60;}
 function mphA(q){document.getElementById("mph-inp").value=q;mphS();}
 function mphS(){var i=document.getElementById("mph-inp"),q=i.value.trim();if(!q)return;i.value="";mphR();mphAd(q,"user");var t="mt"+Date.now();mphTy(t);mphAI(q,t);}
 function mphAd(txt,role){var d=document.getElementById("mph-msgs"),dv=document.createElement("div");dv.className="mm"+(role==="user"?" u":"");var av=role==="user"?'<div class="muav">U</div>':'<img src="'+_MU+'" alt="M">';var bb='<div class="mb">'+txt+"</div>";dv.innerHTML=role==="user"?bb+av:av+bb;d.appendChild(dv);d.scrollTop=d.scrollHeight;}
 function mphTy(id){var d=document.getElementById("mph-msgs"),dv=document.createElement("div");dv.className="mm";dv.id=id;dv.innerHTML='<img src="'+_MU+'" alt="M"><div class="mb"><div class="mty"><span></span><span></span><span></span></div></div>';d.appendChild(dv);d.scrollTop=d.scrollHeight;}
-async function mphAI(q,tid){try{var url=_PU+"?q="+encodeURIComponent(q)+"&lang="+_ML;var r=await fetch(url);var data=await r.json();var el=document.getElementById(tid);if(el)el.remove();if(data.text){mphAd(data.text,"ai");}else{mphAd("Sorry, try again!","ai");}}catch(e){var e2=document.getElementById(tid);if(e2)e2.remove();mphAd("Network issue. Visit findback.org","ai");}}
+async function mphAI(q,tid){
+  // Try API first
+  try{
+    var url=_PU+"?q="+encodeURIComponent(q)+"&lang="+_ML;
+    var r=await fetch(url,{signal:AbortSignal.timeout(8000)});
+    var data=await r.json();
+    var el=document.getElementById(tid);if(el)el.remove();
+    if(data.text){mphAd(data.text,"ai");return;}
+  }catch(e){}
+  // Fallback — smart predefined
+  var el2=document.getElementById(tid);if(el2)el2.remove();
+  mphAd(mphFallback(q),"ai");
+}
+function mphFallback(q){
+  var ql=q.toLowerCase();
+  var hi=_ML==="hi";
+  if(ql.match(/lost|khoya|missing|gum/)){
+    return hi?"Agar aapka kuch kho gaya hai:\n1. FindBack pe 'Lost' report banao\n2. Photo upload karo\n3. Location aur contact daalo\n4. Police ko bhi inform karo\n\nfindback.org pe jaiye! ":"Lost something? Here is what to do:\n1. Post a Lost report on FindBack\n2. Upload a photo\n3. Add location and contact\n4. Also inform local police\n\nVisit findback.org!";}
+  if(ql.match(/found|mila|milgaya/)){
+    return hi?"Kuch mila hai? Bahut achha!\n1. FindBack pe 'Found' report banao\n2. Photo aur location daalo\n3. Owner ko dhundne mein madad hogi\n\nfindback.org pe jaiye!":"Found something? Great!\n1. Post a Found report on FindBack\n2. Add photo and location\n3. Help reunite it with the owner\n\nVisit findback.org!";}
+  if(ql.match(/fir|police|complaint|report/)){
+    return hi?"FIR file karne ke liye:\n1. Nearest police station jaiye\n2. Ya FindBack ka FIR generator use karo\n3. 13 languages mein FIR draft milega\n4. Online bhi file kar sakte ho\n\nfindback.org pe FIR Help section dekho!":"To file an FIR:\n1. Visit your nearest police station\n2. Or use FindBack FIR Generator\n3. Get FIR draft in 13 languages\n4. Can also file online\n\nCheck FIR Help on findback.org!";}
+  if(ql.match(/how|kaise|use|help|kya|what/)){
+    return hi?"FindBack use karna bahut aasaan hai:\n1. findback.org kholo\n2. Lost/Found/Missing select karo\n3. Report banao\n4. Community aur Police help karegi\n\nKoi bhi sawaal ho toh poochho!":"FindBack is easy to use:\n1. Open findback.org\n2. Select Lost/Found/Missing\n3. Create your report\n4. Community and Police will help\n\nAsk me anything!";}
+  if(ql.match(/station|thana|police station/)){
+    return hi?"Police station dhundne ke liye:\nfindback.org pe apna state aur district select karo — 4340+ police stations ki list milegi!":"To find police station:\nVisit findback.org, select your state and district — find from 4340+ police stations!";}
+  if(ql.match(/hello|hi|hey|namaskar|namaste|helo/)){
+    return hi?"Namaskar! Main Manphikha hoon, FindBack ki AI assistant!\nAap mujhse pooch sakte hain:\n- Kuch khone ke baare mein\n- Kuch milne ke baare mein\n- FIR file karne ke baare mein\n- FindBack use karne ke baare mein":"Hello! I am Manphikha, FindBack AI assistant!\nYou can ask me about:\n- Lost items\n- Found items\n- Filing an FIR\n- How to use FindBack";}
+  if(ql.match(/good|fine|theek|achha|great|thanks|shukriya|dhanyawad/)){
+    return hi?"Bahut achha! Koi aur sawaal ho toh zaroor poochho! FindBack hamesha aapki madad ke liye hai!":"Great! Feel free to ask anything else! FindBack is always here to help!";}
+  return hi?"Main aapki madad karna chahti hoon!\nYe topics pe poochh sakte hain:\n- Kuch khoya\n- Kuch mila\n- FIR help\n- FindBack use karna\n\nOr seedha findback.org jaiye!":"I am here to help!\nYou can ask about:\n- Lost items\n- Found items\n- FIR help\n- Using FindBack\n\nOr visit findback.org directly!";
+}
 window.doGoogleLogin=async function(){try{var GAP=window._GAP,SIP=window._SIP,AU=window._auth;if(!GAP||!SIP||!AU){window.toast("Loading... try again.");return;}var p=new GAP();p.setCustomParameters({prompt:"select_account"});var res=await SIP(AU,p);var u=res.user;try{var{doc:_d,setDoc:_s,getDoc:_g}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");var rf=_d(window._db,"users",u.uid);var sn=await _g(rf);if(!sn.exists()){await _s(rf,{name:u.displayName||"User",email:u.email,photo:u.photoURL||"",phone:"",createdAt:new Date().toISOString(),provider:"google"});}}catch(e){}window.toast("Welcome "+(u.displayName||"")+"!");setTimeout(function(){showPage("home");},1000);}catch(e){if(e.code==="auth/popup-closed-by-user"){window.toast("Login cancelled");}else if(e.code==="auth/popup-blocked"){window.toast("Allow popups in browser settings");}else{window.toast("Google login failed.");}}};
 function showForgotPassword(){var m=document.getElementById("fgm");m.style.display="flex";document.getElementById("fg-ok").style.display="none";document.getElementById("fg-err").style.display="none";document.getElementById("fg-frm").style.display="block";var b=document.getElementById("fg-btn");b.disabled=false;b.textContent="Send Reset Link";var le=document.getElementById("l-email");if(le&&le.value)document.getElementById("fg-em").value=le.value;setTimeout(function(){document.getElementById("fg-em").focus();},100);}
 function fgClose(){document.getElementById("fgm").style.display="none";}
