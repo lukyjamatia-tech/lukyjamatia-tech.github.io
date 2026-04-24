@@ -2068,22 +2068,17 @@ function updateHeroStats(){
   var el=document.getElementById('stat-lost');if(el)el.textContent=lc;
   var ef=document.getElementById('stat-found');if(ef)ef.textContent=fc;
   var er=document.getElementById('stat-resolved');if(er)er.textContent=rc;
-  // Load actual user count from users collection
+  // Load user count from Firebase Auth via stats doc
   function fetchUserCount(attempt){
     if(!window._db){
       if(attempt<10)setTimeout(function(){fetchUserCount(attempt+1);},500);
       return;
     }
     import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js').then(function(m){
-      m.getCountFromServer(m.collection(window._db,'users')).then(function(snap){
+      m.getDoc(m.doc(window._db,'stats','users')).then(function(d){
         var eu=document.getElementById('stat-users');
-        if(eu)eu.textContent=snap.data().count||0;
-      }).catch(function(){
-        m.getDoc(m.doc(window._db,'stats','users')).then(function(d){
-          var eu=document.getElementById('stat-users');
-          if(eu&&d.exists())eu.textContent=d.data().count||0;
-        }).catch(function(){});
-      });
+        if(eu&&d.exists())eu.textContent=d.data().count||0;
+      }).catch(function(){});
     });
   }
   fetchUserCount(0);
