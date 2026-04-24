@@ -489,7 +489,19 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
 <div class="page" id="page-register"><div class="page-content" style="display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 120px);"><div style="margin-bottom:16px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div><div class="auth-card"><div class="auth-logo"><div class="brand">Find<span>Back</span> S1</div><div style="font-size:13px;color:var(--text-muted);margin-top:4px;">Create your free account</div></div><div id="reg-success" class="alert-success">✅ Account created!</div><div class="form-group"><label>👤 Full Name</label><div class="input-icon-wrap"><span class="icon">👤</span><input type="text" id="r-name" placeholder="Your full name"></div></div><div class="form-group"><label>📧 Email</label><div class="input-icon-wrap"><span class="icon">📧</span><input type="email" id="r-email" placeholder="your@email.com"></div></div><div class="form-group"><label>📱 Phone</label><div class="input-icon-wrap"><span class="icon">📱</span><input type="tel" id="r-phone" placeholder="+91 XXXXX XXXXX"></div></div><div class="form-group"><label>🔒 Password</label><div class="input-icon-wrap"><span class="icon">🔒</span><input type="password" id="r-pass" placeholder="Strong password"></div></div><div class="form-check"><input type="checkbox" id="r-agree"><label for="r-agree">I agree to <a onclick="showPage('terms')" style="color:var(--orange);cursor:pointer;">Terms</a> &amp; <a onclick="showPage('privacy')" style="color:var(--orange);cursor:pointer;">Privacy</a></label></div><button class="btn-primary" style="width:100%" onclick="doRegister()">Create Account</button><div class="auth-switch">Have account? <a onclick="showPage('login')">Log In</a></div></div></div></div>
 
 <!-- ADMIN -->
-<div class="page" id="page-admin"><div class="page-content"><div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div><div class="page-title">Admin Panel 🛡️</div><div id="admin-login-wall"><div class="auth-card" style="max-width:100%;"><div style="text-align:center;margin-bottom:16px;"><div style="font-size:36px;">🔐</div><div style="font-family:'Sora',sans-serif;font-weight:700;margin-top:8px;">Admin Access Only</div></div><div class="form-group"><label>Username</label><input type="text" id="a-user" placeholder="admin"></div><div class="form-group"><label>Password</label><input type="password" id="a-pass" placeholder="••••••••"></div><button class="btn-primary" style="width:100%" onclick="adminLogin()">Enter Admin</button></div></div><div id="admin-dashboard" style="display:none;"><div class="admin-grid"><div class="admin-stat"><div class="val" id="admin-total">0</div><div class="key">📋 Total</div></div><div class="admin-stat"><div class="val" id="admin-lost">0</div><div class="key">😟 Lost</div></div><div class="admin-stat"><div class="val" id="admin-found">0</div><div class="key">🎉 Found</div></div><div class="admin-stat"><div class="val" id="admin-missing">0</div><div class="key">⚠️ Missing</div></div></div><div class="admin-actions"><button class="btn-sm btn-success" onclick="refreshAdminStats()">🔄 Refresh</button></div><table class="admin-table"><thead><tr><th>Title</th><th>Type</th><th>Action</th></tr></thead><tbody id="admin-posts-tbody"><tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:20px;">No posts yet</td></tr></tbody></table><div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;">
+<div class="page" id="page-admin"><div class="page-content"><div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div><div class="page-title">Admin Panel 🛡️</div><div id="admin-login-wall"><div class="auth-card" style="max-width:100%;">
+  <div style="text-align:center;margin-bottom:20px;">
+    <div style="font-size:48px;">🛡️</div>
+    <div style="font-family:Sora,sans-serif;font-weight:700;font-size:20px;margin-top:10px;">Admin Access</div>
+    <div style="font-size:13px;color:#888;margin-top:5px;">Enter passcode to continue</div>
+  </div>
+  <div class="form-group">
+    <label>🔑 Passcode</label>
+    <input type="password" id="a-pass" placeholder="Enter passcode" onkeydown="if(event.key==='Enter')adminLogin()" style="font-size:18px;letter-spacing:4px;text-align:center;">
+  </div>
+  <div id="admin-pass-err" style="display:none;color:#dc2626;font-size:13px;text-align:center;margin-bottom:10px;background:#fef2f2;padding:8px;border-radius:8px;"></div>
+  <button class="btn-primary" style="width:100%;font-size:16px;" onclick="adminLogin()">🛡️ Enter Admin Panel</button>
+</div></div><div id="admin-dashboard" style="display:none;"><div class="admin-grid"><div class="admin-stat"><div class="val" id="admin-total">0</div><div class="key">📋 Total</div></div><div class="admin-stat"><div class="val" id="admin-lost">0</div><div class="key">😟 Lost</div></div><div class="admin-stat"><div class="val" id="admin-found">0</div><div class="key">🎉 Found</div></div><div class="admin-stat"><div class="val" id="admin-missing">0</div><div class="key">⚠️ Missing</div></div></div><div class="admin-actions"><button class="btn-sm btn-success" onclick="refreshAdminStats()">🔄 Refresh</button></div><table class="admin-table"><thead><tr><th>Title</th><th>Type</th><th>Action</th></tr></thead><tbody id="admin-posts-tbody"><tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:20px;">No posts yet</td></tr></tbody></table><div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;">
   <button class="btn-sm btn-danger" onclick="adminLogout()">🚪 Logout</button>
   <button class="btn-sm" style="background:#24292e;color:white;" onclick="document.getElementById('github-push-panel').style.display=document.getElementById('github-push-panel').style.display==='none'?'block':'none'">🐙 Push to GitHub</button>
 </div>
@@ -1401,12 +1413,24 @@ function sendContact(){
 window.sendContact=sendContact;
 
 async function adminLogin(){
-  const u=document.getElementById('a-user').value.trim(),p=document.getElementById('a-pass').value.trim();
-  const salt='4cb297b1319af2d28745ce4d7108027d',correct='bbff95cc22bae3730d63e9e8fae17df1d67ead55cfacfcbce21e71d8557c9dd4';
-  const mb=new TextEncoder().encode(salt+p),hb=await crypto.subtle.digest('SHA-256',mb);
+  var pass=document.getElementById('a-pass')?.value.trim()||'';
+  var err=document.getElementById('admin-pass-err');
+  // SHA-256 check — same secure password as before
+  const salt='4cb297b1319af2d28745ce4d7108027d',correct='f46f8de4546ebf73355e8552552e207ed8283d9bd458a645e40cd4d439116c8d';
+  const mb=new TextEncoder().encode(salt+pass),hb=await crypto.subtle.digest('SHA-256',mb);
   const hx=Array.from(new Uint8Array(hb)).map(b=>b.toString(16).padStart(2,'0')).join('');
-  if(u==='findback_admin'&&hx===correct){document.getElementById('admin-login-wall').style.display='none';document.getElementById('admin-dashboard').style.display='block';refreshAdminStats();}
-  else toast('❌ Invalid credentials');
+  if(hx===correct){
+    sessionStorage.setItem('adminLoggedIn','true');
+    document.getElementById('admin-login-wall').style.display='none';
+    document.getElementById('admin-dashboard').style.display='block';
+    refreshAdminStats();
+    window.toast&&window.toast('🛡️ Welcome Admin!');
+  } else {
+    if(err){err.textContent='❌ Wrong passcode! Try again.';err.style.display='block';}
+    else window.toast&&window.toast('❌ Wrong passcode!');
+    document.getElementById('a-pass').value='';
+    document.getElementById('a-pass').focus();
+  }
 }
 window.adminLogin=adminLogin;
 window.adminShowIDProof=function(postId){
@@ -1850,13 +1874,18 @@ function updateHeroStats(){
   var el=document.getElementById('stat-lost');if(el)el.textContent=lc;
   var ef=document.getElementById('stat-found');if(ef)ef.textContent=fc;
   var er=document.getElementById('stat-resolved');if(er)er.textContent=rc;
-  // Load user count from Firestore
+  // Load user count from actual users collection
   if(window._db){
     import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js').then(function(m){
-      m.getDoc(m.doc(window._db,'stats','users')).then(function(d){
+      m.getCountFromServer(m.collection(window._db,'users')).then(function(snap){
         var eu=document.getElementById('stat-users');
-        if(eu&&d.exists())eu.textContent=d.data().count||0;
-      }).catch(function(){});
+        if(eu)eu.textContent=snap.data().count||0;
+      }).catch(function(){
+        m.getDoc(m.doc(window._db,'stats','users')).then(function(d){
+          var eu=document.getElementById('stat-users');
+          if(eu&&d.exists())eu.textContent=d.data().count||0;
+        }).catch(function(){});
+      });
     });
   }
 }
@@ -2397,6 +2426,17 @@ window.printQR=function(){
 
         <div class="fb-login-body">
           <div class="fb-err" id="ngo-auth-err"></div>
+
+          <!-- ADMIN QUICK ACCESS -->
+          <div id="ngo-admin-access" style="margin-bottom:14px;">
+            <button onclick="ngoAdminAccess()" style="width:100%;padding:10px;background:#7c3aed;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;margin-bottom:8px;">🛡️ Admin Quick Access</button>
+            <div id="ngo-admin-pass-box" style="display:none;margin-bottom:10px;">
+              <input type="password" id="ngo-admin-pass" placeholder="Admin passcode" style="width:100%;padding:10px;border:1.5px solid #7c3aed;border-radius:8px;font-size:14px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;margin-bottom:8px;" onkeydown="if(event.key==='Enter')ngoAdminCheck()">
+              <button onclick="ngoAdminCheck()" style="width:100%;padding:9px;background:#7c3aed;color:white;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">Enter</button>
+              <div id="ngo-admin-err" style="display:none;color:#dc2626;font-size:12px;text-align:center;margin-top:6px;"></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><div style="flex:1;height:1px;background:#e0e0e0;"></div><span style="font-size:11px;color:#aaa;">or login with account</span><div style="flex:1;height:1px;background:#e0e0e0;"></div></div>
+          </div>
 
           <!-- LOGIN -->
           <div id="ngo-form-login">
@@ -4846,6 +4886,47 @@ function showForgotPassword(){var m=document.getElementById("fgm");m.style.displ
 function fgClose(){document.getElementById("fgm").style.display="none";}
 async function fgSend(){var em=document.getElementById("fg-em").value.trim(),err=document.getElementById("fg-err"),btn=document.getElementById("fg-btn");if(!em||!em.includes("@")){err.textContent="Please enter a valid email!";err.style.display="block";return;}err.style.display="none";btn.disabled=true;btn.textContent="Sending...";try{var SPRE=window._SPRE,AU=window._auth;if(!SPRE||!AU){btn.disabled=false;btn.textContent="Send Reset Link";err.textContent="App loading, try again.";err.style.display="block";return;}await SPRE(AU,em);document.getElementById("fg-frm").style.display="none";document.getElementById("fg-ok").style.display="block";setTimeout(fgClose,5000);}catch(e){btn.disabled=false;btn.textContent="Send Reset Link";var msg=e.code==="auth/user-not-found"?"This email is not registered!":e.code==="auth/too-many-requests"?"Too many requests - try again later!":(e.message||"Something went wrong.");err.textContent=msg;err.style.display="block";}}
 document.getElementById("fgm").addEventListener("click",function(e){if(e.target===this)fgClose();});
+
+window.ngoAdminAccess = function() {
+  var box = document.getElementById('ngo-admin-pass-box');
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+  if(box.style.display === 'block') {
+    document.getElementById('ngo-admin-pass').focus();
+  }
+};
+
+window.ngoAdminCheck = async function() {
+  var pass = document.getElementById('ngo-admin-pass')?.value.trim() || '';
+  var err = document.getElementById('ngo-admin-err');
+  const salt = '4cb297b1319af2d28745ce4d7108027d';
+  const correct = 'f46f8de4546ebf73355e8552552e207ed8283d9bd458a645e40cd4d439116c8d';
+  const mb = new TextEncoder().encode(salt + pass);
+  const hb = await crypto.subtle.digest('SHA-256', mb);
+  const hx = Array.from(new Uint8Array(hb)).map(b => b.toString(16).padStart(2,'0')).join('');
+  if(hx === correct) {
+    // Admin access — show NGO dashboard directly
+    window._ngoUser = {
+      uid: 'admin',
+      email: 'admin@findback.org',
+      name: 'FindBack Admin',
+      org: 'FindBack HQ',
+      type: 'admin',
+      district: '',
+      state: ''
+    };
+    var lw = document.getElementById('ngo-login-wall');
+    var db = document.getElementById('ngo-dashboard');
+    if(lw) lw.style.display = 'none';
+    if(db) { db.style.display = 'block'; }
+    if(window.ngoLoadDashboard) window.ngoLoadDashboard();
+    window.toast && window.toast('🛡️ Admin access to Police/NGO Portal!');
+  } else {
+    err.textContent = '❌ Wrong passcode!';
+    err.style.display = 'block';
+    document.getElementById('ngo-admin-pass').value = '';
+  }
+};
+
 </script>
 
 </body>
