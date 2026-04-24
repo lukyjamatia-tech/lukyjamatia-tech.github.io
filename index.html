@@ -5101,69 +5101,16 @@ function mphA(q){document.getElementById("mph-inp").value=q;mphS();}
 function mphS(){var i=document.getElementById("mph-inp"),q=i.value.trim();if(!q)return;i.value="";mphR();mphAd(q,"user");var t="mt"+Date.now();mphTy(t);mphAI(q,t);}
 function mphAd(txt,role){var d=document.getElementById("mph-msgs"),dv=document.createElement("div");dv.className="mm"+(role==="user"?" u":"");var av=role==="user"?'<div class="muav">U</div>':'<img src="'+_MU+'" alt="M">';var bb='<div class="mb">'+txt+"</div>";dv.innerHTML=role==="user"?bb+av:av+bb;d.appendChild(dv);d.scrollTop=d.scrollHeight;}
 function mphTy(id){var d=document.getElementById("mph-msgs"),dv=document.createElement("div");dv.className="mm";dv.id=id;dv.innerHTML='<img src="'+_MU+'" alt="M"><div class="mb"><div class="mty"><span></span><span></span><span></span></div></div>';d.appendChild(dv);d.scrollTop=d.scrollHeight;}
-// Manphikha conversation history for context
-var _MH=[];
 async function mphAI(q,tid){
-  var apiKey=localStorage.getItem('mph_ak')||'';
-  if(!apiKey){
-    // Show API key prompt if not set
-    var el0=document.getElementById(tid);if(el0)el0.remove();
-    mphAd('⚙️ API key set karo! Manphikha panel ke Settings icon pe click karo.','ai');
-    mphShowKeyPrompt();
-    return;
-  }
-  // Add to history
-  _MH.push({role:'user',content:q});
-  // Keep last 10 messages only
-  if(_MH.length>10)_MH=_MH.slice(_MH.length-10);
   try{
-    var sys=_MD[_ML].s+'\n\nExtra context: FindBack has 4340+ police stations, 40+ categories, 13-language FIR generator, NGO & Police Command Portal. Founder: Samarendra from Tripura, CRPF member. Respond in '+(_ML==='hi'?'Hinglish (natural Hindi+English mix)':'English')+'. Max 5 lines. Be smart, warm, helpful.';
-    var r=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'x-api-key':apiKey,
-        'anthropic-version':'2023-06-01',
-        'anthropic-dangerous-direct-browser-access':'true'
-      },
-      body:JSON.stringify({
-        model:'claude-sonnet-4-5',
-        max_tokens:400,
-        system:sys,
-        messages:_MH
-      }),
-      signal:AbortSignal.timeout(15000)
-    });
+    var url=_PU+"?q="+encodeURIComponent(q)+"&lang="+_ML;
+    var r=await fetch(url,{signal:AbortSignal.timeout(8000)});
     var data=await r.json();
     var el=document.getElementById(tid);if(el)el.remove();
-    if(data.content&&data.content[0]&&data.content[0].text){
-      var reply=data.content[0].text;
-      _MH.push({role:'assistant',content:reply});
-      mphAd(reply,'ai');
-    } else if(data.error){
-      if(data.error.type==='authentication_error'){
-        localStorage.removeItem('mph_ak');
-        mphAd('❌ API key invalid hai. Dobara set karo!','ai');
-        mphShowKeyPrompt();
-      } else {
-        mphAd('Kuch problem aayi: '+data.error.message,'ai');
-      }
-    }
-  }catch(e){
-    var el2=document.getElementById(tid);if(el2)el2.remove();
-    mphAd(mphFallback(q),'ai');
-  }
-}
-function mphShowKeyPrompt(){
-  // Show API key input inside chat
-  var d=document.getElementById('mph-msgs');
-  var dv=document.createElement('div');
-  dv.className='mm';
-  dv.id='mph-key-box';
-  dv.innerHTML='<img src="'+_MU+'" alt="M"><div class="mb" style="width:100%"><div style="font-size:12px;margin-bottom:8px;">🔑 Anthropic API key daalo:</div><input id="mph-key-in" type="password" placeholder="sk-ant-api03-..." style="width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:8px;font-size:12px;font-family:Inter,sans-serif;outline:none;margin-bottom:6px;"><button onclick="mphSaveKey()" style="background:#E8722A;color:white;border:none;border-radius:8px;padding:7px 14px;font-size:12px;cursor:pointer;width:100%;">Save & Activate</button><div style="font-size:10px;color:#aaa;margin-top:4px;text-align:center">console.anthropic.com se key lo • sirf browser mein save hogi</div></div>';
-  d.appendChild(dv);
-  d.scrollTop=d.scrollHeight;
-  setTimeout(function(){var ki=document.getElementById('mph-key-in');if(ki)ki.focus();},100);
+    if(data.text){mphAd(data.text,"ai");return;}
+  }catch(e){}
+  var el2=document.getElementById(tid);if(el2)el2.remove();
+  mphAd(mphFallback(q),"ai");
 }
 function mphSaveKey(){
   var ki=document.getElementById('mph-key-in');
