@@ -1044,12 +1044,24 @@ window.doRegister=async function(){
   if(!name||!email||!pass){window.toast('⚠️ Fill all fields');return;}
   if(!agree){window.toast('⚠️ Agree to Terms first');return;}
   try{const c=await createUserWithEmailAndPassword(auth,email,pass);await updateProfile(c.user,{displayName:name});
-  // Increment user counter - use window._db with retry
-  try{
+  // Increment user counter - with retry until db is ready
+  (async function(){
     const fsMod=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    const fsDb=window._db||db;
-    await fsMod.setDoc(fsMod.doc(fsDb,'stats','users'),{count:fsMod.increment(1)},{merge:true});
-  }catch(e){console.log('Counter err:',e);}
+    let attempts=0;
+    const tryIncrement=async function(){
+      attempts++;
+      const fsDb=window._db||db;
+      if(!fsDb){if(attempts<10){setTimeout(tryIncrement,500);}return;}
+      try{
+        await fsMod.setDoc(fsMod.doc(fsDb,'stats','users'),{count:fsMod.increment(1)},{merge:true});
+        console.log('User count incremented!');
+      }catch(e){
+        console.log('Counter err:',e);
+        if(attempts<5)setTimeout(tryIncrement,1000);
+      }
+    };
+    tryIncrement();
+  })();
   document.getElementById('reg-success').style.display='block';setTimeout(()=>showPage('home'),1500);}
   catch(e){window.toast('❌ '+(e.code==='auth/email-already-in-use'?'Email already registered':e.message));}
 };
