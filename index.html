@@ -501,10 +501,168 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
   </div>
   <div id="admin-pass-err" style="display:none;color:#dc2626;font-size:13px;text-align:center;margin-bottom:10px;background:#fef2f2;padding:8px;border-radius:8px;"></div>
   <button class="btn-primary" style="width:100%;font-size:16px;" onclick="adminLogin()">🛡️ Enter Admin Panel</button>
-</div></div><div id="admin-dashboard" style="display:none;"><div class="admin-grid"><div class="admin-stat"><div class="val" id="admin-total">0</div><div class="key">📋 Total</div></div><div class="admin-stat"><div class="val" id="admin-lost">0</div><div class="key">😟 Lost</div></div><div class="admin-stat"><div class="val" id="admin-found">0</div><div class="key">🎉 Found</div></div><div class="admin-stat"><div class="val" id="admin-missing">0</div><div class="key">⚠️ Missing</div></div></div><div class="admin-actions"><button class="btn-sm btn-success" onclick="refreshAdminStats()">🔄 Refresh</button></div><table class="admin-table"><thead><tr><th>Title</th><th>Type</th><th>Action</th></tr></thead><tbody id="admin-posts-tbody"><tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:20px;">No posts yet</td></tr></tbody></table><div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;">
-  <button class="btn-sm btn-danger" onclick="adminLogout()">🚪 Logout</button>
-  <button class="btn-sm" style="background:#24292e;color:white;" onclick="document.getElementById('github-push-panel').style.display=document.getElementById('github-push-panel').style.display==='none'?'block':'none'">🐙 Push to GitHub</button>
+</div></div>
+<div id="admin-dashboard" style="display:none;">
+<style>
+.adm-shell{min-height:100vh;background:#0a0a0f;color:#fff;font-family:'Inter',sans-serif;}
+.adm-header{background:linear-gradient(135deg,#0d0d1a 0%,#1a0a2e 50%,#0a1628 100%);padding:0;border-bottom:1px solid rgba(232,114,42,.2);position:sticky;top:0;z-index:50;}
+.adm-header-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;}
+.adm-brand{display:flex;align-items:center;gap:10px;}
+.adm-brand-icon{width:36px;height:36px;background:linear-gradient(135deg,#E8722A,#c45a1a);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.adm-brand-text{font-family:'Sora',sans-serif;font-size:16px;font-weight:700;color:#fff;}
+.adm-brand-text span{color:#E8722A;}
+.adm-brand-sub{font-size:10px;color:rgba(255,255,255,.4);font-weight:500;letter-spacing:1px;text-transform:uppercase;}
+.adm-header-actions{display:flex;align-items:center;gap:8px;}
+.adm-avatar{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#E8722A,#c45a1a);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;cursor:pointer;}
+.adm-logout-btn{background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.3);color:#f87171;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;}
+.adm-body{padding:16px;}
+.adm-welcome{background:linear-gradient(135deg,rgba(232,114,42,.12),rgba(232,114,42,.04));border:1px solid rgba(232,114,42,.2);border-radius:16px;padding:18px;margin-bottom:16px;display:flex;align-items:center;gap:14px;}
+.adm-welcome-icon{font-size:36px;}
+.adm-welcome-title{font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:#fff;}
+.adm-welcome-sub{font-size:12px;color:rgba(255,255,255,.5);margin-top:3px;}
+.adm-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.adm-stat-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px;position:relative;overflow:hidden;}
+.adm-stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.adm-stat-card.total::before{background:linear-gradient(90deg,#E8722A,#f59342);}
+.adm-stat-card.lost::before{background:linear-gradient(90deg,#dc2626,#ef4444);}
+.adm-stat-card.found::before{background:linear-gradient(90deg,#059669,#10b981);}
+.adm-stat-card.missing::before{background:linear-gradient(90deg,#d97706,#f59e0b);}
+.adm-stat-card.users::before{background:linear-gradient(90deg,#7c3aed,#8b5cf6);}
+.adm-stat-card.resolved::before{background:linear-gradient(90deg,#2563eb,#3b82f6);}
+.adm-stat-num{font-family:'Sora',sans-serif;font-size:28px;font-weight:800;margin-bottom:4px;}
+.adm-stat-card.total .adm-stat-num{color:#f59342;}
+.adm-stat-card.lost .adm-stat-num{color:#f87171;}
+.adm-stat-card.found .adm-stat-num{color:#34d399;}
+.adm-stat-card.missing .adm-stat-num{color:#fbbf24;}
+.adm-stat-card.users .adm-stat-num{color:#a78bfa;}
+.adm-stat-card.resolved .adm-stat-num{color:#60a5fa;}
+.adm-stat-label{font-size:11px;color:rgba(255,255,255,.5);font-weight:600;text-transform:uppercase;letter-spacing:.5px;}
+.adm-stat-icon{position:absolute;right:14px;top:14px;font-size:22px;opacity:.3;}
+.adm-quick-actions{margin-bottom:16px;}
+.adm-section-title{font-size:12px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.adm-actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.adm-action-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 12px;text-align:center;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;}
+.adm-action-btn:active{transform:scale(.96);background:rgba(255,255,255,.09);}
+.adm-action-btn .icon{font-size:22px;margin-bottom:6px;}
+.adm-action-btn .label{font-size:12px;font-weight:600;color:rgba(255,255,255,.8);}
+.adm-posts-section{margin-bottom:16px;}
+.adm-post-item{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
+.adm-post-type-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.adm-post-type-dot.lost{background:#ef4444;}
+.adm-post-type-dot.found{background:#10b981;}
+.adm-post-type-dot.missing{background:#f59e0b;}
+.adm-post-info{flex:1;min-width:0;}
+.adm-post-title{font-size:14px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.adm-post-meta{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;}
+.adm-post-actions{display:flex;gap:6px;flex-shrink:0;}
+.adm-post-del{background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.25);color:#f87171;padding:5px 10px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;}
+.adm-github-btn{width:100%;background:linear-gradient(135deg,#24292e,#373e47);border:1px solid rgba(255,255,255,.1);color:#fff;padding:14px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px;}
+.adm-refresh-btn{width:100%;background:rgba(232,114,42,.15);border:1px solid rgba(232,114,42,.3);color:#E8722A;padding:12px;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:16px;}
+</style>
+<div class="adm-shell">
+  <!-- HEADER -->
+  <div class="adm-header">
+    <div class="adm-header-inner">
+      <div class="adm-brand">
+        <div class="adm-brand-icon">🛡️</div>
+        <div>
+          <div class="adm-brand-text">Find<span>Back</span></div>
+          <div class="adm-brand-sub">Admin Control</div>
+        </div>
+      </div>
+      <div class="adm-header-actions">
+        <div class="adm-avatar">A</div>
+        <button class="adm-logout-btn" onclick="adminLogout()">🚪 Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="adm-body">
+    <!-- WELCOME -->
+    <div class="adm-welcome">
+      <div class="adm-welcome-icon">🛡️</div>
+      <div>
+        <div class="adm-welcome-title">Welcome, Admin</div>
+        <div class="adm-welcome-sub">FindBack HQ · Full Access · India</div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="adm-section-title">Platform Stats</div>
+    <div class="adm-stats-grid">
+      <div class="adm-stat-card total">
+        <div class="adm-stat-icon">📋</div>
+        <div class="adm-stat-num" id="admin-total">0</div>
+        <div class="adm-stat-label">Total Posts</div>
+      </div>
+      <div class="adm-stat-card users">
+        <div class="adm-stat-icon">👥</div>
+        <div class="adm-stat-num" id="admin-users">0</div>
+        <div class="adm-stat-label">Users</div>
+      </div>
+      <div class="adm-stat-card lost">
+        <div class="adm-stat-icon">😟</div>
+        <div class="adm-stat-num" id="admin-lost">0</div>
+        <div class="adm-stat-label">Lost</div>
+      </div>
+      <div class="adm-stat-card found">
+        <div class="adm-stat-icon">🎉</div>
+        <div class="adm-stat-num" id="admin-found">0</div>
+        <div class="adm-stat-label">Found</div>
+      </div>
+      <div class="adm-stat-card missing">
+        <div class="adm-stat-icon">⚠️</div>
+        <div class="adm-stat-num" id="admin-missing">0</div>
+        <div class="adm-stat-label">Missing</div>
+      </div>
+      <div class="adm-stat-card resolved">
+        <div class="adm-stat-icon">✅</div>
+        <div class="adm-stat-num" id="admin-resolved">0</div>
+        <div class="adm-stat-label">Resolved</div>
+      </div>
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <div class="adm-section-title">Quick Actions</div>
+    <div class="adm-actions-grid" style="margin-bottom:16px;">
+      <div class="adm-action-btn" onclick="refreshAdminStats()">
+        <div class="icon">🔄</div>
+        <div class="label">Refresh Data</div>
+      </div>
+      <div class="adm-action-btn" onclick="showPage('home')">
+        <div class="icon">🏠</div>
+        <div class="label">Home Page</div>
+      </div>
+      <div class="adm-action-btn" onclick="showPage('ngo')">
+        <div class="icon">🏛️</div>
+        <div class="label">NGO Portal</div>
+      </div>
+      <div class="adm-action-btn" onclick="document.getElementById('github-push-panel').style.display=document.getElementById('github-push-panel').style.display==='none'?'block':'none'">
+        <div class="icon">🐙</div>
+        <div class="label">Push GitHub</div>
+      </div>
+    </div>
+
+    <!-- POSTS TABLE -->
+    <div class="adm-section-title">Recent Posts</div>
+    <div id="admin-posts-modern" style="margin-bottom:16px;"></div>
+    <table class="admin-table" style="display:none;"><tbody id="admin-posts-tbody"></tbody></table>
+
+    <!-- GITHUB PANEL -->
+    <div id="github-push-panel" style="display:none;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:16px;margin-bottom:16px;">
+      <div style="font-family:Sora,sans-serif;font-size:15px;font-weight:700;margin-bottom:4px;color:#fff;">🐙 Push to GitHub</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:14px;">index.html seedha GitHub repo mein push kar do</div>
+      <div style="margin-bottom:10px;"><label style="display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:4px;">GitHub Token</label><input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="width:100%;padding:10px 12px;border:1px solid rgba(255,255,255,.15);border-radius:8px;font-size:13px;font-family:Inter,sans-serif;outline:none;background:rgba(255,255,255,.07);color:#fff;box-sizing:border-box;"></div>
+      <div style="margin-bottom:10px;"><label style="display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:4px;">Owner</label><input type="text" id="gh-owner" value="lukyjamatia-tech" style="width:100%;padding:10px 12px;border:1px solid rgba(255,255,255,.15);border-radius:8px;font-size:13px;font-family:Inter,sans-serif;outline:none;background:rgba(255,255,255,.07);color:#fff;box-sizing:border-box;"></div>
+      <div style="margin-bottom:10px;"><label style="display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:4px;">Repo</label><input type="text" id="gh-repo" value="lukyjamatia-tech.github.io" style="width:100%;padding:10px 12px;border:1px solid rgba(255,255,255,.15);border-radius:8px;font-size:13px;font-family:Inter,sans-serif;outline:none;background:rgba(255,255,255,.07);color:#fff;box-sizing:border-box;"></div>
+      <div style="margin-bottom:14px;"><label style="display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:4px;">Commit Message</label><input type="text" id="gh-msg" value="FindBack S1 update" style="width:100%;padding:10px 12px;border:1px solid rgba(255,255,255,.15);border-radius:8px;font-size:13px;font-family:Inter,sans-serif;outline:none;background:rgba(255,255,255,.07);color:#fff;box-sizing:border-box;"></div>
+      <div id="gh-status" style="display:none;padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:12px;"></div>
+      <button onclick="githubPush()" id="gh-push-btn" style="width:100%;padding:13px;background:linear-gradient(135deg,#24292e,#373e47);color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">🚀 Push to GitHub</button>
+    </div>
+
+  </div>
 </div>
+
 
 <!-- GITHUB PUSH PANEL -->
 <div id="github-push-panel" style="display:none;margin-top:16px;background:#f6f8fa;border:1.5px solid #e2e8f0;border-radius:14px;padding:18px;">
@@ -1461,7 +1619,36 @@ window.adminShowIDProof=function(postId){
 };
 
 window.adminLogout=function(){document.getElementById('admin-login-wall').style.display='block';document.getElementById('admin-dashboard').style.display='none';document.getElementById('a-user').value='';document.getElementById('a-pass').value='';};
-function refreshAdminStats(){if(window._allPosts){const all=window._allPosts;['admin-total','admin-lost','admin-found','admin-missing'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=i===0?all.length:all.filter(p=>p.type===['lost','found','missing'][i-1]).length;});}}
+function refreshAdminStats(){
+  if(window._allPosts){
+    const all=window._allPosts;
+    const el=id=>document.getElementById(id);
+    if(el('admin-total'))el('admin-total').textContent=all.length;
+    if(el('admin-lost'))el('admin-lost').textContent=all.filter(p=>p.type==='lost').length;
+    if(el('admin-found'))el('admin-found').textContent=all.filter(p=>p.type==='found').length;
+    if(el('admin-missing'))el('admin-missing').textContent=all.filter(p=>p.type==='missing').length;
+    if(el('admin-resolved'))el('admin-resolved').textContent=all.filter(p=>p.status==='resolved').length;
+    // Load user count
+    if(window._db){
+      import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js').then(function(m){
+        m.getDoc(m.doc(window._db,'stats','users')).then(function(d){
+          if(el('admin-users')&&d.exists())el('admin-users').textContent=d.data().count||0;
+        }).catch(function(){});
+      });
+    }
+    // Render modern posts list
+    var modernEl=el('admin-posts-modern');
+    if(modernEl){
+      if(!all.length){modernEl.innerHTML='<div style="text-align:center;padding:32px;color:rgba(255,255,255,.3);font-size:13px;">No posts yet</div>';return;}
+      modernEl.innerHTML=all.slice(0,15).map(function(p){
+        var tc=p.type==='lost'?'lost':p.type==='found'?'found':'missing';
+        var emoji=p.type==='lost'?'😟':p.type==='found'?'🎉':'⚠️';
+        var date=p.createdAt&&p.createdAt.seconds?new Date(p.createdAt.seconds*1000).toLocaleDateString('en-IN',{day:'numeric',month:'short'}):'—';
+        return '<div class="adm-post-item"><div class="adm-post-type-dot '+tc+'"></div><div class="adm-post-info"><div class="adm-post-title">'+emoji+' '+(p.item||'Unknown')+'</div><div class="adm-post-meta">📍 '+(p.loc||'—')+' · '+date+'</div></div><div class="adm-post-actions"><button class="adm-post-del" onclick="window.deletePost(String(\''+p.id+'\'))">🗑️</button></div></div>';
+      }).join('');
+    }
+  }
+}
 window.refreshAdminStats=refreshAdminStats;
 
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
