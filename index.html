@@ -3710,7 +3710,40 @@ window.addEventListener('load', function() {
 // FIR notice + duplicate check hooks
 (function(){
   var _orig=window.generateFIR;
-  window.generateFIR=function(){
+  window.findMyFIR = async function(){
+  var phone = document.getElementById('fir-search-phone').value.trim();
+  var res = document.getElementById('fir-search-results');
+  if(phone.length !== 10){
+    res.innerHTML = '<div style="color:#dc2626;font-size:12px;">⚠️ 10 digit phone number daalo</div>';
+    return;
+  }
+  res.innerHTML = '<div style="color:#059669;font-size:12px;">🔍 Searching...</div>';
+  try{
+    var m = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    var phone91 = '+91'+phone;
+    var q = m.query(m.collection(window._db,'fir_records'), m.where('phone','==',phone91));
+    var snap = await m.getDocs(q);
+    if(snap.empty){
+      res.innerHTML = '<div style="color:#777;font-size:12px;text-align:center;padding:12px;">❌ Koi FIR nahi mili is number se</div>';
+      return;
+    }
+    var html = '<div style="font-size:12px;font-weight:700;color:#065F46;margin-bottom:8px;">✅ '+snap.size+' FIR mili:</div>';
+    snap.forEach(function(doc){
+      var d = doc.data();
+      var date = d.createdAt && d.createdAt.seconds ? new Date(d.createdAt.seconds*1000).toLocaleDateString('en-IN') : '—';
+      html += '<div style="background:white;border:1px solid #86EFAC;border-radius:10px;padding:12px;margin-bottom:8px;">'
+        +'<div style="font-family:Sora,sans-serif;font-size:13px;font-weight:700;color:#059669;">'+d.firId+'</div>'
+        +'<div style="font-size:12px;color:#444;margin-top:4px;">📦 '+d.item+' · 📍 '+d.district+'</div>'
+        +'<div style="font-size:11px;color:#888;margin-top:2px;">📅 '+date+' · 🏛️ '+d.policeStation+'</div>'
+        +'</div>';
+    });
+    res.innerHTML = html;
+  }catch(e){
+    res.innerHTML = '<div style="color:#dc2626;font-size:12px;">❌ Error: '+e.message+'</div>';
+  }
+};
+
+window.generateFIR=function(){
     if(_orig)_orig();
     var state=document.getElementById('fir-state')?document.getElementById('fir-state').value:'';
     var dist=document.getElementById('fir-district')?document.getElementById('fir-district').value:'';
@@ -4122,6 +4155,20 @@ window.removeIDPhoto=function(){
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">🪪 ID Proof</label><select id="fir-idtype" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option>Aadhaar Card</option><option>PAN Card</option><option>Passport</option><option>Voter ID</option><option>Driving Licence</option></select></div>
     </div>
     <button onclick="generateFIR()" class="btn-primary" style="width:100%;margin-bottom:10px;font-size:16px;padding:14px;">📄 FIR Draft Generate Karo</button>
+
+    <!-- FIND MY FIR -->
+    <div style="background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:14px;padding:16px;margin-bottom:16px;">
+      <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:10px;color:#065F46;">🔍 Find My FIR</div>
+      <div style="font-size:12px;color:#166534;margin-bottom:12px;">Phone number se apni purani FIR ID dhundo</div>
+      <div style="display:flex;gap:8px;">
+        <div style="display:flex;align-items:center;background:white;border:1.5px solid #86EFAC;border-radius:10px;padding:0 10px;flex:1;">
+          <span style="color:#059669;font-size:14px;margin-right:6px;">+91</span>
+          <input type="tel" id="fir-search-phone" placeholder="10-digit mobile" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)" style="border:none;outline:none;font-size:14px;font-family:'Inter',sans-serif;padding:10px 0;width:100%;">
+        </div>
+        <button onclick="findMyFIR()" style="background:#059669;color:white;border:none;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;">Search</button>
+      </div>
+      <div id="fir-search-results" style="margin-top:12px;"></div>
+    </div>
     <div style="background:#EFF6FF;border-radius:12px;padding:14px;font-size:12px;color:#1D4ED8;line-height:1.7;">💡 This is a draft only. <a href="https://www.digitalpolice.gov.in" target="_blank" style="color:#1D4ED8;font-weight:700;">digitalpolice.gov.in</a></div>
   </div>
 </div>
@@ -4500,6 +4547,25 @@ window.generateFIR=function(){
   window._lastFIRPs = ps;
   window._lastFIRDist = dist;
   window._lastFIRState = state;
+
+  // Save FIR record to Firestore
+  if(window._db){
+    import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js').then(function(m){
+      m.setDoc(m.doc(window._db,'fir_records',firId),{
+        firId: firId,
+        name: name,
+        phone: phone,
+        item: item,
+        category: cat||item,
+        location: loc,
+        district: dist,
+        state: state,
+        policeStation: ps,
+        language: lang,
+        createdAt: m.serverTimestamp()
+      }).catch(function(){});
+    });
+  }
 
   // Populate modal fields
   // Add multilingual disclaimer at top of FIR
