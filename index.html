@@ -3401,6 +3401,13 @@ window.ngoLoadDashboard = function() {
   if(el('ngo-stat-found'))   el('ngo-stat-found').textContent   = localPosts.filter(function(p){return p.type==='found';}).length;
   if(el('ngo-stat-missing')) el('ngo-stat-missing').textContent = localPosts.filter(function(p){return p.type==='missing';}).length;
   if(el('ngo-stat-resolved'))el('ngo-stat-resolved').textContent= localPosts.filter(function(p){return p.status==='resolved';}).length;
+  // Set org name and type for admin
+  var user = window._ngoUser || {};
+  if(user.type === 'admin') {
+    if(el('ngo-org-name')) el('ngo-org-name').textContent = '🛡️ FindBack Admin';
+  } else if(user.org) {
+    if(el('ngo-org-name')) el('ngo-org-name').textContent = user.org;
+  }
   window.fbRenderEmailList();
 };
 
@@ -4914,11 +4921,17 @@ window.ngoAdminCheck = async function() {
       district: '',
       state: ''
     };
+    sessionStorage.setItem('ngo_org', 'FindBack HQ');
+    sessionStorage.setItem('ngo_type', 'admin');
+    sessionStorage.setItem('ngo_district', '');
+    sessionStorage.setItem('ngo_state', '');
     var lw = document.getElementById('ngo-login-wall');
     var db = document.getElementById('ngo-dashboard');
     if(lw) lw.style.display = 'none';
     if(db) { db.style.display = 'block'; }
-    if(window.ngoLoadDashboard) window.ngoLoadDashboard();
+    setTimeout(function(){
+      if(window.ngoLoadDashboard) window.ngoLoadDashboard();
+    }, 300);
     window.toast && window.toast('🛡️ Admin access to Police/NGO Portal!');
   } else {
     err.textContent = '❌ Wrong passcode!';
