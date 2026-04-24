@@ -1747,7 +1747,7 @@ window.runAIMatch=async function(postId){
   const opp=post.type==='lost'?'found':'lost',cands=(window._allPosts||[]).filter(p=>p.type===opp).slice(0,10);
   if(!cands.length){toast('😔 Koi match nahi mila');if(btn){btn.textContent='🤖 AI Match Dhundo';btn.disabled=false;}return;}
   const prompt=`Lost/found matching for India.\nPOST: Type:${post.type} Item:${post.item} Cat:${post.category||'?'} Loc:${post.loc} Date:${post.date||'?'} Desc:${post.desc||'none'}\nCANDIDATES:\n${cands.map((c,i)=>`${i+1}. ID:${c.id}|Item:${c.item}|Cat:${c.category||'?'}|Loc:${c.loc}|Date:${c.date||'?'}|Desc:${c.desc||'none'}`).join('\n')}\nTop 3 matches. JSON only:\n{"matches":[{"id":"id","score":95,"reason":"reason"},{"id":"id","score":80,"reason":"..."},{"id":"id","score":60,"reason":"..."}]}`;
-  try{const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,messages:[{role:'user',content:prompt}]})});const data=await res.json();const text=data.content?.[0]?.text||'{}';const parsed=JSON.parse(text.replace(/```json|```/g,'').trim());showAIMatchResults(post,parsed.matches||[],cands);}
+  try{const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:500,messages:[{role:'user',content:prompt}]})});const data=await res.json();const text=data.content?.[0]?.text||'{}';const parsed=JSON.parse(text.replace(/```json|```/g,'').trim());showAIMatchResults(post,parsed.matches||[],cands);}
   catch(e){toast('❌ AI Match error.');}
   if(btn){btn.textContent='🤖 AI Match Dhundo';btn.disabled=false;}
 };
@@ -5127,7 +5127,7 @@ async function mphAI(q,tid){
         'anthropic-dangerous-direct-browser-access':'true'
       },
       body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
+        model:'claude-sonnet-4-5',
         max_tokens:400,
         system:sys,
         messages:_MH
