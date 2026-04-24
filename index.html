@@ -897,6 +897,21 @@ function startListener(){
 startListener();
 onAuthStateChanged(auth,(user)=>{
   window._currentUser=user||null;
+  // Auto-increment count for brand new users (creationTime == lastSignInTime)
+  if(user){
+    try{
+      const ct=user.metadata.creationTime;
+      const lt=user.metadata.lastSignInTime;
+      const isNew=ct&&lt&&(new Date(ct).getTime()===new Date(lt).getTime());
+      if(isNew&&!sessionStorage.getItem('counted_'+user.uid)){
+        sessionStorage.setItem('counted_'+user.uid,'1');
+        import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js').then(function(m){
+          var fsDb=window._db||db;
+          if(fsDb)m.setDoc(m.doc(fsDb,'stats','users'),{count:m.increment(1)},{merge:true}).then(function(){console.log('New user counted!');}).catch(function(e){console.log('Count err:',e);});
+        });
+      }
+    }catch(e){}
+  }
   const lb=document.getElementById('nav-login-btn'),pb=document.getElementById('nav-profile-btn');
   if(user){
     if(lb)lb.style.display='none';
