@@ -5130,8 +5130,8 @@ function mphTk(){var m=Math.floor(_MC/60),s=_MC%60;document.getElementById("mph-
 function mphR(){_MC=60;}
 function mphA(q){document.getElementById("mph-inp").value=q;mphS();}
 function mphS(){var i=document.getElementById("mph-inp"),q=i.value.trim();if(!q)return;i.value="";mphR();mphAd(q,"user");var t="mt"+Date.now();mphTy(t);mphAI(q,t);}
-function mphAd(txt,role){var d=document.getElementById("mph-msgs"),dv=document.createElement("div");dv.className="mm"+(role==="user"?" u":"");var av=role==="user"?'<div class="muav">U</div>':'<img src="'+_MU+'" alt="M">';var bb='<div class="mb">'+txt+"</div>";dv.innerHTML=role==="user"?bb+av:av+bb;d.appendChild(dv);d.scrollTop=d.scrollHeight;}
-function mphTy(id){var d=document.getElementById("mph-msgs"),dv=document.createElement("div");dv.className="mm";dv.id=id;dv.innerHTML='<img src="'+_MU+'" alt="M"><div class="mb"><div class="mty"><span></span><span></span><span></span></div></div>';d.appendChild(dv);d.scrollTop=d.scrollHeight;}
+function mphAd(txt,role){var d=document.getElementById("mph-msgs"),dv=document.createElement("div");dv.className="mm"+(role==="user"?" u":"");var av=role==="user"?'<div class="muav">U</div>':'<img src="'+_MU+'" alt="M" style="width:28px;height:28px;object-fit:contain;border-radius:4px;flex-shrink:0;" onerror="this.outerHTML=\'<div style=width:28px;height:28px;background:#E8722A;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;color:white;>M</div>\'">';var bb='<div class="mb">'+txt+"</div>";dv.innerHTML=role==="user"?bb+av:av+bb;d.appendChild(dv);d.scrollTop=d.scrollHeight;}
+function mphTy(id){var d=document.getElementById("mph-msgs"),dv=document.createElement("div");dv.className="mm";dv.id=id;dv.innerHTML='<img src="'+_MU+'" alt="M" style="width:28px;height:28px;object-fit:contain;border-radius:4px;flex-shrink:0;"><div class="mb"><div class="mty"><span></span><span></span><span></span></div></div>';d.appendChild(dv);d.scrollTop=d.scrollHeight;}
 async function mphAI(q,tid){
   try{
     var url=_PU+"?q="+encodeURIComponent(q)+"&lang="+_ML;
