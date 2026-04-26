@@ -854,12 +854,12 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
-  <button class="nav-item active" id="nav-home" onclick="showPage('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</button>
-  <button class="nav-item" id="nav-lost" onclick="openModal('lost')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Lost</button>
-  <button class="nav-item" id="nav-found" onclick="openModal('found')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Found</button>
-  <button class="nav-item" id="nav-missing" onclick="openModal('missing')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>Missing</button>
-  <button class="nav-item" id="nav-map-btn" onclick="openMapView()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>Map</button>
-  <button class="nav-item" id="nav-alerts-btn" onclick="showPage('alerts');if(window.renderAlerts)window.renderAlerts()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>Alerts</button>
+  <button class="nav-item active" id="nav-home" onclick="showPage('home')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span id="nav-label-home">Home</span></button>
+  <button class="nav-item" id="nav-lost" onclick="openModal('lost')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span id="nav-label-lost">Lost</span></button>
+  <button class="nav-item" id="nav-found" onclick="openModal('found')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span id="nav-label-found">Found</span></button>
+  <button class="nav-item" id="nav-missing" onclick="openModal('missing')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg><span id="nav-label-missing">Missing</span></button>
+  <button class="nav-item" id="nav-map-btn" onclick="openMapView()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg><span id="nav-label-map">Map</span></button>
+  <button class="nav-item" id="nav-alerts-btn" onclick="showPage('alerts');if(window.renderAlerts)window.renderAlerts()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><span id="nav-label-alerts">Alerts</span></button>
   <button class="nav-item" id="nav-login-btn" onclick="showPage('login')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="nav-label">Login</span></button>
   <button class="nav-item" id="nav-profile-btn" style="display:none;" onclick="loadProfile()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="nav-label">Profile</span></button>
 </div>
@@ -4392,6 +4392,7 @@ window.applyLanguage=function(lang){
       alert_btn:'🔔 Set Alert',
       active_alerts:'Active Alerts',
       no_alerts:'No alerts set',
+      nav_home:'Home', nav_lost:'Lost', nav_found:'Found', nav_missing:'Missing', nav_map:'Map', nav_alerts:'Alerts', nav_login:'Login', nav_profile:'Profile',
     },
     hi:{
       hero_title:'जो खो गया उसे वापस पाओ।',
@@ -4410,6 +4411,7 @@ window.applyLanguage=function(lang){
       alert_btn:'🔔 अलर्ट सेट करें',
       active_alerts:'सक्रिय अलर्ट',
       no_alerts:'कोई अलर्ट नहीं',
+      nav_home:'होम', nav_lost:'खोया', nav_found:'मिला', nav_missing:'गुमशुदा', nav_map:'नक्शा', nav_alerts:'अलर्ट', nav_login:'लॉगिन', nav_profile:'प्रोफाइल',
     }
   };
 
@@ -4472,6 +4474,18 @@ window.applyLanguage=function(lang){
 
   // Re-render alerts list with correct language
   if(window.renderAlerts)window.renderAlerts();
+
+  // Bottom nav labels
+  setTxt('nav-label-home', t.nav_home);
+  setTxt('nav-label-lost', t.nav_lost);
+  setTxt('nav-label-found', t.nav_found);
+  setTxt('nav-label-missing', t.nav_missing);
+  setTxt('nav-label-map', t.nav_map);
+  setTxt('nav-label-alerts', t.nav_alerts);
+  var loginLabel = document.querySelector('#nav-login-btn .nav-label');
+  if(loginLabel) loginLabel.textContent = t.nav_login;
+  var profileLabel = document.querySelector('#nav-profile-btn .nav-label');
+  if(profileLabel) profileLabel.textContent = t.nav_profile;
 };
 window.addEventListener('load',function(){
   if(!localStorage.getItem('fb_lang')){var s=document.getElementById('lang-select-screen');if(s)s.style.display='flex';}
