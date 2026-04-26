@@ -412,7 +412,206 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
 </div>
 
 <!-- ABOUT -->
-<div class="page" id="page-about"><div class="page-content"><div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div><div class="page-title">About FindBack S1</div><div class="page-subtitle">India's trusted lost &amp; found platform</div><div class="about-card"><h3>🎯 Our Mission</h3><p>FindBack S1 was built to solve a real problem — thousands of items are lost every day across India, and there was no single trusted place to report and reunite them.</p></div><div class="about-card"><h3>🌍 How It Works</h3><p>When you lose something, post it on FindBack. When you find something, post it too. Our platform intelligently matches lost and found posts so items can be returned to their owners.</p></div><div class="stat-row"><div class="stat-box"><div class="num">2024</div><div class="lbl">Founded</div></div><div class="stat-box"><div class="num">India</div><div class="lbl">Region</div></div><div class="stat-box"><div class="num">Free</div><div class="lbl">Always</div></div></div><div class="about-card"><h3>🛡️ Our Values</h3><p>Transparency, community trust, and privacy. Your data is never sold.</p></div><div class="about-card"><h3>👤 The Team</h3><p>FindBack S1 is built by a passionate solo founder from India. This is Season 1 — just the beginning.</p></div></div></div>
+<div class="page" id="page-about">
+<div class="page-content">
+<div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div>
+
+<!-- ═══ ABOUT PAGE — ENHANCED WITH MISSION + NCRB STATS ═══ -->
+<style>
+/* ── About page cards ── */
+.fb-ab-card{background:#fff;border:1px solid #E0E0E0;border-radius:10px;margin-bottom:14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.05);}
+.fb-ab-hdr{background:#F5F5F5;border-bottom:1px solid #E0E0E0;padding:12px 16px;display:flex;align-items:center;gap:8px;}
+.fb-ab-hdr-icon{font-size:16px;}
+.fb-ab-hdr h2{font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:#1a3a6e;letter-spacing:0.3px;}
+.fb-ab-hdr p{font-size:11px;color:#999;margin-top:1px;}
+.fb-ab-body{padding:16px;}
+.fb-ab-headline{font-family:'Sora',sans-serif;font-size:17px;font-weight:700;color:#111;line-height:1.4;margin-bottom:10px;}
+.fb-ab-headline .acc{color:#c0392b;}
+.fb-ab-tagline{font-size:12.5px;color:#c0392b;font-style:italic;margin-bottom:12px;padding-left:10px;border-left:3px solid #c0392b;}
+.fb-ab-para{font-size:13px;color:#444;line-height:1.75;margin-bottom:10px;}
+.fb-ab-para strong{color:#111;font-weight:600;}
+.fb-pg{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:6px;}
+.fb-pi{background:#F8FAFC;border:1px solid #E0E0E0;border-radius:8px;padding:11px;}
+.fb-pi-icon{font-size:16px;margin-bottom:5px;}
+.fb-pi-title{font-size:11.5px;font-weight:700;color:#111;margin-bottom:3px;}
+.fb-pi-desc{font-size:10.5px;color:#888;line-height:1.5;}
+.fb-alert-bar{background:#fff5f5;border-top:1px solid #fcd5d5;border-bottom:1px solid #fcd5d5;padding:12px 16px;display:flex;align-items:center;gap:10px;}
+.fb-alert-dot{width:8px;height:8px;background:#c0392b;border-radius:50%;flex-shrink:0;animation:fbBlink 1.2s ease-in-out infinite;}
+@keyframes fbBlink{0%,100%{opacity:1}50%{opacity:0.2}}
+.fb-alert-bar .fb-bnum{font-family:'Sora',sans-serif;font-size:21px;font-weight:700;color:#c0392b;line-height:1;}
+.fb-alert-bar .fb-bsub{font-size:11px;color:#888;margin-top:2px;}
+.fb-sgrid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#E0E0E0;}
+.fb-scell{background:#fff;padding:14px 11px;text-align:center;}
+.fb-snum{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;line-height:1;margin-bottom:4px;}
+.fb-slbl{font-size:10.5px;color:#888;line-height:1.4;}
+.fb-vred{color:#c0392b;} .fb-vorg{color:#d35400;} .fb-vgrn{color:#1e8449;}
+.fb-bar-sec{padding:13px 16px;border-top:1px solid #F5F5F5;}
+.fb-bar-row{display:flex;justify-content:space-between;font-size:11px;color:#888;margin-bottom:6px;}
+.fb-bar-row span:last-child{color:#1e8449;font-weight:700;}
+.fb-bar-bg{height:6px;background:#F5F5F5;border-radius:3px;overflow:hidden;margin-bottom:5px;}
+.fb-bar-fill{height:100%;border-radius:3px;background:#1e8449;width:53%;animation:fbGrow 1.8s ease-out;}
+@keyframes fbGrow{from{width:0}to{width:53%}}
+.fb-bar-note{font-size:10.5px;color:#aaa;font-style:italic;}
+.fb-srow{display:flex;align-items:flex-start;padding:11px 16px;border-top:1px solid #F5F5F5;gap:10px;}
+.fb-srow-icon{font-size:17px;flex-shrink:0;margin-top:1px;}
+.fb-srow-body{flex:1;}
+.fb-srow-title{font-size:12.5px;font-weight:700;color:#111;}
+.fb-srow-detail{font-size:11px;color:#666;margin-top:3px;line-height:1.55;}
+.fb-srow-val{font-family:'Sora',sans-serif;font-size:16px;font-weight:700;flex-shrink:0;text-align:right;}
+.fb-srow-val small{font-size:9.5px;font-weight:400;color:#aaa;display:block;margin-top:1px;}
+.fb-sol-item{display:flex;gap:9px;padding:10px 0;border-bottom:1px solid #F5F5F5;align-items:flex-start;}
+.fb-sol-item:last-child{border-bottom:none;}
+.fb-sol-chk{width:18px;height:18px;background:#eaf4ee;border:1px solid #a9d4b5;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#1e8449;flex-shrink:0;margin-top:1px;}
+.fb-sol-title{font-size:12.5px;font-weight:700;color:#111;margin-bottom:2px;}
+.fb-sol-desc{font-size:11px;color:#666;line-height:1.5;}
+.fb-vision{background:#F0F4FA;border:1px solid #C8D4E8;border-left:4px solid #1a3a6e;border-radius:8px;padding:13px 15px;margin-top:12px;}
+.fb-vision h3{font-family:'Sora',sans-serif;font-size:12px;font-weight:700;color:#1a3a6e;margin-bottom:6px;}
+.fb-vision p{font-size:11.5px;color:#5a6a7e;line-height:1.7;}
+.fb-govt-strip{background:#1a3a6e;color:#fff;font-size:11px;padding:6px 16px;display:flex;align-items:center;gap:7px;letter-spacing:0.3px;}
+.fb-src{padding:8px 16px;border-top:1px solid #F5F5F5;font-size:10px;color:#bbb;background:#fafafa;}
+/* Lang display */
+[data-lang]{display:none;}
+body.lang-hi [data-lang="hi"]{display:block;}
+body.lang-en [data-lang="en"]{display:block;}
+span[data-lang]{display:none;}
+body.lang-hi span[data-lang="hi"]{display:inline;}
+body.lang-en span[data-lang="en"]{display:inline;}
+</style>
+
+<!-- ── SECTION 1: MISSION ── -->
+<div class="fb-ab-card">
+  <div class="fb-ab-hdr">
+    <div class="fb-ab-hdr-icon">🎯</div>
+    <div>
+      <h2><span data-lang="hi">हमारा मक़सद — Our Mission</span><span data-lang="en">OUR MISSION</span></h2>
+      <p><span data-lang="hi">FindBack क्यों बना और हम क्या करना चाहते हैं</span><span data-lang="en">Why FindBack was built and what we stand for</span></p>
+    </div>
+  </div>
+  <div class="fb-ab-body">
+    <div data-lang="hi" class="fb-ab-headline">हर चीज़ खोई नहीं होती —<br>बस <span class="acc">रास्ता भूल जाती है</span> घर का.</div>
+    <div data-lang="en" class="fb-ab-headline">Nothing is truly lost —<br>it just <span class="acc">forgets its way</span> back home.</div>
+    <div data-lang="hi" class="fb-ab-tagline">"खोई चीज़ ढूंढने के लिए अब सिर्फ एक जगह चाहिए — FindBack."</div>
+    <div data-lang="en" class="fb-ab-tagline">"One place to find what India lost — FindBack."</div>
+    <p data-lang="hi" class="fb-ab-para">India में हर रोज़ <strong>हज़ारों लोग</strong> अपनी क़ीमती चीज़ें खो देते हैं — mobile, wallet, documents, और सबसे दर्दनाक — अपने अपने। लेकिन एक dedicated platform नहीं था जहाँ खोये हुए और मिलने वाले दोनों एक जगह आ सकें।</p>
+    <p data-lang="en" class="fb-ab-para">Every day in India, <strong>thousands of people</strong> lose something precious — mobiles, wallets, documents, and most painfully — their own loved ones. Yet there was no single dedicated platform where the lost and the found could meet.</p>
+    <p data-lang="hi" class="fb-ab-para">FindBack <strong>India का पहला dedicated lost & found platform</strong> है — जो technology, community और police को एक साथ जोड़ता है। हम सिर्फ एक app नहीं हैं — हम एक <strong>civil movement</strong> हैं।</p>
+    <p data-lang="en" class="fb-ab-para">FindBack is <strong>India's first dedicated lost & found platform</strong> — connecting technology, community and police together. We are not just an app — we are a <strong>civil movement</strong>.</p>
+    <p data-lang="hi" class="fb-ab-para">हमने एक बड़ी problem देखी — India में हर रोज़ <strong>हज़ारों चीज़ें खोती हैं</strong> और हज़ारों लोग missing होते हैं। लेकिन कोई एक dedicated जगह नहीं थी जहाँ खोने वाला और ढूंढने वाला दोनों एक साथ आ सकें। Police के पास resources कम हैं, existing platforms इसके लिए बने नहीं हैं, और आम इंसान को पता ही नहीं कि करे तो क्या करे। यह gap real है — और हम इसे <strong>technology और community की मदद से solve करने की कोशिश कर रहे हैं।</strong></p>
+    <p data-lang="en" class="fb-ab-para">We saw a clear gap — every day in India, <strong>thousands of items are lost</strong> and thousands of people go missing. Yet there was no single dedicated place where the person who lost and the person who found could connect. Police are stretched thin, existing platforms were never built for this, and ordinary people have no idea what to do. This gap is real — and we are trying to <strong>bridge it using technology and community.</strong></p>
+    <div class="fb-pg">
+      <div class="fb-pi"><div class="fb-pi-icon">🤝</div><div class="fb-pi-title">Community Power</div><div class="fb-pi-desc"><span data-lang="hi">सिर्फ police नहीं — पूरा community मिलके ढूंढे।</span><span data-lang="en">Not just police — the whole community searches together.</span></div></div>
+      <div class="fb-pi"><div class="fb-pi-icon">🚔</div><div class="fb-pi-title">Police Partnership</div><div class="fb-pi-desc"><span data-lang="hi">Verified officers के लिए Command Dashboard।</span><span data-lang="en">Command Dashboard for verified officers.</span></div></div>
+      <div class="fb-pi"><div class="fb-pi-icon">🌏</div><div class="fb-pi-title"><span data-lang="hi">पूरा India</span><span data-lang="en">All of India</span></div><div class="fb-pi-desc"><span data-lang="hi">28 states, 784 districts, 4,340+ police stations।</span><span data-lang="en">28 states, 784 districts, 4,340+ police stations.</span></div></div>
+      <div class="fb-pi"><div class="fb-pi-icon">🗣️</div><div class="fb-pi-title"><span data-lang="hi">भाषा Barrier नहीं</span><span data-lang="en">No Language Barrier</span></div><div class="fb-pi-desc"><span data-lang="hi">13 languages — हर Indian use कर सके।</span><span data-lang="en">13 languages — every Indian can use it.</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 2: NCRB DATA ── -->
+<div class="fb-ab-card">
+  <div class="fb-govt-strip">🇮🇳 <span data-lang="hi">NCRB — राष्ट्रीय अपराध रिकॉर्ड ब्यूरो डेटा 2023 | गृह मंत्रालय, भारत सरकार</span><span data-lang="en">NCRB — National Crime Records Bureau Data 2023 | Ministry of Home Affairs, Govt. of India</span></div>
+  <div class="fb-ab-hdr">
+    <div class="fb-ab-hdr-icon">📊</div>
+    <div>
+      <h2><span data-lang="hi">India की सच्ची तस्वीर</span><span data-lang="en">The Real Picture of India</span></h2>
+      <p><span data-lang="hi">Registered cases only — actual numbers कहीं ज़्यादा हैं</span><span data-lang="en">Registered cases only — actual numbers are far higher</span></p>
+    </div>
+  </div>
+  <div class="fb-alert-bar">
+    <div class="fb-alert-dot"></div>
+    <div>
+      <div class="fb-bnum">1,327</div>
+      <div class="fb-bsub"><span data-lang="hi">लोग हर रोज़ India में missing report होते हैं (2023 average)</span><span data-lang="en">people reported missing every day in India (2023 average)</span></div>
+    </div>
+  </div>
+  <div class="fb-sgrid">
+    <div class="fb-scell"><div class="fb-snum fb-vred">8.68L</div><div class="fb-slbl"><span data-lang="hi">कुल missing<br>(नये+पुराने)</span><span data-lang="en">Total missing<br>(new+old)</span></div></div>
+    <div class="fb-scell"><div class="fb-snum fb-vorg">4.85L</div><div class="fb-slbl"><span data-lang="hi">नयी reports<br>2023 में</span><span data-lang="en">New reports<br>in 2023</span></div></div>
+    <div class="fb-scell"><div class="fb-snum fb-vgrn">4.61L</div><div class="fb-slbl"><span data-lang="hi">लोग trace<br>हुए</span><span data-lang="en">People<br>traced</span></div></div>
+    <div class="fb-scell"><div class="fb-snum fb-vred">4.08L</div><div class="fb-slbl"><span data-lang="hi">अभी भी<br>untraced 😔</span><span data-lang="en">Still<br>untraced 😔</span></div></div>
+  </div>
+  <div class="fb-bar-sec">
+    <div class="fb-bar-row"><span><span data-lang="hi">Recovery rate (2023)</span><span data-lang="en">Recovery rate (2023)</span></span><span>53% ✓</span></div>
+    <div class="fb-bar-bg"><div class="fb-bar-fill"></div></div>
+    <div class="fb-bar-note"><span data-lang="hi">47% — यानी 4 लाख से ज़्यादा — अभी भी untraced। ये सिर्फ FIR-registered cases हैं।</span><span data-lang="en">47% — over 4 lakh people — still untraced. These are FIR-registered cases only.</span></div>
+  </div>
+  <div class="fb-srow">
+    <div class="fb-srow-icon">📈</div>
+    <div class="fb-srow-body">
+      <div class="fb-srow-title"><span data-lang="hi">5 साल में 27% की jump</span><span data-lang="en">27% jump in 5 years</span></div>
+      <div class="fb-srow-detail"><span data-lang="hi">2019: 3.8 लाख → 2023: 4.85 लाख। Backlog भी 3.12 से 3.84 लाख हो गया।</span><span data-lang="en">2019: 3.8 lakh → 2023: 4.85 lakh. Backlog grew from 3.12 to 3.84 lakh.</span></div>
+    </div>
+    <div class="fb-srow-val fb-vred">+27%<small><span data-lang="hi">5 साल</span><span data-lang="en">5 yrs</span></small></div>
+  </div>
+  <div class="fb-srow">
+    <div class="fb-srow-icon">👩</div>
+    <div class="fb-srow-body">
+      <div class="fb-srow-title"><span data-lang="hi">65% महिलाएं हैं missing में</span><span data-lang="en">65% of missing are women</span></div>
+      <div class="fb-srow-detail"><span data-lang="hi">3.24 लाख women vs 1.59 लाख men। Trafficking, domestic situations major reasons।</span><span data-lang="en">3.24 lakh women vs 1.59 lakh men. Trafficking and domestic situations are major reasons.</span></div>
+    </div>
+    <div class="fb-srow-val fb-vred">65%<small><span data-lang="hi">महिलाएं</span><span data-lang="en">women</span></small></div>
+  </div>
+  <div class="fb-srow">
+    <div class="fb-srow-icon">👦</div>
+    <div class="fb-srow-body">
+      <div class="fb-srow-title"><span data-lang="hi">1.4 लाख बच्चे missing</span><span data-lang="en">1.4 lakh children missing</span></div>
+      <div class="fb-srow-detail"><span data-lang="hi">12–18 साल के teenagers सबसे ज़्यादा। 91,296 cases में 68,835 लड़कियाँ।</span><span data-lang="en">Teenagers aged 12–18 most affected. 68,835 girls out of 91,296 cases.</span></div>
+    </div>
+    <div class="fb-srow-val fb-vred">1.4L<small><span data-lang="hi">बच्चे</span><span data-lang="en">children</span></small></div>
+  </div>
+  <div class="fb-srow">
+    <div class="fb-srow-icon">🏠</div>
+    <div class="fb-srow-body">
+      <div class="fb-srow-title"><span data-lang="hi">₹6,917 Cr चोरी — सिर्फ 29.9% मिला</span><span data-lang="en">₹6,917 Cr stolen — only 29.9% recovered</span></div>
+      <div class="fb-srow-detail"><span data-lang="hi">₹2,065 crore ही वापस मिला। 70% property हमेशा के लिए गयी।</span><span data-lang="en">Only ₹2,065 crore recovered. 70% of stolen property lost forever.</span></div>
+    </div>
+    <div class="fb-srow-val fb-vred">29.9%<small>recovery</small></div>
+  </div>
+  <div class="fb-srow">
+    <div class="fb-srow-icon">📱</div>
+    <div class="fb-srow-body">
+      <div class="fb-srow-title"><span data-lang="hi">8.78 लाख property theft cases</span><span data-lang="en">8.78 lakh property theft cases</span></div>
+      <div class="fb-srow-detail"><span data-lang="hi">Mobile, vehicle, jewellery — 6.89 लाख pure theft cases। 2022 से भी ज़्यादा।</span><span data-lang="en">Mobile, vehicle, jewellery — 6.89 lakh pure theft. More than 2022.</span></div>
+    </div>
+    <div class="fb-srow-val fb-vorg">8.78L<small>cases</small></div>
+  </div>
+  <div class="fb-srow">
+    <div class="fb-srow-icon">⚖️</div>
+    <div class="fb-srow-body">
+      <div class="fb-srow-title"><span data-lang="hi">Supreme Court का Order (Sep 2025)</span><span data-lang="en">Supreme Court Order (Sep 2025)</span></div>
+      <div class="fb-srow-detail"><span data-lang="hi">Court ने कहा state police के बीच "coordination का अभाव" है। National portal बनाने का order — जो अभी तक नहीं बना।</span><span data-lang="en">Court noted "lack of coordination" among state police. Ordered a national portal — not yet built.</span></div>
+    </div>
+  </div>
+  <div class="fb-src">📋 Source: NCRB Crime in India Report 2023 | Ministry of Home Affairs, Government of India</div>
+</div>
+
+<!-- ── SECTION 3: SOLUTION ── -->
+<div class="fb-ab-card">
+  <div class="fb-ab-hdr">
+    <div class="fb-ab-hdr-icon">💡</div>
+    <div>
+      <h2><span data-lang="hi">FindBack क्या करता है?</span><span data-lang="en">What Does FindBack Do?</span></h2>
+      <p><span data-lang="hi">Problem बड़ी है — solution simple और free है</span><span data-lang="en">The problem is big — the solution is simple and free</span></p>
+    </div>
+  </div>
+  <div class="fb-ab-body">
+    <p data-lang="hi" class="fb-ab-para">जब government के systems fragmented हैं और recovery rate सिर्फ 53% है — <strong>FindBack वो bridge है जो gap भरता है।</strong> Community + Technology + Police — तीनों एक साथ।</p>
+    <p data-lang="en" class="fb-ab-para">When government systems are fragmented and recovery rate is just 53% — <strong>FindBack is the bridge that fills the gap.</strong> Community + Technology + Police — all three together.</p>
+    <div class="fb-sol-item"><div class="fb-sol-chk">✓</div><div><div class="fb-sol-title">📸 <span data-lang="hi">Post करो — Seconds में</span><span data-lang="en">Post in Seconds</span></div><div class="fb-sol-desc"><span data-lang="hi">Photo, location, category के साथ post करो। Lost, Found, Missing — तीनों sections। 40+ categories।</span><span data-lang="en">Post with photo, location, category. Separate Lost, Found & Missing sections. 40+ categories.</span></div></div></div>
+    <div class="fb-sol-item"><div class="fb-sol-chk">✓</div><div><div class="fb-sol-title">🚔 Police & NGO Command Dashboard</div><div class="fb-sol-desc"><span data-lang="hi">Verified officers के लिए portal। FIR Accept/Reject, fraud detection, district filtering। 4,340+ stations connected।</span><span data-lang="en">Portal for verified officers. FIR Accept/Reject, fraud detection, district filtering. 4,340+ stations.</span></div></div></div>
+    <div class="fb-sol-item"><div class="fb-sol-chk">✓</div><div><div class="fb-sol-title">📄 <span data-lang="hi">13 Languages में FIR Draft</span><span data-lang="en">FIR in 13 Languages</span></div><div class="fb-sol-desc"><span data-lang="hi">Hindi, Bengali, Tamil, Telugu, Marathi, Odia, Gujarati, Kannada, Malayalam, Punjabi, Assamese, Urdu, English।</span><span data-lang="en">Hindi, Bengali, Tamil, Telugu, Marathi, Odia, Gujarati, Kannada, Malayalam, Punjabi, Assamese, Urdu, English.</span></div></div></div>
+    <div class="fb-sol-item"><div class="fb-sol-chk">✓</div><div><div class="fb-sol-title">🔔 <span data-lang="hi">Smart Matching & Alerts</span><span data-lang="en">Smart Matching & Alerts</span></div><div class="fb-sol-desc"><span data-lang="hi">Description match होने पर turant notification। State+District+Area filtering।</span><span data-lang="en">Instant notification on match. State+District+Area based filtering.</span></div></div></div>
+    <div class="fb-sol-item"><div class="fb-sol-chk">✓</div><div><div class="fb-sol-title">✅ Trust & Verification System</div><div class="fb-sol-desc"><span data-lang="hi">ID verification, fraud detection, Trust Score — fake posts से protection।</span><span data-lang="en">ID verification, fraud detection, Trust Score — protection from fake posts.</span></div></div></div>
+    <div class="fb-sol-item"><div class="fb-sol-chk">✓</div><div><div class="fb-sol-title">💰 <span data-lang="hi">बिल्कुल Free</span><span data-lang="en">Completely Free</span></div><div class="fb-sol-desc"><span data-lang="hi">कोई fee नहीं। India का हर नागरिक use कर सके — यही हमारा वादा है।</span><span data-lang="en">No fee. Every Indian citizen can use it — that is our promise.</span></div></div></div>
+    <div class="fb-vision">
+      <h3>🔭 <span data-lang="hi">हम कहाँ जाना चाहते हैं</span><span data-lang="en">Where We Are Headed</span></h3>
+      <p><span data-lang="hi">आज lost & found से शुरू किया — कल railway stations, hospitals, airports। फिर missing persons, trafficking victims। Long-term: <strong>India का हर police station FindBack से connected हो।</strong></span><span data-lang="en">Today lost & found — tomorrow railways, hospitals, airports. Then missing persons, trafficking victims. Long-term: <strong>every police station in India connected to FindBack.</strong></span></p>
+    </div>
+  </div>
+</div>
+
+</div><!-- end page-content -->
+</div><!-- end page-about -->
 
 <!-- CONTACT -->
 <div class="page" id="page-contact"><div class="page-content"><div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div><div class="page-title">Contact Us</div><div class="page-subtitle">We're here to help — reach out anytime</div><a class="contact-method" href="mailto:legal@findback.org"><div class="contact-icon">📧</div><div><h4>Email Support</h4><p>legal@findback.org</p></div></a><div class="contact-method" onclick="window.open('https://wa.me/919560713971','_blank')" style="cursor:pointer;"><div class="contact-icon">💬</div><div><h4>WhatsApp</h4><p>+91 95607 13971</p></div></div><div class="divider"></div><div style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;margin-bottom:16px;">Send a Message</div><div id="contact-success" class="alert-success">✅ Message sent!</div><div class="contact-form"><div class="form-group"><label>👤 Your Name</label><div class="input-icon-wrap"><span class="icon">👤</span><input type="text" id="c-name" placeholder="Your name"></div></div><div class="form-group"><label>📧 Email</label><div class="input-icon-wrap"><span class="icon">📧</span><input type="email" id="c-email" placeholder="your@email.com" oninput="validateContactEmail(this)"></div><div id="c-email-error" style="font-size:11px;color:#DC2626;margin-top:4px;display:none;">⚠️ Sahi email daalo</div></div><div class="form-group"><label>📋 Subject</label><div class="input-icon-wrap"><span class="icon">📋</span><input type="text" id="c-subject" placeholder="Subject"></div></div><div class="form-group"><label>💬 Message</label><textarea id="c-msg" placeholder="Your message..."></textarea></div><button class="btn-primary" style="width:100%" onclick="sendContact()">Send Message</button></div></div></div>
@@ -2132,7 +2331,27 @@ window.printQR=function(){
   if(!window._lastQRData)return;
   var d=window._lastQRData;
   var w=window.open('','_blank');
-  var html='<html><head><title>FindBack QR</title></head><body style="text-align:center;padding:20px;font-family:sans-serif;"><div style="border:3px solid #E8722A;border-radius:16px;padding:20px;display:inline-block;"><h2 style="color:#E8722A;">FindBack Tag</h2><img src="QRURL" style="width:180px;height:180px;"><h3>ITEM</h3>NAMEMSG<p style="font-size:12px;color:#E8722A;">Scan to contact</p></div></body></html>';
+  var html='<html><head><title>FindBack QR</title></head><body style="text-align:center;padding:20px;font-family:sans-serif;"><div style="border:3px solid #E8722A;border-radius:16px;padding:20px;display:inline-block;"><h2 style="color:#E8722A;">FindBack Tag</h2><img src="QRURL" style="width:180px;height:180px;"><h3>ITEM</h3>NAMEMSG<p style="font-size:12px;color:#E8722A;">Scan to contact</p></div>
+<script>
+// ── FindBack About Page Language Sync ──
+// Connects to window.currentLang set by your EN/HI toggle
+(function(){
+  function applyAboutLang(lang){
+    var l = (lang||'hi').toLowerCase();
+    document.body.classList.remove('lang-hi','lang-en');
+    document.body.classList.add(l==='en'?'lang-en':'lang-hi');
+  }
+  // Initial apply
+  applyAboutLang(window.currentLang||'hi');
+  // Poll every 300ms for toggle changes
+  setInterval(function(){ applyAboutLang(window.currentLang); }, 300);
+  // Custom event listeners
+  document.addEventListener('langChange',function(e){ applyAboutLang(e.detail||window.currentLang); });
+  window.addEventListener('langChange',function(e){ applyAboutLang(e.detail||window.currentLang); });
+})();
+</script>
+
+</body></html>';
   html=html.replace('QRURL',d.qrUrl).replace('ITEM',d.item).replace('NAMEMSG',(d.name?'<p>Owner: '+d.name+'</p>':'')+(d.msg?'<p>'+d.msg+'</p>':''));
   w.document.write(html);w.document.close();
   setTimeout(function(){w.print();},300);
