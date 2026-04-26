@@ -5384,7 +5384,33 @@ function mphFallback(q){
     return hi?"Bahut achha! Koi aur sawaal ho toh zaroor poochho! FindBack hamesha aapki madad ke liye hai!":"Great! Feel free to ask anything else! FindBack is always here to help!";}
   return hi?"Main aapki madad karna chahti hoon!\nYe topics pe poochh sakte hain:\n- Kuch khoya\n- Kuch mila\n- FIR help\n- FindBack use karna\n\nOr seedha findback.org jaiye!":"I am here to help!\nYou can ask about:\n- Lost items\n- Found items\n- FIR help\n- Using FindBack\n\nOr visit findback.org directly!";
 }
-window.doGoogleLogin=async function(){try{var GAP=window._GAP,SIP=window._SIP,AU=window._auth;if(!GAP||!SIP||!AU){window.toast("Loading... try again.");return;}var p=new GAP();p.setCustomParameters({prompt:"select_account"});var result=await SIP(AU,p);if(result&&result.user){var u=result.user;try{var{doc:_d,setDoc:_s,getDoc:_g}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");var rf=_d(window._db,"users",u.uid);var sn=await _g(rf);if(!sn.exists()){await _s(rf,{name:u.displayName||"User",email:u.email,photo:u.photoURL||"",phone:"",createdAt:new Date().toISOString(),provider:"google"}); }}catch(ex){}window.toast&&window.toast("Welcome "+(u.displayName||"")+"!");setTimeout(function(){typeof showPage==="function"&&showPage("home");},500);}}catch(e){if(e.code!=="auth/popup-closed-by-user")window.toast("Google login failed: "+(e.message||""));} };
+window.doGoogleLogin=async function(){
+  try{
+    var GAP=window._GAP,SIP=window._SIP,SIR=window._SIR,AU=window._auth;
+    if(!GAP||!AU){window.toast("Loading... try again.");return;}
+    var p=new GAP();
+    p.setCustomParameters({prompt:"select_account"});
+    var isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if(isMobile){
+      // Mobile: use redirect
+      await SIR(AU,p);
+    } else {
+      // Desktop: use popup
+      var result=await SIP(AU,p);
+      if(result&&result.user){
+        var u=result.user;
+        try{
+          var{doc:_d,setDoc:_s,getDoc:_g}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+          var rf=_d(window._db,"users",u.uid);
+          var sn=await _g(rf);
+          if(!sn.exists()){await _s(rf,{name:u.displayName||"User",email:u.email,photo:u.photoURL||"",phone:"",createdAt:new Date().toISOString(),provider:"google"});}
+        }catch(ex){}
+        window.toast&&window.toast("Welcome "+(u.displayName||"")+"!");
+        setTimeout(function(){typeof showPage==="function"&&showPage("home");},500);
+      }
+    }
+  }catch(e){if(e.code!=="auth/popup-closed-by-user")window.toast("Google login failed.");}
+};
 function showForgotPassword(){var m=document.getElementById("fgm");m.style.display="flex";document.getElementById("fg-ok").style.display="none";document.getElementById("fg-err").style.display="none";document.getElementById("fg-frm").style.display="block";var b=document.getElementById("fg-btn");b.disabled=false;b.textContent="Send Reset Link";var le=document.getElementById("l-email");if(le&&le.value)document.getElementById("fg-em").value=le.value;setTimeout(function(){document.getElementById("fg-em").focus();},100);}
 function fgClose(){document.getElementById("fgm").style.display="none";}
 async function fgSend(){var em=document.getElementById("fg-em").value.trim(),err=document.getElementById("fg-err"),btn=document.getElementById("fg-btn");if(!em||!em.includes("@")){err.textContent="Please enter a valid email!";err.style.display="block";return;}err.style.display="none";btn.disabled=true;btn.textContent="Sending...";try{var SPRE=window._SPRE,AU=window._auth;if(!SPRE||!AU){btn.disabled=false;btn.textContent="Send Reset Link";err.textContent="App loading, try again.";err.style.display="block";return;}await SPRE(AU,em);document.getElementById("fg-frm").style.display="none";document.getElementById("fg-ok").style.display="block";setTimeout(fgClose,5000);}catch(e){btn.disabled=false;btn.textContent="Send Reset Link";var msg=e.code==="auth/user-not-found"?"This email is not registered!":e.code==="auth/too-many-requests"?"Too many requests - try again later!":(e.message||"Something went wrong.");err.textContent=msg;err.style.display="block";}}
@@ -5443,7 +5469,33 @@ document.getElementById("fgm").addEventListener("click",function(e){if(e.target=
 <div id="fgm"><div style="background:white;border-radius:20px;padding:28px 24px;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,0.2);"><div style="text-align:center;margin-bottom:20px;"><div style="font-size:44px;">&#128273;</div><div style="font-family:Sora,sans-serif;font-size:18px;font-weight:700;margin-top:8px;">Reset Password</div><div style="font-size:13px;color:#777;margin-top:5px;">Enter email to get reset link</div></div><div id="fg-ok" style="display:none;background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:16px;text-align:center;margin-bottom:16px;"><div style="font-size:36px;">&#128231;</div><div style="font-weight:700;color:#16a34a;margin-top:8px;">Email Sent!</div><div style="font-size:13px;color:#555;margin-top:5px;">Check inbox and spam folder</div></div><div id="fg-err" style="display:none;background:#fef2f2;border:1.5px solid #fca5a5;border-radius:10px;padding:11px;font-size:13px;color:#dc2626;text-align:center;margin-bottom:14px;"></div><div id="fg-frm"><div style="margin-bottom:14px;"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Registered Email</label><input type="email" id="fg-em" placeholder="your@email.com" style="width:100%;padding:12px 14px;border:1.5px solid #e0e0e0;border-radius:10px;font-size:14px;font-family:Inter,sans-serif;outline:none;box-sizing:border-box;" onkeydown="if(event.key==='Enter')fgSend()" onfocus="this.style.borderColor='#E8722A'" onblur="this.style.borderColor='#e0e0e0'"></div><button onclick="fgSend()" id="fg-btn" style="width:100%;padding:13px;background:#E8722A;color:white;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;">Send Reset Link</button></div><div style="text-align:center;margin-top:14px;"><a onclick="fgClose()" style="color:#999;font-size:13px;cursor:pointer;">Close</a></div></div></div>
 <script>
 // Manphikha vars & functions defined in first script block above
-window.doGoogleLogin=async function(){try{var GAP=window._GAP,SIP=window._SIP,AU=window._auth;if(!GAP||!SIP||!AU){window.toast("Loading... try again.");return;}var p=new GAP();p.setCustomParameters({prompt:"select_account"});var result=await SIP(AU,p);if(result&&result.user){var u=result.user;try{var{doc:_d,setDoc:_s,getDoc:_g}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");var rf=_d(window._db,"users",u.uid);var sn=await _g(rf);if(!sn.exists()){await _s(rf,{name:u.displayName||"User",email:u.email,photo:u.photoURL||"",phone:"",createdAt:new Date().toISOString(),provider:"google"}); }}catch(ex){}window.toast&&window.toast("Welcome "+(u.displayName||"")+"!");setTimeout(function(){typeof showPage==="function"&&showPage("home");},500);}}catch(e){if(e.code!=="auth/popup-closed-by-user")window.toast("Google login failed: "+(e.message||""));} };
+window.doGoogleLogin=async function(){
+  try{
+    var GAP=window._GAP,SIP=window._SIP,SIR=window._SIR,AU=window._auth;
+    if(!GAP||!AU){window.toast("Loading... try again.");return;}
+    var p=new GAP();
+    p.setCustomParameters({prompt:"select_account"});
+    var isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if(isMobile){
+      // Mobile: use redirect
+      await SIR(AU,p);
+    } else {
+      // Desktop: use popup
+      var result=await SIP(AU,p);
+      if(result&&result.user){
+        var u=result.user;
+        try{
+          var{doc:_d,setDoc:_s,getDoc:_g}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+          var rf=_d(window._db,"users",u.uid);
+          var sn=await _g(rf);
+          if(!sn.exists()){await _s(rf,{name:u.displayName||"User",email:u.email,photo:u.photoURL||"",phone:"",createdAt:new Date().toISOString(),provider:"google"});}
+        }catch(ex){}
+        window.toast&&window.toast("Welcome "+(u.displayName||"")+"!");
+        setTimeout(function(){typeof showPage==="function"&&showPage("home");},500);
+      }
+    }
+  }catch(e){if(e.code!=="auth/popup-closed-by-user")window.toast("Google login failed.");}
+};
 function showForgotPassword(){var m=document.getElementById("fgm");m.style.display="flex";document.getElementById("fg-ok").style.display="none";document.getElementById("fg-err").style.display="none";document.getElementById("fg-frm").style.display="block";var b=document.getElementById("fg-btn");b.disabled=false;b.textContent="Send Reset Link";var le=document.getElementById("l-email");if(le&&le.value)document.getElementById("fg-em").value=le.value;setTimeout(function(){document.getElementById("fg-em").focus();},100);}
 function fgClose(){document.getElementById("fgm").style.display="none";}
 async function fgSend(){var em=document.getElementById("fg-em").value.trim(),err=document.getElementById("fg-err"),btn=document.getElementById("fg-btn");if(!em||!em.includes("@")){err.textContent="Please enter a valid email!";err.style.display="block";return;}err.style.display="none";btn.disabled=true;btn.textContent="Sending...";try{var SPRE=window._SPRE,AU=window._auth;if(!SPRE||!AU){btn.disabled=false;btn.textContent="Send Reset Link";err.textContent="App loading, try again.";err.style.display="block";return;}await SPRE(AU,em);document.getElementById("fg-frm").style.display="none";document.getElementById("fg-ok").style.display="block";setTimeout(fgClose,5000);}catch(e){btn.disabled=false;btn.textContent="Send Reset Link";var msg=e.code==="auth/user-not-found"?"This email is not registered!":e.code==="auth/too-many-requests"?"Too many requests - try again later!":(e.message||"Something went wrong.");err.textContent=msg;err.style.display="block";}}
