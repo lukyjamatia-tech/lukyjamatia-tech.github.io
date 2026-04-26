@@ -5501,14 +5501,14 @@ window.ngoAdminCheck = async function() {
 <script>
 (function(){
   function applyAboutLang(l){
-    l=(l||'hi').toLowerCase();
+    l=(l||'en').toLowerCase();
     document.body.classList.remove('lang-hi','lang-en');
-    document.body.classList.add(l==='en'?'lang-en':'lang-hi');
+    document.body.classList.add(l==='hi'?'lang-hi':'lang-en');
   }
-  applyAboutLang(window.currentLang||'hi');
-  setInterval(function(){applyAboutLang(window.currentLang);},300);
-  document.addEventListener('langChange',function(e){applyAboutLang(e.detail||window.currentLang);});
-  window.addEventListener('langChange',function(e){applyAboutLang(e.detail||window.currentLang);});
+  // Use APP_LANG — the actual variable used by FindBack toggle
+  function getLang(){ return window.APP_LANG || localStorage.getItem('fb_lang') || 'en'; }
+  applyAboutLang(getLang());
+  setInterval(function(){ applyAboutLang(getLang()); }, 300);
 })();
 </script>
 </body>
