@@ -1067,7 +1067,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot, orderBy, query, serverTimestamp, enableNetwork, disableNetwork } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-const firebaseConfig={apiKey:"AIzaSyCH1s6Cf2Zx2CZVv5HUUu2P7TwHEqoxWW8",authDomain:"findback.org",projectId:"findback-app-34e4f",storageBucket:"findback-app-34e4f.appspot.com",messagingSenderId:"504207496092",appId:"1:504207496092:web:b9d6918639ed23ddad6e59"};
+const firebaseConfig={apiKey:"AIzaSyCH1s6Cf2Zx2CZVv5HUUu2P7TwHEqoxWW8",authDomain:"findback-app-34e4f.firebaseapp.com",projectId:"findback-app-34e4f",storageBucket:"findback-app-34e4f.appspot.com",messagingSenderId:"504207496092",appId:"1:504207496092:web:b9d6918639ed23ddad6e59"};
 const app=initializeApp(firebaseConfig);
 const db=getFirestore(app);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){disableNetwork(db).catch(()=>{});}else{enableNetwork(db).catch(()=>{});}});
