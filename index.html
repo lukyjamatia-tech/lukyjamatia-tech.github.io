@@ -2332,20 +2332,16 @@ window.printQR=function(){
   var d=window._lastQRData;
   var w=window.open('','_blank');
   var html='<html><head><title>FindBack QR</title></head><body style="text-align:center;padding:20px;font-family:sans-serif;"><div style="border:3px solid #E8722A;border-radius:16px;padding:20px;display:inline-block;"><h2 style="color:#E8722A;">FindBack Tag</h2><img src="QRURL" style="width:180px;height:180px;"><h3>ITEM</h3>NAMEMSG<p style="font-size:12px;color:#E8722A;">Scan to contact</p></div>
+
 <script>
-// ── FindBack About Page Language Sync ──
-// Connects to window.currentLang set by your EN/HI toggle
 (function(){
   function applyAboutLang(lang){
-    var l = (lang||'hi').toLowerCase();
+    var l=(lang||'hi').toLowerCase();
     document.body.classList.remove('lang-hi','lang-en');
     document.body.classList.add(l==='en'?'lang-en':'lang-hi');
   }
-  // Initial apply
   applyAboutLang(window.currentLang||'hi');
-  // Poll every 300ms for toggle changes
-  setInterval(function(){ applyAboutLang(window.currentLang); }, 300);
-  // Custom event listeners
+  setInterval(function(){ applyAboutLang(window.currentLang); },300);
   document.addEventListener('langChange',function(e){ applyAboutLang(e.detail||window.currentLang); });
   window.addEventListener('langChange',function(e){ applyAboutLang(e.detail||window.currentLang); });
 })();
