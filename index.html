@@ -672,7 +672,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
   <div class="form-group"><label>🔒 Password</label><div class="input-icon-wrap"><span class="icon">🔒</span><input type="password" id="l-pass" placeholder="Enter password"></div></div>
   <button class="btn-primary" style="width:100%" onclick="doLogin()">Log In</button>
   <div style="display:flex;align-items:center;gap:10px;margin:14px 0;"><div style="flex:1;height:1px;background:#e0e0e0;"></div><span style="font-size:12px;color:#999;">or</span><div style="flex:1;height:1px;background:#e0e0e0;"></div></div>
-  <button onclick="doGoogleLogin()" style="width:100%;padding:11px 16px;background:white;border:1.5px solid #e0e0e0;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;color:#333;"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M44.5 20H24v8h11.8C34.7 33.9 29.8 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.3-6.3C34.7 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.7 0 20.3-7.9 20.3-21 0-1.3-.1-2.7-.3-4z"/><path fill="#34A853" d="M6.3 14.7l7 5.1C15 16.1 19.2 13 24 13c3.1 0 5.9 1.1 8.1 2.9l6.3-6.3C34.7 5.1 29.6 3 24 3c-7.7 0-14.3 4.5-17.7 11.7z"/><path fill="#FBBC05" d="M24 45c5.8 0 10.8-1.9 14.5-5.2l-6.7-5.5C29.8 36 27 37 24 37c-5.8 0-10.6-3.9-12.3-9.2l-7 5.4C8 40.2 15.4 45 24 45z"/><path fill="#EA4335" d="M44.5 20H24v8h11.8c-.8 2.6-2.4 4.8-4.5 6.3l6.7 5.5C42.3 36.3 45 30.7 45 24c0-1.3-.1-2.7-.5-4z"/></svg>Continue with Google</button>
+  <button onclick="doGoogleLogin()" style="display:none;width:100%;padding:11px 16px;background:white;border:1.5px solid #e0e0e0;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;align-items:center;justify-content:center;gap:10px;color:#333;"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M44.5 20H24v8h11.8C34.7 33.9 29.8 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.3-6.3C34.7 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.7 0 20.3-7.9 20.3-21 0-1.3-.1-2.7-.3-4z"/><path fill="#34A853" d="M6.3 14.7l7 5.1C15 16.1 19.2 13 24 13c3.1 0 5.9 1.1 8.1 2.9l6.3-6.3C34.7 5.1 29.6 3 24 3c-7.7 0-14.3 4.5-17.7 11.7z"/><path fill="#FBBC05" d="M24 45c5.8 0 10.8-1.9 14.5-5.2l-6.7-5.5C29.8 36 27 37 24 37c-5.8 0-10.6-3.9-12.3-9.2l-7 5.4C8 40.2 15.4 45 24 45z"/><path fill="#EA4335" d="M44.5 20H24v8h11.8c-.8 2.6-2.4 4.8-4.5 6.3l6.7 5.5C42.3 36.3 45 30.7 45 24c0-1.3-.1-2.7-.5-4z"/></svg>Continue with Google</button>
   <div style="text-align:center;margin-top:12px;"><a onclick="showForgotPassword()" style="color:var(--orange);font-size:13px;cursor:pointer;font-weight:500;">Forgot Password?</a></div>
 </div>
 <!-- Signup Form -->
@@ -684,7 +684,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
   <div class="form-check"><input type="checkbox" id="r2-agree"><label for="r2-agree">I agree to <a onclick="showPage('terms')" style="color:var(--orange);cursor:pointer;">Terms</a> &amp; <a onclick="showPage('privacy')" style="color:var(--orange);cursor:pointer;">Privacy</a></label></div>
   <button class="btn-primary" style="width:100%" onclick="doRegisterInline()">Create Free Account</button>
   <div style="display:flex;align-items:center;gap:10px;margin:14px 0;"><div style="flex:1;height:1px;background:#e0e0e0;"></div><span style="font-size:12px;color:#999;">or</span><div style="flex:1;height:1px;background:#e0e0e0;"></div></div>
-  <button onclick="doGoogleLogin()" style="width:100%;padding:11px 16px;background:white;border:1.5px solid #e0e0e0;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;color:#333;"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M44.5 20H24v8h11.8C34.7 33.9 29.8 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.3-6.3C34.7 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.7 0 20.3-7.9 20.3-21 0-1.3-.1-2.7-.3-4z"/><path fill="#34A853" d="M6.3 14.7l7 5.1C15 16.1 19.2 13 24 13c3.1 0 5.9 1.1 8.1 2.9l6.3-6.3C34.7 5.1 29.6 3 24 3c-7.7 0-14.3 4.5-17.7 11.7z"/><path fill="#FBBC05" d="M24 45c5.8 0 10.8-1.9 14.5-5.2l-6.7-5.5C29.8 36 27 37 24 37c-5.8 0-10.6-3.9-12.3-9.2l-7 5.4C8 40.2 15.4 45 24 45z"/><path fill="#EA4335" d="M44.5 20H24v8h11.8c-.8 2.6-2.4 4.8-4.5 6.3l6.7 5.5C42.3 36.3 45 30.7 45 24c0-1.3-.1-2.7-.5-4z"/></svg>Sign up with Google</button>
+  <button onclick="doGoogleLogin()" style="display:none;width:100%;padding:11px 16px;background:white;border:1.5px solid #e0e0e0;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;align-items:center;justify-content:center;gap:10px;color:#333;"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M44.5 20H24v8h11.8C34.7 33.9 29.8 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.3-6.3C34.7 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.7 0 20.3-7.9 20.3-21 0-1.3-.1-2.7-.3-4z"/><path fill="#34A853" d="M6.3 14.7l7 5.1C15 16.1 19.2 13 24 13c3.1 0 5.9 1.1 8.1 2.9l6.3-6.3C34.7 5.1 29.6 3 24 3c-7.7 0-14.3 4.5-17.7 11.7z"/><path fill="#FBBC05" d="M24 45c5.8 0 10.8-1.9 14.5-5.2l-6.7-5.5C29.8 36 27 37 24 37c-5.8 0-10.6-3.9-12.3-9.2l-7 5.4C8 40.2 15.4 45 24 45z"/><path fill="#EA4335" d="M44.5 20H24v8h11.8c-.8 2.6-2.4 4.8-4.5 6.3l6.7 5.5C42.3 36.3 45 30.7 45 24c0-1.3-.1-2.7-.5-4z"/></svg>Sign up with Google</button>
 </div>
 </div></div></div>
 
@@ -1549,7 +1549,8 @@ function renderPhotoGrid(){
   if(!grid) return;
   var count = window.currentPhotosData.length;
   var label = document.getElementById('photo-count-label');
-  if(label) label.textContent = count + ' / 5 photos';
+  var maxPhL = window._ngoUser ? 10 : 5;
+  if(label) label.textContent = count + ' / ' + maxPhL + ' photos';
   
   // Clear grid
   grid.innerHTML = '';
@@ -1591,8 +1592,9 @@ window.removePhoto = function(idx){
 
 window.addPhotoFromInput = function(input){
   if(!input.files || !input.files[0]) return;
-  if(window.currentPhotosData.length >= 5){
-    window.toast('⚠️ Maximum 5 photos allowed');
+  var maxPh = window._ngoUser ? 10 : 5;
+  if(window.currentPhotosData.length >= maxPh){
+    window.toast('⚠️ Maximum ' + maxPh + ' photos allowed');
     return;
   }
   var file = input.files[0];
@@ -2990,6 +2992,7 @@ window.printQR=function(){
             <button class="fb-nav-item" id="fnav-fraud" onclick="fbSwitchNav('fraud',this)"><div class="fb-nav-icon">⚠️</div>Fraud Monitor</button>
             <button class="fb-nav-item" id="fnav-collab" onclick="fbSwitchNav('collab',this)"><div class="fb-nav-icon">🤝</div>Collaboration</button>
             <button class="fb-nav-item" id="fnav-reports" onclick="fbSwitchNav('reports',this)"><div class="fb-nav-icon">📥</div>Export</button>
+            <button class="fb-nav-item" id="fnav-bulk" onclick="fbSwitchNav('bulk',this)"><div class="fb-nav-icon">📦</div>Bulk Post<span style="background:#ff6b00;color:#fff;font-size:9px;padding:1px 5px;border-radius:8px;margin-left:4px;font-weight:700;">NEW</span></button>
           </div>
         </div>
 
@@ -3017,6 +3020,7 @@ window.printQR=function(){
             <button class="fb-nav-item" id="fnav-ngo-alerts" onclick="fbSwitchNav('alerts',this,'ngo')"><div class="fb-nav-icon">🔔</div>Alerts</button>
             <button class="fb-nav-item" id="fnav-ngo-collab" onclick="fbSwitchNav('collab',this,'ngo')"><div class="fb-nav-icon">🤝</div>Collab</button>
             <button class="fb-nav-item" id="fnav-ngo-reports" onclick="fbSwitchNav('reports',this,'ngo')"><div class="fb-nav-icon">📥</div>Export</button>
+            <button class="fb-nav-item" id="fnav-ngo-bulk" onclick="fbSwitchNav('bulk',this,'ngo')"><div class="fb-nav-icon">📦</div>Bulk Post<span style="background:#ff6b00;color:#fff;font-size:9px;padding:1px 5px;border-radius:8px;margin-left:4px;font-weight:700;">NEW</span></button>
           </div>
         </div>
 
@@ -3068,6 +3072,33 @@ window.printQR=function(){
               <div class="fb-dd-sep"></div>
               <div class="fb-dd-item" onclick="fbApplyFilter('fraud','fraud','⚠️ Fraud','fdd-fraud')">⚠️ Fraud Only</div>
               <div class="fb-dd-item" onclick="fbApplyFilter('fraud','clean','✅ Clean','fdd-fraud')">✅ Clean Only</div>
+            </div>
+          </div>
+          <!-- LOCATION TYPE FILTER - NGO/Police Only -->
+          <div class="fb-dd" id="fdd-loc-type">
+            <button class="fb-dd-btn" onclick="fbToggleDD('fdd-loc-type')" id="fdd-loc-type-btn"><span id="fdd-loc-type-lbl">📍 All Locations</span><span class="fb-dd-arr">▾</span></button>
+            <div class="fb-dd-menu" id="fdd-loc-type-menu" style="min-width:180px;">
+              <div class="fb-dd-item sel" onclick="fbApplyLocType('all')">📍 All Locations</div>
+              <div class="fb-dd-sep"></div>
+              <div class="fb-dd-item" onclick="fbApplyLocType('railway')">🚂 Railway Station</div>
+              <div class="fb-dd-item" onclick="fbApplyLocType('airport')">✈️ Airport</div>
+              <div class="fb-dd-item" onclick="fbApplyLocType('police')">🚔 Police Station</div>
+            </div>
+          </div>
+          <!-- STATE FILTER -->
+          <div class="fb-dd" id="fdd-state">
+            <button class="fb-dd-btn" onclick="fbToggleDD('fdd-state')" id="fdd-state-btn"><span id="fdd-state-lbl">🗺️ All States</span><span class="fb-dd-arr">▾</span></button>
+            <div class="fb-dd-menu" id="fdd-state-menu" style="min-width:200px;max-height:280px;overflow-y:auto;" id="fdd-state-list">
+              <div class="fb-dd-item sel" onclick="fbApplyState('all')">🗺️ All States</div>
+              <div class="fb-dd-sep"></div>
+            </div>
+          </div>
+          <!-- STATION FILTER (shows after state selected) -->
+          <div class="fb-dd" id="fdd-station" style="display:none;">
+            <button class="fb-dd-btn" onclick="fbToggleDD('fdd-station')" id="fdd-station-btn"><span id="fdd-station-lbl">🏢 All Stations</span><span class="fb-dd-arr">▾</span></button>
+            <div class="fb-dd-menu" id="fdd-station-menu" style="min-width:240px;max-height:280px;overflow-y:auto;">
+              <div class="fb-dd-item sel" onclick="fbApplyStation('all')">🏢 All Stations</div>
+              <div class="fb-dd-sep"></div>
             </div>
           </div>
           <div class="fb-div"></div>
@@ -3843,6 +3874,495 @@ window.ngoLogout = async function() {
 };
 
 // ── LOAD DASHBOARD ──
+
+// ═══════════════════════════════════════════════════
+// FINDBACK COMMAND — RAILWAY + AIRPORT + STATION DATA
+// Only visible in NGO/Police Dashboard
+// ═══════════════════════════════════════════════════
+window.FB_LOCATIONS = {
+  railway: {
+    "Andhra Pradesh": ["Visakhapatnam","Vijayawada","Tirupati","Guntur","Nellore","Rajahmundry","Kakinada","Kurnool","Anantapur","Kadapa"],
+    "Assam": ["Guwahati","Dibrugarh","Jorhat","Silchar","Tinsukia","Lumding","New Bongaigaon","Rangiya","Kamakhya"],
+    "Bihar": ["Patna","Gaya","Muzaffarpur","Bhagalpur","Darbhanga","Samastipur","Katihar","Purnia","Ara","Sasaram"],
+    "Chhattisgarh": ["Raipur","Bilaspur","Durg","Rajnandgaon","Korba","Raigarh","Jagdalpur","Ambikapur"],
+    "Delhi": ["New Delhi","Old Delhi","Hazrat Nizamuddin","Anand Vihar Terminal","Sarai Rohilla","Delhi Cantt"],
+    "Goa": ["Madgaon","Karmali","Vasco Da Gama","Thivim"],
+    "Gujarat": ["Ahmedabad","Surat","Vadodara","Rajkot","Gandhinagar","Bhavnagar","Jamnagar","Mehsana","Anand"],
+    "Haryana": ["Ambala","Faridabad","Gurgaon","Hisar","Kurukshetra","Panipat","Rohtak","Yamunanagar"],
+    "Himachal Pradesh": ["Shimla","Kalka","Pathankot","Una","Mandi","Solan"],
+    "Jammu & Kashmir": ["Jammu","Udhampur","Katra","Baramulla","Sopore"],
+    "Jharkhand": ["Ranchi","Dhanbad","Jamshedpur","Bokaro","Hazaribagh","Deoghar","Dumka","Giridih"],
+    "Karnataka": ["Bengaluru City","Bengaluru Cantt","Mysuru","Hubballi","Belagavi","Mangaluru","Shivamogga","Davanagere","Tumakuru"],
+    "Kerala": ["Thiruvananthapuram","Ernakulam","Kozhikode","Thrissur","Kollam","Kottayam","Palakkad","Kannur","Kasaragod"],
+    "Madhya Pradesh": ["Bhopal","Indore","Jabalpur","Gwalior","Ujjain","Satna","Katni","Ratlam","Khandwa"],
+    "Maharashtra": ["Mumbai CSMT","Mumbai LTT","Pune","Nagpur","Nashik Road","Aurangabad","Solapur","Kolhapur","Thane","Kalyan"],
+    "Manipur": ["Jiribam","Khongsang"],
+    "Meghalaya": ["Mendipathar"],
+    "Mizoram": ["Bairabi"],
+    "Odisha": ["Bhubaneswar","Cuttack","Puri","Berhampur","Sambalpur","Rourkela","Brahmapur","Balasore"],
+    "Punjab": ["Amritsar","Ludhiana","Jalandhar","Patiala","Bathinda","Firozpur","Pathankot","Ambala Cantt"],
+    "Rajasthan": ["Jaipur","Jodhpur","Udaipur","Ajmer","Kota","Bikaner","Alwar","Sikar","Sri Ganganagar"],
+    "Sikkim": ["Rangpo","New Jalpaiguri"],
+    "Tamil Nadu": ["Chennai Central","Chennai Egmore","Coimbatore","Madurai","Tiruchirapalli","Salem","Tirunelveli","Vellore","Erode"],
+    "Telangana": ["Secunderabad","Hyderabad","Kazipet","Warangal","Nalgonda","Karimnagar","Nizamabad"],
+    "Tripura": ["Agartala","Dharmanagar","Udaipur","Lumding","Sabroom"],
+    "Uttar Pradesh": ["Lucknow","Kanpur","Varanasi","Agra","Prayagraj","Mathura","Ghaziabad","Meerut","Bareilly","Gorakhpur"],
+    "Uttarakhand": ["Dehradun","Haridwar","Roorkee","Kathgodam","Kotdwar"],
+    "West Bengal": ["Howrah","Sealdah","Kolkata","Durgapur","Asansol","Siliguri","New Jalpaiguri","Malda"]
+  },
+  airport: {
+    "Andhra Pradesh": ["Visakhapatnam Airport (VTZ)","Vijayawada Airport (VGA)","Tirupati Airport (TIR)","Rajahmundry Airport (RJA)","Kadapa Airport (CDP)"],
+    "Assam": ["Lokpriya Gopinath Bordoloi Airport Guwahati (GAU)","Dibrugarh Airport (DIB)","Jorhat Airport (JRH)","Silchar Airport (IXS)","Lilabari Airport (IXI)"],
+    "Bihar": ["Jay Prakash Narayan Airport Patna (PAT)","Gaya Airport (GAY)","Darbhanga Airport (DBR)","Muzaffarpur Airport"],
+    "Chhattisgarh": ["Swami Vivekananda Airport Raipur (RPR)","Bilaspur Airport (PAB)"],
+    "Delhi": ["Indira Gandhi International Airport (DEL)"],
+    "Goa": ["Goa International Airport Mopa (GOX)","Dabolim Airport (GOI)"],
+    "Gujarat": ["Sardar Vallabhbhai Patel Airport Ahmedabad (AMD)","Surat Airport (STV)","Vadodara Airport (BDQ)","Rajkot Airport (RAJ)","Jamnagar Airport (JGA)","Bhavnagar Airport (BHU)","Porbandar Airport (PBD)"],
+    "Haryana": ["Chandigarh Airport (IXC)","Hisar Airport"],
+    "Himachal Pradesh": ["Shimla Airport (SLV)","Gaggal Airport Dharamsala (DHM)","Kullu Manali Airport (KUU)"],
+    "Jammu & Kashmir": ["Jammu Airport (IXJ)","Sheikh ul Alam Airport Srinagar (SXR)","Leh Kushok Bakula Airport (IXL)"],
+    "Jharkhand": ["Birsa Munda Airport Ranchi (IXR)","Deoghar Airport (DGH)"],
+    "Karnataka": ["Kempegowda International Airport Bengaluru (BLR)","Mangaluru Airport (IXE)","Hubballi Airport (HBX)","Belagavi Airport (IXG)","Mysuru Airport (MYQ)"],
+    "Kerala": ["Cochin International Airport (COK)","Trivandrum International Airport (TRV)","Calicut Airport Kozhikode (CCJ)","Kannur International Airport (CNN)","Coimbatore Airport (CJB)"],
+    "Madhya Pradesh": ["Raja Bhoj Airport Bhopal (BHO)","Devi Ahilya Bai Airport Indore (IDR)","Dumna Airport Jabalpur (JLR)","Gwalior Airport (GWL)"],
+    "Maharashtra": ["Chhatrapati Shivaji Maharaj Airport Mumbai (BOM)","Navi Mumbai International Airport (NMI)","Pune Airport (PNQ)","Nagpur Airport (NAG)","Aurangabad Airport (IXU)","Kolhapur Airport (KLH)","Nashik Airport (ISK)"],
+    "Manipur": ["Imphal Airport (IMF)"],
+    "Meghalaya": ["Shillong Airport (SHL)"],
+    "Mizoram": ["Lengpui Airport Aizawl (AJL)"],
+    "Nagaland": ["Dimapur Airport (DMU)"],
+    "Odisha": ["Biju Patnaik Airport Bhubaneswar (BBI)","Jharsuguda Airport (JRG)","Jeypore Airport (PYB)"],
+    "Punjab": ["Sri Guru Ram Dass Jee Airport Amritsar (ATQ)","Chandigarh Airport (IXC)","Ludhiana Airport (LUH)","Pathankot Airport (IXP)"],
+    "Rajasthan": ["Jaipur Airport (JAI)","Jodhpur Airport (JDH)","Udaipur Airport (UDR)","Ajmer Kishangarh Airport (KQH)","Bikaner Airport (BKB)","Kota Airport (KTU)"],
+    "Sikkim": ["Pakyong Airport (PYG)"],
+    "Tamil Nadu": ["Chennai International Airport (MAA)","Coimbatore Airport (CJB)","Madurai Airport (IXM)","Trichy Airport (TRZ)","Tirunelveli Airport (TIR)","Salem Airport (SXV)","Tuticorin Airport (TCR)"],
+    "Telangana": ["Rajiv Gandhi International Airport Hyderabad (HYD)"],
+    "Tripura": ["Maharaja Bir Bikram Airport Agartala (IXA)"],
+    "Uttar Pradesh": ["Chaudhary Charan Singh Airport Lucknow (LKO)","Lal Bahadur Shastri Airport Varanasi (VNS)","Agra Airport (AGR)","Allahabad Airport (IXD)","Gorakhpur Airport (GOP)","Kanpur Airport (KNU)","Bareilly Airport (BEK)","Kushinagar Airport (KBK)","Jewar Airport Noida (Under Construction)"],
+    "Uttarakhand": ["Jolly Grant Airport Dehradun (DED)","Pantnagar Airport (PGH)"],
+    "West Bengal": ["Netaji Subhas Chandra Bose Airport Kolkata (CCU)","Bagdogra Airport (IXB)","Cooch Behar Airport"],
+    "Andaman & Nicobar": ["Veer Savarkar Airport Port Blair (IXZ)"],
+    "Chandigarh": ["Chandigarh Airport (IXC)"],
+    "Lakshadweep": ["Agatti Island Airport (AGX)"],
+    "Puducherry": ["Puducherry Airport (PNY)"]
+  }
+};
+
+window.FB_LOC_FILTER = { type: 'all', state: 'all', station: 'all' };
+
+// Build state dropdown
+window.fbBuildStateDropdown = function() {
+  var menu = document.getElementById('fdd-state-menu');
+  if (!menu) return;
+  var states = Object.keys(window.INDIA_POLICE_DATA || {}).sort();
+  var html = '<div class="fb-dd-item sel fb-state-all">🗺️ All States</div><div class="fb-dd-sep"></div>';
+  states.forEach(function(s) {
+    html += '<div class="fb-dd-item" data-val="' + s.replace(/"/g,'') + '">' + s + '</div>';
+  });
+  menu.innerHTML = html;
+  menu.querySelectorAll('.fb-state-all').forEach(function(el){el.onclick=function(){fbApplyState('all');};});
+  menu.querySelectorAll('[data-val]').forEach(function(el){el.onclick=function(){fbApplyState(this.getAttribute('data-val'));};});
+};
+
+// Apply location type filter
+window.fbApplyLocType = function(type) {
+  window.FB_LOC_FILTER.type = type;
+  window.FB_LOC_FILTER.state = 'all';
+  window.FB_LOC_FILTER.station = 'all';
+  var labels = { all:'📍 All Locations', railway:'🚂 Railway Station', airport:'✈️ Airport', police:'🚔 Police Station' };
+  document.getElementById('fdd-loc-type-lbl').textContent = labels[type] || '📍 All Locations';
+  document.getElementById('fdd-loc-type-menu').classList.remove('open');
+  document.getElementById('fdd-state-lbl').textContent = '🗺️ All States';
+  document.getElementById('fdd-station').style.display = 'none';
+  fbBuildStateDropdown();
+  if (type !== 'all') {
+    document.getElementById('fdd-state').style.display = '';
+  }
+  if (window.fbApplyFilters) window.fbApplyFilters();
+};
+
+// Apply state
+window.fbApplyState = function(state) {
+  window.FB_LOC_FILTER.state = state;
+  window.FB_LOC_FILTER.station = 'all';
+  document.getElementById('fdd-state-lbl').textContent = state === 'all' ? '🗺️ All States' : '📍 ' + state;
+  document.getElementById('fdd-state-menu').classList.remove('open');
+
+  var stationDD = document.getElementById('fdd-station');
+  var stationMenu = document.getElementById('fdd-station-menu');
+  var locType = window.FB_LOC_FILTER.type;
+
+  if (state !== 'all' && locType !== 'all' && locType !== 'police') {
+    var data = window.FB_LOCATIONS[locType] || {};
+    var stations = data[state] || [];
+    var html = '<div class="fb-dd-item sel fb-station-all">🏢 All Stations</div><div class="fb-dd-sep"></div>';
+    var icon = locType === 'railway' ? '🚂' : '✈️';
+    stations.forEach(function(s) {
+      html += '<div class="fb-dd-item" data-val="' + s.replace(/"/g,'') + '">' + icon + ' ' + s + '</div>';
+    });
+    stationMenu.innerHTML = html;
+    stationMenu.querySelectorAll('.fb-station-all').forEach(function(el){el.onclick=function(){fbApplyStation('all');};});
+    stationMenu.querySelectorAll('[data-val]').forEach(function(el){el.onclick=function(){fbApplyStation(this.getAttribute('data-val'));};});
+    stationDD.style.display = '';
+    document.getElementById('fdd-station-lbl').textContent = '🏢 All Stations';
+  } else if (state !== 'all' && locType === 'police') {
+    var policeData = (window.INDIA_POLICE_DATA || {})[state] || {};
+    var districts = Object.keys(policeData).sort();
+    var html = '<div class="fb-dd-item sel fb-station-all">🚔 All Districts</div><div class="fb-dd-sep"></div>';
+    districts.forEach(function(d) {
+      var stations2 = policeData[d] || [];
+      html += '<div class="fb-dd-item" style="font-weight:700;color:#1a3a6e;pointer-events:none;">📍 ' + d + '</div>';
+      stations2.slice(0,5).forEach(function(ps) {
+        html += '<div class="fb-dd-item" style="padding-left:20px;" data-val="' + ps.replace(/"/g,'') + '">🚔 ' + ps + '</div>';
+      });
+    });
+    stationMenu.innerHTML = html;
+    stationMenu.querySelectorAll('.fb-station-all').forEach(function(el){el.onclick=function(){fbApplyStation('all');};});
+    stationMenu.querySelectorAll('[data-val]').forEach(function(el){el.onclick=function(){fbApplyStation(this.getAttribute('data-val'));};});
+    stationDD.style.display = '';
+    document.getElementById('fdd-station-lbl').textContent = '🚔 All Stations';
+  } else {
+    stationDD.style.display = 'none';
+  }
+  if (window.fbApplyFilters) window.fbApplyFilters();
+};
+
+// Apply station
+window.fbApplyStation = function(station) {
+  window.FB_LOC_FILTER.station = station;
+  var icon = window.FB_LOC_FILTER.type === 'railway' ? '🚂' : window.FB_LOC_FILTER.type === 'airport' ? '✈️' : '🚔';
+  document.getElementById('fdd-station-lbl').textContent = station === 'all' ? '🏢 All Stations' : icon + ' ' + station;
+  document.getElementById('fdd-station-menu').classList.remove('open');
+  if (window.fbApplyFilters) window.fbApplyFilters();
+};
+
+// Initialize location filters when dashboard loads
+(function() {
+  var orig = window.ngoLoadDashboard;
+  if (typeof orig === 'function') {
+    
+// ═══════════════════════════════════════════
+// FINDBACK COMMAND — BULK POST SYSTEM
+// For Airport Authority, Railway, NGO, Police
+// ═══════════════════════════════════════════
+window.FB_BULK_ITEMS = [];
+window.FB_BULK_CURRENT = 0;
+
+window.fbRenderBulkPanel = function() {
+  var main = document.querySelector('.fb-main');
+  if (!main) return;
+
+  // Remove existing
+  var old = document.getElementById('fb-bulk-panel');
+  if (old) old.remove();
+
+  var panel = document.createElement('div');
+  panel.id = 'fb-bulk-panel';
+  panel.style.cssText = 'display:none;padding:16px;height:100%;overflow-y:auto;';
+  panel.innerHTML = `
+    <div style="max-width:600px;margin:0 auto;">
+      <!-- Header -->
+      <div style="background:linear-gradient(135deg,#1a3a6e,#2563eb);border-radius:12px;padding:16px;margin-bottom:16px;color:#fff;">
+        <div style="font-size:16px;font-weight:700;margin-bottom:4px;">📦 Bulk Post — Official Use</div>
+        <div style="font-size:11px;opacity:0.8;">Airport Authority · Railway · Police · NGO — Multiple items ek saath post karo</div>
+      </div>
+
+      <!-- Source selector -->
+      <div style="background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:14px;margin-bottom:12px;">
+        <div style="font-size:12px;font-weight:700;color:#1a3a6e;margin-bottom:10px;">📍 Source Location</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+          <select id="bulk-loc-type" onchange="fbBulkLocTypeChange()" style="padding:8px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:12px;font-family:inherit;">
+            <option value="">— Location Type —</option>
+            <option value="airport">✈️ Airport</option>
+            <option value="railway">🚂 Railway Station</option>
+            <option value="police">🚔 Police Station</option>
+            <option value="other">🏢 Other</option>
+          </select>
+          <select id="bulk-state" onchange="fbBulkStateChange()" style="padding:8px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:12px;font-family:inherit;">
+            <option value="">— State —</option>
+          </select>
+        </div>
+        <select id="bulk-station" style="width:100%;padding:8px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:12px;font-family:inherit;margin-bottom:8px;display:none;">
+          <option value="">— Select Station —</option>
+        </select>
+        <input type="text" id="bulk-source-custom" placeholder="Ya custom location type karo..." style="width:100%;padding:8px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:12px;font-family:inherit;box-sizing:border-box;">
+      </div>
+
+      <!-- Add item form -->
+      <div style="background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:14px;margin-bottom:12px;">
+        <div style="font-size:12px;font-weight:700;color:#1a3a6e;margin-bottom:10px;">➕ Item Add Karo</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+          <select id="bulk-item-type" style="padding:8px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:12px;font-family:inherit;">
+            <option value="found">🎉 Found</option>
+            <option value="lost">😟 Lost</option>
+          </select>
+          <select id="bulk-item-cat" style="padding:8px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:12px;font-family:inherit;">
+            <option>Wallet</option><option>Phone</option><option>Keys</option><option>Bag</option>
+            <option>Laptop</option><option>Documents</option><option>Jewellery</option>
+            <option>Watch</option><option>Backpack</option><option>Glasses</option>
+            <option>Money</option><option>Vehicle</option><option>Other</option>
+          </select>
+        </div>
+        <input type="text" id="bulk-item-name" placeholder="Item description (e.g. Black leather wallet)" style="width:100%;padding:8px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:12px;font-family:inherit;box-sizing:border-box;margin-bottom:8px;">
+        <textarea id="bulk-item-desc" placeholder="Additional details (color, brand, markings...)" rows="2" style="width:100%;padding:8px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:12px;font-family:inherit;box-sizing:border-box;resize:none;margin-bottom:8px;"></textarea>
+        
+        <!-- Photo upload for bulk item - up to 10 -->
+        <div style="margin-bottom:8px;">
+          <div style="font-size:11px;color:#666;margin-bottom:6px;">📷 Photos (max 10 per item)</div>
+          <div id="bulk-photo-grid" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;"></div>
+          <input type="file" id="bulk-photo-input" accept="image/*" style="display:none;" onchange="fbBulkAddPhoto(this)">
+          <button onclick="document.getElementById('bulk-photo-input').click()" style="padding:6px 12px;background:#f5f5f5;border:1.5px dashed #ccc;border-radius:8px;font-size:11px;cursor:pointer;font-family:inherit;">📷 Add Photo</button>
+          <span id="bulk-photo-count" style="font-size:11px;color:#999;margin-left:8px;">0 / 10</span>
+        </div>
+
+        <button onclick="fbBulkAddItem()" style="width:100%;padding:10px;background:#1a3a6e;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">+ Add to List</button>
+      </div>
+
+      <!-- Item list -->
+      <div style="background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:14px;margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div style="font-size:12px;font-weight:700;color:#1a3a6e;">📋 Items List (<span id="bulk-item-count">0</span>)</div>
+          <button onclick="fbBulkClearAll()" style="font-size:11px;color:#dc2626;background:none;border:none;cursor:pointer;font-family:inherit;">🗑️ Clear All</button>
+        </div>
+        <div id="bulk-item-list" style="max-height:200px;overflow-y:auto;">
+          <div style="text-align:center;color:#999;font-size:12px;padding:20px;">Koi item nahi — upar se add karo</div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button onclick="fbBulkSubmitAll()" id="bulk-submit-btn" style="width:100%;padding:14px;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:8px;">
+        🚀 Submit All Posts
+      </button>
+      <div id="bulk-progress" style="display:none;background:#f0f4fa;border-radius:8px;padding:12px;text-align:center;">
+        <div id="bulk-progress-text" style="font-size:13px;font-weight:600;color:#1a3a6e;"></div>
+        <div style="background:#e0e0e0;border-radius:4px;height:6px;margin-top:8px;overflow:hidden;">
+          <div id="bulk-progress-bar" style="height:100%;background:#16a34a;width:0%;transition:width 0.3s;border-radius:4px;"></div>
+        </div>
+      </div>
+    </div>
+  `;
+  main.appendChild(panel);
+  fbBulkInitStateDropdown();
+  window._bulkPhotos = [];
+};
+
+window._bulkPhotos = [];
+
+window.fbBulkInitStateDropdown = function() {
+  var sel = document.getElementById('bulk-state');
+  if (!sel) return;
+  var states = Object.keys(window.INDIA_POLICE_DATA || {}).sort();
+  sel.innerHTML = '<option value="">— State —</option>';
+  states.forEach(function(s) {
+    sel.innerHTML += '<option value="' + s + '">' + s + '</option>';
+  });
+};
+
+window.fbBulkLocTypeChange = function() {
+  var type = document.getElementById('bulk-loc-type').value;
+  var stationSel = document.getElementById('bulk-station');
+  stationSel.style.display = type ? '' : 'none';
+  stationSel.innerHTML = '<option value="">— Select Station —</option>';
+};
+
+window.fbBulkStateChange = function() {
+  var type = document.getElementById('bulk-loc-type').value;
+  var state = document.getElementById('bulk-state').value;
+  var stationSel = document.getElementById('bulk-station');
+  if (!type || !state) { stationSel.style.display = 'none'; return; }
+  
+  var stations = [];
+  if (type === 'railway') stations = (window.FB_LOCATIONS.railway[state] || []);
+  else if (type === 'airport') stations = (window.FB_LOCATIONS.airport[state] || []);
+  else if (type === 'police') {
+    var d = (window.INDIA_POLICE_DATA || {})[state] || {};
+    Object.values(d).forEach(function(arr) { stations = stations.concat(arr); });
+  }
+  
+  stationSel.innerHTML = '<option value="">— Select Station —</option>';
+  stations.forEach(function(s) {
+    stationSel.innerHTML += '<option value="' + s + '">' + s + '</option>';
+  });
+  stationSel.style.display = '';
+};
+
+window.fbBulkAddPhoto = function(input) {
+  if (!input.files || !input.files[0]) return;
+  if (window._bulkPhotos.length >= 10) { window.toast('Max 10 photos'); return; }
+  var file = input.files[0];
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement('canvas');
+      var MAX = 600; var w = img.width, h = img.height;
+      if (w > h) { if (w > MAX) { h = Math.round(h*MAX/w); w = MAX; } }
+      else { if (h > MAX) { w = Math.round(w*MAX/h); h = MAX; } }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      var data = canvas.toDataURL('image/jpeg', 0.6);
+      window._bulkPhotos.push(data);
+      fbBulkRenderPhotos();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+};
+
+window.fbBulkRenderPhotos = function() {
+  var grid = document.getElementById('bulk-photo-grid');
+  var countEl = document.getElementById('bulk-photo-count');
+  if (!grid) return;
+  grid.innerHTML = window._bulkPhotos.map(function(p, i) {
+    return '<div style="position:relative;width:50px;height:50px;">' +
+      '<img src="' + p + '" style="width:50px;height:50px;object-fit:cover;border-radius:6px;border:1px solid #e0e0e0;">' +
+      '<div onclick="fbBulkRemovePhoto(' + i + ')" style="position:absolute;top:-4px;right:-4px;background:#dc2626;color:#fff;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:9px;cursor:pointer;font-weight:700;">✕</div>' +
+    '</div>';
+  }).join('');
+  if (countEl) countEl.textContent = window._bulkPhotos.length + ' / 10';
+};
+
+window.fbBulkRemovePhoto = function(i) {
+  window._bulkPhotos.splice(i, 1);
+  fbBulkRenderPhotos();
+};
+
+window.fbBulkAddItem = function() {
+  var name = (document.getElementById('bulk-item-name').value || '').trim();
+  var type = document.getElementById('bulk-item-type').value;
+  var cat = document.getElementById('bulk-item-cat').value;
+  var desc = (document.getElementById('bulk-item-desc').value || '').trim();
+  var locType = document.getElementById('bulk-loc-type').value;
+  var state = document.getElementById('bulk-state').value;
+  var station = document.getElementById('bulk-station').value;
+  var custom = (document.getElementById('bulk-source-custom').value || '').trim();
+  var loc = station || custom || state || 'India';
+
+  if (!name) { window.toast('⚠️ Item name required'); return; }
+
+  window.FB_BULK_ITEMS.push({
+    name: name, type: type, cat: cat, desc: desc,
+    loc: loc, locType: locType, state: state,
+    photos: window._bulkPhotos.slice(),
+    id: Date.now() + Math.random()
+  });
+
+  // Reset form
+  document.getElementById('bulk-item-name').value = '';
+  document.getElementById('bulk-item-desc').value = '';
+  window._bulkPhotos = [];
+  fbBulkRenderPhotos();
+  fbBulkRenderList();
+  window.toast('✅ Item added — ' + window.FB_BULK_ITEMS.length + ' total');
+};
+
+window.fbBulkRemoveItem = function(idx) {
+  window.FB_BULK_ITEMS.splice(idx, 1);
+  fbBulkRenderList();
+};
+
+window.fbBulkClearAll = function() {
+  window.FB_BULK_ITEMS = [];
+  fbBulkRenderList();
+};
+
+window.fbBulkRenderList = function() {
+  var list = document.getElementById('bulk-item-list');
+  var count = document.getElementById('bulk-item-count');
+  if (!list) return;
+  if (count) count.textContent = window.FB_BULK_ITEMS.length;
+  if (!window.FB_BULK_ITEMS.length) {
+    list.innerHTML = '<div style="text-align:center;color:#999;font-size:12px;padding:20px;">Koi item nahi — upar se add karo</div>';
+    return;
+  }
+  list.innerHTML = window.FB_BULK_ITEMS.map(function(item, i) {
+    var typeColor = item.type === 'found' ? '#16a34a' : '#dc2626';
+    var typeBg = item.type === 'found' ? '#dcfce7' : '#fee2e2';
+    return '<div style="display:flex;align-items:center;gap:8px;padding:8px;background:#f8fafc;border-radius:8px;margin-bottom:6px;">' +
+      (item.photos.length ? '<img src="' + item.photos[0] + '" style="width:36px;height:36px;object-fit:cover;border-radius:6px;flex-shrink:0;">' : '<div style="width:36px;height:36px;background:#e0e0e0;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">📦</div>') +
+      '<div style="flex:1;min-width:0;">' +
+        '<div style="font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + item.name + '</div>' +
+        '<div style="font-size:10px;color:#666;">' + item.cat + ' · 📍 ' + item.loc + ' · 📷 ' + item.photos.length + '</div>' +
+      '</div>' +
+      '<span style="background:' + typeBg + ';color:' + typeColor + ';font-size:9px;padding:2px 6px;border-radius:8px;font-weight:700;flex-shrink:0;">' + item.type.toUpperCase() + '</span>' +
+      '<div onclick="fbBulkRemoveItem(' + i + ')" style="color:#dc2626;cursor:pointer;font-size:14px;flex-shrink:0;">✕</div>' +
+    '</div>';
+  }).join('');
+};
+
+window.fbBulkSubmitAll = function() {
+  if (!window.FB_BULK_ITEMS.length) { window.toast('⚠️ Koi item nahi list mein'); return; }
+  if (!window._auth || !window._auth.currentUser) { window.toast('⚠️ Login required'); return; }
+
+  var btn = document.getElementById('bulk-submit-btn');
+  var prog = document.getElementById('bulk-progress');
+  var progText = document.getElementById('bulk-progress-text');
+  var progBar = document.getElementById('bulk-progress-bar');
+  
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+  prog.style.display = 'block';
+
+  var total = window.FB_BULK_ITEMS.length;
+  var done = 0;
+  var failed = 0;
+  var u = window._auth.currentUser;
+
+  function submitNext(idx) {
+    if (idx >= total) {
+      progText.textContent = '✅ ' + done + ' posts submitted! ' + (failed ? failed + ' failed.' : '');
+      progBar.style.width = '100%';
+      btn.disabled = false;
+      btn.textContent = '🚀 Submit All Posts';
+      window.FB_BULK_ITEMS = [];
+      fbBulkRenderList();
+      window.toast('✅ ' + done + ' items posted successfully!');
+      return;
+    }
+
+    var item = window.FB_BULK_ITEMS[idx];
+    progText.textContent = 'Posting ' + (idx+1) + ' of ' + total + ': ' + item.name;
+    progBar.style.width = Math.round((idx/total)*100) + '%';
+
+    import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js').then(function(m) {
+      return m.addDoc(m.collection(window._db, 'posts'), {
+        type: item.type,
+        item: item.name,
+        loc: item.loc,
+        state: item.state || '',
+        locationType: item.locType || '',
+        desc: item.desc || '',
+        category: item.cat,
+        photos: item.photos,
+        photo: item.photos[0] || '',
+        photoCount: item.photos.length,
+        uid: u.uid,
+        authorName: u.displayName || 'Official',
+        contact: '',
+        reward: '',
+        bulkPost: true,
+        officialPost: true,
+        createdAt: m.serverTimestamp()
+      });
+    }).then(function() {
+      done++;
+      setTimeout(function() { submitNext(idx+1); }, 400);
+    }).catch(function(err) {
+      failed++;
+      setTimeout(function() { submitNext(idx+1); }, 400);
+    });
+  }
+
+  submitNext(0);
+};
+
+window.ngoLoadDashboard = function() {
+      orig();
+      setTimeout(window.fbBuildStateDropdown, 500);
+    };
+  }
+})();
+
 window.ngoLoadDashboard = function() {
   var localPosts = window._getLocalPosts ? window._getLocalPosts() : (window._allPosts||[]);
   var el = function(id){ return document.getElementById(id); };
