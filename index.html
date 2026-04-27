@@ -113,8 +113,8 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
 .footer-bottom-links{display:flex;gap:16px;}
 .footer-bottom-links a{font-size:12px;color:var(--text-muted);text-decoration:none;cursor:pointer;}
 .footer-bottom-links a:hover{color:var(--orange);}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1.5px solid var(--border);display:flex;padding:10px 0 18px;padding-bottom:max(18px,env(safe-area-inset-bottom));z-index:200;box-shadow:0 -3px 16px rgba(0,0,0,.07);}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 0;transition:color .2s;color:#aaa;font-size:10px;font-weight:700;border:none;background:none;font-family:'Nunito',sans-serif;letter-spacing:0.2px;}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);display:flex;padding:10px 0 18px;padding-bottom:max(18px,env(safe-area-inset-bottom));z-index:200;box-shadow:0 -2px 12px rgba(0,0,0,.06);}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 0;transition:color .2s;color:#aaa;font-size:10px;font-weight:700;border:none;background:none;font-family:'Nunito',sans-serif;}
 .nav-item.active{color:var(--orange);}
 .nav-item.active svg{filter:drop-shadow(0 0 4px rgba(232,114,42,.5));}
 .nav-item{transition:color .15s,transform .1s;}
@@ -261,10 +261,8 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
   </div>
   <div class="nav-right">
     <div class="live-badge"><div class="live-dot"></div> Live</div>
-    <!-- Settings moved here, compact -->
     <button id="lang-toggle-btn" onclick="toggleLang()" style="background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:0.3px;">EN</button>
     <button class="dark-toggle" id="dark-toggle-btn" onclick="toggleDarkMode()" title="Dark Mode">🌙</button>
-    <!-- Notification bell -->
     <div id="nav-notif-btn" onclick="showPage('profile')" style="position:relative;width:34px;height:34px;background:rgba(255,255,255,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;">🔔<div id="nav-notif-dot" style="display:none;width:8px;height:8px;background:#EF4444;border-radius:50%;position:absolute;top:5px;right:5px;border:2px solid #111;"></div></div>
   </div>
 </nav>
@@ -272,36 +270,28 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
 
 <!-- HOME PAGE -->
 <div class="page active" id="page-home">
-  <!-- COMPACT HERO -->
-  <div class="home-hero" style="position:relative;overflow:hidden;padding:20px 20px 0;">
+  <div class="home-hero" style="position:relative;overflow:hidden;padding:16px 16px 0;background:linear-gradient(160deg,#fff8f0 0%,#fff5ee 40%,#ffeedd 100%);">
     <div class="hero-float-emoji" style="top:10%;left:5%;animation-delay:0s;">📱</div>
     <div class="hero-float-emoji" style="top:15%;right:8%;animation-delay:.5s;">👛</div>
     <div class="hero-float-emoji" style="bottom:20%;left:10%;animation-delay:1s;">🔑</div>
     <div class="hero-float-emoji" style="bottom:15%;right:12%;animation-delay:1.5s;">💍</div>
 
-    <!-- Search + Location bar -->
-    <div style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:14px;padding:11px 14px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,.08);border:1.5px solid transparent;" id="home-search-bar">
-      <div onclick="document.getElementById('loc-state-dropdown').style.display='block'" style="display:flex;align-items:center;gap:5px;background:#FFF0E6;color:#E8722A;font-size:12px;font-weight:800;padding:5px 10px;border-radius:8px;white-space:nowrap;cursor:pointer;font-family:'Nunito',sans-serif;">📍 <span id="home-loc-label">All India</span> ▾</div>
-      <div style="width:1px;height:18px;background:#DDD;flex-shrink:0;"></div>
-      <input id="search-input-hero" type="text" placeholder="🔍 Search lost items..." oninput="setSearch(this.value);document.getElementById('search-input').value=this.value;" style="flex:1;border:none;outline:none;font-size:13px;color:#555;background:transparent;font-family:'Inter',sans-serif;">
-    </div>
-
-    <!-- Live stats -->
-    <div id="hero-stats" style="display:flex;gap:10px;justify-content:center;margin-bottom:16px;flex-wrap:wrap;">
-      <div class="stat-hero-box" style="background:rgba(255,255,255,0.88);border-radius:12px;padding:8px 14px;text-align:center;min-width:70px;box-shadow:0 3px 10px rgba(0,0,0,.09);"><div id="stat-lost" style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#DC2626;">0</div><div style="font-size:10px;color:#777;font-weight:600;">😟 Lost</div></div>
-      <div class="stat-hero-box" style="background:rgba(255,255,255,0.88);border-radius:12px;padding:8px 14px;text-align:center;min-width:70px;box-shadow:0 3px 10px rgba(0,0,0,.09);"><div id="stat-found" style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#059669;">0</div><div style="font-size:10px;color:#777;font-weight:600;">🎉 Found</div></div>
-      <div class="stat-hero-box" style="background:rgba(255,255,255,0.88);border-radius:12px;padding:8px 14px;text-align:center;min-width:70px;box-shadow:0 3px 10px rgba(0,0,0,.09);"><div id="stat-resolved" style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#E8722A;">0</div><div style="font-size:10px;color:#777;font-weight:600;">✅ Reunited</div></div>
-      <div class="stat-hero-box" style="background:rgba(255,255,255,0.88);border-radius:12px;padding:8px 14px;text-align:center;min-width:70px;box-shadow:0 3px 10px rgba(0,0,0,.09);"><div id="stat-users" style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#7C3AED;">0</div><div style="font-size:10px;color:#777;font-weight:600;">👥 Users</div></div>
+    <!-- Live stats - compact -->
+    <div id="hero-stats" style="display:flex;gap:10px;justify-content:center;margin-bottom:14px;flex-wrap:wrap;">
+      <div class="stat-hero-box" style="background:rgba(255,255,255,0.88);border-radius:12px;padding:8px 14px;text-align:center;min-width:68px;box-shadow:0 3px 10px rgba(0,0,0,.09);"><div id="stat-lost" style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#DC2626;">0</div><div style="font-size:10px;color:#777;font-weight:600;">😟 Lost</div></div>
+      <div class="stat-hero-box" style="background:rgba(255,255,255,0.88);border-radius:12px;padding:8px 14px;text-align:center;min-width:68px;box-shadow:0 3px 10px rgba(0,0,0,.09);"><div id="stat-found" style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#059669;">0</div><div style="font-size:10px;color:#777;font-weight:600;">🎉 Found</div></div>
+      <div class="stat-hero-box" style="background:rgba(255,255,255,0.88);border-radius:12px;padding:8px 14px;text-align:center;min-width:68px;box-shadow:0 3px 10px rgba(0,0,0,.09);"><div id="stat-resolved" style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#E8722A;">0</div><div style="font-size:10px;color:#777;font-weight:600;">✅ Reunited</div></div>
+      <div class="stat-hero-box" style="background:rgba(255,255,255,0.88);border-radius:12px;padding:8px 14px;text-align:center;min-width:68px;box-shadow:0 3px 10px rgba(0,0,0,.09);"><div id="stat-users" style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#7C3AED;">0</div><div style="font-size:10px;color:#777;font-weight:600;">👥 Users</div></div>
     </div>
 
     <!-- BIG ACTION BUTTONS -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
-      <button onclick="openModal('lost')" style="background:linear-gradient(135deg,#E8722A,#c45a1a);color:white;border:none;border-radius:16px;padding:20px 14px;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;box-shadow:0 6px 20px rgba(232,114,42,.38);font-family:'Nunito',sans-serif;transition:.18s;" onmousedown="this.style.transform='scale(.96)'" onmouseup="this.style.transform='scale(1)'">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+      <button onclick="openModal('lost')" style="background:linear-gradient(135deg,#E8722A,#c45a1a);color:white;border:none;border-radius:16px;padding:20px 14px;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;box-shadow:0 6px 20px rgba(232,114,42,.38);font-family:'Nunito',sans-serif;transition:.18s;" onmousedown="this.style.transform='scale(.96)'" onmouseup="this.style.transform='scale(1)'" onmouseleave="this.style.transform='scale(1)'">
         <span style="font-size:28px;">😟</span>
         <span style="font-size:15px;font-weight:900;">Report Lost</span>
         <span style="font-size:11px;font-weight:600;opacity:.8;">I lost something</span>
       </button>
-      <button onclick="openModal('found')" style="background:white;color:#059669;border:2.5px solid #22C55E;border-radius:16px;padding:20px 14px;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;box-shadow:0 4px 14px rgba(34,197,94,.18);font-family:'Nunito',sans-serif;transition:.18s;" onmousedown="this.style.transform='scale(.96)'" onmouseup="this.style.transform='scale(1)'">
+      <button onclick="openModal('found')" style="background:white;color:#059669;border:2.5px solid #22C55E;border-radius:16px;padding:20px 14px;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;box-shadow:0 4px 14px rgba(34,197,94,.18);font-family:'Nunito',sans-serif;transition:.18s;" onmousedown="this.style.transform='scale(.96)'" onmouseup="this.style.transform='scale(1)'" onmouseleave="this.style.transform='scale(1)'">
         <span style="font-size:28px;">🎉</span>
         <span style="font-size:15px;font-weight:900;">Report Found</span>
         <span style="font-size:11px;font-weight:600;opacity:.75;">I found something</span>
@@ -311,7 +301,7 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
     <!-- Missing person -->
     <button onclick="openModal('missing')" style="width:100%;background:#FFF7ED;border:1.5px solid #FED7AA;color:#C2410C;border-radius:12px;padding:12px 16px;font-size:13px;font-weight:700;cursor:pointer;text-align:left;margin-bottom:16px;font-family:'Nunito',sans-serif;display:flex;align-items:center;gap:10px;">
       <span style="font-size:22px;">⚠️</span>
-      <div><div style="font-weight:800;">Report Missing Person</div><div style="font-size:11px;opacity:.75;font-weight:600;">Help find someone important</div></div>
+      <div><div style="font-weight:900;">Report Missing Person</div><div style="font-size:11px;opacity:.75;font-weight:600;">Help find someone important</div></div>
       <span style="margin-left:auto;font-size:18px;">›</span>
     </button>
   </div>
@@ -377,13 +367,10 @@ window.addEventListener('unhandledrejection',function(e){console.warn('FB promis
   <div class="page-content">
     <div style="position:relative;margin:16px 0 12px;">
       <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;">🔍</span>
-      <input id="search-input" type="text" placeholder="Search lost &amp; found items..." oninput="setSearch(this.value);var h=document.getElementById('search-input-hero');if(h)h.value=this.value;" style="width:100%;padding:12px 14px 12px 42px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:var(--gray);">
+      <input id="search-input" type="text" placeholder="Search lost &amp; found items..." oninput="setSearch(this.value)" style="width:100%;padding:12px 14px 12px 42px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:var(--gray);">
     </div>
     <div style="margin-bottom:20px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <div style="font-family:'Nunito',sans-serif;font-size:17px;font-weight:900;color:#111;">📂 Categories</div>
-        <div style="font-size:12px;font-weight:700;color:#E8722A;cursor:pointer;" onclick="">See all →</div>
-      </div>
+      <div style="font-family:'Nunito',sans-serif;font-size:17px;font-weight:900;margin-bottom:12px;color:#111;">📂 Browse by Category</div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;" id="cat-grid-container">
         <div onclick="setCatGrid('')" class="cat-grid-item active-cat-grid" id="catgrid-all" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">🔍</span></div></div><div class="cat-grid-label">All</div><div id="catcount-all" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
         <div onclick="setCatGrid('Wallet')" class="cat-grid-item" id="catgrid-Wallet" style="padding:6px 4px 6px;"><div style="margin-bottom:4px;"><div style="width:40px;height:40px;border-radius:10px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1627123424574-724758594e93?w=100&h=100&fit=crop&q=70" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" loading="lazy" onerror="this.style.display='none'"><span style="position:relative;z-index:1;">👛</span></div></div><div class="cat-grid-label">Wallet</div><div id="catcount-Wallet" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:14px;"></div></div>
@@ -632,7 +619,43 @@ body.lang-en span[data-lang="en"]{display:inline;}
     <div class="fb-sol-item"><div class="fb-sol-chk">✓</div><div><div class="fb-sol-title">💰 <span data-lang="hi">बिल्कुल Free</span><span data-lang="en">Completely Free</span></div><div class="fb-sol-desc"><span data-lang="hi">कोई fee नहीं। India का हर नागरिक use कर सके — यही हमारा वादा है।</span><span data-lang="en">No fee. Every Indian citizen can use it — that is our promise.</span></div></div></div>
     <div class="fb-vision">
       <h3>🔭 <span data-lang="hi">हम कहाँ जाना चाहते हैं</span><span data-lang="en">Where We Are Headed</span></h3>
-      <p><span data-lang="hi">आज lost & found से शुरू किया — कल railway stations, hospitals, airports। फिर missing persons, trafficking victims। Long-term: <strong>India का हर police station FindBack से connected हो।</strong></span><span data-lang="en">Today lost & found — tomorrow railways, hospitals, airports. Then missing persons, trafficking victims. Long-term: <strong>every police station in India connected to FindBack.</strong></span></p>
+      <p style="margin-bottom:10px;"><span data-lang="hi">आज lost & found से शुरू किया — यह सिर्फ शुरुआत है।</span><span data-lang="en">Today we start with lost & found — this is just the beginning.</span></p>
+
+      <div style="display:grid;gap:8px;margin-bottom:10px;">
+        <div style="display:flex;gap:8px;align-items:flex-start;">
+          <span style="font-size:18px;flex-shrink:0;">🚂</span>
+          <div>
+            <div style="font-size:11.5px;font-weight:700;color:#1a3a6e;margin-bottom:2px;"><span data-lang="hi">Railway Lost & Found</span><span data-lang="en">Railway Lost & Found</span></div>
+            <div style="font-size:11px;color:#5a6a7e;line-height:1.5;"><span data-lang="hi">India में हर साल लाखों items railway में खो जाते हैं। FindBack को Indian Railways के साथ integrate करना हमारा बड़ा लक्ष्य है।</span><span data-lang="en">Millions of items are lost on Indian Railways every year. Integrating FindBack with Indian Railways is a major goal.</span></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:flex-start;">
+          <span style="font-size:18px;flex-shrink:0;">✈️</span>
+          <div>
+            <div style="font-size:11.5px;font-weight:700;color:#1a3a6e;margin-bottom:2px;"><span data-lang="hi">Airport Lost & Found</span><span data-lang="en">Airport Lost & Found</span></div>
+            <div style="font-size:11px;color:#5a6a7e;line-height:1.5;"><span data-lang="hi">Airports पर lost items के लिए कोई unified system नहीं है। FindBack वह gap भरेगा।</span><span data-lang="en">There is no unified system for lost items at airports. FindBack will fill that gap.</span></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:flex-start;">
+          <span style="font-size:18px;flex-shrink:0;">🏥</span>
+          <div>
+            <div style="font-size:11.5px;font-weight:700;color:#1a3a6e;margin-bottom:2px;"><span data-lang="hi">Hospitals & Public Spaces</span><span data-lang="en">Hospitals & Public Spaces</span></div>
+            <div style="font-size:11px;color:#5a6a7e;line-height:1.5;"><span data-lang="hi">Hospitals, bus stands, malls — हर public space में FindBack का dedicated portal।</span><span data-lang="en">Hospitals, bus stands, malls — a dedicated FindBack portal for every public space.</span></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:flex-start;">
+          <span style="font-size:18px;flex-shrink:0;">🧍</span>
+          <div>
+            <div style="font-size:11.5px;font-weight:700;color:#1a3a6e;margin-bottom:2px;"><span data-lang="hi">Missing Persons Network</span><span data-lang="en">Missing Persons Network</span></div>
+            <div style="font-size:11px;color:#5a6a7e;line-height:1.5;"><span data-lang="hi">Missing persons, trafficking victims, खोये बच्चे — एक unified national network।</span><span data-lang="en">Missing persons, trafficking victims, lost children — one unified national network.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#1a3a6e;border-radius:8px;padding:10px 12px;text-align:center;">
+        <div style="font-size:11.5px;font-weight:800;color:#fff;margin-bottom:3px;"><span data-lang="hi">Long-term Vision</span><span data-lang="en">Long-term Vision</span></div>
+        <div style="font-size:11px;color:rgba(255,255,255,.8);line-height:1.5;"><span data-lang="hi"><strong style="color:#FF6B00;">India का हर police station, railway station और airport</strong> FindBack से connected हो।</span><span data-lang="en"><strong style="color:#FF6B00;">Every police station, railway station and airport in India</strong> connected to FindBack.</span></div>
+      </div>
     </div>
   </div>
 </div>
@@ -661,7 +684,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
 <div class="page" id="page-privacy"><div class="page-content"><div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div><div class="page-title">Privacy Policy</div><div class="legal-date">Effective Date: 18 April 2026 | findback.org</div>
 <div class="legal-section"><h3>📦 1. What We Collect</h3><p>We collect: name and email (registration); profile photo and ID (NGO/Police portal); post content, photos, location, contact details; and usage data via Google Analytics 4.</p></div><div class="divider"></div>
 <div class="legal-section"><h3>🎯 2. How We Use It</h3><p>To operate FindBack, authenticate users, display posts, generate FIR drafts, detect fraud, improve the platform, and communicate service updates.</p></div><div class="divider"></div>
-<div class="legal-section"><h3>🔒 3. Data Storage & Security</h3><p>All data is stored securely using Google Firebase (Firestore) with industry-standard encryption. Photos are stored as base64 in Firestore. Firebase security rules restrict access to authorized users only.</p></div><div class="divider"></div>
+<div class="legal-section"><h3>🔒 3. Data Storage & Security</h3><p>All data is stored securely using Google Firebase (Firestore) with industry-standard encryption. Here is exactly what is stored where:</p><ul style="margin-top:8px;"><li><strong>Posts (lost/found/missing)</strong> — Firestore collection: <code>posts</code>. Stores item name, type, location, description, contact, photos (base64), timestamp, user UID.</li><li><strong>User Profiles</strong> — Firestore collection: <code>users</code>. Stores name, email, profile photo URL, phone, registration date, provider (email/Google).</li><li><strong>Messages</strong> — Firestore collection: <code>messages</code>. Anonymous messages between users about a post.</li><li><strong>Reports</strong> — Firestore collection: <code>reports</code>. Fraud/abuse reports submitted by users.</li><li><strong>Police Notifications</strong> — Firestore collection: <code>police_notifications</code>. Auto-generated alerts sent to verified police/NGO users when a post is made in their district.</li><li><strong>NGO/Police Profiles</strong> — Firestore collection: <code>ngo_users</code>. Organization name, type, district, state, ID proof (pending admin approval).</li></ul><p style="margin-top:8px;">Firebase security rules restrict access: users can only read/write their own data. Police/NGO portal data is restricted to verified accounts only. No data is stored on any third-party server other than Google Firebase (Google Cloud, India/Asia region).</p></div><div class="divider"></div>
 <div class="legal-section"><h3>🚫 4. We Never Sell Your Data</h3><p>FindBack does NOT sell your personal data. We share data only with law enforcement when legally required, authorized NGO/Police portal users (district-level only), and service providers (Firebase/Google) who help operate our platform.</p></div><div class="divider"></div>
 <div class="legal-section"><h3>✅ 5. Your Rights</h3><p>You have the right to access, correct, or delete your data and withdraw consent. Contact legal@findback.org to exercise these rights.</p></div><div class="divider"></div>
 <div class="legal-section"><h3>👶 6. Children's Privacy</h3><p>FindBack is not intended for users under 18. We do not knowingly collect data from minors.</p></div><div class="divider"></div>
