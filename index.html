@@ -1123,13 +1123,13 @@ body.lang-en span[data-lang="en"]{display:inline;}
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot, orderBy, query, serverTimestamp, enableNetwork, disableNetwork } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 const firebaseConfig={apiKey:"AIzaSyCH1s6Cf2Zx2CZVv5HUUu2P7TwHEqoxWW8",authDomain:"findback-app-34e4f.firebaseapp.com",projectId:"findback-app-34e4f",storageBucket:"findback-app-34e4f.appspot.com",messagingSenderId:"504207496092",appId:"1:504207496092:web:b9d6918639ed23ddad6e59"};
 const app=initializeApp(firebaseConfig);
 const db=getFirestore(app);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){disableNetwork(db).catch(()=>{});}else{enableNetwork(db).catch(()=>{});}});
 const auth=getAuth(app);
-window._db=db;window._auth=auth;window._allPosts=[];window._GAP=GoogleAuthProvider;window._SIP=signInWithPopup;window._SIR=signInWithRedirect;window._GRR=getRedirectResult;window._SPRE=sendPasswordResetEmail;getRedirectResult(auth).then(async function(res){if(res&&res.user){var u=res.user;try{var{doc:_d,setDoc:_s,getDoc:_g}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");var rf=_d(window._db,"users",u.uid);var sn=await _g(rf);if(!sn.exists()){await _s(rf,{name:u.displayName||"User",email:u.email,photo:u.photoURL||"",phone:"",createdAt:new Date().toISOString(),provider:"google"}); }}catch(e){}window.toast&&window.toast("Welcome "+(u.displayName||"")+"!");setTimeout(function(){typeof showPage==="function"&&showPage("home");},1000);}}).catch(function(e){});
+window._db=db;window._auth=auth;window._allPosts=[];window._GAP=GoogleAuthProvider;window._SIP=signInWithPopup;window._SPRE=sendPasswordResetEmail;
 const q=query(collection(db,"posts"),orderBy("createdAt","desc"));
 let _unsub=null;
 function startListener(){
