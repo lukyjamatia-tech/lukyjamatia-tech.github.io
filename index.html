@@ -1745,7 +1745,7 @@ window.openDetail=function(id){
     <div style="background:#EFF6FF;border-radius:10px;padding:10px 14px;font-size:12px;color:#1D4ED8;text-align:center;">
       ✅ This is your post — only you can edit or delete it
     </div>`;
-  }
+  ${p.status!=='resolved'?`<button onclick="markResolved('${p.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:linear-gradient(135deg,#059669,#047857);color:white;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">✅ Mil Gaya! Mark Resolved</button>`:`<div style="background:#D1FAE5;border-radius:10px;padding:12px;text-align:center;font-size:14px;font-weight:700;color:#065F46;">🎉 Resolved!</div>`}}
   const aid=p.id.replace(/[^a-z0-9]/gi,'_');
   const anonSec=`<div id="anon-section-${aid}" style="display:none;margin-top:4px;"><textarea id="anon-msg-${aid}" placeholder="Anonymous message..." style="width:100%;padding:12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;resize:vertical;min-height:80px;outline:none;margin-bottom:8px;"></textarea><button onclick="sendAnonymousMsg('${p.id}')" style="width:100%;padding:12px;background:#111;color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">📨 Send Anonymous</button></div>`;
   const aiBtn=(p.type==='lost'||p.type==='found')?`<button id="ai-match-btn-${aid}" onclick="runAIMatch('${p.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:linear-gradient(135deg,#111,#333);color:white;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">🤖 AI Match Dhundo</button>`:'';
