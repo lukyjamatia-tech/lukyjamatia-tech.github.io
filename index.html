@@ -18,7 +18,9 @@
 <meta property="og:title" content="FindBack - India's Lost & Found">
 <meta property="og:description" content="India's first lost and found platform">
 <meta property="og:url" content="https://findback.org">
-<meta property="og:image" content="https://findback.org/logo.png">
+<meta property="og:image" content="https://findback.org/Manphikha.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500;600&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -2356,7 +2358,7 @@ function updateHeroStats(){
   var posts=window._allPosts||[];
   // NCRB baseline — India mein ~2.5 lakh lost reports annually
   // FindBack conservative platform baseline (real posts + baseline)
-  var BASE_LOST=128, BASE_FOUND=54, BASE_REUNITED=21;
+  var BASE_LOST=0, BASE_FOUND=0, BASE_REUNITED=0;
   var lc=BASE_LOST+posts.filter(function(p){return p.type==='lost';}).length;
   var fc=BASE_FOUND+posts.filter(function(p){return p.type==='found';}).length;
   var rc=BASE_REUNITED+posts.filter(function(p){return p.status==='resolved';}).length;
