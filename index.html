@@ -1820,8 +1820,8 @@ window.openDetail=function(id){
   document.getElementById('detail-desc').textContent=descText;
   if(p.reward){document.getElementById('detail-reward-wrap').style.display='block';document.getElementById('detail-reward').textContent='₹'+p.reward;}
   else document.getElementById('detail-reward-wrap').style.display='none';
-  const name=p.authorName||'Anonymous';
-  document.getElementById('detail-poster-avatar').textContent=name[0].toUpperCase();document.getElementById('detail-poster-name').textContent=name;document.getElementById('detail-poster-contact').textContent=window._currentUser?(p.contact||'No contact'):'Login karke dekhein';
+  let name=p.authorName||'Anonymous';if(/^(google|facebook|email)\s*account$/i.test(name.trim()))name='FindBack User';
+  document.getElementById('detail-poster-avatar').textContent=name[0].toUpperCase();document.getElementById('detail-poster-name').textContent=name;document.getElementById('detail-poster-contact').textContent=window._currentUser?(function(){const c=p.contact||'';if(!c)return 'No contact';const d=c.replace(/\s/g,'');return d.length>6?d.slice(0,3)+'\u2022\u2022\u2022\u2022\u2022\u2022'+d.slice(-3):d;})():'Login karke dekhein';
   const actions=document.getElementById('detail-actions');
   const rc=p.contact||'',phone=rc.startsWith('+91')?rc.slice(1):rc.replace(/\D/g,'');
   const waMsg=encodeURIComponent(`Hi, I saw your FindBack post about "${p.item}" (${tl}). Can we talk?`);
