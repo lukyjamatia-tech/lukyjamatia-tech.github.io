@@ -1,0 +1,10 @@
+const fs=require('fs');
+let s=fs.readFileSync('index.html','utf8');
+let b=s;
+s=s.replace(/(getElementById\('dark-toggle-btn'\);\r?\n\s*if\(btn\)btn\.textContent=)''/,"$1'☀️'");
+console.log('FIX A (load handler):',s!==b?'OK':'NOT FOUND');
+b=s;
+s=s.replace(/delBtn\.textContent='[^']*';/,"delBtn.textContent='🗑️ Del';");
+console.log('FIX B (delete icon):',s!==b?'OK':'NOT FOUND');
+fs.writeFileSync('index.html',s);
+console.log('Done');

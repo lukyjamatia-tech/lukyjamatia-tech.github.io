@@ -1,0 +1,8 @@
+posts_backup_*.json
+posts_full_backup.json
+index.bak*.html
+*.bak
+index.html.bak*
+index.html.pre-*
+*.bak_*
+.github/

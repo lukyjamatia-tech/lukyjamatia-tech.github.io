@@ -1,0 +1,13 @@
+const fs=require('fs');
+let s=fs.readFileSync('index.html','utf8');
+let n=0;
+const R=(a,b)=>{if(!s.includes(a)){console.log('NOT FOUND:',a.slice(0,50));return;}s=s.split(a).join(b);n++;console.log('OK',n);};
+R('title="Dark Mode"></button>','title="Dark Mode">🌙</button>');
+R('font-size:16px;"><div id="nav-notif-dot"','font-size:16px;">🔔<div id="nav-notif-dot"');
+R("btn.textContent=isDark?'':'';","btn.textContent=isDark?'☀️':'🌙';");
+R("('dark-toggle-btn');\n if(btn)btn.textContent='';","('dark-toggle-btn');\n if(btn)btn.textContent='☀️';");
+R("viewBtn.textContent='';","viewBtn.textContent='👁️ View';");
+R("delBtn.textContent='🗑️';","delBtn.textContent='🗑️ Del';");
+R("catch(e){window.toast(' Delete failed.');}","catch(e){if(e&&e.code==='permission-denied'){var fu=(window._auth&&window._auth.currentUser)||null;window.toast(fu?(' Delete failed: '+(fu.email||fu.uid)+' admin nahi hai — admin Google account se login karo'):' Delete failed: pehle app me Google se login karo (admin account)');}else{window.toast(' Delete failed: '+((e&&e.code)||(e&&e.message)||e));}}");
+fs.writeFileSync('index.html',s);
+console.log(n===7?'SAB 7 FIXES LAG GAYE ✓':'Kuch missing hai — Claude ko output bhejo');

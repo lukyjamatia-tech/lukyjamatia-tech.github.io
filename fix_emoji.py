@@ -1,0 +1,6 @@
+s = open('index.html', encoding='utf-8').read()
+n = s.count('\u23f3') + s.count('\u231b')
+s = s.replace('\u23f3 ', '').replace('\u231b ', '')
+s = s.replace('\u23f3', '').replace('\u231b', '')
+open('index.html', 'w', encoding='utf-8').write(s)
+print('Removed', n, 'hourglass emoji(s)')
