@@ -1,2 +1,2 @@
-Copyright © 2025 Samarendra. All Rights Reserved.
+Copyright © 2026 FindBack. All Rights Reserved.
 Unauthorized copying or distribution
