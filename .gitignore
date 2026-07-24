@@ -6,3 +6,4 @@ index.html.bak*
 index.html.pre-*
 *.bak_*
 .github/
+.firebase/
