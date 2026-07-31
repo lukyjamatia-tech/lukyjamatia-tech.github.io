@@ -1670,7 +1670,7 @@ function renderPhotoGrid(){
   if(!grid) return;
   var count = window.currentPhotosData.length;
   var label = document.getElementById('photo-count-label');
-  var maxPhL = window._ngoUser ? 10 : 5;
+  var maxPhL = window._ngoUser ? 10 : 1;
   if(label) label.textContent = count + ' / ' + maxPhL + ' photos';
   
   // Clear grid
@@ -1727,7 +1727,7 @@ window.addPhotoFromInput = function(input){
     }
     return;
   }
-  var maxPh = window._ngoUser ? 10 : 5;
+  var maxPh = window._ngoUser ? 10 : 1;
   if(window.currentPhotosData.length >= maxPh){
     window.toast(' Maximum ' + maxPh + ' photos allowed');
     return;
