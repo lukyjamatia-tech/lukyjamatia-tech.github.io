@@ -1827,7 +1827,7 @@ window.openDetail=function(id){
   const waMsg=encodeURIComponent(`Hi, I saw your FindBack post about "${p.item}" (${tl}). Can we talk?`);
   let btns='';
   if(!window._currentUser){btns+=`<button onclick="document.getElementById('login-required-modal').style.display='flex'" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#111;color:white;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">Login karke contact dekhein</button>`;}
-  else if(phone.length>=10){btns+=`<a href="https://wa.me/${phone.slice(-12)}?text=${waMsg}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#25D366;color:white;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;"> WhatsApp</a>`;btns+=`<a href="tel:${rc}" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--gray);color:var(--black);border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;"> Call</a>`;}
+  else if(phone.length>=10){btns+=`<a href="https://wa.me/${phone.slice(-12)}?text=${waMsg}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#25D366;color:white;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;"> WhatsApp</a>`;}
   else if(rc.includes('@')){btns+=`<a href="mailto:${rc}" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--orange);color:white;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;"> Email</a>`;}
   if(window._currentUser&&window._currentUser.uid===p.uid){
     btns+=`<div style="display:flex;gap:10px;">
@@ -3850,7 +3850,7 @@ window.fbOpenDetail = function(postId) {
   // Call button
   var callBtn = el('fb-dact-call');
   if(callBtn) {
-    if(p.contact) { callBtn.onclick = function(){ window.location.href = 'tel:'+p.contact; }; callBtn.style.display = ''; }
+    if(p.contact) { callBtn.onclick = function(){ window.location.href = 'tel:'+p.contact; }; callBtn.style.display = 'none'; }
     else callBtn.style.display = 'none';
   }
 
