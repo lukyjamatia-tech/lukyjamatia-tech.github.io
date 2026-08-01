@@ -131,7 +131,7 @@ footer{background:var(--white);border-top:1px solid var(--border);padding:32px 2
 .fb-chat-inp:focus{border-color:var(--orange);}
 .fb-chat-send{background:var(--orange);border:none;border-radius:12px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
 .fb-chat-empty{text-align:center;color:var(--text-muted);font-size:13px;padding:30px 20px;}
-.chat-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:linear-gradient(135deg,#E8722A,#c45a1a);color:white;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;font-family:'Inter',sans-serif;}
+.chat-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#F5F5F5;color:#333;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;font-family:'Inter',sans-serif;}
 .chat-btn:active{opacity:.85;}
 .footer-brand{font-family:'Sora',sans-serif;font-size:18px;font-weight:700;margin-bottom:4px;}
 .footer-brand span{color:var(--orange);}
@@ -1840,7 +1840,7 @@ window.openDetail=function(id){
   }
   const aid=p.id.replace(/[^a-z0-9]/gi,'_');
   const anonSec=`<div id="anon-section-${aid}" style="display:none;margin-top:4px;"><textarea id="anon-msg-${aid}" placeholder="Anonymous message..." style="width:100%;padding:12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;resize:vertical;min-height:80px;outline:none;margin-bottom:8px;"></textarea><button onclick="sendAnonymousMsg('${p.id}')" style="width:100%;padding:12px;background:#111;color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;"> Send Anonymous</button></div>`;
-  const aiBtn=(p.type==='lost'||p.type==='found')?`<button id="ai-match-btn-${aid}" onclick="runAIMatch('${p.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:linear-gradient(135deg,#111,#333);color:white;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;"> AI Match Dhundo</button>`:'';
+  const aiBtn=(p.type==='lost'||p.type==='found')?`<button id="ai-match-btn-${aid}" onclick="runAIMatch('${p.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#F5F5F5;color:#333;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">${APP_LANG==="hi"?" AI मैच खोजें":" Find AI Match"}</button>`:'';
   const chatBtn=(window._currentUser&&window._currentUser.uid!==p.uid)?`<button class="chat-btn" onclick="openChatPanel('${p.id}','${(p.item||'Item').replace(/'/g,"\\'")}','${p.uid||''}')"> Chat Now</button>`:'';
   const anonBtn=`<button onclick="toggleAnonMsg('${p.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#F5F5F5;color:#333;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;"> Anonymous Contact</button>${anonSec}`;
   const shareBtn=`<button onclick="sharePost('${p.id}')" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:linear-gradient(135deg,#25D366,#128C7E);color:white;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;"> Share</button>`;
@@ -1864,11 +1864,11 @@ window.openDetail=function(id){
     window._upiPostId = aid;
     window._upiAmount = rewardAmt;
     window._upiItem = p.item||'item';
-    upiBtn='<div style="background:#FEF9C3;border:1.5px solid #F59E0B;border-radius:14px;padding:14px 16px;">'
-      +'<div style="font-size:13px;font-weight:700;color:#92400E;margin-bottom:6px;">'+(APP_LANG==='hi'?' इनाम भेजें — ₹':' Send Reward — ₹')+rewardAmt+'</div>'
-      +'<div style="font-size:11px;color:#78350F;margin-bottom:10px;">'+(APP_LANG==='hi'?'सामान वापस मिलने के बाद इनाम भेजें':'Send reward after the item is returned')+'</div>'
-      +'<input type="text" id="upi-id-input-'+aid+'" placeholder="e.g. 9876543210@paytm" style="width:100%;padding:10px;border:1.5px solid #F59E0B;border-radius:8px;font-size:13px;font-family:Inter,sans-serif;outline:none;margin-bottom:8px;box-sizing:border-box;">'
-      +'<button id="upi-send-btn-'+aid+'" style="width:100%;padding:12px;background:linear-gradient(135deg,#F59E0B,#D97706);color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;"> Send ₹'+rewardAmt+' via UPI</button>'
+    upiBtn='<div style="background:#FAFAFA;border:1px solid #E5E5E5;border-radius:14px;padding:14px 16px;">'
+      +'<div style="font-size:13px;font-weight:700;color:#333;margin-bottom:6px;">'+(APP_LANG==='hi'?' इनाम भेजें — ₹':' Send Reward — ₹')+rewardAmt+'</div>'
+      +'<div style="font-size:11px;color:#666;margin-bottom:10px;">'+(APP_LANG==='hi'?'सामान वापस मिलने के बाद इनाम भेजें':'Send reward after the item is returned')+'</div>'
+      +'<input type="text" id="upi-id-input-'+aid+'" placeholder="e.g. 9876543210@paytm" style="width:100%;padding:10px;border:1px solid #E5E5E5;border-radius:8px;font-size:13px;font-family:Inter,sans-serif;outline:none;margin-bottom:8px;box-sizing:border-box;">'
+      +'<button id="upi-send-btn-'+aid+'" style="width:100%;padding:12px;background:#F5F5F5;color:#333;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;"> Send ₹'+rewardAmt+' via UPI</button>'
       +'</div>';
     setTimeout(function(){
       var btn=document.getElementById('upi-send-btn-'+window._upiPostId);
