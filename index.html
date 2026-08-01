@@ -1865,8 +1865,8 @@ window.openDetail=function(id){
     window._upiAmount = rewardAmt;
     window._upiItem = p.item||'item';
     upiBtn='<div style="background:#FEF9C3;border:1.5px solid #F59E0B;border-radius:14px;padding:14px 16px;">'
-      +'<div style="font-size:13px;font-weight:700;color:#92400E;margin-bottom:6px;"> Reward Bhejo — ₹'+rewardAmt+'</div>'
-      +'<div style="font-size:11px;color:#78350F;margin-bottom:10px;">Item return karne ke baad finder ko reward bhejo</div>'
+      +'<div style="font-size:13px;font-weight:700;color:#92400E;margin-bottom:6px;">'+(APP_LANG==='hi'?' इनाम भेजें — ₹':' Send Reward — ₹')+rewardAmt+'</div>'
+      +'<div style="font-size:11px;color:#78350F;margin-bottom:10px;">'+(APP_LANG==='hi'?'सामान वापस मिलने के बाद इनाम भेजें':'Send reward after the item is returned')+'</div>'
       +'<input type="text" id="upi-id-input-'+aid+'" placeholder="e.g. 9876543210@paytm" style="width:100%;padding:10px;border:1.5px solid #F59E0B;border-radius:8px;font-size:13px;font-family:Inter,sans-serif;outline:none;margin-bottom:8px;box-sizing:border-box;">'
       +'<button id="upi-send-btn-'+aid+'" style="width:100%;padding:12px;background:linear-gradient(135deg,#F59E0B,#D97706);color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;"> Send ₹'+rewardAmt+' via UPI</button>'
       +'</div>';
@@ -2327,11 +2327,11 @@ window.runAIMatch=async function(postId){
   const btn=document.getElementById('ai-match-btn-'+postId.replace(/[^a-z0-9]/gi,'_'));
   if(btn){btn.textContent=' Matching...';btn.disabled=true;}
   const opp=post.type==='lost'?'found':'lost',cands=(window._allPosts||[]).filter(p=>p.type===opp).slice(0,10);
-  if(!cands.length){toast(' Koi match nahi mila');if(btn){btn.textContent=' AI Match Dhundo';btn.disabled=false;}return;}
+  if(!cands.length){toast(APP_LANG==='hi'?' कोई मैच नहीं मिला':' No match found');if(btn){btn.textContent=(APP_LANG==='hi'?' AI मैच खोजें':' Find AI Match');btn.disabled=false;}return;}
   const prompt=`Lost/found matching for India.\nPOST: Type:${post.type} Item:${post.item} Cat:${post.category||'?'} Loc:${post.loc} Date:${post.date||'?'} Desc:${post.desc||'none'}\nCANDIDATES:\n${cands.map((c,i)=>`${i+1}. ID:${c.id}|Item:${c.item}|Cat:${c.category||'?'}|Loc:${c.loc}|Date:${c.date||'?'}|Desc:${c.desc||'none'}`).join('\n')}\nTop 3 matches. JSON only:\n{"matches":[{"id":"id","score":95,"reason":"reason"},{"id":"id","score":80,"reason":"..."},{"id":"id","score":60,"reason":"..."}]}`;
   try{const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:500,messages:[{role:'user',content:prompt}]})});const data=await res.json();const text=data.content?.[0]?.text||'{}';const parsed=JSON.parse(text.replace(/```json|```/g,'').trim());showAIMatchResults(post,parsed.matches||[],cands);}
   catch(e){toast(' AI Match error.');}
-  if(btn){btn.textContent=' AI Match Dhundo';btn.disabled=false;}
+  if(btn){btn.textContent=(APP_LANG==='hi'?' AI मैच खोजें':' Find AI Match');btn.disabled=false;}
 };
 function showAIMatchResults(post,matches,cands){
   const ov=document.getElementById('ai-match-overlay'),body=document.getElementById('ai-match-body');if(!ov||!body)return;
@@ -2398,7 +2398,7 @@ window.checkNewMatches=async function(){
 // ANONYMOUS
 window.sendAnonymousMsg=async function(postId){
   const msg=document.getElementById('anon-msg-'+postId.replace(/[^a-z0-9]/gi,'_'));
-  if(!msg||!msg.value.trim()){toast(' Message likho');return;}
+  if(!msg||!msg.value.trim()){toast(APP_LANG==='hi'?' संदेश लिखें':' Write a message');return;}
   const post=(window._allPosts||[]).find(p=>p.id===postId);if(!post)return;
   try{const{collection:col,addDoc:add,serverTimestamp:st}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");await add(col(window._db,"messages"),{postId,toUid:post.uid||null,fromAlias:"Anonymous",message:msg.value.trim(),postItem:post.item,createdAt:st()});toast(' Message sent!');msg.value='';document.getElementById('anon-section-'+postId.replace(/[^a-z0-9]/gi,'_')).style.display='none';}
   catch(e){toast(' Failed.');}
