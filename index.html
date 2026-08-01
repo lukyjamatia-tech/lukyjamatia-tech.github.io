@@ -1875,7 +1875,7 @@ window.openDetail=function(id){
       if(btn)btn.onclick=function(){window.sendUPIReward(window._upiPostId,window._upiAmount,window._upiItem);};
     },100);
   }
-  actions.innerHTML=reminderHtml+(btns||'<div style="color:var(--text-muted);text-align:center;padding-bottom:8px">No contact info</div>')+upiBtn+chatBtn+shareBtn+aiBtn+anonBtn;
+  actions.innerHTML=reminderHtml+(btns||'<div style="color:var(--text-muted);text-align:center;padding-bottom:8px">No contact info</div>')+anonBtn+upiBtn+chatBtn+shareBtn+aiBtn;
   showPage('detail');
 };
 
