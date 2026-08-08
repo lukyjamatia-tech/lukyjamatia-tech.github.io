@@ -1,9 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /vhin/
-Disallow: /frcr/
-Disallow: /ykcq/
-Disallow: /wsid/
-Disallow: /njtn/
 
 Sitemap: https://findback.org/sitemap.xml
