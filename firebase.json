@@ -6,7 +6,9 @@
       ".git/**",
       ".github/**",
       ".gitignore",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "**/*.py",
+      "README.md"
     ],
     "cleanUrls": true,
     "trailingSlash": false,
@@ -58,12 +60,6 @@
             "value": "public, max-age=300"
           }
         ]
-      }
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
       }
     ]
   }
