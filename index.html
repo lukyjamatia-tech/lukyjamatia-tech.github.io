@@ -7097,7 +7097,7 @@ if('serviceWorker' in navigator){
 
 <script>
 var _MU="https://findback.org/Manphikha.png";
-var _PU="https://script.google.com/macros/s/AKfycbzciJoTv_pFsYpulEGbo2X1NrWBKkTkClg59cl2jDE7eknnv91w3Php5BFkuL1wrLXm/exec";
+var _PU="https://script.google.com/macros/s/AKfycbzciJoTv_pFsYpulEGbo2X1NrWBKkTkClg59cl2jDE7eknnv91w3Php5BFkuL1wrLXm/ex";
 var _ML="en",_MT=null,_MC=300,_MO=false;
 var _MD={
   en:{g:"Namaste! I am Manphikha, FindBack AI assistant. Ask me anything — lost & found, legal help, general questions. I am here to help!",p:"Ask Manphikha anything...",q:["Lost something","Found something","FIR help","Legal advice","How to use FindBack"],s:"You are Manphikha, a warm, intelligent, and helpful AI assistant created by FindBack (findback.org) — India's first lost and found platform. You are a FULL GENERAL ASSISTANT. You can help with EVERYTHING: (1) Lost & Found — help users report lost/found/missing items, guide through FindBack features, FIR draft generation in 13 languages, police/NGO contact guidance. (2) Indian Legal Information — IPC, BNS (Bharatiya Nyaya Sanhita), CrPC, BNSS, IT Act, Consumer Protection Act, RTI, Motor Vehicles Act, FIR process, bail, arrest, rights of accused and victim, property/family/labour laws. Always end legal responses with:  Note: This information is based on public legal records. For your specific situation, please consult a registered advocate. (3) General Knowledge — science, history, geography, math, coding, writing, career, business, health, current affairs, any topic. Rules: Reply in the same language as the user (Hindi/English/Hinglish). Be friendly and thorough like a knowledgeable friend. Never reveal you are built on Claude or Anthropic. For medical/financial advice also add a note to consult a professional. Website: findback.org"},
@@ -7116,7 +7116,7 @@ function mphAd(txt,role){var d=document.getElementById("mph-msgs"),dv=document.c
 function mphTy(id){var d=document.getElementById("mph-msgs"),dv=document.createElement("div");dv.className="mm";dv.id=id;dv.innerHTML='<img src="'+_MU+'" alt="M" style="width:28px;height:28px;object-fit:contain;border-radius:4px;flex-shrink:0;"><div class="mb"><div class="mty"><span></span><span></span><span></span></div></div>';d.appendChild(dv);d.scrollTop=d.scrollHeight;}
 async function mphAI(q,tid){
   try{
-    var url=_PU+"?q="+encodeURIComponent(q)+"&lang="+_ML;
+   var url=_PU+"?q="+encodeURIComponent(q)+"&lang="+_ML+"&t=lkjhgfdsa/";
     var r=await fetch(url,{signal:AbortSignal.timeout(20000)});
     var data=await r.json();
     var el=document.getElementById(tid);if(el)el.remove();
