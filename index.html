@@ -7116,7 +7116,7 @@ function mphAd(txt,role){var d=document.getElementById("mph-msgs"),dv=document.c
 function mphTy(id){var d=document.getElementById("mph-msgs"),dv=document.createElement("div");dv.className="mm";dv.id=id;dv.innerHTML='<img src="'+_MU+'" alt="M" style="width:28px;height:28px;object-fit:contain;border-radius:4px;flex-shrink:0;"><div class="mb"><div class="mty"><span></span><span></span><span></span></div></div>';d.appendChild(dv);d.scrollTop=d.scrollHeight;}
 async function mphAI(q,tid){
   try{
-   var url=_PU+"?q="+encodeURIComponent(q)+"&lang="+_ML+"&t=lkjhgfdsa/";
+   var url=_PU+"?q="+encodeURIComponent(q)+"&lang="+_ML+"&t=lkjhgfdsa";
     var r=await fetch(url,{signal:AbortSignal.timeout(20000)});
     var data=await r.json();
     var el=document.getElementById(tid);if(el)el.remove();
