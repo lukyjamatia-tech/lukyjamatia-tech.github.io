@@ -7,3 +7,6 @@ index.html.pre-*
 *.bak_*
 .github/
 .firebase/
+.firebaserc
+index_backup_*.html
+firestore.rules.bak
