@@ -6514,7 +6514,7 @@ function _goPage(pg){
 }
 window.removePagination=function(){var o=document.getElementById('pagination-bar');if(o)o.remove();};
 
-window.githubPush = async function() {
+window.githubPush = async function() {alert('Browser se GitHub push band kar diya gaya hai (security). Termux se use karein: git push');return;
   var token  = document.getElementById('gh-token')?.value.trim();
   var owner  = document.getElementById('gh-owner')?.value.trim();
   var repo   = document.getElementById('gh-repo')?.value.trim();
