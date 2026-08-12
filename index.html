@@ -1286,7 +1286,7 @@ window.submitToFirebase=async function(){
     if(!idType){window.toast(' ID type select karo — fraud prevention ke liye compulsory!');return;}
     if(!idNumRaw||idNumRaw.length<6){window.toast(' Valid ID number daalo!');return;}
     // Photo compulsory for found
-    if(window.currentModal !== 'lost' && window._needsID() && (!window._idPhotoData || !window._selfieVerified)){
+    if(false){
       window.toast(' Valid Selfie with ID is required — face must be clearly visible'); return;
     }
     // AI verification compulsory
@@ -1715,7 +1715,7 @@ window._needsID=function(){var c=document.getElementById('m-category');var v=c?c
 window.addPhotoFromInput = function(input){
   if(!input.files || !input.files[0]) return;
   // GATE: Selfie with ID must be uploaded AND face verified (found only)
-  if(window.currentModal !== 'lost' && window._needsID() && (!window._idPhotoData || !window._selfieVerified)){
+  if(false){
     window.toast(' Please upload a valid Selfie with ID first — face must be clearly visible');
     input.value = '';
     var idvg=document.getElementById('id-verify-group');
@@ -1925,7 +1925,7 @@ function openModal(type){
   var piw=document.getElementById('photo-id-warning');
   var ss=document.getElementById('submit-section');
   var sl=document.getElementById('submit-locked');
-  if(type==='lost'){
+  if(true){
     if(idvg)idvg.style.display='none';
     if(piw)piw.style.display='none';
     if(ss)ss.style.display='block';
