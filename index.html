@@ -5547,7 +5547,7 @@ window._verifySelfie=async function(imgData){
   var statusEl=document.getElementById('m-id-ai-status');
   if(statusEl){statusEl.style.display='block';statusEl.style.background='#EFF6FF';statusEl.style.color='#1A73E8';statusEl.textContent=' Selfie saving for admin review...';}
   // Auto-accept — admin will manually verify face+ID
-  window._selfieVerified=true;
+  if('FaceDetector' in window){try{var _im=new Image();_im.src=imgData;await _im.decode();var _f=await new FaceDetector({fastMode:true}).detect(_im);if(_f.length===0){if(statusEl){statusEl.style.display='block';statusEl.style.background='#FEE2E2';statusEl.style.color='#991B1B';statusEl.textContent='Chehra nahi mila - apna face aur ID card dono saaf dikhne chahiye. Dobara try karo.';}window._selfieVerified=false;window._idPhotoData=null;return;}}catch(e){}}window._selfieVerified=true;
   window._idManualReview=true;
   if(statusEl){
     statusEl.style.display='block';
