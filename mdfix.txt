@@ -1,0 +1,11 @@
+<script>
+function mphMd(t){
+t=String(t);
+t=t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+t=t.replace(/^#{1,6}\s+/gm,"");
+t=t.replace(/^\s*[-*]\s+/gm,"• ");
+t=t.replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>");
+t=t.replace(/\n/g,"<br>");
+return t;
+}
+</script>

@@ -285,8 +285,21 @@ body.dark-mode .skeleton{background:linear-gradient(90deg,#2a2a2a 25%,#333 50%,#
 window.onerror=function(msg,src,line){console.warn('FB err:',msg,line);return true;};
 window.addEventListener('unhandledrejection',function(e){console.warn('FB promise err:',e.reason);e.preventDefault();});
 </script>
+<style>.bottom-nav{padding-left:0!important;padding-right:0!important;}.bottom-nav>*{flex:1;min-width:0;font-size:9px!important;}.bottom-nav svg{width:20px!important;height:20px!important;}</style>
+<style>#fb-email-list img{height:100px!important;object-fit:cover;}#fb-email-list button{font-size:10px!important;padding:5px!important;}#fb-email-list .fb-date-hd{grid-column:1/-1;}</style>
 </head>
 <body>
+<script>
+function mphMd(t){
+t=String(t);
+t=t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+t=t.replace(/^#{1,6}\s+/gm,"");
+t=t.replace(/^\s*[-*]\s+/gm,"• ");
+t=t.replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>");
+t=t.replace(/\n/g,"<br>");
+return t;
+}
+</script>
 <nav>
   <div class="nav-logo" onclick="showPage('home')">
     <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2538,7 +2551,7 @@ window._renderAll=function(){
     var photoEmoji=p.type==='lost'?'':p.type==='found'?'':p.type==='person'?'':'';
     var imgHtml=p.photo
       ?'<img src="'+p.photo+'" style="width:100%;height:110px;object-fit:cover;display:block;">'
-      :'<div style="height:110px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:36px;">'+photoEmoji+'</div>';
+      :window.fbPh(p.cat||p.category||'',(p.name||'')+' '+(p.desc||p.description||''),110,44);
     var curUid=window._currentUser?window._currentUser.uid:null;
     var isOwn=curUid&&p.uid===curUid;
     var eid=p.id.replace(/[^a-zA-Z0-9]/g,'_');
@@ -2568,7 +2581,7 @@ window._renderAll=function(){
     return '<div style="border:1.5px solid var(--border);border-radius:16px;background:var(--white);position:relative;overflow:visible;transition:transform .15s;">'
       +menuHtml+ageBadge+likeBtn
       +'<div onclick="openDetail('+q+p.id+q+')" style="cursor:pointer;">'
-      +'<div style="border-radius:14px 14px 0 0;overflow:hidden;">'+imgHtml+'</div>'
+      +'<div style="border-radius:14px 14px 0 0;overflow:hidden;height:110px;">'+imgHtml+'</div>'
       +'<div style="padding:10px;">'
       +'<span style="background:'+tc+';color:'+tt+';font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;">'+tl+'</span>'
       +'<div style="font-size:13px;font-weight:600;margin:5px 0 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+p.item+'</div>'
@@ -3813,7 +3826,7 @@ window.fbRenderEmailList = function() {
     });
   });
 
-  listEl.innerHTML = html;
+  listEl.innerHTML = html; listEl.style.cssText = "display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 12px;box-sizing:border-box;align-items:stretch;";
 };
 
 // ── OPEN DETAIL ──
@@ -4222,6 +4235,7 @@ window._dpSubmit = async function() {
     });
 
     if(btn){btn.disabled=false;btn.textContent='Submit Case Report';}
+    if(window.gtag)gtag('event','case_report_submit',{source:'dashboard'});
     window.toast(' Case submitted successfully!');
     setTimeout(function(){window.fbSwitchNav('home',null);},800);
 
@@ -5155,6 +5169,7 @@ window.generateFIR=function(){
     var dupe=(window._allPosts||[]).find(function(p){var pc=(p.contact||'').replace(/\D/g,'').slice(-10);return cc&&pc&&cc===pc&&(p.item||'').toLowerCase()===mI.toLowerCase();});
     if(dupe&&!confirm(' Similar post exists: "'+dupe.item+'"\nPhir bhi submit?')) return;
     if(_orig) await _orig();
+    if(window.gtag)gtag('event','post_submit',{post_type:window.currentModal||'lost'});
     if(mI&&loc){setTimeout(async function(){try{var m=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');await m.addDoc(m.collection(window._db,'police_notifications'),{firId:window._generateFIRId(loc),postType:window.currentModal||'lost',postItem:mI,postLoc:loc,postContact:'+91'+mC,district:mD,state:mS,postAuthor:window._currentUser?(window._currentUser.displayName||'Anonymous'):'Anonymous',createdAt:m.serverTimestamp(),status:'unread'});}catch(e){}},2000);}
   };
 })();
@@ -6381,7 +6396,7 @@ console.log(' FindBack v2 Features loaded');
 
 window._buildSlideshow=function(photos,postId,type){
   var em=type==='lost'?'':type==='found'?'':type==='person'?'':'';
-  if(!photos||!photos.length)return'<div style="height:110px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:36px;">'+em+'</div>';
+  if(!photos||!photos.length)return window.fbPh(window._fbCat||"",window._fbTxt||"",110,44);
   if(photos.length===1)return'<img src="'+photos[0]+'" style="width:100%;height:110px;object-fit:cover;display:block;">';
   var sid='sl_'+postId.replace(/[^a-zA-Z0-9]/g,'_');
   var imgs=photos.map(function(src,i){
@@ -6433,7 +6448,7 @@ function upgradeAllCards(){
       var el=allOnclick[i];
       if(el.getAttribute('onclick')&&el.getAttribute('onclick').indexOf(p.id)>=0){
         var imgWrap=el.querySelector('div[style*="border-radius:14px 14px"]');
-        if(imgWrap){imgWrap.innerHTML=window._buildSlideshow(photos,p.id,p.type);break;}
+          if(imgWrap){window._fbCat=p.cat||p.category||'';window._fbTxt=(p.name||'')+' '+(p.desc||p.description||'');imgWrap.innerHTML=window._buildSlideshow(photos,p.id,p.type);break;}
       }
     }
   });
@@ -7113,11 +7128,11 @@ function mphTk(){var m=Math.floor(_MC/60),s=_MC%60;document.getElementById("mph-
 function mphR(){_MC=60;}
 function mphA(q){document.getElementById("mph-inp").value=q;mphS();}
 function mphS(){var i=document.getElementById("mph-inp"),q=i.value.trim();if(!q)return;i.value="";mphR();mphAd(q,"user");var t="mt"+Date.now();mphTy(t);mphAI(q,t);}
-function mphAd(txt,role){var d=document.getElementById("mph-msgs"),dv=document.createElement("div");dv.className="mm"+(role==="user"?" u":"");var av=role==="user"?'<div class="muav">U</div>':'<img src="'+_MU+'" alt="M" style="width:28px;height:28px;object-fit:contain;border-radius:4px;flex-shrink:0;" onerror="this.outerHTML=\'<div style=width:28px;height:28px;background:#E8722A;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;color:white;>M</div>\'">';var bb='<div class="mb">'+txt+"</div>";dv.innerHTML=role==="user"?bb+av:av+bb;d.appendChild(dv);d.scrollTop=d.scrollHeight;}
+function mphAd(txt,role){var d=document.getElementById("mph-msgs"),dv=document.createElement("div");dv.className="mm"+(role==="user"?" u":"");var av=role==="user"?'<div class="muav">U</div>':'<img src="'+_MU+'" alt="M" style="width:28px;height:28px;object-fit:contain;border-radius:4px;flex-shrink:0;" onerror="this.outerHTML=\'<div style=width:28px;height:28px;background:#E8722A;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;color:white;>M</div>\'">';var bb='<div class="mb">'+mphMd(txt)+"</div>";dv.innerHTML=role==="user"?bb+av:av+bb;d.appendChild(dv);d.scrollTop=d.scrollHeight;}
 function mphTy(id){var d=document.getElementById("mph-msgs"),dv=document.createElement("div");dv.className="mm";dv.id=id;dv.innerHTML='<img src="'+_MU+'" alt="M" style="width:28px;height:28px;object-fit:contain;border-radius:4px;flex-shrink:0;"><div class="mb"><div class="mty"><span></span><span></span><span></span></div></div>';d.appendChild(dv);d.scrollTop=d.scrollHeight;}
 async function mphAI(q,tid){
   try{
-   var url=_PU+"?q="+encodeURIComponent(q)+"&lang="+_ML+"&t=lkjhgfdsa";
+   var url=_PU+"?q="+encodeURIComponent(q)+"&lang="+_ML+"&t=fb7Kx9mQ2vLp4Rz8";
     var r=await fetch(url,{signal:AbortSignal.timeout(20000)});
     var data=await r.json();
     var el=document.getElementById(tid);if(el)el.remove();
@@ -7509,7 +7524,7 @@ window.ngoAdminCheck = async function() {
 <script src="ngo-icons.js">
 
 
-</script></body>
+</script><script src="/fb-thumb.js?v=2"></script></body>
 </html>
 <!-- v3.1 -->
 < rebuild -->
