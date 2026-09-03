@@ -3999,7 +3999,7 @@ window.fbSwitchNav = function(tab, btn, mode) {
         +'<div style="background:#fff;border:1.5px solid #fde8d8;border-radius:12px;padding:14px;text-align:center;"><div style="font-size:28px;font-weight:800;color:#E8722A;font-family:Sora,sans-serif;">'+resRate+'%</div><div style="font-size:11px;color:#777;font-weight:600;"> Resolution Rate</div></div>'
         +'</div>';
     }
-  } else if(tab === 'alerts') {
+  } else if(tab === 'alerts') {try{window._loadTagAlerts&&window._loadTagAlerts();}catch(e){}
     window.ngoLoadNotifications && window.ngoLoadNotifications();
   } else if(tab === 'fraud') {
     window._renderFraudTab();
