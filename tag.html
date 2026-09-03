@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FindBack — Found this item?</title>
+<meta name="robots" content="noindex">
+<style>
+  :root{
+    --ink:#1b1b1b; --muted:#6b6b6b; --orange:#ef6c1a; --orange-dark:#c9540c;
+    --line:#e6e2dd; --paper:#fbfaf8; --ok:#1d7a4c;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55}
+  .wrap{max-width:34rem;margin:0 auto;padding:1.5rem 1.25rem 3rem}
+  .brand{display:flex;align-items:center;gap:.5rem;margin-bottom:2rem}
+  .brand b{font-size:1.15rem;letter-spacing:-.01em}
+  .brand b span{color:var(--orange)}
+  .dot{width:.6rem;height:.6rem;border-radius:50%;background:var(--orange)}
+  h1{font-size:1.55rem;line-height:1.25;margin:0 0 .4rem;letter-spacing:-.02em}
+  .sub{color:var(--muted);margin:0 0 1.75rem}
+  .card{background:#fff;border:1px solid var(--line);border-radius:.9rem;
+    padding:1.25rem;margin-bottom:1.25rem}
+  .item{font-size:1.25rem;font-weight:600;margin:0 0 .15rem}
+  .owner{color:var(--muted);margin:0}
+  .note{margin:.9rem 0 0;padding-top:.9rem;border-top:1px solid var(--line)}
+  .tagid{margin-top:.9rem;padding-top:.9rem;border-top:1px solid var(--line);
+    color:var(--muted);font-size:.85rem}
+  .num{font-variant-numeric:tabular-nums;font-weight:600}
+  label{display:block;font-weight:600;margin:1rem 0 .35rem;font-size:.95rem}
+  textarea,input{width:100%;padding:.7rem .8rem;border:1px solid var(--line);
+    border-radius:.6rem;font:inherit;background:#fff;color:var(--ink)}
+  textarea{min-height:5rem;resize:vertical}
+  .hint{color:var(--muted);font-size:.85rem;margin:.35rem 0 0}
+  a.btn,button{display:block;width:100%;margin-top:.75rem;padding:.85rem;
+    border:0;border-radius:.6rem;background:var(--orange);color:#fff;
+    font:inherit;font-weight:600;text-align:center;text-decoration:none;cursor:pointer}
+  a.btn.ghost,button.ghost{background:#fff;color:var(--orange-dark);border:1px solid var(--line)}
+  a.btn:hover,button:hover{background:var(--orange-dark);color:#fff}
+  a.btn.ghost:hover,button.ghost:hover{background:#fdf3ec;color:var(--orange-dark)}
+  button[disabled]{opacity:.55;cursor:default}
+  a:focus-visible,button:focus-visible,input:focus,textarea:focus{
+    outline:3px solid #f7c9a8;outline-offset:1px}
+  .msg{padding:1rem;border-radius:.6rem;margin-top:1rem;display:none}
+  .msg.show{display:block}
+  .msg.ok{background:#e8f5ee;color:var(--ok)}
+  .msg.err{background:#fdeceb;color:#a32b22}
+  .foot{color:var(--muted);font-size:.85rem;text-align:center;margin-top:2rem}
+  .foot a{color:var(--orange-dark)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand"><span class="dot"></span><b>Find<span>Back</span></b></div>
+
+  <div id="loading"><p class="sub">Loading tag…</p></div>
+
+  <div id="empty" hidden>
+    <h1>This tag isn't registered</h1>
+    <p class="sub">The code scanned fine, but no item is linked to it. The owner may need to create the tag again in the FindBack app.</p>
+    <a class="btn" href="https://findback.org">Go to FindBack</a>
+  </div>
+
+  <main id="found" hidden>
+    <h1>You found someone's item</h1>
+    <p class="sub" id="lede">Send a message and the owner is notified straight away. You don't need an account.</p>
+
+    <div class="card">
+      <p class="item" id="itemName"></p>
+      <p class="owner" id="ownerName"></p>
+      <p class="note" id="noteRow" hidden><span id="noteText"></span></p>
+      <div class="tagid">Tag <span id="tagIdOut"></span></div>
+    </div>
+
+    <div id="contactBlock" hidden>
+      <div class="card">
+        <p class="owner" style="margin-bottom:.35rem">Owner's contact</p>
+        <p class="num" id="contactMasked"></p>
+        <button class="ghost" id="revealBtn">Show the number</button>
+        <a class="btn" id="waBtn" target="_blank" rel="noopener" hidden>Message on WhatsApp</a>
+        <a class="btn ghost" id="callBtn" hidden>Call the owner</a>
+      </div>
+    </div>
+
+    <div id="alertBlock">
+      <div class="card">
+        <label for="finderMsg">Where is it now?</label>
+        <textarea id="finderMsg" placeholder="Example: I have it at the Nagerjala bus stand tea shop, ask for Ratan."></textarea>
+
+        <label for="finderContact">Your phone or email (optional)</label>
+        <input id="finderContact" type="text" placeholder="So the owner can reach you directly">
+        <p class="hint">Leave it blank if you'd rather stay anonymous. The owner still gets your message.</p>
+
+        <button id="sendBtn">Notify the owner</button>
+        <div class="msg" id="msg"></div>
+      </div>
+    </div>
+
+    <p class="foot">The owner's number stays hidden on FindBack. <a href="https://findback.org">findback.org</a></p>
+  </main>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCH1s6Cf2Zx2CZVv5HUUu2P7TwHEqoxWW8",
+  authDomain: "findback.org",
+  projectId: "findback-app-34e4f",
+  storageBucket: "findback-app-34e4f.appspot.com",
+  messagingSenderId: "504207496092",
+  appId: "1:504207496092:web:b9d6918639ed23ddad6e59"
+};
+
+let db = null;
+if (typeof firebase !== "undefined") {
+  firebase.initializeApp(firebaseConfig);
+  db = firebase.firestore();
+}
+
+const P = new URLSearchParams(location.search);
+const parts = location.pathname.split("/").filter(Boolean);
+const last  = parts[parts.length - 1] || "";
+const tagId = /^FB[A-Z0-9]+$/i.test(last) ? last.toUpperCase() : (P.get("id") || "").toUpperCase();
+
+const $ = id => document.getElementById(id);
+let data = null;
+
+function show(which){
+  $("loading").hidden = which !== "loading";
+  $("found").hidden   = which !== "found";
+  $("empty").hidden   = which !== "empty";
+}
+
+// Old tags carried everything in the URL. New ones carry only the Tag ID.
+function fromParams(){
+  const item = (P.get("item") || "").trim();
+  if (!item && !P.get("owner") && !P.get("contact")) return null;
+  return {
+    itemName : item,
+    ownerName: (P.get("owner")   || "").trim(),
+    contact  : (P.get("contact") || "").trim(),
+    msg      : (P.get("msg")     || "").trim(),
+    ownerUid : null
+  };
+}
+
+async function load(){
+  if (db && tagId) {
+    try {
+      const snap = await db.collection("qr_tags").doc(tagId).get();
+      if (snap.exists) data = snap.data();
+    } catch (e) { console.error("tag read", e); }
+  }
+  if (!data) data = fromParams();
+  if (!data) { show("empty"); return; }
+  render();
+}
+
+function render(){
+  $("itemName").textContent  = data.itemName || "Tagged item";
+  $("ownerName").textContent = data.ownerName ? data.ownerName + "'s item" : "A FindBack tagged item";
+  $("tagIdOut").textContent  = tagId || "—";
+
+  if (data.msg) { $("noteRow").hidden = false; $("noteText").textContent = data.msg; }
+
+  const contact = (data.contact || "").trim();
+  if (contact) {
+    $("contactBlock").hidden = false;
+    $("contactMasked").textContent = mask(contact);
+    $("revealBtn").addEventListener("click", () => reveal(contact));
+  }
+  if (!data.ownerUid) {
+    // No account behind this tag — a message would have nowhere to land.
+    $("alertBlock").hidden = true;
+    if (!contact) $("lede").textContent = "This tag doesn't carry a way to reach the owner. You can report the item on FindBack instead.";
+  }
+  show("found");
+}
+
+function mask(c){
+  const d = c.replace(/\D/g, "");
+  if (d.length < 6) return "••••";
+  const head = c.trim().startsWith("+") ? "+" + d.slice(0, 2) : "";
+  return head + "••••" + d.slice(-4);
+}
+
+function reveal(contact){
+  $("contactMasked").textContent = contact;
+  $("revealBtn").hidden = true;
+  const d = contact.replace(/\D/g, "");
+  if (d.length >= 10) {
+    const text = "Hello, I found your " + (data.itemName || "item") +
+                 (tagId ? " (FindBack tag " + tagId + ")" : "") + ".";
+    const wa = $("waBtn");
+    wa.href = "https://wa.me/" + (d.length === 10 ? "91" + d : d) + "?text=" + encodeURIComponent(text);
+    wa.hidden = false;
+    const call = $("callBtn");
+    call.href = "tel:" + contact.replace(/\s/g, "");
+    call.hidden = false;
+  }
+}
+
+function tell(kind, text){
+  const m = $("msg");
+  m.className = "msg show " + kind;
+  m.textContent = text;
+}
+
+$("sendBtn").addEventListener("click", async () => {
+  const note    = $("finderMsg").value.trim();
+  const contact = $("finderContact").value.trim();
+  if (!note) { tell("err", "Add a line about where the item is, so the owner knows what to do."); return; }
+  if (!db)   { tell("err", "Couldn't connect. Check your internet and try again."); return; }
+
+  const btn = $("sendBtn");
+  btn.disabled = true;
+  btn.textContent = "Sending…";
+
+  const payload = {
+    tagId: tagId,
+    ownerUid: data.ownerUid || null,
+    itemName: data.itemName || null,
+    finderMessage: note.slice(0, 500),
+    finderContact: contact.slice(0, 120) || null,
+    source: "qr_scan",
+    read: false,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  const finish = async () => {
+    try {
+      await db.collection("tag_alerts").add(payload);
+      $("finderMsg").disabled = true;
+      $("finderContact").disabled = true;
+      btn.textContent = "Owner notified";
+      tell("ok", "Message sent. The owner has been notified and can reach you from here.");
+    } catch (e) {
+      console.error("alert", e);
+      btn.disabled = false;
+      btn.textContent = "Notify the owner";
+      tell("err", "That didn't send. Check your connection and try once more.");
+    }
+  };
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => { payload.lat = pos.coords.latitude; payload.lng = pos.coords.longitude; finish(); },
+      ()  => finish(),
+      { timeout: 6000, maximumAge: 60000 }
+    );
+  } else {
+    finish();
+  }
+});
+
+if (!db && !fromParams()) {
+  $("loading").innerHTML = '<p class="sub">Couldn\'t connect. Check your internet and reload the page.</p>';
+} else {
+  load();
+}
+</script>
+</body>
+</html>

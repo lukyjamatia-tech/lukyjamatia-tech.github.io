@@ -61,6 +61,12 @@
           }
         ]
       }
+    ],
+    "rewrites": [
+      {
+        "source": "/tag/**",
+        "destination": "/tag.html"
+      }
     ]
   },
   "firestore": {
