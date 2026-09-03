@@ -1203,14 +1203,14 @@ body.lang-en span[data-lang="en"]{display:inline;}
 <!-- FIREBASE + ALL JS -->
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, deleteDoc, updateDoc, doc, onSnapshot, orderBy, query, serverTimestamp, enableNetwork, disableNetwork } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, setDoc, deleteDoc, updateDoc, doc, onSnapshot, orderBy, query, serverTimestamp, enableNetwork, disableNetwork } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 const firebaseConfig={apiKey:"AIzaSyCH1s6Cf2Zx2CZVv5HUUu2P7TwHEqoxWW8",authDomain:"findback.org",projectId:"findback-app-34e4f",storageBucket:"findback-app-34e4f.appspot.com",messagingSenderId:"504207496092",appId:"1:504207496092:web:b9d6918639ed23ddad6e59"};
 const app=initializeApp(firebaseConfig);
 const db=getFirestore(app);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'){disableNetwork(db).catch(()=>{});}else{enableNetwork(db).catch(()=>{});}});
 const auth=getAuth(app);
-window._db=db;window._auth=auth;window._allPosts=[];window._GAP=GoogleAuthProvider;window._SIP=signInWithPopup;window._SIWR=signInWithRedirect;window._GRR=getRedirectResult;window._SPRE=sendPasswordResetEmail;
+window._db=db;window._auth=auth;window._doc=doc;window._setDoc=setDoc;window._sTS=serverTimestamp;window._allPosts=[];window._GAP=GoogleAuthProvider;window._SIP=signInWithPopup;window._SIWR=signInWithRedirect;window._GRR=getRedirectResult;window._SPRE=sendPasswordResetEmail;
 // Handle redirect result after Google login on mobile
 getRedirectResult(auth).then(function(result){
   if(result&&result.user){window._saveGoogleUser&&window._saveGoogleUser(result.user);}
