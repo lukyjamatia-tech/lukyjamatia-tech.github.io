@@ -243,11 +243,11 @@ $("sendBtn").addEventListener("click", async () => {
       console.error("alert", e);
       btn.disabled = false;
       btn.textContent = "Notify the owner";
-      tell("err", "That didn't send. Check your connection and try once more.");
+      tell("err", "Send failed: " + ((e&&e.code)||e));
     }
   };
 
-  if (navigator.geolocation) {
+  if (false) {
     navigator.geolocation.getCurrentPosition(
       pos => { payload.lat = pos.coords.latitude; payload.lng = pos.coords.longitude; finish(); },
       ()  => finish(),
