@@ -1490,11 +1490,11 @@ window.reportPost=function(postId){
   const r=prompt(' Report karo:\n\n1. Fake/Prank post\n2. Wrong/misleading info\n3. Spam\n4. Inappropriate content\n\nNumber type karo (1-4):','1');
   if(!r)return;
   const rt=reasons[parseInt(r)-1]||reasons[0];
-  import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js").then(m=>m.addDoc(m.collection(window._db,"reports"),{postId,postItem:p.item||'',postType:p.type||'',postLoc:p.loc||'',reason:rt,reportedAt:m.serverTimestamp(),reporterUid:window._currentUser?window._currentUser.uid:'anonymous'})).then(()=>toast(' Report bheja! Team review karegi.')).catch(()=>toast(' Report failed.'));
+  import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js").then(m=>m.addDoc(m.collection(window._db,"reports"),{postId,postItem:p.item||'',postType:p.type||'',postLoc:p.loc||'',reason:rt,reportedAt:m.serverTimestamp(),reporterUid:window._currentUser?window._currentUser.uid:'anonymous'})).then(()=>toast(' Report bheja! Team review karegi.')).catch(e=>toast(fbErrMsg(e)));
 };
 window.markResolved=async function(id){
   if(!confirm((window.APP_LANG==='hi')?'Resolved mark karna chahte ho?':'Mark as resolved?'))return;
-  try{const{doc:d,updateDoc:up}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");await up(d(window._db,"posts",id),{status:'resolved',resolvedAt:new Date()});window.toast(' Resolved! ');if(window.launchConfetti)window.launchConfetti();}catch(e){window.toast(' Failed.');}
+  try{const{doc:d,updateDoc:up}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");await up(d(window._db,"posts",id),{status:'resolved',resolvedAt:new Date()});window.toast(' Resolved! ');if(window.launchConfetti)window.launchConfetti();}catch(e){window.toast(fbErrMsg(e));}
 };
 </script>
 
@@ -1724,7 +1724,7 @@ window.removePhoto = function(idx){
   renderPhotoGrid();
 };
 
-window._needsID=function(){var c=document.getElementById('m-category');var v=c?c.value:'';return ['Laptops','Jewellery','Electronics','Cars','Bikes','Documents','Person'].indexOf(v)>=0;};
+window._needsID=function(){var c=document.getElementById('m-category');alert('cat: '+(c?c.value:'NO ELEMENT'));var v=c?c.value:'';return ['Laptops','Jewellery','Electronics','Cars','Bikes','Documents','Person'].indexOf(v)>=0;};
 window.addPhotoFromInput = function(input){
   if(!input.files || !input.files[0]) return;
   // GATE: Selfie with ID must be uploaded AND face verified (found only)
@@ -1789,7 +1789,7 @@ window.previewEditPhoto=function(input){
       const canvas=document.createElement('canvas');const MAX=600;let w=image.width,h=image.height;
       if(w>h){if(w>MAX){h=h*MAX/w;w=MAX;}}else{if(h>MAX){w=w*MAX/h;h=MAX;}}
       canvas.width=w;canvas.height=h;canvas.getContext('2d').drawImage(image,0,0,w,h);
-      const compressed=canvas.toDataURL('image/jpeg',0.6);window._editNewPhoto=compressed;
+      redactDocs(canvas);const compressed=canvas.toDataURL('image/jpeg',0.6);window._editNewPhoto=compressed;
       const img=document.getElementById('e-photo-img'),prev=document.getElementById('e-photo-preview');
       if(img)img.src=compressed;if(prev)prev.style.display='block';
     };image.src=e.target.result;
@@ -2251,6 +2251,41 @@ function _doRenderAdminStats(){
 }
 window.refreshAdminStats=refreshAdminStats;
 
+
+
+function fbErrMsg(e){
+  var c = String((e && (e.code || e.message)) || '');
+  if(c.indexOf('resource-exhausted') > -1)
+    return 'Daily server limit reached. Please try again after some hours.';
+  if(c.indexOf('permission-denied') > -1)
+    return 'Permission denied. Please sign in and try again.';
+  if(c.indexOf('unavailable') > -1 || c.indexOf('network') > -1)
+    return 'Network problem. Please check your internet connection.';
+  if(c.indexOf('invalid-argument') > -1)
+    return 'Photo may be too large. Please try a smaller image.';
+  return 'Something went wrong. Please try again.';
+}
+window.fbErrMsg=fbErrMsg;
+function redactBand(cv,top,bot){
+  var ctx=cv.getContext('2d'),w=cv.width,h=cv.height;
+  var y=Math.round(h*top),bh=Math.round(h*(bot-top));
+  if(bh<=0||w<=0)return;
+  var s=document.createElement('canvas');
+  var sw=Math.max(4,Math.round(w/22)),sh=Math.max(2,Math.round(bh/4));
+  s.width=sw;s.height=sh;
+  s.getContext('2d').drawImage(cv,0,y,w,bh,0,0,sw,sh);
+  ctx.imageSmoothingEnabled=false;
+  ctx.drawImage(s,0,0,sw,sh,0,y,w,bh);
+  ctx.imageSmoothingEnabled=true;
+}
+function redactDocs(cv){
+  var c=document.getElementById('m-category');alert('cat: '+(c?c.value:'NO ELEMENT'));
+  if(!c||c.value!=='Documents')return;
+  redactBand(cv,0.42,0.58);
+  redactBand(cv,0.55,1.00);
+}
+window.redactDocs=redactDocs;
+0
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
 window.toast=toast;
 
@@ -2344,7 +2379,7 @@ window.runAIMatch=async function(postId){
   if(!cands.length){toast(APP_LANG==='hi'?' कोई मैच नहीं मिला':' No match found');if(btn){btn.textContent=(APP_LANG==='hi'?' AI मैच खोजें':' Find AI Match');btn.disabled=false;}return;}
   const prompt=`Lost/found matching for India.\nPOST: Type:${post.type} Item:${post.item} Cat:${post.category||'?'} Loc:${post.loc} Date:${post.date||'?'} Desc:${post.desc||'none'}\nCANDIDATES:\n${cands.map((c,i)=>`${i+1}. ID:${c.id}|Item:${c.item}|Cat:${c.category||'?'}|Loc:${c.loc}|Date:${c.date||'?'}|Desc:${c.desc||'none'}`).join('\n')}\nTop 3 matches. JSON only:\n{"matches":[{"id":"id","score":95,"reason":"reason"},{"id":"id","score":80,"reason":"..."},{"id":"id","score":60,"reason":"..."}]}`;
   try{const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:500,messages:[{role:'user',content:prompt}]})});const data=await res.json();const text=data.content?.[0]?.text||'{}';const parsed=JSON.parse(text.replace(/```json|```/g,'').trim());showAIMatchResults(post,parsed.matches||[],cands);}
-  catch(e){toast(' AI Match error.');}
+  catch(e){toast(fbErrMsg(e));}
   if(btn){btn.textContent=(APP_LANG==='hi'?' AI मैच खोजें':' Find AI Match');btn.disabled=false;}
 };
 function showAIMatchResults(post,matches,cands){
@@ -3333,7 +3368,7 @@ window.registerPushToken=async function(){
         <div class="fb-gov-logo">
           <div class="fb-gov-emblem"></div>
           <div>
-            <div class="fb-gov-title">FindBack Partner Portal Portal</div>
+            <div class="fb-gov-title">FindBack Partner Portal</div>
             <div class="fb-gov-sub">For NGO & Institutional Partners</div>
           </div>
         </div>
@@ -4217,7 +4252,7 @@ window._dpSubmit = async function() {
         else{if(ch>MAX){cw=Math.round(cw*MAX/ch);ch=MAX;}}
         cv.width=cw;cv.height=ch;
         cv.getContext('2d').drawImage(img,0,0,cw,ch);
-        photoData=cv.toDataURL('image/jpeg',0.7);
+        redactDocs(cv);photoData=cv.toDataURL('image/jpeg',0.7);
         if(photoData.length>900000)photoData=photoData.substring(0,900000);
       } catch(e){photoData=null;}
     }
@@ -4241,7 +4276,7 @@ window._dpSubmit = async function() {
 
   } catch(err) {
     if(btn){btn.disabled=false;btn.textContent='Submit Case Report';}
-    if(errEl){errEl.textContent='Error: '+err.message;errEl.style.display='block';}
+    if(errEl){errEl.textContent=fbErrMsg(err);errEl.style.display='block';}
   }
 };
 
@@ -4853,7 +4888,7 @@ window.fbBulkAddPhoto = function(input) {
       else { if (h > MAX) { w = Math.round(w*MAX/h); h = MAX; } }
       canvas.width = w; canvas.height = h;
       canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      var data = canvas.toDataURL('image/jpeg', 0.6);
+      redactDocs(canvas);var data = canvas.toDataURL('image/jpeg', 0.6);
       window._bulkPhotos.push(data);
       fbBulkRenderPhotos();
     };
