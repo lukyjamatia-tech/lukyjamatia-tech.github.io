@@ -8,7 +8,10 @@
       ".gitignore",
       "**/node_modules/**",
       "**/*.py",
-      "README.md"
+      "README.md",
+      "patch*.js",
+      "strip.js",
+      "mdfix.txt"
     ],
     "cleanUrls": true,
     "trailingSlash": false,
