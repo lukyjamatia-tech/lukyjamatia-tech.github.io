@@ -1359,7 +1359,7 @@ window.deletePost=async function(id){
  if(!adminMode&&(!window._currentUser||window._currentUser.uid!==post.uid)){say('Sirf post owner hi delete kar sakta hai',false);return;}
  say('Deleting...',true);
  try{await deleteDoc(doc(db,"posts",id));say('DELETED: '+(post.item||''),true);}
- catch(e){var fu=(window._auth&&window._auth.currentUser)||null;say('FAILED: '+((e&&e.code)||e)+(fu?(' | login: '+(fu.email||fu.uid)):' | login: NONE'),false);}
+ catch(e){say(fbErrMsg(e),false);}
 };
 window.submitEdit=async function(){
   const id=document.getElementById('e-postid').value;if(!id)return;
@@ -1382,7 +1382,7 @@ window.submitEdit=async function(){
     await updateDoc(doc(db,"posts",id),ud);
     document.getElementById('edit-success').style.display='block';window.toast(' Updated!');
     setTimeout(()=>{window.closeEditModal();btn.textContent='Update Post';btn.disabled=false;},1500);
-  }catch(e){window.toast(' Update failed.');btn.textContent='Update Post';btn.disabled=false;}
+  }catch(e){window.toast(fbErrMsg(e));btn.textContent='Update Post';btn.disabled=false;}
 };
 window._doRegisterInlineFn=async function(){
   const name=document.getElementById('r2-name').value.trim();
