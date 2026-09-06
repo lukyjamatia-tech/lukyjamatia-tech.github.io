@@ -1045,7 +1045,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
       <div id="photo-count-label" style="font-size:11px;color:var(--text-muted);margin-top:4px;">0 / 5 photos</div>
     </div>
     <div class="form-group"><label> Item Name</label><input type="text" id="m-item" placeholder="e.g. Wallet, iPhone, Bag"></div>
-    <div class="form-group"><label> Category</label><select id="m-category" onchange="onModalCategoryChange()"><option value="">-- Select --</option><option value="Wallet"> Wallet</option><option value="Phone"> Phones</option><option value="Keys"> Keys</option><option value="Bag"> Bags</option><option value="Jewellery"> Jewellery</option><option value="Backpack"> Backpacks</option><option value="Laptop"> Laptops</option><option value="Pet"> Pets</option><option value="Glasses"> Glasses</option><option value="Documents"> Documents</option><option value="Watch">⌚ Watches</option><option value="Purse"> Purses</option><option value="Person"> Person</option><option value="Electronics"> Electronics</option><option value="Car"> Cars</option><option value="Bike"> Bikes</option><option value="Cycle"> Cycles</option><option value="Other"> Other</option></select></div>
+    <div class="form-group"><label> Category</label><select id="m-category" onchange="onModalCategoryChange()"><option value="">-- Select --</option><option value="Wallet"> Wallet</option><option value="Phone"> Phones</option><option value="Keys"> Keys</option><option value="Bag"> Bags</option><option value="Jewellery"> Jewellery</option><option value="Backpack"> Backpacks</option><option value="Laptop"> Laptops</option><option value="Pet"> Pets</option><option value="Glasses"> Glasses</option><option value="Documents"> Documents</option><option value="Watch">⌚ Watches</option><option value="Purse"> Purses</option><option value="Person"> Person</option><option value="Electronics"> Electronics</option><option value="Car"> Cars</option><option value="Bike"> Bikes</option><option value="Cycle"> Cycles</option><option value="Other"> Other</option></select><div id="doc-privacy-note" style="display:none;margin-top:8px;padding:10px 12px;background:#FFF4E5;border-left:3px solid #FF8A3D;border-radius:6px;font-size:12px;line-height:1.5;color:#5C4033;">🔒 <b>Privacy protection:</b> The number and QR code on document photos are blurred automatically for your safety. Your name and photo stay visible so the finder can identify it. This is not an upload error.</div></div>
     <div class="form-group">
   <label> State</label>
   <select id="m-state" onchange="_formStateChange()" style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:var(--white);">
@@ -1149,7 +1149,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
     <div id="edit-success" class="alert-success"> Updated!</div>
     <input type="hidden" id="e-postid">
     <div class="form-group"><label> Item Name</label><input type="text" id="e-item"></div>
-    <div class="form-group"><label> Category</label><select id="e-category"><option value="">-- Select --</option><option value="Wallet"> Wallet</option><option value="Phone"> Phones</option><option value="Keys"> Keys</option><option value="Bag"> Bags</option><option value="Jewellery"> Jewellery</option><option value="Backpack"> Backpacks</option><option value="Laptop"> Laptops</option><option value="Pet"> Pets</option><option value="Glasses"> Glasses</option><option value="Documents"> Documents</option><option value="Watch">⌚ Watches</option><option value="Purse"> Purses</option><option value="Person"> Person</option><option value="Electronics"> Electronics</option><option value="Car"> Cars</option><option value="Bike"> Bikes</option><option value="Cycle"> Cycles</option><option value="Other"> Other</option></select></div>
+    <div class="form-group"><label> Category</label><select id="e-category"><option value="">-- Select --</option><option value="Wallet"> Wallet</option><option value="Phone"> Phones</option><option value="Keys"> Keys</option><option value="Bag"> Bags</option><option value="Jewellery"> Jewellery</option><option value="Backpack"> Backpacks</option><option value="Laptop"> Laptops</option><option value="Pet"> Pets</option><option value="Glasses"> Glasses</option><option value="Documents"> Documents</option><option value="Watch">⌚ Watches</option><option value="Purse"> Purses</option><option value="Person"> Person</option><option value="Electronics"> Electronics</option><option value="Car"> Cars</option><option value="Bike"> Bikes</option><option value="Cycle"> Cycles</option><option value="Other"> Other</option></select><div id="doc-privacy-note" style="display:none;margin-top:8px;padding:10px 12px;background:#FFF4E5;border-left:3px solid #FF8A3D;border-radius:6px;font-size:12px;line-height:1.5;color:#5C4033;">🔒 <b>Privacy protection:</b> The number and QR code on document photos are blurred automatically for your safety. Your name and photo stay visible so the finder can identify it. This is not an upload error.</div></div>
     <div class="form-group"><label> Location</label><div class="input-icon-wrap"><span class="icon"></span><input type="text" id="e-loc"></div></div>
     <div class="form-group"><label> Date</label><input type="date" id="e-date" max=""></div>
     <div class="form-group"><label> Description</label><textarea id="e-desc"></textarea></div>
@@ -1328,7 +1328,7 @@ window.submitToFirebase=async function(){
   const btn=document.querySelector('#report-modal .btn-primary');
   if(btn){btn.textContent='Submitting...';btn.disabled=true;}
   try{
-    const photo=(photos[0]&&photos[0].length<900000)?photos[0]:(photos[0]?photos[0].substring(0,900000):null);
+    var photo=(photos[0]&&photos[0].length<900000)?photos[0]:(photos[0]?photos[0].substring(0,900000):null);photo=await redactPhotoData(photo,cat);
     await addDoc(collection(db,"posts"),{type,item,loc,state:mState||"",district:mDist||"",date:dv,desc,contact,category:cat,reward:rew,uid,authorName,photo,photoCount:photos.length,idMark,regNo,plateNo,idVerifyType:idType,idVerifyMasked:idMasked,idVerifyPhoto:window._idPhotoData||null,idManualReview:window._idManualReview||false,route:routeVal||"",routeType:routeType||"",coach:coachVal||"",seat:seatVal||"",createdAt:serverTimestamp()});
     document.getElementById('modal-success').style.display='block';
     if(window.checkAreaAlerts)window.checkAreaAlerts({type,item,loc,category:cat});
@@ -1654,7 +1654,7 @@ window.validatePhoneInput=function(input,errId){
 };
 
 window.onModalCategoryChange=function(){
-  const cat=document.getElementById('m-category').value;
+  const cat=document.getElementById('m-category').value;document.querySelectorAll('#doc-privacy-note').forEach(function(n){n.style.display=(cat==='Documents')?'block':'none';});
   const ig=document.getElementById('id-mark-group'),vf=document.getElementById('vehicle-fields');
   if(ig)ig.style.display=cat?'block':'none';
   if(vf)vf.style.display=['Car','Bike','Cycle'].includes(cat)?'block':'none';
@@ -1724,7 +1724,7 @@ window.removePhoto = function(idx){
   renderPhotoGrid();
 };
 
-window._needsID=function(){var c=document.getElementById('m-category');alert('cat: '+(c?c.value:'NO ELEMENT'));var v=c?c.value:'';return ['Laptops','Jewellery','Electronics','Cars','Bikes','Documents','Person'].indexOf(v)>=0;};
+window._needsID=function(){var c=document.getElementById('m-category');var v=c?c.value:'';return ['Laptops','Jewellery','Electronics','Cars','Bikes','Documents','Person'].indexOf(v)>=0;};
 window.addPhotoFromInput = function(input){
   if(!input.files || !input.files[0]) return;
   // GATE: Selfie with ID must be uploaded AND face verified (found only)
@@ -2279,12 +2279,31 @@ function redactBand(cv,top,bot){
   ctx.imageSmoothingEnabled=true;
 }
 function redactDocs(cv){
-  var c=document.getElementById('m-category');alert('cat: '+(c?c.value:'NO ELEMENT'));
+  var c=document.getElementById('m-category');
   if(!c||c.value!=='Documents')return;
   redactBand(cv,0.42,0.58);
   redactBand(cv,0.55,1.00);
 }
 window.redactDocs=redactDocs;
+function redactPhotoData(dataUrl,cat){
+  return new Promise(function(res){
+    if(!dataUrl||cat!=='Documents'){res(dataUrl);return;}
+    var im=new Image();
+    im.onload=function(){
+      try{
+        var cv=document.createElement('canvas');
+        cv.width=im.width;cv.height=im.height;
+        cv.getContext('2d').drawImage(im,0,0);
+        redactBand(cv,0.42,0.58);
+        redactBand(cv,0.55,1.00);
+        res(cv.toDataURL('image/jpeg',0.6));
+      }catch(e){res(dataUrl);}
+    };
+    im.onerror=function(){res(dataUrl);};
+    im.src=dataUrl;
+  });
+}
+window.redactPhotoData=redactPhotoData;
 0
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
 window.toast=toast;
