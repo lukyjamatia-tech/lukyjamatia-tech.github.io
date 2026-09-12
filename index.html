@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="FindBack">
 <meta name="application-name" content="FindBack">
-<title>FindBack - India's Lost & Found Platform | खोया पाया</title>
+<title>FindBack - India's Lost & Found Platform | खोया पाया</title><link rel="icon" type="image/svg+xml" href="/icon.svg"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><link rel="apple-touch-icon" href="/icon-192.png">
   <meta name="description" content="FindBack - India's first dedicated lost and found platform. Report lost items, find missing belongings, report and search lost items across India.">
 <meta name="keywords" content="lost and found India, khoya paya, missing items, FindBack, lost phone India, found wallet">
 <meta property="og:title" content="FindBack - India's Lost & Found">
@@ -2782,7 +2782,7 @@ window.printQR=function(){
   if(!window._lastQRData)return;
   var d=window._lastQRData;
   var w=window.open('','_blank');
-  var html='<html><head><title>FindBack QR Tag</title></head><body style="text-align:center;padding:20px;font-family:sans-serif;"><div style="border:3px solid #E8722A;border-radius:16px;padding:20px;display:inline-block;"><h2 style="color:#E8722A;">FindBack Tag</h2><img src="QRURL" style="width:180px;height:180px;"><h3>ITEM</h3>NAMEMSG<p style="font-size:12px;color:#E8722A;">Scan to contact owner</p></div></body></html>';
+  var html='<html><head><title>FindBack QR Tag</title><link rel="icon" type="image/svg+xml" href="/icon.svg"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><link rel="apple-touch-icon" href="/icon-192.png"></head><body style="text-align:center;padding:20px;font-family:sans-serif;"><div style="border:3px solid #E8722A;border-radius:16px;padding:20px;display:inline-block;"><h2 style="color:#E8722A;">FindBack Tag</h2><img src="QRURL" style="width:180px;height:180px;"><h3>ITEM</h3>NAMEMSG<p style="font-size:12px;color:#E8722A;">Scan to contact owner</p></div></body></html>';
   html=html.replace('QRURL',d.qrUrl).replace('ITEM',d.item).replace('NAMEMSG',(d.name?'<p>Owner: '+d.name+'</p>':'')+(d.msg?'<p>'+d.msg+'</p>':''));
   w.document.write(html);w.document.close();
   setTimeout(function(){w.print();},300);
@@ -3442,23 +3442,23 @@ window.registerPushToken=async function(){
         <div id="fb-nav-police">
           <div class="fb-nav-group">
             <div class="fb-nav-head">Overview</div>
-            <button class="fb-nav-item active" id="fnav-home" onclick="fbSwitchNav('home',this)"><div class="fb-nav-icon"></div>Dashboard</button>
+            <button class="fb-nav-item active" id="fnav-home" onclick="fbSwitchNav('home',this)"><div class="fb-nav-icon">•</div>Dashboard</button>
           </div>
           <div class="fb-nav-group">
             <div class="fb-nav-head">Case Management</div>
-            <button class="fb-nav-item" id="fnav-fir" onclick="fbSwitchNav('fir',this)"><div class="fb-nav-icon"></div>FIR Management<span class="fb-nav-badge" id="fnav-fir-ct" style="display:none;">0</span></button>
-            <button class="fb-nav-item" id="fnav-missing" onclick="fbSwitchNav('missing',this)"><div class="fb-nav-icon"></div>Missing Reports<span class="fb-nav-badge" id="fnav-miss-ct" style="display:none;">0</span></button>
-            <button class="fb-nav-item" id="fnav-cases" onclick="fbSwitchNav('cases',this)"><div class="fb-nav-icon"></div>All Cases</button>
-            <button class="fb-nav-item" id="fnav-resolved" onclick="fbSwitchNav('resolved',this)"><div class="fb-nav-icon"></div>Resolved</button>
+            <button class="fb-nav-item" id="fnav-fir" onclick="fbSwitchNav('fir',this)"><div class="fb-nav-icon">•</div>FIR Management<span class="fb-nav-badge" id="fnav-fir-ct" style="display:none;">0</span></button>
+            <button class="fb-nav-item" id="fnav-missing" onclick="fbSwitchNav('missing',this)"><div class="fb-nav-icon">•</div>Missing Reports<span class="fb-nav-badge" id="fnav-miss-ct" style="display:none;">0</span></button>
+            <button class="fb-nav-item" id="fnav-cases" onclick="fbSwitchNav('cases',this)"><div class="fb-nav-icon">•</div>All Cases</button>
+            <button class="fb-nav-item" id="fnav-resolved" onclick="fbSwitchNav('resolved',this)"><div class="fb-nav-icon">•</div>Resolved</button>
           </div>
           <div class="fb-nav-group">
             <div class="fb-nav-head">Operations</div>
-            <button class="fb-nav-item" id="fnav-alerts" onclick="fbSwitchNav('alerts',this)"><div class="fb-nav-icon"></div>Alerts<span class="fb-nav-badge" id="fnav-alert-ct" style="display:none;">0</span></button>
-            <button class="fb-nav-item" id="fnav-analytics" onclick="fbSwitchNav('analytics',this)"><div class="fb-nav-icon"></div>Analytics</button>
-            <button class="fb-nav-item" id="fnav-fraud" onclick="fbSwitchNav('fraud',this)"><div class="fb-nav-icon"></div>Fraud Monitor</button>
-            <button class="fb-nav-item" id="fnav-collab" onclick="fbSwitchNav('collab',this)"><div class="fb-nav-icon"></div>Collaboration</button>
-            <button class="fb-nav-item" id="fnav-reports" onclick="fbSwitchNav('reports',this)"><div class="fb-nav-icon"></div>Export</button>
-            <button class="fb-nav-item" id="fnav-bulk" onclick="fbSwitchNav('bulk',this)"><div class="fb-nav-icon"></div>Bulk Post<span style="background:#ff6b00;color:#fff;font-size:9px;padding:1px 5px;border-radius:8px;margin-left:4px;font-weight:700;">NEW</span></button>
+            <button class="fb-nav-item" id="fnav-alerts" onclick="fbSwitchNav('alerts',this)"><div class="fb-nav-icon">•</div>Alerts<span class="fb-nav-badge" id="fnav-alert-ct" style="display:none;">0</span></button>
+            <button class="fb-nav-item" id="fnav-analytics" onclick="fbSwitchNav('analytics',this)"><div class="fb-nav-icon">•</div>Analytics</button>
+            <button class="fb-nav-item" id="fnav-fraud" onclick="fbSwitchNav('fraud',this)"><div class="fb-nav-icon">•</div>Fraud Monitor</button>
+            <button class="fb-nav-item" id="fnav-collab" onclick="fbSwitchNav('collab',this)"><div class="fb-nav-icon">•</div>Collaboration</button>
+            <button class="fb-nav-item" id="fnav-reports" onclick="fbSwitchNav('reports',this)"><div class="fb-nav-icon">•</div>Export</button>
+            <button class="fb-nav-item" id="fnav-bulk" onclick="fbSwitchNav('bulk',this)"><div class="fb-nav-icon">•</div>Bulk Post<span style="background:#ff6b00;color:#fff;font-size:9px;padding:1px 5px;border-radius:8px;margin-left:4px;font-weight:700;">NEW</span></button>
           </div>
         </div>
 
@@ -3466,27 +3466,27 @@ window.registerPushToken=async function(){
         <div id="fb-nav-ngo" style="display:none;">
           <div class="fb-nav-group">
             <div class="fb-nav-head">Overview</div>
-            <button class="fb-nav-item ngo-active" id="fnav-ngo-home" onclick="fbSwitchNav('home',this,'ngo')"><div class="fb-nav-icon"></div>Dashboard</button>
+            <button class="fb-nav-item ngo-active" id="fnav-ngo-home" onclick="fbSwitchNav('home',this,'ngo')"><div class="fb-nav-icon">•</div>Dashboard</button>
           </div>
           <div class="fb-nav-group">
             <div class="fb-nav-head">Case Work</div>
-            <button class="fb-nav-item" id="fnav-ngo-missing" onclick="fbSwitchNav('missing',this,'ngo')"><div class="fb-nav-icon"></div>Missing Persons<span class="fb-nav-badge" id="fnav-ngo-miss-ct" style="display:none;">0</span></button>
-            <button class="fb-nav-item" id="fnav-ngo-rescue" onclick="fbSwitchNav('rescue',this,'ngo')"><div class="fb-nav-icon"></div>Rescue Requests</button>
-            <button class="fb-nav-item" id="fnav-ngo-cases" onclick="fbSwitchNav('cases',this,'ngo')"><div class="fb-nav-icon"></div>Case Follow-up</button>
-            <button class="fb-nav-item" id="fnav-ngo-resolved" onclick="fbSwitchNav('resolved',this,'ngo')"><div class="fb-nav-icon"></div>Resolved</button>
+            <button class="fb-nav-item" id="fnav-ngo-missing" onclick="fbSwitchNav('missing',this,'ngo')"><div class="fb-nav-icon">•</div>Missing Persons<span class="fb-nav-badge" id="fnav-ngo-miss-ct" style="display:none;">0</span></button>
+            <button class="fb-nav-item" id="fnav-ngo-rescue" onclick="fbSwitchNav('rescue',this,'ngo')"><div class="fb-nav-icon">•</div>Rescue Requests</button>
+            <button class="fb-nav-item" id="fnav-ngo-cases" onclick="fbSwitchNav('cases',this,'ngo')"><div class="fb-nav-icon">•</div>Case Follow-up</button>
+            <button class="fb-nav-item" id="fnav-ngo-resolved" onclick="fbSwitchNav('resolved',this,'ngo')"><div class="fb-nav-icon">•</div>Resolved</button>
           </div>
           <div class="fb-nav-group">
             <div class="fb-nav-head">Field Ops</div>
-            <button class="fb-nav-item" id="fnav-ngo-fraud" onclick="fbSwitchNav('fraud',this,'ngo')"><div class="fb-nav-icon"></div>Fraud Monitor</button>
+            <button class="fb-nav-item" id="fnav-ngo-fraud" onclick="fbSwitchNav('fraud',this,'ngo')"><div class="fb-nav-icon">•</div>Fraud Monitor</button>
             
           </div>
           <div class="fb-nav-group">
             <div class="fb-nav-head">Reports</div>
-            <button class="fb-nav-item" id="fnav-ngo-analytics" onclick="fbSwitchNav('analytics',this,'ngo')"><div class="fb-nav-icon"></div>Analytics</button>
-            <button class="fb-nav-item" id="fnav-ngo-alerts" onclick="fbSwitchNav('alerts',this,'ngo')"><div class="fb-nav-icon"></div>Alerts</button>
-            <button class="fb-nav-item" id="fnav-ngo-collab" onclick="fbSwitchNav('collab',this,'ngo')"><div class="fb-nav-icon"></div>Collab</button>
-            <button class="fb-nav-item" id="fnav-ngo-reports" onclick="fbSwitchNav('reports',this,'ngo')"><div class="fb-nav-icon"></div>Export</button>
-            <button class="fb-nav-item" id="fnav-ngo-bulk" onclick="fbSwitchNav('bulk',this,'ngo')"><div class="fb-nav-icon"></div>Bulk Post<span style="background:#ff6b00;color:#fff;font-size:9px;padding:1px 5px;border-radius:8px;margin-left:4px;font-weight:700;">NEW</span></button>
+            <button class="fb-nav-item" id="fnav-ngo-analytics" onclick="fbSwitchNav('analytics',this,'ngo')"><div class="fb-nav-icon">•</div>Analytics</button>
+            <button class="fb-nav-item" id="fnav-ngo-alerts" onclick="fbSwitchNav('alerts',this,'ngo')"><div class="fb-nav-icon">•</div>Alerts</button>
+            <button class="fb-nav-item" id="fnav-ngo-collab" onclick="fbSwitchNav('collab',this,'ngo')"><div class="fb-nav-icon">•</div>Collab</button>
+            <button class="fb-nav-item" id="fnav-ngo-reports" onclick="fbSwitchNav('reports',this,'ngo')"><div class="fb-nav-icon">•</div>Export</button>
+            <button class="fb-nav-item" id="fnav-ngo-bulk" onclick="fbSwitchNav('bulk',this,'ngo')"><div class="fb-nav-icon">•</div>Bulk Post<span style="background:#ff6b00;color:#fff;font-size:9px;padding:1px 5px;border-radius:8px;margin-left:4px;font-weight:700;">NEW</span></button>
           </div>
         </div>
 
@@ -5120,7 +5120,7 @@ window.ngoExportReport = function(){
   var missing=posts.filter(function(p){return p.type==='missing';}).length;
   var user = window._ngoUser || {};
   var w = window.open('','_blank');
-  w.document.write('<html><head><title>FindBack Report</title><style>body{font-family:Arial;padding:30px;color:#111;}h1{color:#E8722A;}table{width:100%;border-collapse:collapse;margin-top:20px;}th{background:#111;color:#fff;padding:10px;}td{padding:10px;border-bottom:1px solid #eee;}.stat{display:inline-block;background:#f5f5f5;border-radius:10px;padding:14px 20px;margin:8px;text-align:center;}.num{font-size:28px;font-weight:800;color:#E8722A;}.lbl{font-size:12px;color:#777;}</style></head><body>');
+  w.document.write('<html><head><title>FindBack Report</title><link rel="icon" type="image/svg+xml" href="/icon.svg"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><link rel="apple-touch-icon" href="/icon-192.png"><style>body{font-family:Arial;padding:30px;color:#111;}h1{color:#E8722A;}table{width:100%;border-collapse:collapse;margin-top:20px;}th{background:#111;color:#fff;padding:10px;}td{padding:10px;border-bottom:1px solid #eee;}.stat{display:inline-block;background:#f5f5f5;border-radius:10px;padding:14px 20px;margin:8px;text-align:center;}.num{font-size:28px;font-weight:800;color:#E8722A;}.lbl{font-size:12px;color:#777;}</style></head><body>');
   w.document.write('<h1>FindBack Partner Portal Report</h1>');
   w.document.write('<p>Organization: <strong>'+(user.org||'Admin')+'</strong> | District: '+(user.district||'All India')+' | Generated: '+new Date().toLocaleDateString('en-IN')+'</p>');
   w.document.write('<div><div class="stat"><div class="num">'+total+'</div><div class="lbl">Total</div></div><div class="stat"><div class="num">'+lost+'</div><div class="lbl">Lost</div></div><div class="stat"><div class="num">'+found+'</div><div class="lbl">Found</div></div><div class="stat"><div class="num">'+missing+'</div><div class="lbl">Missing</div></div><div class="stat"><div class="num">'+resolved+'</div><div class="lbl">Resolved</div></div></div>');
@@ -7035,7 +7035,7 @@ window.loadMyChats = async function(uid) {
 window.downloadDocPDF = function(docId, title, content) {
   var w = window.open('', '_blank');
   w.document.write(
-    '<html><head><title>' + title + '</title>'
+    '<html><head><title>' + title + '</title><link rel="icon" type="image/svg+xml" href="/icon.svg"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><link rel="apple-touch-icon" href="/icon-192.png">'
     + '<style>body{font-family:Arial,sans-serif;padding:40px;max-width:700px;margin:0 auto;font-size:14px;line-height:1.8;color:#111;}'
     + 'h1{font-size:18px;font-weight:700;margin-bottom:8px;}'
     + '.meta{font-size:12px;color:#666;margin-bottom:24px;border-bottom:1px solid #eee;padding-bottom:12px;}'
