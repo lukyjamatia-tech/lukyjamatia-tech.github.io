@@ -1079,7 +1079,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
   </div>
 </div>
 
-    <div class="form-group"><label> Date</label><input type="date" id="m-date" max=""><div style="font-size:11px;color:#E8722A;margin-top:4px;"> Future date not allowed</div></div>
+    <div class="form-group"><label> Date</label><input type="date" id="m-date"><div style="font-size:11px;color:#E8722A;margin-top:4px;"> Future date not allowed</div></div>
     <div class="form-group"><label> Description</label><textarea id="m-desc" placeholder="Color, brand, details..."></textarea></div>
     <div class="form-group" id="id-mark-group" style="display:none;"><label> Identification Mark <span style="font-size:11px;color:var(--text-muted);">(Optional)</span></label><input type="text" id="m-id-mark" placeholder="Scratch, sticker, initials..."></div>
     <div id="vehicle-fields" style="display:none;"><div style="background:#EFF6FF;border-radius:10px;padding:12px;margin-bottom:12px;font-size:12px;color:#1D4ED8;font-weight:600;"> Vehicle details (helpful for police report)</div><div class="form-group"><label> Registration No.</label><input type="text" id="m-reg-no" placeholder="DL01AB1234" oninput="this.value=this.value.toUpperCase()"></div><div class="form-group"><label> Licence Plate</label><input type="text" id="m-plate-no" placeholder="DL 01 AB 1234"></div></div>
@@ -1151,7 +1151,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
     <div class="form-group"><label> Item Name</label><input type="text" id="e-item"></div>
     <div class="form-group"><label> Category</label><select id="e-category"><option value="">-- Select --</option><option value="Wallet"> Wallet</option><option value="Phone"> Phones</option><option value="Keys"> Keys</option><option value="Bag"> Bags</option><option value="Jewellery"> Jewellery</option><option value="Backpack"> Backpacks</option><option value="Laptop"> Laptops</option><option value="Pet"> Pets</option><option value="Glasses"> Glasses</option><option value="Documents"> Documents</option><option value="Watch">⌚ Watches</option><option value="Purse"> Purses</option><option value="Person"> Person</option><option value="Electronics"> Electronics</option><option value="Car"> Cars</option><option value="Bike"> Bikes</option><option value="Cycle"> Cycles</option><option value="Other"> Other</option></select><div id="doc-privacy-note" style="display:none;margin-top:8px;padding:10px 12px;background:#FFF4E5;border-left:3px solid #FF8A3D;border-radius:6px;font-size:12px;line-height:1.5;color:#5C4033;">🔒 <b>Privacy protection:</b> The number and QR code on document photos are blurred automatically for your safety. Your name and photo stay visible so the finder can identify it. This is not an upload error.</div></div>
     <div class="form-group"><label> Location</label><div class="input-icon-wrap"><span class="icon"></span><input type="text" id="e-loc"></div></div>
-    <div class="form-group"><label> Date</label><input type="date" id="e-date" max=""></div>
+    <div class="form-group"><label> Date</label><input type="date" id="e-date"></div>
     <div class="form-group"><label> Description</label><textarea id="e-desc"></textarea></div>
     <div class="form-group"><label> Contact</label><div class="phone-input-wrap"><div class="phone-prefix">+91</div><input type="tel" id="e-contact" class="phone-main" placeholder="10-digit number" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10);validatePhoneInput(this,'e-contact-err')"></div><div id="e-contact-err" style="font-size:11px;color:#DC2626;display:none;margin-top:4px;"> Exactly 10 digits required</div></div>
     <div class="form-group"><label> Reward</label><div class="input-icon-wrap"><span class="icon">₹</span><input type="number" id="e-reward" min="0"></div></div>
@@ -7579,7 +7579,7 @@ window.ngoAdminCheck = async function() {
 <script src="ngo-icons.js">
 
 
-</script><script src="/fb-thumb.js?v=4"></script><script src="/tag-alerts.js?v=4"></script>
+</script><script src="/fb-thumb.js?v=6"></script><script src="/tag-alerts.js?v=4"></script>
 </body>
 </html>
 <!-- v3.1 -->
