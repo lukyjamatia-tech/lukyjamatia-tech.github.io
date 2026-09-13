@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="/debug.js?v=1"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-S1CE46XNE8"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-S1CE46XNE8");</script>
@@ -7488,7 +7489,7 @@ document.getElementById("fgm").addEventListener("click",function(e){if(e.target=
 
 <script>
 // Manphikha vars & functions defined in first script block above
-window.doGoogleLogin=async function(){
+window._doGoogleLoginOld=async function(){
   try{
     var GAP=window._GAP,SIP=window._SIP,AU=window._auth;window._dbg=(function(){try{return 'auth.app='+(AU&&AU.app?AU.app.name:'NOAPP')+' dom='+(AU&&AU.config?AU.config.authDomain:'NOCFG');}catch(e){return 'ERR';}})();
     if(!GAP||!AU){window.toast("Loading... try again.");return;}

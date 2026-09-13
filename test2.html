@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html><body>
+<button id="b" style="font-size:24px;padding:20px">Sign in (redirect)</button>
+<pre id="o" style="font-size:13px;white-space:pre-wrap"></pre>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey: "AIzaSyCH1s6Cf2Zx2CZVv5HUUu2P7TwHEqoxWW8",
+  authDomain: "findback-app-34e4f.web.app",
+  projectId: "findback-app-34e4f",
+  messagingSenderId: "504207496092",
+  appId: "1:504207496092:web:b9d6918639ed23ddad6e59"
+});
+var o = document.getElementById('o');
+o.textContent = "checking...";setTimeout(function(){if(o.textContent=="checking..."){o.textContent="HUNG: getRedirectResult never settled. currentUser = " + (firebase.auth().currentUser ? firebase.auth().currentUser.email : "null");}},8000);
+firebase.auth().getRedirectResult()
+  .then(function(r){
+    o.textContent = r.user ? ("OK: " + r.user.email) : "no pending result — press button";
+  })
+  .catch(function(e){
+    o.textContent = "REDIR CODE: " + e.code + "\n\nMSG: " + e.message
+      + "\n\nRAW: " + JSON.stringify(e, Object.getOwnPropertyNames(e));
+  });
+document.getElementById('b').onclick = function(){
+  firebase.auth().signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+};
+</script>
+</body></html>
