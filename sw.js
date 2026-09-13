@@ -1,5 +1,5 @@
 // FindBack Service Worker v1.0
-const CACHE_NAME = 'findback-v3';
+const CACHE_NAME = 'findback-v4';
 const STATIC_ASSETS = [
   '/',
   '/index.html'
@@ -30,6 +30,7 @@ self.addEventListener('activate', function(event) {
 
 // Fetch — network first, fallback to cache
 self.addEventListener('fetch', function(event) {
+  if(event.request.url.indexOf('/__/auth/')>-1||event.request.url.indexOf('accounts.google.com')>-1) return;
   // Skip Firebase and external requests
   if (event.request.url.includes('firebase') ||
       event.request.url.includes('googleapis') ||
