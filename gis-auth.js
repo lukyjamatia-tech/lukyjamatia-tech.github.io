@@ -1,44 +1,38 @@
 (function(){
-  var CLIENT_ID = "504207496092-i84girvj2q3ft9rs31kp71vfn41sg2te.apps.googleusercontent.com";
+  var CID = "504207496092-i84girvj2q3ft9rs31kp71vfn41sg2te.apps.googleusercontent.com";
+  var inited = false;
 
-  function ready(){
-    return window.google && google.accounts && google.accounts.id && window._auth;
-  }
-
-  async function onCredential(res){
+  async function onCred(res){
     try{
       var m = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js");
-      var cred = m.GoogleAuthProvider.credential(res.credential);
-      await m.signInWithCredential(window._auth, cred);
-      if(window.toast) toast("Login successful");
-    }catch(e){
-      alert("GIS: " + (e.code || "") + " " + (e.message || e));
+      var c = m.GoogleAuthProvider.credential(res.credential);
+      await m.signInWithCredential(window._auth, c);
+      location.reload();
+    }catch(e){ alert("GIS fail: "+(e.code||e.message)); }
+  }
+
+  function init(){
+    if(inited) return true;
+    if(!(window.google && google.accounts && google.accounts.id && window._auth)) return false;
+    google.accounts.id.initialize({client_id: CID, callback: onCred});
+    inited = true;
+    return true;
+  }
+
+  function swap(){
+    if(!init()) return;
+    var bs = document.querySelectorAll('button[onclick*="doGoogleLogin"]:not([data-gis])');
+    for(var i=0;i<bs.length;i++){
+      var b = bs[i];
+      b.setAttribute("data-gis","1");
+      var d = document.createElement("div");
+      d.style.cssText = "display:flex;justify-content:center;margin:8px 0";
+      b.parentNode.insertBefore(d, b);
+      b.style.display = "none";
+      google.accounts.id.renderButton(d, {theme:"outline", size:"large", width:280});
     }
   }
 
-  function mount(){
-    google.accounts.id.initialize({
-      client_id: CLIENT_ID,
-      callback: onCredential,
-      auto_select: false
-    });
-    var btns = document.querySelectorAll('button[onclick*="doGoogleLogin"]');
-    btns.forEach(function(b, i){
-      var d = document.createElement("div");
-      d.id = "gisBtn" + i;
-      d.style.display = "flex";
-      d.style.justifyContent = "center";
-      b.parentNode.insertBefore(d, b);
-      b.style.display = "none";
-      google.accounts.id.renderButton(d, {
-        theme: "outline", size: "large", width: 300, text: "continue_with"
-      });
-    });
-  }
-
-  var tries = 0;
-  var t = setInterval(function(){
-    if(ready()){ clearInterval(t); try{ mount(); }catch(e){ alert("mount: "+e.message); } }
-    else if(++tries > 60){ clearInterval(t); }
-  }, 500);
+  setInterval(swap, 1000);
+  document.addEventListener("click", function(){ setTimeout(swap, 300); }, true);
 })();
