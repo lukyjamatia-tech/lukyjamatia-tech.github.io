@@ -1,5 +1,5 @@
 // FindBack Service Worker v1.0
-const CACHE_NAME = 'findback-v4';
+const CACHE_NAME = 'findback-v6';
 const STATIC_ASSETS = [
   '/',
   '/index.html'

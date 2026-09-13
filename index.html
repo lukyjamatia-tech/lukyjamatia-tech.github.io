@@ -1216,7 +1216,7 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 const auth=getAuth(app);
 window._db=db;window._auth=auth;window._doc=doc;window._setDoc=setDoc;window._sTS=serverTimestamp;window._allPosts=[];window._GAP=GoogleAuthProvider;window._SIP=signInWithPopup;window._SIWR=signInWithRedirect;window._GRR=getRedirectResult;window._SPRE=sendPasswordResetEmail;
 // Handle redirect result after Google login on mobile
-getRedirectResult(auth).then(function(result){if(window.toast)window.toast((result&&result.user)?"Login OK":("No result / currentUser="+(auth.currentUser?auth.currentUser.email:"null")));
+getRedirectResult(auth).then(function(result){console.log((result&&result.user)?"Login OK":("No result / currentUser="+(auth.currentUser?auth.currentUser.email:"null")));
   if(result&&result.user){window._saveGoogleUser&&window._saveGoogleUser(result.user);}
 }).catch(function(){});
 const q=query(collection(db,"posts"),orderBy("createdAt","desc"));
