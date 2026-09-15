@@ -444,7 +444,7 @@ return t;
         <div onclick="setCatGrid('Watch')" class="cat-grid-item" id="catgrid-Watch" style="padding:14px 8px 10px;background:#E8F1FF;border-radius:22px;box-shadow:0 4px 14px rgba(0,0,0,.07);"><img src="https://findback.org/watch.jpg" style="width:72px;height:72px;object-fit:cover;border-radius:12px;display:block;margin:0 auto 8px;" loading="lazy" onerror="this.style.display='none'"><div class="cat-grid-label">Watches</div><div id="catcount-Watch" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:12px;padding-bottom:4px;"></div></div>
         <div onclick="setCatGrid('Purse')" class="cat-grid-item" id="catgrid-Purse" style="padding:14px 8px 10px;background:#FFE3F0;border-radius:22px;box-shadow:0 4px 14px rgba(0,0,0,.07);"><img src="https://findback.org/purse.jpg" style="width:72px;height:72px;object-fit:cover;border-radius:12px;display:block;margin:0 auto 8px;" loading="lazy" onerror="this.style.display='none'"><div class="cat-grid-label">Purses</div><div id="catcount-Purse" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:12px;padding-bottom:4px;"></div></div>
         <div onclick="setCatGrid('Person')" class="cat-grid-item" id="catgrid-Person" style="padding:14px 8px 10px;background:#E2FFE4;border-radius:22px;box-shadow:0 4px 14px rgba(0,0,0,.07);"><img src="https://findback.org/person.jpg" style="width:72px;height:72px;object-fit:cover;border-radius:12px;display:block;margin:0 auto 8px;" loading="lazy" onerror="this.style.display='none'"><div class="cat-grid-label">Person</div><div id="catcount-Person" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:12px;padding-bottom:4px;"></div></div>
-        <div onclick="setCatGrid('Electronics')" class="cat-grid-item" id="catgrid-Electronics" style="padding:14px 8px 10px;background:#FFF0D8;border-radius:22px;box-shadow:0 4px 14px rgba(0,0,0,.07);"><img src="https://i.ibb.co/bgNXhdR9/gst-electronics-discount.jpg" style="width:72px;height:72px;object-fit:cover;border-radius:12px;display:block;margin:0 auto 8px;" loading="lazy" onerror="this.style.display='none'"><div class="cat-grid-label">Electronics</div><div id="catcount-Electronics" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:12px;padding-bottom:4px;"></div></div>
+        <div onclick="setCatGrid('Electronics')" class="cat-grid-item" id="catgrid-Electronics" style="padding:14px 8px 10px;background:#FFF0D8;border-radius:22px;box-shadow:0 4px 14px rgba(0,0,0,.07);"><img src="https://findback.org/electronics.jpg" style="width:72px;height:72px;object-fit:cover;border-radius:12px;display:block;margin:0 auto 8px;" loading="lazy" onerror="this.style.display='none'"><div class="cat-grid-label">Electronics</div><div id="catcount-Electronics" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:12px;padding-bottom:4px;"></div></div>
         <div onclick="setCatGrid('Car')" class="cat-grid-item" id="catgrid-Car" style="padding:14px 8px 10px;background:#FFE2E2;border-radius:22px;box-shadow:0 4px 14px rgba(0,0,0,.07);"><img src="https://findback.org/car.jpg" style="width:72px;height:72px;object-fit:cover;border-radius:12px;display:block;margin:0 auto 8px;" loading="lazy" onerror="this.style.display='none'"><div class="cat-grid-label">Cars</div><div id="catcount-Car" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:12px;padding-bottom:4px;"></div></div>
         <div onclick="setCatGrid('Bike')" class="cat-grid-item" id="catgrid-Bike" style="padding:14px 8px 10px;background:#EADFFF;border-radius:22px;box-shadow:0 4px 14px rgba(0,0,0,.07);"><img src="https://findback.org/bike.jpg" style="width:72px;height:72px;object-fit:cover;border-radius:12px;display:block;margin:0 auto 8px;" loading="lazy" onerror="this.style.display='none'"><div class="cat-grid-label">Bikes</div><div id="catcount-Bike" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:12px;padding-bottom:4px;"></div></div>
         <div onclick="setCatGrid('Cycle')" class="cat-grid-item" id="catgrid-Cycle" style="padding:14px 8px 10px;background:#DDFEFF;border-radius:22px;box-shadow:0 4px 14px rgba(0,0,0,.07);"><img src="https://findback.org/cycle.jpg" style="width:72px;height:72px;object-fit:cover;border-radius:12px;display:block;margin:0 auto 8px;" loading="lazy" onerror="this.style.display='none'"><div class="cat-grid-label">Cycles</div><div id="catcount-Cycle" style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;min-height:12px;padding-bottom:4px;"></div></div>
@@ -2090,7 +2090,7 @@ window.adminShowFilteredPosts=function(type){
   else if(type==='found'){filtered=all.filter(function(p){return p.type==='found';});title='Found Posts';color='#34d399';}
   else if(type==='missing'){filtered=all.filter(function(p){return p.type==='missing';});title='Missing Posts';color='#fbbf24';}
   else if(type==='resolved'){filtered=all.filter(function(p){return p.status==='resolved';});title=' Resolved Posts';color='#60a5fa';}
-  else if(type==='users'){window.toast&&window.toast(' Users: '+document.getElementById('admin-users').textContent+' registered');return;}
+  else if(type==='users'){window.showUsersList();return;}
   else{filtered=all;title='All Posts';color='#f59342';}
 
   var old=document.getElementById('admin-filter-modal');
@@ -3382,6 +3382,7 @@ window.registerPushToken=async function(){
   </div>
 
   <!-- MAIN DASHBOARD -->
+<style>#ngo-dashboard{position:fixed;top:0;left:0;right:0;bottom:0;overflow-y:auto;background:#fff;z-index:9000;}</style>
   <div id="ngo-dashboard" style="display:none;">
 
     <!-- GOV STYLE HEADER -->
@@ -3446,23 +3447,23 @@ window.registerPushToken=async function(){
         <div id="fb-nav-police">
           <div class="fb-nav-group">
             <div class="fb-nav-head">Overview</div>
-            <button class="fb-nav-item active" id="fnav-home" onclick="fbSwitchNav('home',this)"><div class="fb-nav-icon">•</div>Dashboard</button>
+            <button class="fb-nav-item active" id="fnav-home" onclick="fbSwitchNav('home',this)"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>Dashboard</button>
           </div>
           <div class="fb-nav-group">
             <div class="fb-nav-head">Case Management</div>
-            <button class="fb-nav-item" id="fnav-fir" onclick="fbSwitchNav('fir',this)"><div class="fb-nav-icon">•</div>FIR Management<span class="fb-nav-badge" id="fnav-fir-ct" style="display:none;">0</span></button>
-            <button class="fb-nav-item" id="fnav-missing" onclick="fbSwitchNav('missing',this)"><div class="fb-nav-icon">•</div>Missing Reports<span class="fb-nav-badge" id="fnav-miss-ct" style="display:none;">0</span></button>
-            <button class="fb-nav-item" id="fnav-cases" onclick="fbSwitchNav('cases',this)"><div class="fb-nav-icon">•</div>All Cases</button>
-            <button class="fb-nav-item" id="fnav-resolved" onclick="fbSwitchNav('resolved',this)"><div class="fb-nav-icon">•</div>Resolved</button>
+            <button class="fb-nav-item" id="fnav-fir" onclick="fbSwitchNav('fir',this)"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/></svg></div>FIR Management<span class="fb-nav-badge" id="fnav-fir-ct" style="display:none;">0</span></button>
+            <button class="fb-nav-item" id="fnav-missing" onclick="fbSwitchNav('missing',this)"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4"/><path d="M17 17v4"/><path d="M17 13v1"/></svg></div>Missing Reports<span class="fb-nav-badge" id="fnav-miss-ct" style="display:none;">0</span></button>
+            <button class="fb-nav-item" id="fnav-cases" onclick="fbSwitchNav('cases',this)"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>All Cases</button>
+            <button class="fb-nav-item" id="fnav-resolved" onclick="fbSwitchNav('resolved',this)"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg></div>Resolved</button>
           </div>
           <div class="fb-nav-group">
             <div class="fb-nav-head">Operations</div>
-            <button class="fb-nav-item" id="fnav-alerts" onclick="fbSwitchNav('alerts',this)"><div class="fb-nav-icon">•</div>Alerts<span class="fb-nav-badge" id="fnav-alert-ct" style="display:none;">0</span></button>
-            <button class="fb-nav-item" id="fnav-analytics" onclick="fbSwitchNav('analytics',this)"><div class="fb-nav-icon">•</div>Analytics</button>
-            <button class="fb-nav-item" id="fnav-fraud" onclick="fbSwitchNav('fraud',this)"><div class="fb-nav-icon">•</div>Fraud Monitor</button>
-            <button class="fb-nav-item" id="fnav-collab" onclick="fbSwitchNav('collab',this)"><div class="fb-nav-icon">•</div>Collaboration</button>
-            <button class="fb-nav-item" id="fnav-reports" onclick="fbSwitchNav('reports',this)"><div class="fb-nav-icon">•</div>Export</button>
-            <button class="fb-nav-item" id="fnav-bulk" onclick="fbSwitchNav('bulk',this)"><div class="fb-nav-icon">•</div>Bulk Post<span style="background:#ff6b00;color:#fff;font-size:9px;padding:1px 5px;border-radius:8px;margin-left:4px;font-weight:700;">NEW</span></button>
+            <button class="fb-nav-item" id="fnav-alerts" onclick="fbSwitchNav('alerts',this)"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>Alerts<span class="fb-nav-badge" id="fnav-alert-ct" style="display:none;">0</span></button>
+            <button class="fb-nav-item" id="fnav-analytics" onclick="fbSwitchNav('analytics',this)"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div>Analytics</button>
+            <button class="fb-nav-item" id="fnav-fraud" onclick="fbSwitchNav('fraud',this)"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg></div>Fraud Monitor</button>
+            <button class="fb-nav-item" id="fnav-collab" onclick="fbSwitchNav('collab',this)"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>Collaboration</button>
+            <button class="fb-nav-item" id="fnav-reports" onclick="fbSwitchNav('reports',this)"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></div>Export</button>
+            <button class="fb-nav-item" id="fnav-bulk" onclick="fbSwitchNav('bulk',this)"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/></svg></div>Bulk Post<span style="background:#ff6b00;color:#fff;font-size:9px;padding:1px 5px;border-radius:8px;margin-left:4px;font-weight:700;">NEW</span></button>
           </div>
         </div>
 
@@ -3470,27 +3471,27 @@ window.registerPushToken=async function(){
         <div id="fb-nav-ngo" style="display:none;">
           <div class="fb-nav-group">
             <div class="fb-nav-head">Overview</div>
-            <button class="fb-nav-item ngo-active" id="fnav-ngo-home" onclick="fbSwitchNav('home',this,'ngo')"><div class="fb-nav-icon">•</div>Dashboard</button>
+            <button class="fb-nav-item ngo-active" id="fnav-ngo-home" onclick="fbSwitchNav('home',this,'ngo')"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>Dashboard</button>
           </div>
           <div class="fb-nav-group">
             <div class="fb-nav-head">Case Work</div>
-            <button class="fb-nav-item" id="fnav-ngo-missing" onclick="fbSwitchNav('missing',this,'ngo')"><div class="fb-nav-icon">•</div>Missing Persons<span class="fb-nav-badge" id="fnav-ngo-miss-ct" style="display:none;">0</span></button>
-            <button class="fb-nav-item" id="fnav-ngo-rescue" onclick="fbSwitchNav('rescue',this,'ngo')"><div class="fb-nav-icon">•</div>Rescue Requests</button>
-            <button class="fb-nav-item" id="fnav-ngo-cases" onclick="fbSwitchNav('cases',this,'ngo')"><div class="fb-nav-icon">•</div>Case Follow-up</button>
-            <button class="fb-nav-item" id="fnav-ngo-resolved" onclick="fbSwitchNav('resolved',this,'ngo')"><div class="fb-nav-icon">•</div>Resolved</button>
+            <button class="fb-nav-item" id="fnav-ngo-missing" onclick="fbSwitchNav('missing',this,'ngo')"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4"/><path d="M17 17v4"/><path d="M17 13v1"/></svg></div>Missing Persons<span class="fb-nav-badge" id="fnav-ngo-miss-ct" style="display:none;">0</span></button>
+            <button class="fb-nav-item" id="fnav-ngo-rescue" onclick="fbSwitchNav('rescue',this,'ngo')"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>Rescue Requests</button>
+            <button class="fb-nav-item" id="fnav-ngo-cases" onclick="fbSwitchNav('cases',this,'ngo')"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg></div>Case Follow-up</button>
+            <button class="fb-nav-item" id="fnav-ngo-resolved" onclick="fbSwitchNav('resolved',this,'ngo')"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg></div>Resolved</button>
           </div>
           <div class="fb-nav-group">
             <div class="fb-nav-head">Field Ops</div>
-            <button class="fb-nav-item" id="fnav-ngo-fraud" onclick="fbSwitchNav('fraud',this,'ngo')"><div class="fb-nav-icon">•</div>Fraud Monitor</button>
+            <button class="fb-nav-item" id="fnav-ngo-fraud" onclick="fbSwitchNav('fraud',this,'ngo')"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg></div>Fraud Monitor</button>
             
           </div>
           <div class="fb-nav-group">
             <div class="fb-nav-head">Reports</div>
-            <button class="fb-nav-item" id="fnav-ngo-analytics" onclick="fbSwitchNav('analytics',this,'ngo')"><div class="fb-nav-icon">•</div>Analytics</button>
-            <button class="fb-nav-item" id="fnav-ngo-alerts" onclick="fbSwitchNav('alerts',this,'ngo')"><div class="fb-nav-icon">•</div>Alerts</button>
-            <button class="fb-nav-item" id="fnav-ngo-collab" onclick="fbSwitchNav('collab',this,'ngo')"><div class="fb-nav-icon">•</div>Collab</button>
-            <button class="fb-nav-item" id="fnav-ngo-reports" onclick="fbSwitchNav('reports',this,'ngo')"><div class="fb-nav-icon">•</div>Export</button>
-            <button class="fb-nav-item" id="fnav-ngo-bulk" onclick="fbSwitchNav('bulk',this,'ngo')"><div class="fb-nav-icon">•</div>Bulk Post<span style="background:#ff6b00;color:#fff;font-size:9px;padding:1px 5px;border-radius:8px;margin-left:4px;font-weight:700;">NEW</span></button>
+            <button class="fb-nav-item" id="fnav-ngo-analytics" onclick="fbSwitchNav('analytics',this,'ngo')"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div>Analytics</button>
+            <button class="fb-nav-item" id="fnav-ngo-alerts" onclick="fbSwitchNav('alerts',this,'ngo')"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>Alerts</button>
+            <button class="fb-nav-item" id="fnav-ngo-collab" onclick="fbSwitchNav('collab',this,'ngo')"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>Collab</button>
+            <button class="fb-nav-item" id="fnav-ngo-reports" onclick="fbSwitchNav('reports',this,'ngo')"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></div>Export</button>
+            <button class="fb-nav-item" id="fnav-ngo-bulk" onclick="fbSwitchNav('bulk',this,'ngo')"><div class="fb-nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/></svg></div>Bulk Post<span style="background:#ff6b00;color:#fff;font-size:9px;padding:1px 5px;border-radius:8px;margin-left:4px;font-weight:700;">NEW</span></button>
           </div>
         </div>
 
@@ -7589,3 +7590,44 @@ window.ngoAdminCheck = async function() {
 <!-- v3.1 -->
 < rebuild -->
 < r2 -->
+<script>
+window.showUsersList=function(){
+  import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js').then(function(m){
+    m.getDocs(m.query(m.collection(window._db,'users'),m.limit(200))).then(function(snap){
+      var rows='';
+      snap.forEach(function(d){
+        var u=d.data()||{};
+        rows+='<div style="padding:10px;border-bottom:1px solid #eee;font-size:14px;">'
+          +'<b>'+((u.name||u.displayName||'—')+'')+'</b><br>'
+          +'<span style="color:#666;font-size:12px;">'+((u.email||u.phone||d.id)+'')+'</span></div>';
+      });
+      var old=document.getElementById('fb-users-modal'); if(old)old.remove();
+      var ov=document.createElement('div'); ov.id='fb-users-modal';
+      ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99999;display:flex;align-items:flex-end;';
+      ov.innerHTML='<div style="background:#fff;width:100%;max-height:80vh;overflow-y:auto;border-radius:16px 16px 0 0;">'
+        +'<div style="padding:14px;font-weight:700;border-bottom:1px solid #eee;display:flex;justify-content:space-between;">'
+        +'<span>Users ('+snap.size+')</span><span id="fb-users-x" style="cursor:pointer;">✕</span></div>'
+        +rows+'</div>';
+      ov.onclick=function(e){ if(e.target===ov||e.target.id==='fb-users-x')ov.remove(); };
+      document.body.appendChild(ov);
+    }).catch(function(e){ if(window.toast)window.toast('Users load error: '+e.code); });
+  });
+};
+</script>
+<script>
+window.fbRealUserCount=function(){
+  import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js').then(function(m){
+    m.getCountFromServer(m.collection(window._db,'users')).then(function(s){
+      var eu=document.getElementById('admin-users');
+      if(eu)eu.textContent=s.data().count;
+    }).catch(function(){});
+  });
+};
+setInterval(function(){ var e=document.getElementById('admin-users'); if(e&&e.offsetParent!==null)window.fbRealUserCount(); },5000);
+</script>
+<script>
+setInterval(function(){
+  var db=document.getElementById('ngo-dashboard'), nv=document.querySelector('nav');
+  if(db&&nv) nv.style.display = (db.style.display!=='none' && db.offsetParent!==null) ? 'none' : '';
+},1000);
+</script>
