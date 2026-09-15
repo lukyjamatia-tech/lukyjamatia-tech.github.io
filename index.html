@@ -2481,7 +2481,7 @@ window.sharePost=function(postId){
   const p=(window._allPosts||[]).find(x=>x.id===postId);if(!p)return;
   const te=p.type==='lost'?'':p.type==='found'?'':'',tt=p.type==='lost'?'LOST':p.type==='found'?'FOUND':'MISSING';
   const text=`${te} ${tt}: ${p.item||'Item'}\n\n ${p.loc||''}\n${p.date?' '+p.date+'\n':''}${p.desc?' '+p.desc.substring(0,80)+(p.desc.length>80?'...':'')+'\n':''}${p.reward?' ₹'+p.reward+'\n':''}\n Maine FindBack par post kiya hai\nYe sirf ek app nahi, ek movement hai\nLog ek dusre ki madad kar rahe hain \nAgar aapko mile to please help karen\n https://findback.org`;
-  if(navigator.share){navigator.share({title:`${te} ${tt}: ${p.item}`,text,url:'https://lukyjamatia-tech.github.io'}).catch(()=>{});}else{window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');}
+  if(navigator.share){navigator.share({title:`${te} ${tt}: ${p.item}`,text,url:'https://findback.org'}).catch(()=>{});}else{window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');}
 };
 </script>
 
@@ -6283,8 +6283,8 @@ window._waShare=function(postId){
   if(!p)return;
   var te=p.type==='lost'?'':p.type==='found'?'':'';
   var tt=p.type==='lost'?'LOST':p.type==='found'?'FOUND':'MISSING';
-  var text=te+' '+tt+': '+p.item+'\n\n '+p.loc+(p.date?'\n '+p.date:'')+(p.desc?'\n '+p.desc.substring(0,80):'')+(p.reward?'\n ₹'+p.reward:'')+'\n\nFindBack — India\'s Lost & Found\nhttps://lukyjamatia-tech.github.io';
-  if(navigator.share){navigator.share({title:te+' '+tt+': '+p.item,text:text,url:'https://lukyjamatia-tech.github.io'}).catch(function(){window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');});}
+  var text=te+' '+tt+': '+p.item+'\n\n '+p.loc+(p.date?'\n '+p.date:'')+(p.desc?'\n '+p.desc.substring(0,80):'')+(p.reward?'\n ₹'+p.reward:'')+'\n\nFindBack — India\'s Lost & Found\nhttps://findback.org';
+  if(navigator.share){navigator.share({title:te+' '+tt+': '+p.item,text:text,url:'https://findback.org'}).catch(function(){window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');});}
   else{window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');}
 };
 
