@@ -15,16 +15,16 @@ window._loadTagAlerts = function () {
     var h = '<div style="font-weight:700;margin:8px 0">Someone scanned your tag</div>';
     rows.forEach(function (r) {
       var loc = (r.lat && r.lng)
-        ? '<a href="https://maps.google.com/?q=' + r.lat + ',' + r.lng + '" target="_blank" rel="noopener">Location on map</a>'
+        ? '<a href="https://maps.google.com/?q=' + Number(r.lat) + ',' + Number(r.lng) + '" target="_blank" rel="noopener">Location on map</a>'
         : '';
       var c = r.finderContact
-        ? '<div style="font-size:13px">Finder: ' + r.finderContact + '</div>'
+        ? '<div style="font-size:13px">Finder: ' + _fbEsc(r.finderContact) + '</div>'
         : '<div style="font-size:13px;color:var(--text-muted)">Finder stayed anonymous</div>';
       h += '<div style="border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px">'
-         + '<div style="font-weight:600">' + (r.itemName || 'Tagged item') + '</div>'
-         + '<div style="margin:6px 0">' + (r.finderMessage || '') + '</div>'
+         + '<div style="font-weight:600">' + _fbEsc(r.itemName || 'Tagged item') + '</div>'
+         + '<div style="margin:6px 0">' + _fbEsc(r.finderMessage || '') + '</div>'
          + c + loc
-         + '<div style="font-size:11px;color:var(--text-muted);margin-top:6px">Tag ' + (r.tagId || '') + '</div>'
+         + '<div style="font-size:11px;color:var(--text-muted);margin-top:6px">Tag ' + _fbEsc(r.tagId || '') + '</div>'
          + '</div>';
     });
     box.innerHTML = h;
@@ -48,3 +48,5 @@ window._loadTagAlerts = function () {
   });
 })();
 
+
+function _fbEsc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
