@@ -1256,7 +1256,7 @@ onAuthStateChanged(auth,async(user)=>{
         // User exists — update last login only, never increment count
         await m.setDoc(uRef,{lastLogin:new Date().toISOString()},{merge:true});
       }
-    }catch(e){console.warn('User count err:',e);}
+    }catch(e){console.warn('User count err:',e);setTimeout(async()=>{try{var r2=m.doc(fsDb,'users',user.uid);var s2=await m.getDoc(r2);if(!s2.exists()){await m.setDoc(r2,{uid:user.uid,createdAt:new Date().toISOString(),displayName:user.displayName||'',email:user.email||'',provider:user.providerData&&user.providerData[0]?user.providerData[0].providerId:''});console.log('User doc retry ok');}}catch(e2){console.warn('retry fail',e2);}},4000);}
   }
   const lb=document.getElementById('nav-login-btn'),pb=document.getElementById('nav-profile-btn');
   if(user){
