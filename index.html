@@ -1303,7 +1303,7 @@ window.submitToFirebase=async function(){
     if(!idType){window.toast(' ID type select karo — fraud prevention ke liye compulsory!');return;}
     if(!idNumRaw||idNumRaw.length<6){window.toast(' Valid ID number daalo!');return;}
     // Photo compulsory for found
-    if(window.currentModal !== 'lost' && (!window._idPhotoData || !window._selfieVerified)){
+    if(window.fbNeedsSelfie(window.currentModal) && (!window._idPhotoData || !window._selfieVerified)){
       window.toast(' Valid Selfie with ID is required — face must be clearly visible'); return;
     }
     // AI verification compulsory
@@ -1658,6 +1658,25 @@ window.validatePhoneInput=function(input,errId){
 };
 
 window.onModalCategoryChange=function(){
+  (function(){
+    var _t=window._fbModalType||'';
+    if(_t!=='found')return;
+    var idvg=document.getElementById('id-verify-group');
+    var piw=document.getElementById('photo-id-warning');
+    var ss=document.getElementById('submit-section');
+    var sl=document.getElementById('submit-locked');
+    if(window.fbNeedsSelfie('found')){
+      if(idvg)idvg.style.display='block';
+      if(piw)piw.style.display='flex';
+      if(ss)ss.style.display='none';
+      if(sl)sl.style.display='block';
+    } else {
+      if(idvg)idvg.style.display='none';
+      if(piw)piw.style.display='none';
+      if(ss)ss.style.display='block';
+      if(sl)sl.style.display='none';
+    }
+  })();
   const cat=document.getElementById('m-category').value;document.querySelectorAll('#doc-privacy-note').forEach(function(n){n.style.display=(cat==='Documents')?'block':'none';});
   const ig=document.getElementById('id-mark-group'),vf=document.getElementById('vehicle-fields');
   if(ig)ig.style.display=cat?'block':'none';
@@ -1732,7 +1751,7 @@ window._needsID=function(){var c=document.getElementById('m-category');var v=c?c
 window.addPhotoFromInput = function(input){
   if(!input.files || !input.files[0]) return;
   // GATE: Selfie with ID must be uploaded AND face verified (found only)
-  if(window.currentModal !== 'lost' && (!window._idPhotoData || !window._selfieVerified)){
+  if(window.fbNeedsSelfie(window.currentModal) && (!window._idPhotoData || !window._selfieVerified)){
     window.toast(' Please upload a valid Selfie with ID first — face must be clearly visible');
     input.value = '';
     var idvg=document.getElementById('id-verify-group');
@@ -1930,6 +1949,7 @@ function showPage(id){
 window.showPage=showPage;
 
 function openModal(type){
+  window._fbModalType=type;
   if(window.haptic)window.haptic();
   if(window._populateFormStates)window._populateFormStates();
   if(!window._currentUser){const m=document.getElementById('login-required-modal');if(m)m.style.display='flex';return;}
@@ -1944,6 +1964,11 @@ function openModal(type){
   var ss=document.getElementById('submit-section');
   var sl=document.getElementById('submit-locked');
   if(type==='lost'){
+    if(idvg)idvg.style.display='none';
+    if(piw)piw.style.display='none';
+    if(ss)ss.style.display='block';
+    if(sl)sl.style.display='none';
+  } else if(type==='missing' || !window.fbNeedsSelfie('found')){
     if(idvg)idvg.style.display='none';
     if(piw)piw.style.display='none';
     if(ss)ss.style.display='block';
@@ -7585,6 +7610,14 @@ window.ngoAdminCheck = async function() {
 
 
 </script><script src="/fb-thumb.js?v=8"></script><script src="/tag-alerts.js?v=20260915"></script>
+<script>
+window._FB_SELFIE_CATS=['Phone','Laptop','Jewellery','Watch','Electronics','Car','Bike'];
+window.fbNeedsSelfie=function(type,cat){
+  if(type!=='found')return false;
+  if(!cat)cat=(document.getElementById('m-category')||{}).value||'';
+  return window._FB_SELFIE_CATS.indexOf(cat)!==-1;
+};
+</script>
 </body>
 </html>
 <!-- v3.1 -->
