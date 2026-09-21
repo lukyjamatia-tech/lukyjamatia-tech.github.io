@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lost your wallet or documents? What to do, step by step | FindBack</title>
+<meta name="description" content="Wallet, ATM card, Aadhaar, PAN or driving licence lost? A simple step-by-step guide: block cards, lock Aadhaar biometrics, report fraud on 1930, and get duplicates.">
+<link rel="canonical" href="https://findback.org/help/wallet">
+<style>
+:root{--ink:#16324F;--text:#1F2A36;--muted:#5B6776;--bg:#EEF2F5;--paper:#FFFFFF;--urgent:#B3261E;--done:#2E7D5B;--line:#D5DDE5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Noto Sans Devanagari",sans-serif}
+a{color:var(--ink)}
+.wrap{max-width:640px;margin:0 auto;padding:20px 16px 48px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.brand{font-weight:700;color:var(--ink);text-decoration:none;font-size:18px}
+.lang{border:1px solid var(--ink);background:none;color:var(--ink);border-radius:20px;padding:6px 14px;font-size:15px;cursor:pointer}
+h1{font-size:28px;line-height:1.25;color:var(--ink);margin:0 0 10px}
+.lead{color:var(--muted);margin:0 0 18px}
+.calm{background:var(--paper);border-left:4px solid var(--ink);padding:12px 14px;border-radius:0 8px 8px 0;margin-bottom:26px}
+h2{font-size:19px;margin:30px 0 10px;color:var(--ink)}
+h2.now{color:var(--urgent)}
+ol{list-style:none;padding:0;margin:0;counter-reset:s}
+li.step{background:var(--paper);border:1px solid var(--line);border-radius:10px;margin-bottom:10px;padding:14px 14px 14px 58px;position:relative;counter-increment:s}
+li.step::before{content:counter(s);position:absolute;left:14px;top:14px;width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
+li.step.done{border-color:var(--done)}
+li.step.done::before{content:"✓";background:var(--done)}
+li.step.done .t{color:var(--done);text-decoration:line-through}
+.t{font-weight:700;margin:0 0 4px}
+.d{margin:0;color:var(--text)}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.btn{display:inline-block;padding:8px 14px;border-radius:8px;background:var(--ink);color:#fff;text-decoration:none;font-size:15px}
+.btn.red{background:var(--urgent)}
+.btn.ghost{background:none;color:var(--ink);border:1px solid var(--ink)}
+.mark{margin-top:10px;background:none;border:none;color:var(--muted);font-size:14px;padding:0;cursor:pointer;text-decoration:underline}
+.cta{background:var(--ink);color:#fff;border-radius:12px;padding:18px;margin-top:30px}
+.cta p{margin:0 0 12px}
+.cta .btn{background:#fff;color:var(--ink);font-weight:700}
+.note{font-size:14px;color:var(--muted);margin-top:26px}
+:focus-visible{outline:3px solid #F2B705;outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="brand" href="/">FindBack</a>
+    <button class="lang" id="langBtn" type="button">हिंदी</button>
+  </div>
+
+  <h1 data-i="h1"></h1>
+  <p class="lead" data-i="lead"></p>
+  <div class="calm" data-i="calm"></div>
+
+  <h2 class="now" data-i="sNow"></h2>
+  <ol>
+    <li class="step"><p class="t" data-i="s1t"></p><p class="d" data-i="s1d"></p>
+      <button class="mark" type="button" data-i="mark"></button></li>
+    <li class="step"><p class="t" data-i="s2t"></p><p class="d" data-i="s2d"></p>
+      <div class="acts"><a class="btn red" href="tel:1930" data-i="call1930"></a><a class="btn ghost" href="https://cybercrime.gov.in" target="_blank" rel="noopener">cybercrime.gov.in</a></div>
+      <button class="mark" type="button" data-i="mark"></button></li>
+    <li class="step"><p class="t" data-i="s3t"></p><p class="d" data-i="s3d"></p>
+      <div class="acts"><a class="btn" href="https://myaadhaar.uidai.gov.in" target="_blank" rel="noopener">myaadhaar.uidai.gov.in</a></div>
+      <button class="mark" type="button" data-i="mark"></button></li>
+  </ol>
+
+  <h2 data-i="sToday"></h2>
+  <ol style="counter-reset:s 3">
+    <li class="step"><p class="t" data-i="s4t"></p><p class="d" data-i="s4d"></p>
+      <div class="acts"><a class="btn" href="/" data-i="firBtn"></a></div>
+      <button class="mark" type="button" data-i="mark"></button></li>
+    <li class="step"><p class="t" data-i="s5t"></p><p class="d" data-i="s5d"></p>
+      <div class="acts"><a class="btn" href="/" data-i="postBtn"></a></div>
+      <button class="mark" type="button" data-i="mark"></button></li>
+  </ol>
+
+  <h2 data-i="sLater"></h2>
+  <ol style="counter-reset:s 5">
+    <li class="step"><p class="t" data-i="s6t"></p><p class="d" data-i="s6d"></p>
+      <div class="acts"><a class="btn ghost" href="https://myaadhaar.uidai.gov.in" target="_blank" rel="noopener">Aadhaar</a><a class="btn ghost" href="https://www.incometax.gov.in" target="_blank" rel="noopener">PAN (e-PAN)</a><a class="btn ghost" href="https://sarathi.parivahan.gov.in" target="_blank" rel="noopener">Driving Licence</a><a class="btn ghost" href="https://voters.eci.gov.in" target="_blank" rel="noopener">Voter ID</a></div>
+      <button class="mark" type="button" data-i="mark"></button></li>
+  </ol>
+
+  <div class="cta"><p data-i="ctaTxt"></p><a class="btn" href="/" data-i="ctaBtn"></a></div>
+
+  <p class="note" data-i="note"></p>
+  <p class="note"><a href="tel:112" data-i="emerg"></a></p>
+</div>
+
+<script>
+var T={
+en:{h1:"Lost your wallet or documents? Here's what to do",
+lead:"Follow these steps in order. The first three matter most, so do them right away.",
+calm:"Most wallets are lost, not stolen, and many are returned by honest finders. Protect your money first, then start looking.",
+sNow:"Do this right now",sToday:"Do this today",sLater:"Over the next few days",
+s1t:"Block your ATM, debit and credit cards",
+s1d:"Open your bank's app and block the card, or call the helpline number printed on your bank's website or passbook. Do this for every card that was in the wallet.",
+s2t:"Money already debited? Report it on 1930",
+s2d:"Call 1930 (National Cyber Crime Helpline) or file at cybercrime.gov.in. The sooner you report, the better the chance of stopping the money.",
+call1930:"Call 1930",
+s3t:"Lock your Aadhaar biometrics",
+s3d:"If your Aadhaar card was in the wallet, lock your biometrics on the myAadhaar website or the mAadhaar app, so nobody can use your fingerprint or face for verification. You can unlock it anytime.",
+s4t:"Report the loss to the police",
+s4d:"Duplicate documents often ask for a police lost report. FindBack can help you draft the complaint in your language, which you then submit to your police station or your state's online portal.",
+firBtn:"Draft a complaint on FindBack",
+s5t:"Post it as lost on FindBack",
+s5d:"Someone may have already found it. Post what you lost and where, so a finder can reach you without seeing your full phone number.",
+postBtn:"Post a lost item",
+s6t:"Get duplicate documents",
+s6d:"Aadhaar: order a reprint (PVC card) on myAadhaar. PAN: download e-PAN from the Income Tax portal or order a reprint. Driving licence: apply for a duplicate on Sarathi (Parivahan). Voter ID: apply for a replacement on the ECI voters portal.",
+ctaTxt:"Found someone else's wallet? Post it on FindBack and help it get back to its owner.",
+ctaBtn:"Open FindBack",
+note:"FindBack does not block cards, lock Aadhaar or issue documents. We only guide you to the official places where you can do it yourself.",
+emerg:"In danger or an emergency? Call 112",
+mark:"Mark as done",markUndo:"Mark as not done",langBtn:"हिंदी"},
+hi:{h1:"पर्स या दस्तावेज़ खो गए? अब यह करें",
+lead:"इन स्टेप्स को क्रम से करें। पहले तीन सबसे ज़रूरी हैं, इन्हें तुरंत करें।",
+calm:"ज़्यादातर पर्स चोरी नहीं होते, खो जाते हैं, और कई ईमानदार लोग लौटा भी देते हैं। पहले अपना पैसा सुरक्षित करें, फिर ढूँढना शुरू करें।",
+sNow:"अभी तुरंत करें",sToday:"आज ही करें",sLater:"अगले कुछ दिनों में",
+s1t:"ATM, डेबिट और क्रेडिट कार्ड ब्लॉक करें",
+s1d:"अपने बैंक का ऐप खोलकर कार्ड ब्लॉक करें, या बैंक की वेबसाइट या पासबुक पर लिखे हेल्पलाइन नंबर पर कॉल करें। पर्स में जितने कार्ड थे, सबके लिए यह करें।",
+s2t:"पैसा कट गया? 1930 पर रिपोर्ट करें",
+s2d:"1930 (राष्ट्रीय साइबर क्राइम हेल्पलाइन) पर कॉल करें या cybercrime.gov.in पर शिकायत करें। जितनी जल्दी रिपोर्ट करेंगे, पैसा रुकने की संभावना उतनी ज़्यादा।",
+call1930:"1930 पर कॉल करें",
+s3t:"आधार बायोमेट्रिक लॉक करें",
+s3d:"अगर पर्स में आधार कार्ड था, तो myAadhaar वेबसाइट या mAadhaar ऐप से बायोमेट्रिक लॉक करें, ताकि कोई आपके फिंगरप्रिंट या चेहरे से वेरिफिकेशन न कर सके। इसे कभी भी अनलॉक कर सकते हैं।",
+s4t:"पुलिस को खोने की सूचना दें",
+s4d:"डुप्लीकेट दस्तावेज़ के लिए अक्सर पुलिस की गुमशुदगी रिपोर्ट माँगी जाती है। FindBack आपकी भाषा में शिकायत का ड्राफ्ट बनाने में मदद करता है, जिसे आप थाने या अपने राज्य के ऑनलाइन पोर्टल पर जमा करते हैं।",
+firBtn:"FindBack पर शिकायत ड्राफ्ट करें",
+s5t:"FindBack पर खोए सामान की पोस्ट डालें",
+s5d:"हो सकता है किसी को मिल चुका हो। क्या खोया और कहाँ, यह पोस्ट करें, ताकि मिलने वाला आपका पूरा फ़ोन नंबर देखे बिना आपसे संपर्क कर सके।",
+postBtn:"खोए सामान की पोस्ट डालें",
+s6t:"डुप्लीकेट दस्तावेज़ बनवाएँ",
+s6d:"आधार: myAadhaar पर रीप्रिंट (PVC कार्ड) ऑर्डर करें। PAN: इनकम टैक्स पोर्टल से e-PAN डाउनलोड करें या रीप्रिंट मँगवाएँ। ड्राइविंग लाइसेंस: सारथी (परिवहन) पर डुप्लीकेट के लिए आवेदन करें। वोटर ID: ECI वोटर्स पोर्टल पर रिप्लेसमेंट के लिए आवेदन करें।",
+ctaTxt:"किसी और का पर्स मिला है? उसे FindBack पर पोस्ट करें और मालिक तक पहुँचाने में मदद करें।",
+ctaBtn:"FindBack खोलें",
+note:"FindBack कार्ड ब्लॉक नहीं करता, आधार लॉक नहीं करता और दस्तावेज़ जारी नहीं करता। हम सिर्फ़ आपको उन सरकारी या आधिकारिक जगहों तक पहुँचाते हैं जहाँ आप यह खुद कर सकते हैं।",
+emerg:"खतरे या इमरजेंसी में? 112 पर कॉल करें",
+mark:"हो गया",markUndo:"अभी नहीं हुआ",langBtn:"English"}};
+var lang="en";
+try{var s=localStorage.getItem("fb_lang");if(s==="hi")lang="hi";}catch(e){}
+function render(){
+  var t=T[lang];document.documentElement.lang=lang;
+  document.querySelectorAll("[data-i]").forEach(function(el){
+    var k=el.getAttribute("data-i");
+    if(k==="mark"){el.textContent=el.closest("li").classList.contains("done")?t.markUndo:t.mark;}
+    else if(t[k])el.textContent=t[k];
+  });
+  document.getElementById("langBtn").textContent=t.langBtn;
+}
+document.getElementById("langBtn").addEventListener("click",function(){
+  lang=lang==="en"?"hi":"en";
+  try{localStorage.setItem("fb_lang",lang);}catch(e){}
+  render();
+});
+document.querySelectorAll(".mark").forEach(function(b){
+  b.addEventListener("click",function(){b.closest("li").classList.toggle("done");render();});
+});
+render();
+</script>
+</body>
+</html>
