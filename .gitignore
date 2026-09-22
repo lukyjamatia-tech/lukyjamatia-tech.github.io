@@ -11,3 +11,4 @@ index.html.pre-*
 index_backup_*.html
 firestore.rules.bak
 audit/
+*.bak
