@@ -10,6 +10,7 @@
       "**/*.py",
       "README.md",
       "patch*.js",
+      "**/*.bak*",
       "strip.js",
       "mdfix.txt"
     ],
