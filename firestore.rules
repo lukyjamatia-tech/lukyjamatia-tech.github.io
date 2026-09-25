@@ -72,6 +72,19 @@ service cloud.firestore {
       allow read, update, delete: if isAdmin();
     }
 
+    match /tag_alerts/{id} {
+      allow read: if request.auth != null &&
+        (resource.data.ownerUid == request.auth.uid || isAdmin());
+      allow create: if request.resource.data.keys().hasOnly(
+          ['tagId','ownerUid','itemName','finderMessage','finderContact','source','read','createdAt'])
+        && request.resource.data.source == 'qr_scan'
+        && request.resource.data.read == false
+        && request.resource.data.finderMessage is string
+        && request.resource.data.finderMessage.size() <= 500
+        && request.resource.data.createdAt == request.time;
+      allow update, delete: if isAdmin();
+    }
+
     match /police_notifications/{id} {
       allow read: if isAdmin();
       allow create: if request.auth != null;

@@ -7620,6 +7620,52 @@ window.fbNeedsSelfie=function(type,cat){
 </script>
 <script src="my-phone.js?v=4"></script>
 <script src="help-links.js?v=1"></script>
+<script>
+/* footer-fix v2 */
+(function(){
+  var footerPages = ['about','contact','customers','success','trust',
+    'terms','privacy','disclaimer','copyright','qrtag','reward','fir','legaldocs'];
+  var homeScroll = 0, fromFooter = false, hidden = [], lastT = null;
+  function restore(){
+    hidden.forEach(function(h){ h[0].style.display = h[1]; });
+    hidden = [];
+  }
+  function wrap(){
+    var orig = window.showPage;
+    if (typeof orig !== 'function' || orig._fbWrapped) return;
+    var w = function(id){
+      var isFooter = footerPages.indexOf(id) !== -1;
+      if (isFooter && !fromFooter) homeScroll = window.scrollY;
+      var r = orig.apply(this, arguments);
+      var t = document.getElementById('page-' + id);
+      if (isFooter && t) {
+        restore();
+        if (t.style.display === 'none') t.style.display = '';
+        document.querySelectorAll('.page, footer').forEach(function(p){
+          if (p !== t && p.style.display !== 'none') {
+            hidden.push([p, p.style.display]);
+            p.style.display = 'none';
+          }
+        });
+        lastT = t; fromFooter = true;
+        window.scrollTo(0, 0);
+        setTimeout(function(){ window.scrollTo(0, 0); }, 60);
+      } else if (fromFooter) {
+        restore();
+        if (lastT && lastT !== t) lastT.style.display = 'none';
+        fromFooter = false;
+        if (id === 'home') setTimeout(function(){ window.scrollTo(0, homeScroll); }, 60);
+      }
+      return r;
+    };
+    w._fbWrapped = true;
+    window.showPage = w;
+  }
+  wrap();
+  window.addEventListener('load', wrap);
+  setInterval(wrap, 1000);
+})();
+</script>
 </body>
 </html>
 <!-- v3.1 -->
