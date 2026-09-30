@@ -1300,8 +1300,8 @@ window.submitToFirebase=async function(){
   const idType=document.getElementById('m-id-type')?document.getElementById('m-id-type').value:'';
   const idNumRaw=document.getElementById('m-id-number')?document.getElementById('m-id-number').value.trim():'';
   if(type==='found'){
-    if(!idType){window.toast(' ID type select karo — fraud prevention ke liye compulsory!');return;}
-    if(!idNumRaw||idNumRaw.length<6){window.toast(' Valid ID number daalo!');return;}
+    var idVis=(document.getElementById('m-id-type')||{}).offsetParent;if(idVis&&!idType){window.toast(' ID type select karo — fraud prevention ke liye compulsory!');return;}
+    if(idVis&&(!idNumRaw||idNumRaw.length<6)){window.toast(' Valid ID number daalo!');return;}
     // Photo compulsory for found
     if(window.fbNeedsSelfie(window.currentModal) && (!window._idPhotoData || !window._selfieVerified)){
       window.toast(' Valid Selfie with ID is required — face must be clearly visible'); return;
