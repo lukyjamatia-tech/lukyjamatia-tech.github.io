@@ -1307,7 +1307,7 @@ window.submitToFirebase=async function(){
       window.toast(' Valid Selfie with ID is required — face must be clearly visible'); return;
     }
     // AI verification compulsory
-    if(!window._idVerifyPassed){
+    if(window.fbNeedsSelfie(window.currentModal)&&!window._idVerifyPassed){
       window.toast(' ID photo verify nahi hua — sahi photo upload karo');
       var aiS=document.getElementById('m-id-ai-status');
       if(aiS)aiS.scrollIntoView({behavior:'smooth'});
