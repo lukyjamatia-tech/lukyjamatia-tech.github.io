@@ -1082,7 +1082,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
   </div>
 </div>
 
-    <div class="form-group"><label> Date</label><input type="date" id="m-date"><div style="font-size:11px;color:#E8722A;margin-top:4px;"> Future date not allowed</div></div>
+    <div class="form-group"><label> Date</label><input type="date" id="m-date"><div style="font-size:11px;color:#888;margin-top:4px;">Aaj ya pehle ki date chunein</div></div>
     <div class="form-group"><label> Description</label><textarea id="m-desc" placeholder="Color, brand, details..."></textarea></div>
     <div class="form-group" id="id-mark-group" style="display:none;"><label> Identification Mark <span style="font-size:11px;color:var(--text-muted);">(Optional)</span></label><input type="text" id="m-id-mark" placeholder="Scratch, sticker, initials..."></div>
     <div id="vehicle-fields" style="display:none;"><div style="background:#EFF6FF;border-radius:10px;padding:12px;margin-bottom:12px;font-size:12px;color:#1D4ED8;font-weight:600;"> Vehicle details (helpful for police report)</div><div class="form-group"><label> Registration No.</label><input type="text" id="m-reg-no" placeholder="DL01AB1234" oninput="this.value=this.value.toUpperCase()"></div><div class="form-group"><label> Licence Plate</label><input type="text" id="m-plate-no" placeholder="DL 01 AB 1234"></div></div>
@@ -1290,7 +1290,7 @@ window.submitToFirebase=async function(){
     return;
   }
   const dv=document.getElementById('m-date').value;
-  if(dv&&dv>new Date().toISOString().split('T')[0]){window.toast(' Future date not allowed');return;}
+  if(dv&&dv>new Date().toLocaleDateString('en-CA')){window.toast(' Future date not allowed');return;}
   const desc=document.getElementById('m-desc').value.trim(),cat=document.getElementById('m-category').value,rew=document.getElementById('m-reward').value.trim(),type=window.currentModal,photos=window.currentPhotosData||[];
   const routeVal=document.getElementById('m-route')?document.getElementById('m-route').value.trim():'';
   const coachVal=document.getElementById('m-coach')?document.getElementById('m-coach').value.trim():'';
@@ -1377,7 +1377,7 @@ window.submitEdit=async function(){
     return;
   }
   const dv=document.getElementById('e-date').value;
-  if(dv&&dv>new Date().toISOString().split('T')[0]){window.toast(' Future date not allowed');return;}
+  if(dv&&dv>new Date().toLocaleDateString('en-CA')){window.toast(' Future date not allowed');return;}
   const cat=document.getElementById('e-category').value,desc=document.getElementById('e-desc').value.trim(),contact=cr?('+91'+cr):'',rew=document.getElementById('e-reward').value.trim();
   const btn=document.querySelector('#edit-modal .btn-primary');btn.textContent='Updating...';btn.disabled=true;
   try{
