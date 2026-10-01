@@ -42,6 +42,7 @@ nav{background:var(--black);padding:14px 20px;display:flex;align-items:center;ju
 .s1-badge{background:linear-gradient(135deg,#E8722A,#c45a1a);border:none;color:var(--white);font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;box-shadow:0 2px 8px rgba(232,114,42,.4);}
 .page{display:none;flex:1;flex-direction:column;}
 .page.active{display:flex;}
+body:has(#page-detail.active) footer{display:none!important;}
 .home-hero{background:linear-gradient(160deg,#fff8f0 0%,#fff5ee 40%,#ffeedd 100%);padding:60px 24px;text-align:center;}
 .home-hero .emoji{font-size:56px;margin-bottom:16px;}
 .home-hero h1{font-family:'Sora',sans-serif;font-size:26px;font-weight:700;margin-bottom:8px;}
@@ -1039,13 +1040,13 @@ body.lang-en span[data-lang="en"]{display:inline;}
     <div class="modal-sub" id="modal-sub">Fill in details</div>
     <div id="modal-success" class="alert-success"> Post submitted!</div>
     <div class="form-group">
-      <label> Photos (up to 5) <span style="font-size:11px;color:var(--orange);">• Max 2MB each</span></label>
+      <label> Photos (up to 2) <span style="font-size:11px;color:var(--orange);">• Max 2MB each</span></label>
       <div id="photo-id-warning" style="background:#FFF3CD;border:1.5px solid #FFC107;border-radius:8px;padding:8px 10px;margin-bottom:8px;font-size:11px;color:#856404;display:none;align-items:center;gap:6px;"><span></span><span><strong>Upload Selfie with ID first</strong> — see ID Verification section below</span></div>
       <div id="photos-grid" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px;">
         <!-- Photo slots rendered by JS -->
       </div>
       <input type="file" id="m-photo" accept="image/*" style="display:none;" onchange="addPhotoFromInput(this)">
-      <div id="photo-count-label" style="font-size:11px;color:var(--text-muted);margin-top:4px;">0 / 5 photos</div>
+      <div id="photo-count-label" style="font-size:11px;color:var(--text-muted);margin-top:4px;">0 / 2 photos</div>
     </div>
     <div class="form-group"><label> Item Name</label><input type="text" id="m-item" placeholder="e.g. Wallet, iPhone, Bag"></div>
     <div class="form-group"><label> Category</label><select id="m-category" onchange="onModalCategoryChange()"><option value="">-- Select --</option><option value="Wallet"> Wallet</option><option value="Phone"> Phones</option><option value="Keys"> Keys</option><option value="Bag"> Bags</option><option value="Jewellery"> Jewellery</option><option value="Backpack"> Backpacks</option><option value="Laptop"> Laptops</option><option value="Pet"> Pets</option><option value="Glasses"> Glasses</option><option value="Documents"> Documents</option><option value="Watch">⌚ Watches</option><option value="Purse"> Purses</option><option value="Person"> Person</option><option value="Electronics"> Electronics</option><option value="Car"> Cars</option><option value="Bike"> Bikes</option><option value="Cycle"> Cycles</option><option value="Other"> Other</option></select><div id="doc-privacy-note" style="display:none;margin-top:8px;padding:10px 12px;background:#FFF4E5;border-left:3px solid #FF8A3D;border-radius:6px;font-size:12px;line-height:1.5;color:#5C4033;">🔒 <b>Privacy protection:</b> The number and QR code on document photos are blurred automatically for your safety. Your name and photo stay visible so the finder can identify it. This is not an upload error.</div></div>
@@ -1332,8 +1333,8 @@ window.submitToFirebase=async function(){
   const btn=document.querySelector('#report-modal .btn-primary');
   if(btn){btn.textContent='Submitting...';btn.disabled=true;}
   try{
-    var photo=(photos[0]&&photos[0].length<900000)?photos[0]:(photos[0]?photos[0].substring(0,900000):null);photo=await redactPhotoData(photo,cat);
-    await addDoc(collection(db,"posts"),{type,item,loc,state:mState||"",district:mDist||"",date:dv,desc,contact,category:cat,reward:rew,uid,authorName,photo,photoCount:photos.length,idMark,regNo,plateNo,idVerifyType:idType,idVerifyMasked:idMasked,idVerifyPhoto:window._idPhotoData||null,idManualReview:window._idManualReview||false,route:routeVal||"",routeType:routeType||"",coach:coachVal||"",seat:seatVal||"",createdAt:serverTimestamp()});
+    var photo=(photos[0]&&photos[0].length<900000)?photos[0]:(photos[0]?photos[0].substring(0,900000):null);photo=await redactPhotoData(photo,cat);var photo2=(photo&&photos[1]&&(photo.length*2+photos[1].length)<750000)?await redactPhotoData(photos[1],cat):null;var photosArr=photo?(photo2?[photo,photo2]:[photo]):[];
+    await addDoc(collection(db,"posts"),{type,item,loc,state:mState||"",district:mDist||"",date:dv,desc,contact,category:cat,reward:rew,uid,authorName,photo,photos:photosArr,photoCount:photosArr.length,idMark,regNo,plateNo,idVerifyType:idType,idVerifyMasked:idMasked,idVerifyPhoto:window._idPhotoData||null,idManualReview:window._idManualReview||false,route:routeVal||"",routeType:routeType||"",coach:coachVal||"",seat:seatVal||"",createdAt:serverTimestamp()});
     document.getElementById('modal-success').style.display='block';
     if(window.checkAreaAlerts)window.checkAreaAlerts({type,item,loc,category:cat});
     if(window._checkMatchAlert)window._checkMatchAlert({type,item,loc,category:cat});
@@ -1706,7 +1707,7 @@ function renderPhotoGrid(){
   if(!grid) return;
   var count = window.currentPhotosData.length;
   var label = document.getElementById('photo-count-label');
-  var maxPhL = window._ngoUser ? 10 : 5;
+  var maxPhL = window._ngoUser ? 10 : 2;
   if(label) label.textContent = count + ' / ' + maxPhL + ' photos';
   
   // Clear grid
@@ -1764,7 +1765,7 @@ window.addPhotoFromInput = function(input){
     }
     return;
   }
-  var maxPh = window._ngoUser ? 10 : 5;
+  var maxPh = window._ngoUser ? 10 : 2;
   if(window.currentPhotosData.length >= maxPh){
     window.toast(' Maximum ' + maxPh + ' photos allowed');
     return;
@@ -1917,7 +1918,7 @@ window.openDetail=function(id){
   showPage('detail');
 };
 
-function showPage(id){
+function showPage(id){window.scrollTo(0,0);
   try{document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));const pg=document.getElementById('page-'+id);if(pg)pg.classList.add('active');var _st=function(){document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo(0,0);var _s=document.getElementById('app-scroll-root');if(_s)_s.scrollTop=0;};_st();requestAnimationFrame(function(){_st();requestAnimationFrame(_st);});setTimeout(_st,50);setTimeout(_st,200);
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   if(id==='home')document.getElementById('nav-home').classList.add('active');
@@ -6562,7 +6563,7 @@ function upgradeAllCards(){
       if(!photosEl)return;
       var sid='detail_sl';
       var imgs=photos.map(function(src,i){
-        return['<img src="',src,'" style="width:100%;max-height:280px;object-fit:contain;border-radius:14px;background:#111;display:',i===0?'block':'none'+';">'].join('');
+        return['<img src="',src,'" style="width:100%;max-height:280px;object-fit:contain;border-radius:14px;background:#111;display:',(i===0?'block':'none')+';">'].join('');
       }).join('');
       var dots=photos.map(function(_,i){
         return['<span id="',sid,'_d',i,'" onclick="_slideGoTo(this,',i,',',photos.length,')" data-sid="',sid,'" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:',i===0?'var(--orange)':'#ddd',';cursor:pointer;margin:0 2px;"></span>'].join('');
