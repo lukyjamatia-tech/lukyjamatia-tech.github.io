@@ -2445,7 +2445,7 @@ window.openMapView=function(){showPage('map');document.querySelectorAll('.nav-it
 let _mr=0;
 function initMap(){const posts=window._allPosts||[];if(!posts.length&&_mr<10){_mr++;const me=document.getElementById('map-container');if(me)me.innerHTML='<div style="text-align:center;padding:30px;color:var(--text-muted)">Loading...</div>';setTimeout(initMap,500);return;}_mr=0;renderMapPins();}
 window.initMap=initMap;
-function renderMapPins(){
+function renderMapPins(){if(window.fbAreaMap){window.fbAreaMap();return;}
   const container=document.getElementById('map-posts-list');if(!container)return;
   const posts=(window._allPosts||[]).filter(p=>p.loc);
   if(!posts.length){container.innerHTML='<div style="text-align:center;padding:48px;color:var(--text-muted)"><div style="font-size:52px"></div><div>No posts yet</div></div>';return;}
@@ -7620,6 +7620,7 @@ window.fbNeedsSelfie=function(type,cat){
 </script>
 <script src="my-phone.js?v=4"></script>
 <script src="help-links.js?v=1"></script>
+<script src="area-map.js?v=1"></script>
 <script>
 /* footer-fix v2 */
 (function(){
