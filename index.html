@@ -10,6 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google-site-verification" content="ryzQx9e1WaNUOuL6HceEoxWGDxHJAwa6saxZiUdtAw0" />
 <link rel="manifest" href="/manifest.json">
+<link rel="stylesheet" href="/ngo-pro.css?v=1">
 <meta name="theme-color" content="#E8722A">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -3414,9 +3415,9 @@ window.registerPushToken=async function(){
     <div class="fb-gov-header">
       <div class="fb-gov-stripe"></div>
       <div class="fb-gov-topbar">
-        <button class="fb-ham" onclick="fbToggleSidebar()" id="fb-ham-btn"></button>
+        <button class="fb-ham" onclick="fbToggleSidebar()" id="fb-ham-btn" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" style="display:block;margin:auto"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
         <div class="fb-gov-logo">
-          <div class="fb-gov-emblem"></div>
+          <div class="fb-gov-emblem" style="display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
           <div>
             <div class="fb-gov-title">FindBack Partner Portal</div>
             <div class="fb-gov-sub">For NGO & Institutional Partners</div>
@@ -3424,7 +3425,7 @@ window.registerPushToken=async function(){
         </div>
         <div class="fb-gov-actions">
           <div class="fb-role-chip" id="fb-role-chip"> Police</div>
-          <button class="fb-bell-btn" onclick="fbSwitchNav('alerts',null)">
+          <button class="fb-bell-btn" onclick="fbSwitchNav('alerts',null)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:auto"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
             <span class="fb-bell-dot" id="fb-bell-dot" style="display:none;"></span>
           </button>
           <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border-radius:7px;padding:4px 10px;cursor:pointer;" onclick="ngoLogout()">
@@ -4604,7 +4605,7 @@ function _fbOpen(org, type) {
 window.ngoLogin = window.ngoFirebaseLogin;
 
 window.ngoLogout = async function() {
-  try{var{signOut}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');await signOut(window._auth);}catch(e){}
+  if(sessionStorage.getItem('ngo_uid'))try{var{signOut}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');await signOut(window._auth);}catch(e){}
   var lw=document.getElementById('ngo-login-wall'), db=document.getElementById('ngo-dashboard');
   if(lw)lw.style.display='block'; if(db)db.style.display='none';
   sessionStorage.removeItem('ngo_org'); sessionStorage.removeItem('ngo_uid');

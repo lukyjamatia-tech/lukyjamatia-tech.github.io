@@ -1,0 +1,174 @@
+/* FindBack Partner Portal - plain professional look.
+   Standalone file: only affects #page-ngo (NGO / Partner dashboard and its login screen).
+   Remove the <link> tag in index.html to go back to the old colours. */
+
+/* ---------- 1. Palette: one ink colour, greys, no blue/green/purple ---------- */
+#page-ngo.fb-portal{
+  --nav:#111827; --nav2:#111827;
+  --accent:#111827; --accent-lt:#f3f4f6; --accent-bd:#d1d5db;
+  --green:#111827; --green-lt:#f3f4f6;
+  --red:#b42318; --amber:#b54708;
+  --bg:#f6f7f9; --card:#ffffff; --border:#e5e7eb;
+  --text:#111827; --muted:#4b5563; --muted2:#6b7280;
+}
+
+/* ---------- 2. Top header: white bar, dark text ---------- */
+#page-ngo .fb-gov-header{background:#fff!important;border-bottom:1px solid #e5e7eb;
+  /* the black app bar above is 64px tall; start below it so the filter bar is not hidden under this header */
+  margin-top:64px;top:64px!important;}
+#page-ngo .fb-gov-stripe{display:none!important;}
+#page-ngo .fb-gov-topbar{border-bottom:0!important;}
+#page-ngo .fb-gov-title{color:#111827!important;}
+#page-ngo .fb-gov-sub{color:#6b7280!important;}
+#page-ngo .fb-gov-emblem{background:#111827!important;border:0!important;}
+#page-ngo .fb-ham,
+#page-ngo .fb-bell-btn{background:#f3f4f6!important;color:#111827!important;width:38px;height:38px;border-radius:8px;}
+#page-ngo .fb-ham svg,
+#page-ngo .fb-bell-btn svg{stroke:#111827!important;}
+#page-ngo .fb-bell-dot{background:#b42318!important;border-color:#fff!important;}
+#page-ngo .fb-gov-actions > div[onclick*="ngoLogout"]{background:#f3f4f6!important;}
+#page-ngo #fb-av{background:#111827!important;color:#fff!important;}
+#page-ngo #fb-topbar-org{color:#111827!important;}
+#page-ngo .fb-gov-search{background:#fff!important;border-top:0!important;padding-top:0!important;padding-bottom:10px!important;}
+#page-ngo .fb-search-inner{background:#f3f4f6!important;border:1px solid #e5e7eb!important;}
+#page-ngo .fb-search-inner input{color:#111827!important;font-size:13px;}
+#page-ngo .fb-search-inner input::placeholder{color:#6b7280!important;}
+
+/* ---------- 3. Side menu ---------- */
+#page-ngo .fb-sb-av,
+#page-ngo .fb-sb-av.police,
+#page-ngo .fb-sb-av.ngo{background:#111827!important;}
+#page-ngo .fb-sb-stat{background:#f6f7f9!important;border:1px solid #e5e7eb;}
+#page-ngo .fb-sb-stat-n{color:#111827!important;}
+#page-ngo .fb-sb-stat-l{color:#6b7280!important;}
+#page-ngo .fb-loc-badge{background:#f3f4f6!important;border-color:#e5e7eb!important;color:#374151!important;}
+#page-ngo .fb-nav-item{color:#374151;}
+/* The script marks the tapped item with fb-active but never clears the first item's "active",
+   so "active" is honoured only until something has been tapped. */
+#page-ngo .fb-nav-item.active,
+#page-ngo .fb-nav-item.ngo-active{background:transparent!important;color:#374151!important;font-weight:500!important;border-left-color:transparent!important;}
+#page-ngo .fb-sb:not(:has(.fb-active,.fb-ngo-active)) .fb-nav-item.active,
+#page-ngo .fb-sb:not(:has(.fb-active,.fb-ngo-active)) .fb-nav-item.ngo-active,
+#page-ngo .fb-nav-item.fb-active,
+#page-ngo .fb-nav-item.fb-ngo-active{background:#f3f4f6!important;color:#111827!important;font-weight:700!important;border-left-color:#111827!important;}
+#page-ngo .fb-nav-icon{background:#f3f4f6!important;color:#374151!important;}
+#page-ngo .fb-sb:not(:has(.fb-active,.fb-ngo-active)) .fb-nav-item.active .fb-nav-icon,
+#page-ngo .fb-sb:not(:has(.fb-active,.fb-ngo-active)) .fb-nav-item.ngo-active .fb-nav-icon,
+#page-ngo .fb-nav-item.fb-active .fb-nav-icon,
+#page-ngo .fb-nav-item.fb-ngo-active .fb-nav-icon{background:#111827!important;color:#fff!important;}
+#page-ngo .fb-nav-badge{background:#111827!important;color:#fff!important;}
+#page-ngo .fb-nav-item span[style*="#ff6b00"]{background:#e5e7eb!important;color:#374151!important;}
+#page-ngo .fb-sb-btn.danger{background:#fff!important;color:#b42318!important;border-color:#e5e7eb!important;}
+#page-ngo .fb-sb-btn.primary{background:#111827!important;color:#fff!important;border-color:#111827!important;}
+#page-ngo .fb-sb-btn.logout{background:#fff!important;color:#374151!important;border-color:#e5e7eb!important;}
+
+/* ---------- 4. Filter bar ---------- */
+#page-ngo .fb-toolbar{flex-direction:row!important;flex-wrap:wrap!important;align-items:center!important;gap:6px!important;padding:10px 12px!important;}
+#page-ngo .fb-toolbar .fb-div{display:none;}
+#page-ngo .fb-dd-btn,
+#page-ngo .fb-sort-btn{min-height:34px;font-size:12px;color:#374151;}
+#page-ngo .fb-sort-btn{border:1px solid #e5e7eb;}
+#page-ngo .fb-sort-btn.active{background:#111827!important;color:#fff!important;border-color:#111827!important;}
+#page-ngo .fb-result-ct{color:#6b7280;}
+
+/* ---------- 5. Case list ---------- */
+#page-ngo .fb-list-area{background:#fff;}
+#page-ngo #fb-email-list .fb-date-hd,
+#page-ngo .fb-date-grp{padding:8px 16px;background:#f6f7f9;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;font-size:11px;font-weight:700;color:#4b5563;letter-spacing:.2px;}
+#page-ngo #fb-email-list [id^="fbrow-"]{border-bottom:1px solid #e5e7eb!important;}
+#page-ngo #fb-email-list [id^="fbrow-"] span[style*="border-radius:5px"]{background:#e5e7eb!important;color:#374151!important;}
+#page-ngo #fb-email-list [id^="fbrow-"] span[style*="#94a3b8"]{color:#6b7280!important;}
+
+/* Labels: white chip, grey text, a small dot carries the meaning */
+#page-ngo .fp{background:#fff!important;color:#374151!important;border:1px solid #d9dde3!important;font-size:10px;padding:2px 8px;}
+#page-ngo .fp-lost::before,
+#page-ngo .fp-found::before,
+#page-ngo .fp-missing::before,
+#page-ngo .fp-accepted::before,
+#page-ngo .fp-rejected::before{content:"";width:6px;height:6px;border-radius:50%;margin-right:4px;flex-shrink:0;}
+#page-ngo .fp-lost::before,
+#page-ngo .fp-rejected::before{background:#b42318;}
+#page-ngo .fp-found::before,
+#page-ngo .fp-accepted::before{background:#067647;}
+#page-ngo .fp-missing::before{background:#b54708;}
+#page-ngo .fp-pending{color:#6b7280!important;}
+#page-ngo .fp-fraud{color:#b42318!important;border-color:#e9b1ab!important;font-weight:700;}
+#page-ngo .fp-fraud:empty{display:none!important;}
+#page-ngo .fp-id{background:#f3f4f6!important;border-color:transparent!important;color:#374151!important;}
+
+/* Rows used by Fraud Monitor / Collaboration / Resolved (classes had no styling at all) */
+#page-ngo .fb-row{display:flex;align-items:flex-start;gap:10px;padding:12px 16px;border-bottom:1px solid #e5e7eb;background:#fff;cursor:pointer;}
+#page-ngo .fb-row.fb-selected{background:#f3f4f6;}
+#page-ngo .fb-row-dot{display:none;}
+#page-ngo .fb-row-av{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;background:#e5e7eb!important;color:#374151!important;}
+#page-ngo .fb-row-body{flex:1;min-width:0;}
+#page-ngo .fb-row-top{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:3px;}
+#page-ngo .fb-row-from{font-size:12px;font-weight:600;color:#111827;}
+#page-ngo .fb-row-subject{font-size:13px;color:#111827;}
+#page-ngo .fb-row-preview{font-size:11px;color:#6b7280;margin-top:2px;}
+#page-ngo .fb-row-preview[style*="#dc2626"]{color:#b42318!important;font-weight:600!important;}
+#page-ngo .fb-row-meta{flex-shrink:0;}
+
+/* ---------- 6. Dashboard home (cards drawn by dashboard-fix.js) ---------- */
+#page-ngo .fb-dash-stat-card{background:#fff!important;color:#111827!important;border:1px solid #e5e7eb;box-shadow:none!important;}
+#page-ngo .fb-dash-stat-card::after{display:none!important;}
+#page-ngo .dsc-icon{display:none!important;}
+#page-ngo .dsc-lbl{color:#4b5563;opacity:1;}
+#page-ngo .dsc-chg{background:#f3f4f6!important;color:#374151;}
+#page-ngo .fb-dash-card{box-shadow:none!important;border-color:#e5e7eb!important;overflow-x:auto!important;}
+#page-ngo .dch-title{filter:grayscale(1);color:#111827!important;}
+#page-ngo .dch-action{color:#111827!important;text-decoration:underline;}
+#page-ngo .fb-dash-table th{color:#6b7280!important;background:#f6f7f9!important;}
+#page-ngo .fb-dash-table td span[style]{background:#f3f4f6!important;color:#374151!important;filter:grayscale(1);white-space:nowrap;}
+#page-ngo .fb-dash-mini-icon{display:none!important;}
+#page-ngo .fb-dash-mini-lbl{color:#6b7280!important;}
+#page-ngo .fb-dash-alert-time{filter:grayscale(1);color:#6b7280!important;}
+#page-ngo .fb-dash-alert-dot.red{background:#b42318!important;}
+#page-ngo .fb-dash-alert-dot.yellow{background:#b54708!important;}
+
+/* ---------- 7. Analytics and Export screens (inline colours) ---------- */
+#page-ngo #fb-email-list div[style*="border:1.5px solid"]{border:1px solid #e5e7eb!important;}
+#page-ngo #fb-email-list div[style*="font-size:28px"]{color:#111827!important;}
+#page-ngo #fb-email-list div[style*="width:38px"][style*="linear-gradient"]{display:none!important;}
+#page-ngo #fb-email-list button[onclick^="ngoExport"]{background:#111827!important;color:#fff!important;font-size:12px!important;padding:8px 14px!important;}
+
+/* ---------- 8. Case detail panel ---------- */
+#page-ngo .fb-fir-id{background:#f3f4f6!important;border-color:#e5e7eb!important;color:#111827!important;}
+#page-ngo .fb-note-item{border-left-color:#9ca3af!important;}
+#page-ngo .fb-note-by{color:#374151!important;}
+#page-ngo .fb-da{background:#fff!important;color:#111827!important;border:1.5px solid #d1d5db!important;min-height:40px;}
+#page-ngo .fb-da.acc{background:#111827!important;color:#fff!important;border-color:#111827!important;}
+#page-ngo .fb-da.rej{color:#b42318!important;}
+#page-ngo .fb-da.collab{background:#fff!important;color:#111827!important;border:1.5px solid #d1d5db!important;}
+#page-ngo [id="fb-detail-type"] div[style*="#dc2626"]{color:#b42318!important;}
+
+/* Bulk Post and New Case forms: dark header and dark main button */
+#page-ngo #fb-bulk-panel div[style*="linear-gradient"]{background:#111827!important;}
+#page-ngo #fb-bulk-panel div[style*="color:#1a3a6e"]{color:#111827!important;}
+#bulk-submit-btn,
+#dp-submit-btn{background:#111827!important;color:#fff!important;box-shadow:none!important;}
+
+/* ---------- 9. Login screen ---------- */
+#page-ngo .fb-login-wall .fp::before{display:none!important;}
+#page-ngo .fb-login-wall{background:#f6f7f9!important;}
+#page-ngo .fb-login-wall div[style*="#FEF3C7"]{background:#fff!important;border:1px solid #e5e7eb!important;}
+#page-ngo .fb-login-wall div[style*="#92400E"],
+#page-ngo .fb-login-wall div[style*="#78350F"]{color:#374151!important;}
+#page-ngo .fb-login-card{box-shadow:none!important;border-color:#e5e7eb!important;}
+#page-ngo .fb-login-hd{background:#111827!important;}
+#page-ngo .fb-login-icon{display:none!important;}
+#page-ngo .fb-tab.active{background:#fff!important;border-bottom-color:#111827!important;}
+#page-ngo .fb-submit-btn,
+#page-ngo .fb-submit-btn.police,
+#page-ngo .fb-submit-btn.green{background:#111827!important;color:#fff!important;box-shadow:none!important;}
+#page-ngo .fb-login-body button[style*="linear-gradient"],
+#page-ngo .fb-login-body button[style*="#7c3aed"],
+#page-ngo .fb-login-body button[style*="#4f46e5"]{background:#fff!important;color:#111827!important;border:1.5px solid #d1d5db!important;box-shadow:none!important;}
+#page-ngo .fb-err{color:#b42318!important;}
+
+/* ---------- 10. Phone layout: one column, nothing hidden under the header ---------- */
+@media(max-width:768px){
+  #page-ngo #fb-email-list{grid-template-columns:1fr!important;padding:0!important;gap:0!important;}
+  #page-ngo .fb-dash-stat-grid{margin:14px 12px!important;gap:10px!important;}
+  #page-ngo .fb-dash-two-col{margin:0 12px 20px!important;}
+}
