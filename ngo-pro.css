@@ -172,3 +172,19 @@
   #page-ngo .fb-dash-stat-grid{margin:14px 12px!important;gap:10px!important;}
   #page-ngo .fb-dash-two-col{margin:0 12px 20px!important;}
 }
+/* ---------- 11. Background tint: cool grey-blue, white cards ---------- */
+#page-ngo.fb-portal{--bg:#e8edf3;}
+#page-ngo.active{background:#e8edf3!important;}
+#page-ngo #ngo-dashboard{background:#e8edf3;}
+#page-ngo .fb-shell,
+#page-ngo .fb-main{background:#e8edf3;}
+#page-ngo .fb-list-area{background:transparent;}
+#page-ngo .fb-toolbar{background:#fff;border-bottom:1px solid #d5dde7;}
+#page-ngo #fb-email-list .fb-date-hd,
+#page-ngo .fb-date-grp{background:#dbe3ec;border-color:#cdd7e2;color:#334155;}
+#page-ngo .fb-dash-stat-card,
+#page-ngo .fb-dash-card{border-color:#d5dde7!important;box-shadow:0 1px 2px rgba(16,24,40,.06)!important;}
+#page-ngo .fb-empty,
+#page-ngo #fb-email-list > div[style*="text-align:center"]{background:transparent;}
+#page-ngo #fb-email-list{align-content:start;}
+#page-ngo .fb-login-wall{background:#e8edf3!important;}
