@@ -1334,7 +1334,7 @@ window.submitToFirebase=async function(){
   if(btn){btn.textContent='Submitting...';btn.disabled=true;}
   try{
     var photo=(photos[0]&&photos[0].length<900000)?photos[0]:(photos[0]?photos[0].substring(0,900000):null);photo=await redactPhotoData(photo,cat);var photo2=(photo&&photos[1]&&(photo.length*2+photos[1].length)<750000)?await redactPhotoData(photos[1],cat):null;var photosArr=photo?(photo2?[photo,photo2]:[photo]):[];
-    await addDoc(collection(db,"posts"),{type,item,loc,state:mState||"",district:mDist||"",date:dv,desc,contact,category:cat,reward:rew,uid,authorName,photo,photos:photosArr,photoCount:photosArr.length,idMark,regNo,plateNo,idVerifyType:idType,idVerifyMasked:idMasked,idVerifyPhoto:window._idPhotoData||null,idManualReview:window._idManualReview||false,route:routeVal||"",routeType:routeType||"",coach:coachVal||"",seat:seatVal||"",createdAt:serverTimestamp()});
+    await addDoc(collection(db,"posts"),{type,item,loc,state:mState||"",district:mDist||"",date:dv,desc,contact,category:cat,reward:rew,uid,authorName,photo,photos:photosArr,photoCount:photosArr.length,idMark,regNo,plateNo,idVerifyType:idType,idVerifyMasked:idMasked,idVerifyPhoto:window._idPhotoData||null,idManualReview:window._idManualReview||false,route:routeVal||"",routeType:routeType||"",coach:coachVal||"",seat:seatVal||"",...(window.fbMissingExtra?window.fbMissingExtra():{}),createdAt:serverTimestamp()});
     document.getElementById('modal-success').style.display='block';
     if(window.checkAreaAlerts)window.checkAreaAlerts({type,item,loc,category:cat});
     if(window._checkMatchAlert)window._checkMatchAlert({type,item,loc,category:cat});
@@ -1855,6 +1855,7 @@ window.openDetail=function(id){
   document.getElementById('detail-date').textContent=p.date||'—';
   let descText=p.desc||'No description.';
   if(p.idMark)descText+='\n\n ID Mark: '+p.idMark;if(p.regNo)descText+='\n Reg: '+p.regNo;if(p.plateNo)descText+='\n Plate: '+p.plateNo;
+  if(window.fbMissingDesc)descText+=window.fbMissingDesc(p);
   document.getElementById('detail-desc').textContent=descText;
   if(p.reward){document.getElementById('detail-reward-wrap').style.display='block';document.getElementById('detail-reward').textContent='₹'+p.reward;}
   else document.getElementById('detail-reward-wrap').style.display='none';
@@ -7622,6 +7623,7 @@ window.fbNeedsSelfie=function(type,cat){
 <script src="help-links.js?v=1"></script>
 <script src="area-map.js?v=1"></script>
 <script src="ngo-filters.js?v=1"></script>
+<script src="missing-fields.js?v=1"></script>
 <script>
 /* footer-fix v2 */
 (function(){
