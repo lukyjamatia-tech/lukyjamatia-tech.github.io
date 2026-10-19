@@ -6433,7 +6433,7 @@ window._sortNearbyFirst=function(posts){
   return near.concat(far);
 };
 // Try to get city from browser
-if(!localStorage.getItem('fb_city')&&navigator.geolocation){
+if(false&&!localStorage.getItem('fb_city')&&navigator.geolocation){
   navigator.geolocation.getCurrentPosition(function(pos){
     fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat='+pos.coords.latitude+'&lon='+pos.coords.longitude)
       .then(function(r){return r.json();})
