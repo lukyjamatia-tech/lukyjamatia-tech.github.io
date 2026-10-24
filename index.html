@@ -1074,6 +1074,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
     <button type="button" onclick="setRouteType('bus')" id="rtype-bus" style="flex:1;padding:8px 4px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:white;transition:all .2s;"> Bus</button>
     <button type="button" onclick="setRouteType('train')" id="rtype-train" style="flex:1;padding:8px 4px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:white;transition:all .2s;"> Train</button>
     <button type="button" onclick="setRouteType('flight')" id="rtype-flight" style="flex:1;padding:8px 4px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:white;transition:all .2s;"> Flight</button>
+    <button type="button" onclick="setRouteType('cab')" id="rtype-cab" style="flex:1;padding:8px 4px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:white;transition:all .2s;"> Cab</button>
     <button type="button" onclick="setRouteType('other')" id="rtype-other" style="flex:1;padding:8px 4px;border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:white;transition:all .2s;"> Other</button>
   </div>
   <input type="text" id="m-route" placeholder="e.g. Agartala to Udaipur Bus / Train No. 12345 / IndiGo 6E-123" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;">
@@ -7111,7 +7112,7 @@ window.sendUPIReward = function(aid, amount, note) {
 window._routeType = '';
 window.setRouteType = function(type) {
   window._routeType = type;
-  ['bus','train','flight','other'].forEach(function(t){
+  ['bus','train','flight','cab','other'].forEach(function(t){
     var btn = document.getElementById('rtype-'+t);
     if(btn){
       btn.style.background = t===type ? 'var(--orange)' : 'white';
@@ -7129,6 +7130,7 @@ window.setRouteType = function(type) {
       bus: 'e.g. Agartala to Udaipur Bus, TRTC Route 5',
       train: 'e.g. Train No. 12345 Agartala Express',
       flight: 'e.g. IndiGo 6E-123 Delhi to Agartala',
+      cab: 'e.g. Uber/Ola cab, Sector 127 to 62, UP16 AB 1234',
       other: 'e.g. Agartala-Udaipur Highway'
     };
     routeInput.placeholder = ph[type]||'Route details...';
