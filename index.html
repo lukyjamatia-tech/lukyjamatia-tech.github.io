@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>window._t=function(en,hi){var l=window.APP_LANG;if(!l){try{l=localStorage.getItem('fb_lang')}catch(e){}}return l==='hi'?hi:en;};</script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="/gis-auth.js?v=2" defer></script>
 <script src="/debug.js?v=1"></script>
@@ -575,7 +576,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
     <div class="fb-pg">
       <div class="fb-pi"><div class="fb-pi-icon"></div><div class="fb-pi-title">Community Power</div><div class="fb-pi-desc"><span data-lang="hi">सिर्फ police नहीं — पूरा community मिलके ढूंढे।</span><span data-lang="en">Not just police — the whole community searches together.</span></div></div>
       <div class="fb-pi"><div class="fb-pi-icon"></div><div class="fb-pi-title">Institutional Access</div><div class="fb-pi-desc"><span data-lang="hi">संस्थाओं के लिए वैकल्पिक डैशबोर्ड।</span><span data-lang="en">Optional dashboard for participating organisations.</span></div></div>
-      <div class="fb-pi"><div class="fb-pi-icon"></div><div class="fb-pi-title"><span data-lang="hi">पूरा India</span><span data-lang="en">All of India</span></div><div class="fb-pi-desc"><span data-lang="hi">28 states aur 8 UTs — poore India mein kahin bhi।</span><span data-lang="en">Covering all 28 states and 8 UTs of India.</span></div></div>
+      <div class="fb-pi"><div class="fb-pi-icon"></div><div class="fb-pi-title"><span data-lang="hi">पूरा India</span><span data-lang="en">All of India</span></div><div class="fb-pi-desc"><span data-lang="hi">28 राज्य और 8 केंद्र शासित प्रदेश — पूरे भारत में कहीं भी।</span><span data-lang="en">Covering all 28 states and 8 UTs of India.</span></div></div>
       <div class="fb-pi"><div class="fb-pi-icon"></div><div class="fb-pi-title"><span data-lang="hi">भाषा Barrier नहीं</span><span data-lang="en">No Language Barrier</span></div><div class="fb-pi-desc"><span data-lang="hi">13 languages — हर Indian use कर सके।</span><span data-lang="en">13 languages — every Indian can use it.</span></div></div>
     </div>
   </div>
@@ -724,7 +725,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
 </div><!-- end page-about -->
 
 <!-- CONTACT -->
-<div class="page" id="page-contact"><div class="page-content"><div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div><div class="page-title">Contact Us</div><div class="page-subtitle">We're here to help — reach out anytime</div><a class="contact-method" href="mailto:legal@findback.org"><div class="contact-icon"></div><div><h4>Email Support</h4><p>legal@findback.org</p></div></a><div class="divider"></div><div style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;margin-bottom:16px;">Send a Message</div><div id="contact-success" class="alert-success"> Message sent!</div><div class="contact-form"><div class="form-group"><label> Your Name</label><div class="input-icon-wrap"><span class="icon"></span><input type="text" id="c-name" placeholder="Your name"></div></div><div class="form-group"><label> Email</label><div class="input-icon-wrap"><span class="icon"></span><input type="email" id="c-email" placeholder="your@email.com" oninput="validateContactEmail(this)"></div><div id="c-email-error" style="font-size:11px;color:#DC2626;margin-top:4px;display:none;"> Sahi email daalo</div></div><div class="form-group"><label> Subject</label><div class="input-icon-wrap"><span class="icon"></span><input type="text" id="c-subject" placeholder="Subject"></div></div><div class="form-group"><label> Message</label><textarea id="c-msg" placeholder="Your message..."></textarea></div><button class="btn-primary" style="width:100%" onclick="sendContact()">Send Message</button></div></div></div>
+<div class="page" id="page-contact"><div class="page-content"><div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div><div class="page-title">Contact Us</div><div class="page-subtitle">We're here to help — reach out anytime</div><a class="contact-method" href="mailto:legal@findback.org"><div class="contact-icon"></div><div><h4>Email Support</h4><p>legal@findback.org</p></div></a><div class="divider"></div><div style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;margin-bottom:16px;">Send a Message</div><div id="contact-success" class="alert-success"> Message sent!</div><div class="contact-form"><div class="form-group"><label> Your Name</label><div class="input-icon-wrap"><span class="icon"></span><input type="text" id="c-name" placeholder="Your name"></div></div><div class="form-group"><label> Email</label><div class="input-icon-wrap"><span class="icon"></span><input type="email" id="c-email" placeholder="your@email.com" oninput="validateContactEmail(this)"></div><div id="c-email-error" style="font-size:11px;color:#DC2626;margin-top:4px;display:none;"> <span data-lang="en">Enter a valid email</span><span data-lang="hi">सही ईमेल डालें</span></div></div><div class="form-group"><label> Subject</label><div class="input-icon-wrap"><span class="icon"></span><input type="text" id="c-subject" placeholder="Subject"></div></div><div class="form-group"><label> Message</label><textarea id="c-msg" placeholder="Your message..."></textarea></div><button class="btn-primary" style="width:100%" onclick="sendContact()">Send Message</button></div></div></div>
 
 <!-- CUSTOMERS -->
 <div class="page" id="page-customers"><div class="page-content"><div style="margin-bottom:8px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div><div class="page-title">Example Scenarios</div><div class="page-subtitle">Illustrative examples only — not real user reviews</div><div class="customer-card"><div class="stars"></div><h4> Got my wallet back in 2 days!</h4><p>Lost my wallet at Delhi Metro. Posted on FindBack, someone found it and contacted me.</p><div class="meta">— Example scenario, Delhi •  Wallet</div></div><div class="customer-card"><div class="stars"></div><h4> Reunited phone via FindBack</h4><p>Found a phone near Bengaluru Bus Stand. Within 6 hours, the owner messaged me.</p><div class="meta">— Example scenario, Bengaluru •  Phone</div></div><div class="customer-card"><div class="stars"></div><h4> Recovered my lost dog</h4><p>Our pet dog went missing. A neighbor had sheltered him and saw our post!</p><div class="meta">— Example scenario, Pune •  Pet</div></div><div class="customer-card"><div class="stars"></div><h4> Simple, fast, actually works</h4><p>Posted my lost keys, got a match the next morning.</p><div class="meta">— Example scenario, Mumbai •  Keys</div></div></div></div>
@@ -970,7 +971,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
     <!-- GITHUB PANEL -->
     <div id="github-push-panel" style="display:none;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:16px;margin-bottom:16px;">
       <div style="font-family:Sora,sans-serif;font-size:15px;font-weight:700;margin-bottom:4px;color:#fff;"> Push to GitHub</div>
-      <div style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:14px;">index.html seedha GitHub repo mein push kar do</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:14px;">Push index.html directly to the GitHub repo</div>
       <div style="margin-bottom:10px;"><label style="display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:4px;">GitHub Token</label><input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="width:100%;padding:10px 12px;border:1px solid rgba(255,255,255,.15);border-radius:8px;font-size:13px;font-family:Inter,sans-serif;outline:none;background:rgba(255,255,255,.07);color:#fff;box-sizing:border-box;"></div>
       <div style="margin-bottom:10px;"><label style="display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:4px;">Owner</label><input type="text" id="gh-owner" value="lukyjamatia-tech" style="width:100%;padding:10px 12px;border:1px solid rgba(255,255,255,.15);border-radius:8px;font-size:13px;font-family:Inter,sans-serif;outline:none;background:rgba(255,255,255,.07);color:#fff;box-sizing:border-box;"></div>
       <div style="margin-bottom:10px;"><label style="display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:4px;">Repo</label><input type="text" id="gh-repo" value="lukyjamatia-tech.github.io" style="width:100%;padding:10px 12px;border:1px solid rgba(255,255,255,.15);border-radius:8px;font-size:13px;font-family:Inter,sans-serif;outline:none;background:rgba(255,255,255,.07);color:#fff;box-sizing:border-box;"></div>
@@ -988,7 +989,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
   <div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px;">
      Push to GitHub
   </div>
-  <div style="font-size:12px;color:#64748b;margin-bottom:14px;">index.html seedha GitHub repo mein push kar do</div>
+  <div style="font-size:12px;color:#64748b;margin-bottom:14px;">Push index.html directly to the GitHub repo</div>
 
   <div style="margin-bottom:10px;">
     <label style="display:block;font-size:11px;font-weight:700;color:#64748b;margin-bottom:4px;">GitHub Personal Access Token</label>
@@ -1026,7 +1027,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
   </button>
 
   <div style="margin-top:10px;font-size:10px;color:#94a3b8;text-align:center;line-height:1.6;">
-    Token browser mein save nahi hota — sirf yahi session ke liye use hoga
+    The token is not saved in the browser — it is used for this session only
   </div>
 </div>
 
@@ -1084,7 +1085,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
   </div>
 </div>
 
-    <div class="form-group"><label> Date</label><input type="date" id="m-date"><div style="font-size:11px;color:#888;margin-top:4px;">Aaj ya pehle ki date chunein</div></div>
+    <div class="form-group"><label> Date</label><input type="date" id="m-date"><div style="font-size:11px;color:#888;margin-top:4px;"><span data-lang="en">Choose today or an earlier date</span><span data-lang="hi">आज या उससे पहले की तारीख चुनें</span></div></div>
     <div class="form-group"><label> Description</label><textarea id="m-desc" placeholder="Color, brand, details..."></textarea></div>
     <div class="form-group" id="id-mark-group" style="display:none;"><label> Identification Mark <span style="font-size:11px;color:var(--text-muted);">(Optional)</span></label><input type="text" id="m-id-mark" placeholder="Scratch, sticker, initials..."></div>
     <div id="vehicle-fields" style="display:none;"><div style="background:#EFF6FF;border-radius:10px;padding:12px;margin-bottom:12px;font-size:12px;color:#1D4ED8;font-weight:600;"> Vehicle details (helpful for police report)</div><div class="form-group"><label> Registration No.</label><input type="text" id="m-reg-no" placeholder="DL01AB1234" oninput="this.value=this.value.toUpperCase()"></div><div class="form-group"><label> Licence Plate</label><input type="text" id="m-plate-no" placeholder="DL 01 AB 1234"></div></div>
@@ -1138,7 +1139,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
     </div>
 
     <div id="submit-section" style="display:none;">
-      <div style="text-align:center;font-size:13px;color:#E8722A;font-weight:600;margin-bottom:8px;"> Aapki ek post kisi ki duniya wapas la sakti hai</div>
+      <div style="text-align:center;font-size:13px;color:#E8722A;font-weight:600;margin-bottom:8px;"> <span data-lang="en">Your one post can bring someone's world back</span><span data-lang="hi">आपकी एक पोस्ट किसी की दुनिया वापस ला सकती है</span></div>
       <button class="btn-primary" style="width:100%;margin-bottom:10px;" onclick="submitReport()">Submit Post</button>
     </div>
     <div id="submit-locked" style="background:#F3F4F6;border-radius:10px;padding:12px;text-align:center;font-size:12px;color:#888;margin-bottom:10px;"> Complete ID Verification above to unlock Submit</div>
@@ -1191,7 +1192,7 @@ body.lang-en span[data-lang="en"]{display:inline;}
 
 <!-- PROFILE -->
 <div class="page" id="page-profile"><div class="page-content"><div style="margin-bottom:16px;cursor:pointer;color:var(--text-muted);font-size:13px;" onclick="showPage('home')">← Back</div><div style="text-align:center;padding:24px 0 16px;"><div id="profile-avatar" style="width:72px;height:72px;border-radius:50%;background:var(--orange);color:white;font-size:32px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">U</div><div id="profile-name" style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;">User</div><div id="profile-email" style="font-size:13px;color:var(--text-muted);margin-top:4px;"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0 24px;"><div style="background:var(--gray);border-radius:14px;padding:16px;text-align:center;"><div id="profile-posts-count" style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:var(--orange);">0</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px;"> My Posts</div></div><div style="background:var(--gray);border-radius:14px;padding:16px;text-align:center;"><div style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:#059669;">Active</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px;"> Member</div></div></div><div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;"> My Posts</div><div id="my-posts-list"></div><div id="fb-myphone"></div><div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;margin-top:24px;display:flex;align-items:center;justify-content:space-between;"> My Chats <span id="my-chats-badge" style="display:none;background:#E8722A;color:white;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;">New</span></div><div id="my-chats-list"><div style="text-align:center;padding:16px;color:var(--text-muted);font-size:13px;">Loading chats...</div></div><div style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;margin-top:24px;"> My Documents</div>
-<div id="my-docs-list"><div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">No documents yet — FIR ya Legal Doc generate karo</div></div>
+<div id="my-docs-list"><div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;"><span data-lang="en">No documents yet — generate an FIR or legal document</span><span data-lang="hi">अभी कोई दस्तावेज़ नहीं — FIR या कानूनी दस्तावेज़ बनाएँ</span></div></div>
 <button class="btn-primary" style="width:100%;margin-top:16px;margin-bottom:12px;" onclick="showPage('home');setTimeout(()=>openModal('lost'),100);"> Report Lost</button><button class="btn-outline" style="width:100%;margin-bottom:24px;" onclick="showPage('home');setTimeout(()=>openModal('found'),100);"> Report Found</button><button onclick="doLogout()" style="width:100%;padding:14px;border:1.5px solid #FEE2E2;background:#FEE2E2;color:#DC2626;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;"> Logout</button></div></div>
 
 <!-- BOTTOM NAV -->
@@ -1302,24 +1303,24 @@ window.submitToFirebase=async function(){
   const idType=document.getElementById('m-id-type')?document.getElementById('m-id-type').value:'';
   const idNumRaw=document.getElementById('m-id-number')?document.getElementById('m-id-number').value.trim():'';
   if(type==='found'){
-    var idVis=(document.getElementById('m-id-type')||{}).offsetParent;if(idVis&&!idType){window.toast(' ID type select karo — fraud prevention ke liye compulsory!');return;}
-    if(idVis&&(!idNumRaw||idNumRaw.length<6)){window.toast(' Valid ID number daalo!');return;}
+    var idVis=(document.getElementById('m-id-type')||{}).offsetParent;if(idVis&&!idType){window.toast(_t(' Select an ID type — required to prevent fraud!',' ID का प्रकार चुनें — धोखाधड़ी रोकने के लिए ज़रूरी है!'));return;}
+    if(idVis&&(!idNumRaw||idNumRaw.length<6)){window.toast(_t(' Enter a valid ID number!',' सही ID नंबर डालें!'));return;}
     // Photo compulsory for found
     if(window.fbNeedsSelfie(window.currentModal) && (!window._idPhotoData || !window._selfieVerified)){
       window.toast(' Valid Selfie with ID is required — face must be clearly visible'); return;
     }
     // AI verification compulsory
     if(window.fbNeedsSelfie(window.currentModal)&&!window._idVerifyPassed){
-      window.toast(' ID photo verify nahi hua — sahi photo upload karo');
+      window.toast(_t(' ID photo could not be verified — upload a clear photo',' ID फ़ोटो सत्यापित नहीं हुई — साफ़ फ़ोटो अपलोड करें'));
       var aiS=document.getElementById('m-id-ai-status');
       if(aiS)aiS.scrollIntoView({behavior:'smooth'});
       return;
     }
     // Format validation
     var rules={'Aadhaar':/^[0-9]{12}$/,'PAN':/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/,'Voter ID':/^[A-Z]{3}[0-9]{7}$/,'Driving Licence':/^[A-Z0-9]{8,20}$/,'Passport':/^[A-Z]{1}[0-9]{7}$/};
-    var msgs={'Aadhaar':'12 digit number chahiye','PAN':'ABCDE1234F format chahiye','Voter ID':'ABC1234567 format chahiye','Driving Licence':'Valid DL number chahiye','Passport':'A1234567 format chahiye'};
+    var msgs={'Aadhaar':_t('12-digit number required','12 अंकों का नंबर चाहिए'),'PAN':_t('Format: ABCDE1234F','फ़ॉर्मेट: ABCDE1234F'),'Voter ID':_t('Format: ABC1234567','फ़ॉर्मेट: ABC1234567'),'Driving Licence':_t('Valid DL number required','सही DL नंबर चाहिए'),'Passport':_t('Format: A1234567','फ़ॉर्मेट: A1234567')};
     if(rules[idType]&&!rules[idType].test(idNumRaw)){
-      window.toast(' '+idType+' format galat hai — '+msgs[idType]);
+      window.toast(' '+idType+_t(' format is invalid — ',' का फ़ॉर्मेट ग़लत है — ')+msgs[idType]);
       document.getElementById('m-id-number').style.borderColor='#DC2626';
       return;
     }
@@ -1362,7 +1363,7 @@ window.deletePost=async function(id){
  if(!adminMode){if(!confirm((window.APP_LANG==='hi')?'यह पोस्ट डिलीट करना चाहते हो?':'Delete this post?'))return;}
  var post=(window._allPosts||[]).find(function(p){return p.id===id;});
  if(!post){say('Post not found',false);return;}
- if(!adminMode&&(!window._currentUser||window._currentUser.uid!==post.uid)){say('Sirf post owner hi delete kar sakta hai',false);return;}
+ if(!adminMode&&(!window._currentUser||window._currentUser.uid!==post.uid)){say(_t('Only the post owner can delete this','सिर्फ़ पोस्ट का मालिक ही इसे हटा सकता है'),false);return;}
  say('Deleting...',true);
  try{await deleteDoc(doc(db,"posts",id));say('DELETED: '+(post.item||''),true);}
  catch(e){say(fbErrMsg(e),false);}
@@ -1493,13 +1494,13 @@ import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js').then(
 window.reportPost=function(postId){
   const p=(window._allPosts||[]).find(x=>x.id===postId);if(!p)return;
   const reasons=['Fake/Prank post','Wrong/misleading info','Spam','Inappropriate content'];
-  const r=prompt(' Report karo:\n\n1. Fake/Prank post\n2. Wrong/misleading info\n3. Spam\n4. Inappropriate content\n\nNumber type karo (1-4):','1');
+  const r=prompt(_t(' Report this post:\n\n1. Fake/Prank post\n2. Wrong/misleading info\n3. Spam\n4. Inappropriate content\n\nType a number (1-4):',' इस पोस्ट की रिपोर्ट करें:\n\n1. नकली/मज़ाक वाली पोस्ट\n2. ग़लत/भ्रामक जानकारी\n3. स्पैम\n4. अनुचित सामग्री\n\nनंबर लिखें (1-4):'),'1');
   if(!r)return;
   const rt=reasons[parseInt(r)-1]||reasons[0];
-  import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js").then(m=>m.addDoc(m.collection(window._db,"reports"),{postId,postItem:p.item||'',postType:p.type||'',postLoc:p.loc||'',reason:rt,reportedAt:m.serverTimestamp(),reporterUid:window._currentUser?window._currentUser.uid:'anonymous'})).then(()=>toast(' Report bheja! Team review karegi.')).catch(e=>toast(fbErrMsg(e)));
+  import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js").then(m=>m.addDoc(m.collection(window._db,"reports"),{postId,postItem:p.item||'',postType:p.type||'',postLoc:p.loc||'',reason:rt,reportedAt:m.serverTimestamp(),reporterUid:window._currentUser?window._currentUser.uid:'anonymous'})).then(()=>toast(_t(' Report sent! Our team will review it.',' रिपोर्ट भेज दी गई! हमारी टीम इसकी जाँच करेगी।'))).catch(e=>toast(fbErrMsg(e)));
 };
 window.markResolved=async function(id){
-  if(!confirm((window.APP_LANG==='hi')?'Resolved mark karna chahte ho?':'Mark as resolved?'))return;
+  if(!confirm((window.APP_LANG==='hi')?'क्या इसे Resolved (मिल गया) मार्क करना है?':'Mark as resolved?'))return;
   try{const{doc:d,updateDoc:up}=await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");await up(d(window._db,"posts",id),{status:'resolved',resolvedAt:new Date()});window.toast(' Resolved! ');if(window.launchConfetti)window.launchConfetti();}catch(e){window.toast(fbErrMsg(e));}
 };
 </script>
@@ -1651,7 +1652,7 @@ window.validatePhoneInput=function(input,errId){
   if(val.length===0){err.style.display='none';input.style.borderColor='';return;}
   if(val.length<10){
     err.style.display='block';
-    err.textContent=' '+val.length+' digits diye — 10 chahiye';
+    err.textContent=' '+val.length+_t(' digits entered — 10 required',' अंक डाले — 10 चाहिए');
     input.style.borderColor='#DC2626';
   } else {
     err.style.display='none';
@@ -1861,12 +1862,12 @@ window.openDetail=function(id){
   if(p.reward){document.getElementById('detail-reward-wrap').style.display='block';document.getElementById('detail-reward').textContent='₹'+p.reward;}
   else document.getElementById('detail-reward-wrap').style.display='none';
   let name=p.authorName||'Anonymous';if(/^(google|facebook|email)\s*account$/i.test(name.trim()))name='FindBack User';
-  document.getElementById('detail-poster-avatar').textContent=name[0].toUpperCase();document.getElementById('detail-poster-name').textContent=name;document.getElementById('detail-poster-contact').textContent=window._currentUser?(function(){const c=p.contact||'';if(!c)return 'No contact';const d=c.replace(/\s/g,'');return d.length>6?d.slice(0,3)+'\u2022\u2022\u2022\u2022\u2022\u2022'+d.slice(-3):d;})():'Login karke dekhein';
+  document.getElementById('detail-poster-avatar').textContent=name[0].toUpperCase();document.getElementById('detail-poster-name').textContent=name;document.getElementById('detail-poster-contact').textContent=window._currentUser?(function(){const c=p.contact||'';if(!c)return 'No contact';const d=c.replace(/\s/g,'');return d.length>6?d.slice(0,3)+'\u2022\u2022\u2022\u2022\u2022\u2022'+d.slice(-3):d;})():_t('Log in to view','देखने के लिए लॉगिन करें');
   const actions=document.getElementById('detail-actions');
   const rc=p.contact||'',phone=rc.startsWith('+91')?rc.slice(1):rc.replace(/\D/g,'');
   const waMsg=encodeURIComponent(`Hi, I saw your FindBack post about "${p.item}" (${tl}). Can we talk?`);
   let btns='';
-  if(!window._currentUser){btns+=`<button onclick="document.getElementById('login-required-modal').style.display='flex'" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#111;color:white;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;">Login karke contact dekhein</button>`;}
+  if(!window._currentUser){btns+=`<button onclick="document.getElementById('login-required-modal').style.display='flex'" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#111;color:white;border:none;border-radius:12px;font-weight:700;font-size:15px;cursor:pointer;width:100%;"><span data-lang="en">Log in to see contact</span><span data-lang="hi">संपर्क देखने के लिए लॉगिन करें</span></button>`;}
   else if(phone.length>=10){btns+=`<a href="https://wa.me/${phone.slice(-12)}?text=${waMsg}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:#25D366;color:white;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;"> WhatsApp</a>`;}
   else if(rc.includes('@')){btns+=`<a href="mailto:${rc}" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:var(--orange);color:white;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;"> Email</a>`;}
   if(window._currentUser&&window._currentUser.uid===p.uid){
@@ -1891,9 +1892,9 @@ window.openDetail=function(id){
     var ageDays2=Math.floor((new Date()-pdAge)/(1000*60*60*24));
     var isOwner2=window._currentUser&&window._currentUser.uid===p.uid;
     if(ageDays2>=90){
-      reminderHtml='<div style="background:#F3F4F6;border:1.5px solid #D1D5DB;border-radius:12px;padding:14px 16px;margin-bottom:4px;"><div style="font-size:13px;font-weight:700;color:#6B7280;margin-bottom:4px;">Yeh post 90+ din purani hai</div><div style="font-size:12px;color:#9CA3AF;line-height:1.6;">Item ka status abhi bhi open hai. Agar mil gaya ho toh resolve karo — community ko help milegi.</div>'+(isOwner2?`<button onclick="markResolved('${p.id}')" style="margin-top:10px;width:100%;padding:10px;background:#059669;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;"> Mark Resolved</button>`:'')+'</div>';
+      reminderHtml='<div style="background:#F3F4F6;border:1.5px solid #D1D5DB;border-radius:12px;padding:14px 16px;margin-bottom:4px;"><div style="font-size:13px;font-weight:700;color:#6B7280;margin-bottom:4px;"><span data-lang="en">This post is 90+ days old</span><span data-lang="hi">यह पोस्ट 90+ दिन पुरानी है</span></div><div style="font-size:12px;color:#9CA3AF;line-height:1.6;"><span data-lang="en">This item is still marked open. If it has been found, mark it resolved — it helps the community.</span><span data-lang="hi">इस सामान की स्थिति अभी भी खुली है। अगर मिल गया हो तो Resolved मार्क करें — इससे समुदाय को मदद मिलेगी।</span></div>'+(isOwner2?`<button onclick="markResolved('${p.id}')" style="margin-top:10px;width:100%;padding:10px;background:#059669;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;"> Mark Resolved</button>`:'')+'</div>';
     } else if(ageDays2>=30){
-      reminderHtml='<div style="background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:12px;padding:14px 16px;margin-bottom:4px;"><div style="font-size:13px;font-weight:700;color:#D97706;margin-bottom:4px;"> '+ageDays2+' din ho gaye — Abhi bhi dhundh rahe ho?</div><div style="font-size:12px;color:#92400E;line-height:1.6;">Agar item mil gaya ho toh Resolved mark karo. Nahi mila? Post share karo — koi madad kar sakta hai.</div>'+(isOwner2?`<button onclick="markResolved('${p.id}')" style="margin-top:10px;width:100%;padding:10px;background:#D97706;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;"> Mil gaya! Mark Resolved</button>`:'')+'</div>';
+      reminderHtml='<div style="background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:12px;padding:14px 16px;margin-bottom:4px;"><div style="font-size:13px;font-weight:700;color:#D97706;margin-bottom:4px;"> '+ageDays2+'<span data-lang="en"> days have passed — still searching?</span><span data-lang="hi"> दिन हो गए — क्या अब भी ढूँढ रहे हैं?</span></div><div style="font-size:12px;color:#92400E;line-height:1.6;"><span data-lang="en">If you found the item, mark it Resolved. Not found yet? Share the post — someone may be able to help.</span><span data-lang="hi">अगर सामान मिल गया है तो Resolved मार्क करें। अभी नहीं मिला? पोस्ट शेयर करें — कोई मदद कर सकता है।</span></div>'+(isOwner2?`<button onclick="markResolved('${p.id}')" style="margin-top:10px;width:100%;padding:10px;background:#D97706;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;"> <span data-lang="en">Found it! Mark Resolved</span><span data-lang="hi">मिल गया! Resolved मार्क करें</span></button>`:'')+'</div>';
     }
   }
   // UPI Reward Button
@@ -2046,7 +2047,7 @@ function sendContact(){
   const name=document.getElementById('c-name').value.trim(),msg=document.getElementById('c-msg').value.trim();
   if(!name||!msg){toast(' Name and message required');return;}
   const ev=document.getElementById('c-email').value.trim();
-  if(ev&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ev)){toast(' Sahi email daalo');return;}
+  if(ev&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ev)){toast(_t(' Enter a valid email',' सही ईमेल डालें'));return;}
   document.getElementById('contact-success').style.display='block';
   document.getElementById('c-name').value='';document.getElementById('c-email').value='';document.getElementById('c-subject').value='';document.getElementById('c-msg').value='';
 }
@@ -2224,7 +2225,7 @@ function refreshAdminStats(){
           _doRenderAdminStats();
         }).catch(function(e){
           var modernEl=el('admin-posts-modern');
-          if(modernEl)modernEl.innerHTML='<div style="text-align:center;padding:32px;color:rgba(255,255,255,.3);font-size:13px;"> Load failed — Refresh karo</div>';
+          if(modernEl)modernEl.innerHTML='<div style="text-align:center;padding:32px;color:rgba(255,255,255,.3);font-size:13px;"> <span data-lang="en">Failed to load — please refresh</span><span data-lang="hi">लोड नहीं हुआ — पेज रिफ़्रेश करें</span></div>';
         });
       });
     }
@@ -2430,13 +2431,13 @@ window.runAIMatch=async function(postId){
   const opp=post.type==='lost'?'found':'lost',cands=(window._allPosts||[]).filter(p=>p.type===opp).slice(0,10);
   if(!cands.length){toast(APP_LANG==='hi'?' कोई मैच नहीं मिला':' No match found');if(btn){btn.textContent=(APP_LANG==='hi'?' AI मैच खोजें':' Find AI Match');btn.disabled=false;}return;}
   const prompt=`Lost/found matching for India.\nPOST: Type:${post.type} Item:${post.item} Cat:${post.category||'?'} Loc:${post.loc} Date:${post.date||'?'} Desc:${post.desc||'none'}\nCANDIDATES:\n${cands.map((c,i)=>`${i+1}. ID:${c.id}|Item:${c.item}|Cat:${c.category||'?'}|Loc:${c.loc}|Date:${c.date||'?'}|Desc:${c.desc||'none'}`).join('\n')}\nTop 3 matches. JSON only:\n{"matches":[{"id":"id","score":95,"reason":"reason"},{"id":"id","score":80,"reason":"..."},{"id":"id","score":60,"reason":"..."}]}`;
-  try{const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:500,messages:[{role:'user',content:prompt}]})});const data=await res.json();const text=data.content?.[0]?.text||'{}';const parsed=JSON.parse(text.replace(/```json|```/g,'').trim());showAIMatchResults(post,parsed.matches||[],cands);}
+  try{const res=await fetch("https://script.google.com/macros/s/AKfycbzUJCi2-ntcOLGdnhNwgpuaRrX5gPpq7hcTo4RkuWMk-4OJLfTB6RlyaYNA0soHnPO0/exec?q="+encodeURIComponent(prompt)+"&lang="+(typeof APP_LANG!=="undefined"?APP_LANG:"en")+"&t=fb7Kx9mQ2vLp4Rz8",{signal:AbortSignal.timeout(30000)});const data=await res.json();const text=data.text||'{}';const parsed=JSON.parse((text.match(/\{[\s\S]*\}/)||['{}'])[0]);showAIMatchResults(post,parsed.matches||[],cands);}
   catch(e){toast(fbErrMsg(e));}
   if(btn){btn.textContent=(APP_LANG==='hi'?' AI मैच खोजें':' Find AI Match');btn.disabled=false;}
 };
 function showAIMatchResults(post,matches,cands){
   const ov=document.getElementById('ai-match-overlay'),body=document.getElementById('ai-match-body');if(!ov||!body)return;
-  if(!matches.length){body.innerHTML='<div style="text-align:center;padding:40px;color:var(--text-muted)"><div style="font-size:48px"></div><p>Koi match nahi</p></div>';ov.style.display='flex';return;}
+  if(!matches.length){body.innerHTML='<div style="text-align:center;padding:40px;color:var(--text-muted)"><div style="font-size:48px"></div><p><span data-lang="en">No matches found</span><span data-lang="hi">कोई मिलान नहीं मिला</span></p></div>';ov.style.display='flex';return;}
   const mp=matches.map(m=>{const p=cands.find(c=>c.id===m.id);return p?{...p,_score:m.score,_reason:m.reason}:null;}).filter(Boolean);
   body.innerHTML=mp.map(p=>{const sc=p._score>=80?'#059669':p._score>=60?'#D97706':'#777',tc=p.type==='found'?'#D1FAE5':'#FEE2E2',tt=p.type==='found'?'#059669':'#DC2626';return `<div onclick="closeAIMatch();openDetail('${p.id}')" style="border:2px solid ${sc}30;border-radius:14px;padding:14px;margin-bottom:12px;cursor:pointer;background:white;position:relative;"><div style="position:absolute;top:10px;right:10px;background:${sc};color:white;border-radius:20px;padding:2px 10px;font-size:12px;font-weight:700;">${p._score}%</div><span style="background:${tc};color:${tt};font-size:10px;padding:2px 8px;border-radius:20px;font-weight:700;">${p.type==='found'?'Found':' Lost'}</span><div style="font-size:15px;font-weight:700;margin:6px 0 4px;padding-right:60px">${p.item}</div><div style="font-size:12px;color:var(--text-muted)"> ${p.loc}</div><div style="margin-top:8px;background:#F0FFF4;border-radius:8px;padding:8px;font-size:12px;color:#065F46;"> ${p._reason}</div></div>`;}).join('');
   ov.style.display='flex';
@@ -2508,7 +2509,7 @@ window.toggleAnonMsg=function(postId){const el=document.getElementById('anon-sec
 window.sharePost=function(postId){
   const p=(window._allPosts||[]).find(x=>x.id===postId);if(!p)return;
   const te=p.type==='lost'?'':p.type==='found'?'':'',tt=p.type==='lost'?'LOST':p.type==='found'?'FOUND':'MISSING';
-  const text=`${te} ${tt}: ${p.item||'Item'}\n\n ${p.loc||''}\n${p.date?' '+p.date+'\n':''}${p.desc?' '+p.desc.substring(0,80)+(p.desc.length>80?'...':'')+'\n':''}${p.reward?' ₹'+p.reward+'\n':''}\n Maine FindBack par post kiya hai\nYe sirf ek app nahi, ek movement hai\nLog ek dusre ki madad kar rahe hain \nAgar aapko mile to please help karen\n https://findback.org`;
+  const text=`${te} ${tt}: ${p.item||'Item'}\n\n ${p.loc||''}\n${p.date?' '+p.date+'\n':''}${p.desc?' '+p.desc.substring(0,80)+(p.desc.length>80?'...':'')+'\n':''}${p.reward?' ₹'+p.reward+'\n':''}${_t('\n I posted this on FindBack\nIt is not just an app, it is a movement\nPeople are helping each other \nIf you find it, please help\n https://findback.org','\n मैंने यह FindBack पर पोस्ट किया है\nयह सिर्फ़ एक ऐप नहीं, एक आंदोलन है\nलोग एक-दूसरे की मदद कर रहे हैं \nअगर आपको मिले तो कृपया मदद करें\n https://findback.org')}`;
   if(navigator.share){navigator.share({title:`${te} ${tt}: ${p.item}`,text,url:'https://findback.org'}).catch(()=>{});}else{window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');}
 };
 </script>
@@ -2688,8 +2689,8 @@ window._renderAll=function(){
       var wrap=document.createElement('div');
       wrap.style.cssText='text-align:center;padding:40px 20px 20px;';
       wrap.innerHTML='<div style="font-size:56px;margin-bottom:16px;"></div>'
-        +'<h3 style="font-family:Sora,sans-serif;font-size:18px;margin-bottom:8px;">Login karein Posts Dekhne Ke Liye</h3>'
-        +'<p style="font-size:14px;color:#777;margin-bottom:20px;">Free account banao aur sabhi posts dekho</p>';
+        +'<h3 style="font-family:Sora,sans-serif;font-size:18px;margin-bottom:8px;"><span data-lang="en">Log in to view posts</span><span data-lang="hi">पोस्ट देखने के लिए लॉगिन करें</span></h3>'
+        +'<p style="font-size:14px;color:#777;margin-bottom:20px;"><span data-lang="en">Create a free account and see all posts</span><span data-lang="hi">मुफ़्त अकाउंट बनाएँ और सभी पोस्ट देखें</span></p>';
       var btn1=document.createElement('button');
       btn1.textContent=' Login';
       btn1.style.cssText='background:#E8722A;color:white;border:none;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;margin-right:8px;';
@@ -2808,7 +2809,7 @@ function loadSuccessWall(){
 }
 window.loadSuccessWall=loadSuccessWall;
 
-window.generateQR=function(){const name=document.getElementById('qr-name').value.trim(),item=document.getElementById('qr-item').value.trim(),contact=document.getElementById('qr-show-contact').checked?document.getElementById('qr-contact').value.trim():'',msg=document.getElementById('qr-msg').value.trim();if(!item){toast(' Item name daalo');return;}const tagId='FB'+Date.now().toString(36).toUpperCase(),qrData=encodeURIComponent('https://findback.org/tag/'+tagId),qrUrl='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+qrData+'&color=111111&bgcolor=ffffff&qzone=2';if(!(window._auth&&window._auth.currentUser)){toast('Please log in to create a QR Tag');return;}document.getElementById('qr-code-display').innerHTML='<img src="'+qrUrl+'" style="width:180px;height:180px;border-radius:12px;border:3px solid var(--orange);"><div style="margin-top:10px;font-size:11px;color:var(--text-muted);">Tag ID: '+tagId+'</div>';document.getElementById('qr-item-label').textContent=' '+item;document.getElementById('qr-owner-label').textContent=name?(' '+name+' ka item'):'FindBack Tagged Item';document.getElementById('qr-result').style.display='none';window._lastQRData={tagId,item,name,contact,msg,qrUrl};try{window._setDoc(window._doc(window._db,'qr_tags',tagId),{tagId:tagId,itemName:item,ownerName:name,ownerUid:(window._auth&&window._auth.currentUser)?window._auth.currentUser.uid:null,msg:msg,contact:contact||null,createdAt:window._sTS()}).then(function(){document.getElementById('qr-result').style.display='block';toast('QR ready!');}).catch(function(e){console.error('tag save',e);toast('Tag could not be saved. Please try again.');});}catch(e){console.error(e);}};
+window.generateQR=function(){const name=document.getElementById('qr-name').value.trim(),item=document.getElementById('qr-item').value.trim(),contact=document.getElementById('qr-show-contact').checked?document.getElementById('qr-contact').value.trim():'',msg=document.getElementById('qr-msg').value.trim();if(!item){toast(_t(' Enter the item name',' सामान का नाम डालें'));return;}const tagId='FB'+Date.now().toString(36).toUpperCase(),qrData=encodeURIComponent('https://findback.org/tag/'+tagId),qrUrl='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+qrData+'&color=111111&bgcolor=ffffff&qzone=2';if(!(window._auth&&window._auth.currentUser)){toast('Please log in to create a QR Tag');return;}document.getElementById('qr-code-display').innerHTML='<img src="'+qrUrl+'" style="width:180px;height:180px;border-radius:12px;border:3px solid var(--orange);"><div style="margin-top:10px;font-size:11px;color:var(--text-muted);">Tag ID: '+tagId+'</div>';document.getElementById('qr-item-label').textContent=' '+item;document.getElementById('qr-owner-label').textContent=name?(' '+_t(name+"'s item",name+' का सामान')):'FindBack Tagged Item';document.getElementById('qr-result').style.display='none';window._lastQRData={tagId,item,name,contact,msg,qrUrl};try{window._setDoc(window._doc(window._db,'qr_tags',tagId),{tagId:tagId,itemName:item,ownerName:name,ownerUid:(window._auth&&window._auth.currentUser)?window._auth.currentUser.uid:null,msg:msg,contact:contact||null,createdAt:window._sTS()}).then(function(){document.getElementById('qr-result').style.display='block';toast('QR ready!');}).catch(function(e){console.error('tag save',e);toast('Tag could not be saved. Please try again.');});}catch(e){console.error(e);}};
 window.shareQR=async function(){if(!window._lastQRData)return;const d=window._lastQRData,text=' FindBack QR\nItem: '+d.item+(d.name?'\nOwner: '+d.name:'')+(d.msg?'\nMsg: '+d.msg:'')+'\n\nFindBack – India\'s Lost & Found\nhttps://findback.org';if(navigator.share){try{const resp=await fetch(d.qrUrl);const blob=await resp.blob();const file=new File([blob],'FindBack-QR-'+d.tagId+'.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({title:'FindBack QR – '+d.item,text,files:[file]});}else{await navigator.share({title:'FindBack QR',text});}}catch(e){try{await navigator.share({title:'FindBack QR',text});}catch(e2){window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');}}}else{window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');}};
 window.printQR=function(){
   if(!window._lastQRData)return;
@@ -2833,7 +2834,7 @@ window.registerPushToken=async function(){
     const fs=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
     await fs.setDoc(fs.doc(window._db,'users',window._currentUser.uid),{fcmToken:token},{merge:true});
     console.log('FCM token saved');
-    m.onMessage(messaging,function(p){if(window.toast)window.toast((p.notification&&p.notification.title)||'Naya message');});
+    m.onMessage(messaging,function(p){if(window.toast)window.toast((p.notification&&p.notification.title)||_t('New message','नया संदेश'));});
   }catch(e){console.warn('push err',e);}
 };
 </script>
@@ -3394,7 +3395,7 @@ window.registerPushToken=async function(){
                 <div>
                   <input type="file" id="ngo-reg-photo" accept="image/*" style="display:none;" onchange="ngoPreviewPhoto(this)">
                   <button type="button" onclick="document.getElementById('ngo-reg-photo').click()" style="padding:7px 12px;background:#f1f5f9;border:1.5px solid #e2e8f0;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;color:#475569;"> Upload Photo</button>
-                  <div style="font-size:9px;color:#94a3b8;margin-top:3px;">Optional — Admin review ke liye</div>
+                  <div style="font-size:9px;color:#94a3b8;margin-top:3px;">Optional — for admin review</div>
                 </div>
               </div>
             </div>
@@ -3469,7 +3470,7 @@ window.registerPushToken=async function(){
         </div>
 
         <div class="fb-loc-badge" id="fb-loc-badge"> <span id="fb-loc-text">—</span></div>
-        <div class="fb-filter-note" id="fb-filter-note" style="display:none;"> Sirf is district ke posts dikh rahe hain</div>
+        <div class="fb-filter-note" id="fb-filter-note" style="display:none;"> <span data-lang="en">Showing posts from this district only</span><span data-lang="hi">सिर्फ़ इस ज़िले की पोस्ट दिख रही हैं</span></div>
 
         <!-- POLICE NAV -->
         <div id="fb-nav-police">
@@ -3848,7 +3849,7 @@ window.fbRenderEmailList = function() {
   var nd = document.getElementById('fb-notif-dot'); if(nd) nd.style.display = pending ? 'block' : 'none';
 
   if(!posts.length) {
-    listEl.innerHTML = '<div style="text-align:center;padding:48px 20px;color:#94a3b8;"><div style="font-size:32px;margin-bottom:10px;opacity:.4;"></div><div style="font-size:14px;font-weight:600;color:#334155;margin-bottom:4px;">No cases found</div><div style="font-size:12px;">Filter change karo ya search clear karo</div></div>';
+    listEl.innerHTML = '<div style="text-align:center;padding:48px 20px;color:#94a3b8;"><div style="font-size:32px;margin-bottom:10px;opacity:.4;"></div><div style="font-size:14px;font-weight:600;color:#334155;margin-bottom:4px;">No cases found</div><div style="font-size:12px;">Change the filter or clear the search</div></div>';
     return;
   }
 
@@ -3996,7 +3997,7 @@ window.fbDetailAction = async function(action) {
 
 window.fbDetailHide = async function() {
   if(!window._fbOpenPostId) return;
-  if(!confirm('FIR queue se hide karna chahte ho?\nMain page pe post safe rahegi.')) return;
+  if(!confirm('Hide this from the FIR queue?\nThe post will stay on the main page.')) return;
   try {
     var m = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
     await m.updateDoc(m.doc(window._db,'posts',window._fbOpenPostId), {
@@ -4358,7 +4359,7 @@ window._renderFraudTab = function() {
   window._fbDetectFraud(posts);
   var fraudPosts = posts.filter(window._fbIsFraud);
   if(!fraudPosts.length) {
-    listEl.innerHTML = '<div style="text-align:center;padding:48px;color:#94a3b8;"><div style="font-size:28px;margin-bottom:8px;"></div><div style="font-size:14px;font-weight:600;color:#334155;margin-bottom:4px;">No Fraud Detected</div><div style="font-size:12px;">Sab posts normal hain</div></div>';
+    listEl.innerHTML = '<div style="text-align:center;padding:48px;color:#94a3b8;"><div style="font-size:28px;margin-bottom:8px;"></div><div style="font-size:14px;font-weight:600;color:#334155;margin-bottom:4px;">No Fraud Detected</div><div style="font-size:12px;">All posts look normal</div></div>';
     return;
   }
   listEl.innerHTML = '<div class="fb-date-hd"> Suspicious Posts — '+fraudPosts.length+' found</div>'
@@ -4391,7 +4392,7 @@ window._renderCollabTab = function() {
   if(!listEl) return;
   var posts = (window._getLocalPosts?window._getLocalPosts():(window._allPosts||[])).filter(function(p){ return p.collaboration && p.collaboration.length > 0; });
   if(!posts.length) {
-    listEl.innerHTML = '<div style="text-align:center;padding:48px;color:#94a3b8;"><div style="font-size:28px;margin-bottom:8px;"></div><div style="font-size:13px;font-weight:600;color:#334155;margin-bottom:6px;">No collaboration yet</div><div style="font-size:11px;">FIR Queue mein jaao → kisi bhi case pe  Add Note dabao</div></div>';
+    listEl.innerHTML = '<div style="text-align:center;padding:48px;color:#94a3b8;"><div style="font-size:28px;margin-bottom:8px;"></div><div style="font-size:13px;font-weight:600;color:#334155;margin-bottom:6px;">No collaboration yet</div><div style="font-size:11px;">Go to the FIR Queue → tap Add Note on any case</div></div>';
     return;
   }
   listEl.innerHTML = '<div class="fb-date-hd"> Cases with Collaboration Notes</div>'
@@ -4422,7 +4423,7 @@ window.fbSendAlert = function() {
   var type = document.getElementById('fb-alert-type')?.value || 'Alert';
   var desc = document.getElementById('fb-alert-desc')?.value.trim() || '';
   var loc  = document.getElementById('fb-alert-loc')?.value.trim() || '';
-  if(!desc){ window.toast(' Description daalo'); return; }
+  if(!desc){ window.toast(' Enter a description'); return; }
   var msg = ' *FindBack ALERT*\n *'+type+'*\n'+(loc?' *'+loc+'*\n':'')+'━━━━━━━━━━━━━\n'+desc+'\n\n findback.org';
   window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
   fbCloseAlertModal();
@@ -4491,7 +4492,7 @@ window.ngoFirebaseLogin = async function() {
   var email=document.getElementById('ngo-login-email')?.value.trim()||'';
   var pass=document.getElementById('ngo-login-pass')?.value.trim()||'';
   var errEl=document.getElementById('ngo-auth-err'), btn=document.getElementById('ngo-login-btn');
-  if(!email||!pass){if(errEl){errEl.textContent=' Email aur password daalo';errEl.style.display='block';}return;}
+  if(!email||!pass){if(errEl){errEl.textContent=' Enter email and password';errEl.style.display='block';}return;}
   if(btn){btn.textContent='Signing in...';btn.disabled=true;}
   try {
     var {signInWithEmailAndPassword}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
@@ -4500,7 +4501,7 @@ window.ngoFirebaseLogin = async function() {
     var uDoc=await getDoc(doc(window._db,'users',cred.user.uid));
     var ud=uDoc.exists()?uDoc.data():{};
     if(ud.userType!=='ngo'&&ud.userType!=='police'&&ud.userType!=='government'){
-      if(errEl){errEl.textContent=' Yeh account NGO/Police ke liye nahi hai';errEl.style.display='block';}
+      if(errEl){errEl.textContent=' This account is not registered as NGO/Police';errEl.style.display='block';}
       await window._auth.signOut(); if(btn){btn.textContent='Sign In →';btn.disabled=false;} return;
     }
     var org=ud.orgName||cred.user.displayName||'Organization';
@@ -4577,7 +4578,7 @@ window.ngoFirebaseRegister = async function() {
     sessionStorage.setItem('ngo_district',district); sessionStorage.setItem('ngo_state',state); sessionStorage.setItem('ngo_type',type);
     _fbOpen(orgDisplay, type);
   } catch(e){
-    var msg=e.code==='auth/email-already-in-use'?' Email registered — Login karo':' '+(e.message||'Failed');
+    var msg=e.code==='auth/email-already-in-use'?' This email is already registered — please log in':' '+(e.message||'Failed');
     if(errEl){errEl.textContent=msg;errEl.style.display='block';}
   }
   if(btn){btn.textContent='Create Account →';btn.disabled=false;}
@@ -4805,7 +4806,7 @@ window.fbRenderBulkPanel = function() {
       <!-- Header -->
       <div style="background:linear-gradient(135deg,#1a3a6e,#2563eb);border-radius:12px;padding:16px;margin-bottom:16px;color:#fff;">
         <div style="font-size:16px;font-weight:700;margin-bottom:4px;"> Bulk Post — Official Use</div>
-        <div style="font-size:11px;opacity:0.8;">Airport Authority · Railway · Police · NGO — Multiple items ek saath post karo</div>
+        <div style="font-size:11px;opacity:0.8;">Airport Authority · Railway · Police · NGO — Post multiple items at once</div>
       </div>
 
       <!-- Source selector -->
@@ -4826,12 +4827,12 @@ window.fbRenderBulkPanel = function() {
         <select id="bulk-station" style="width:100%;padding:8px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:12px;font-family:inherit;margin-bottom:8px;display:none;">
           <option value="">— Select Station —</option>
         </select>
-        <input type="text" id="bulk-source-custom" placeholder="Ya custom location type karo..." style="width:100%;padding:8px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:12px;font-family:inherit;box-sizing:border-box;">
+        <input type="text" id="bulk-source-custom" placeholder="Or type a custom location..." style="width:100%;padding:8px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:12px;font-family:inherit;box-sizing:border-box;">
       </div>
 
       <!-- Add item form -->
       <div style="background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:14px;margin-bottom:12px;">
-        <div style="font-size:12px;font-weight:700;color:#1a3a6e;margin-bottom:10px;"> Item Add Karo</div>
+        <div style="font-size:12px;font-weight:700;color:#1a3a6e;margin-bottom:10px;"> Add Item</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
           <select id="bulk-item-type" style="padding:8px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:12px;font-family:inherit;">
             <option value="found">Found</option>
@@ -4866,7 +4867,7 @@ window.fbRenderBulkPanel = function() {
           <button onclick="fbBulkClearAll()" style="font-size:11px;color:#dc2626;background:none;border:none;cursor:pointer;font-family:inherit;"> Clear All</button>
         </div>
         <div id="bulk-item-list" style="max-height:200px;overflow-y:auto;">
-          <div style="text-align:center;color:#999;font-size:12px;padding:20px;">Koi item nahi — upar se add karo</div>
+          <div style="text-align:center;color:#999;font-size:12px;padding:20px;">No items yet — add them above</div>
         </div>
       </div>
 
@@ -5014,7 +5015,7 @@ window.fbBulkRenderList = function() {
   if (!list) return;
   if (count) count.textContent = window.FB_BULK_ITEMS.length;
   if (!window.FB_BULK_ITEMS.length) {
-    list.innerHTML = '<div style="text-align:center;color:#999;font-size:12px;padding:20px;">Koi item nahi — upar se add karo</div>';
+    list.innerHTML = '<div style="text-align:center;color:#999;font-size:12px;padding:20px;">No items yet — add them above</div>';
     return;
   }
   list.innerHTML = window.FB_BULK_ITEMS.map(function(item, i) {
@@ -5033,7 +5034,7 @@ window.fbBulkRenderList = function() {
 };
 
 window.fbBulkSubmitAll = function() {
-  if (!window.FB_BULK_ITEMS.length) { window.toast(' Koi item nahi list mein'); return; }
+  if (!window.FB_BULK_ITEMS.length) { window.toast(' No items in the list'); return; }
   if (!window._auth || !window._auth.currentUser) { window.toast(' Login required'); return; }
 
   var btn = document.getElementById('bulk-submit-btn');
@@ -5206,7 +5207,7 @@ window.addEventListener('load', function() {
   var phone = document.getElementById('fir-search-phone').value.trim();
   var res = document.getElementById('fir-search-results');
   if(phone.length !== 10){
-    res.innerHTML = '<div style="color:#dc2626;font-size:12px;"> 10 digit phone number daalo</div>';
+    res.innerHTML = '<div style="color:#dc2626;font-size:12px;"> <span data-lang="en">Enter a 10-digit phone number</span><span data-lang="hi">10 अंकों का फ़ोन नंबर डालें</span></div>';
     return;
   }
   res.innerHTML = '<div style="color:#059669;font-size:12px;"> Searching...</div>';
@@ -5216,7 +5217,7 @@ window.addEventListener('load', function() {
     var q = m.query(m.collection(window._db,'fir_records'), m.where('uid','==',window._auth.currentUser.uid));
     var snap = await m.getDocs(q);
     if(snap.empty){
-      res.innerHTML = '<div style="color:#777;font-size:12px;text-align:center;padding:12px;"> Koi FIR nahi mili is number se</div>';
+      res.innerHTML = '<div style="color:#777;font-size:12px;text-align:center;padding:12px;"> <span data-lang="en">No FIR found for this number</span><span data-lang="hi">इस नंबर से कोई FIR नहीं मिली</span></div>';
       return;
     }
     var html = '<div style="font-size:12px;font-weight:700;color:#065F46;margin-bottom:8px;"> '+snap.size+' FIR mili:</div>';
@@ -5255,7 +5256,7 @@ window.generateFIR=function(){
     var loc=[mA,mD,mS].filter(Boolean).join(', ');
     var cc=mC.replace(/\D/g,'').slice(-10);
     var dupe=(window._allPosts||[]).find(function(p){var pc=(p.contact||'').replace(/\D/g,'').slice(-10);return cc&&pc&&cc===pc&&(p.item||'').toLowerCase()===mI.toLowerCase();});
-    if(dupe&&!confirm(' Similar post exists: "'+dupe.item+'"\nPhir bhi submit?')) return;
+    if(dupe&&!confirm(_t(' Similar post exists: "',' मिलती-जुलती पोस्ट पहले से है: "')+dupe.item+_t('"\nSubmit anyway?','"\nफिर भी सबमिट करें?'))) return;
     if(_orig) await _orig();
     if(window.gtag)gtag('event','post_submit',{post_type:window.currentModal||'lost'});
     if(mI&&loc){setTimeout(async function(){try{var m=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');await m.addDoc(m.collection(window._db,'police_notifications'),{firId:window._generateFIRId(loc),postType:window.currentModal||'lost',postItem:mI,postLoc:loc,postContact:'+91'+mC,district:mD,state:mS,postAuthor:window._currentUser?(window._currentUser.displayName||'Anonymous'):'Anonymous',createdAt:m.serverTimestamp(),status:'unread'});}catch(e){}},2000);}
@@ -5270,7 +5271,7 @@ console.log(' FindBack Email-Style Dashboard loaded');
 
 
 <script>
-window.loadTrustScore=function(){const user=window._currentUser,posts=window._allPosts||[];if(!user){document.getElementById('trust-name').textContent='Login';document.getElementById('trust-score').textContent='--';return;}const mp=posts.filter(p=>p.uid===user.uid),score=Math.min(99,mp.length*2);document.getElementById('trust-avatar').textContent=(user.displayName||'U')[0].toUpperCase();document.getElementById('trust-name').textContent=user.displayName||'User';document.getElementById('trust-score').textContent=score;document.getElementById('trust-posts').textContent=mp.length;let level,icon,desc,bg;if(score>=90){level='Legend';icon='';desc='Top 1%!';bg='linear-gradient(135deg,#FEF9C3,#FEF08A)';}else if(score>=60){level='Hero Finder';icon='';desc='Bahut trusted!';bg='#FFF7ED';}else if(score>=30){level='Star Finder';icon='';desc='Trusted member';bg='#F0FDF4';}else if(score>=10){level='Trusted User';icon='';desc='Acha start!';bg='#EFF6FF';}else{level='New Member';icon='';desc='Post karo score badhao';bg='#FFF5EE';}document.getElementById('trust-level-icon').textContent=icon;document.getElementById('trust-level-name').textContent=level;document.getElementById('trust-level-desc').textContent=desc;document.getElementById('trust-level-card').style.background=bg;document.getElementById('trust-badge').textContent=icon+' '+level;};
+window.loadTrustScore=function(){const user=window._currentUser,posts=window._allPosts||[];if(!user){document.getElementById('trust-name').textContent='Login';document.getElementById('trust-score').textContent='--';return;}const mp=posts.filter(p=>p.uid===user.uid),score=Math.min(99,mp.length*2);document.getElementById('trust-avatar').textContent=(user.displayName||'U')[0].toUpperCase();document.getElementById('trust-name').textContent=user.displayName||'User';document.getElementById('trust-score').textContent=score;document.getElementById('trust-posts').textContent=mp.length;let level,icon,desc,bg;if(score>=90){level='Legend';icon='';desc='Top 1%!';bg='linear-gradient(135deg,#FEF9C3,#FEF08A)';}else if(score>=60){level='Hero Finder';icon='';desc=_t('Highly trusted!','बहुत भरोसेमंद!');bg='#FFF7ED';}else if(score>=30){level='Star Finder';icon='';desc=_t('Trusted member','भरोसेमंद सदस्य');bg='#F0FDF4';}else if(score>=10){level='Trusted User';icon='';desc=_t('Good start!','अच्छी शुरुआत!');bg='#EFF6FF';}else{level='New Member';icon='';desc=_t('Post to raise your score','पोस्ट करें, स्कोर बढ़ाएँ');bg='#FFF5EE';}document.getElementById('trust-level-icon').textContent=icon;document.getElementById('trust-level-name').textContent=level;document.getElementById('trust-level-desc').textContent=desc;document.getElementById('trust-level-card').style.background=bg;document.getElementById('trust-badge').textContent=icon+' '+level;};
 
 window.calcReward=function(){const val=parseInt(document.getElementById('rew-value').value)||0;if(!val){document.getElementById('reward-suggestions').style.display='none';return;}const chips=[{pct:5,label:'5%',amount:Math.round(val*0.05)},{pct:10,label:'10%',amount:Math.round(val*0.10)},{pct:15,label:'15%',amount:Math.round(val*0.15)},{pct:20,label:'20%',amount:Math.round(val*0.20)}];document.getElementById('reward-chips').innerHTML=chips.map(c=>'<div onclick="toast(\' ₹'+c.amount+'\')" style="background:#D1FAE5;color:#065F46;padding:8px 14px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;">₹'+c.amount+' ('+c.label+')</div>').join('');document.getElementById('reward-suggestions').style.display='block';};
 window.loadRewardPosts=function(){const posts=(window._allPosts||[]).filter(p=>p.reward&&parseInt(p.reward)>0).sort((a,b)=>parseInt(b.reward)-parseInt(a.reward)).slice(0,5);const el=document.getElementById('top-reward-posts');if(!el)return;if(!posts.length){el.innerHTML='<div style="text-align:center;padding:16px;color:var(--text-muted);font-size:13px;">No reward posts</div>';return;}el.innerHTML=posts.map(p=>{const tc=p.type==='lost'?'#FEE2E2':'#D1FAE5',tt=p.type==='lost'?'#DC2626':'#059669';return '<div onclick="openDetail(\''+p.id+'\')" style="display:flex;align-items:center;gap:10px;padding:10px;background:white;border-radius:10px;margin-bottom:8px;cursor:pointer;border:1.5px solid var(--border);"><div style="background:#FEF9C3;color:#92400E;font-weight:800;font-size:15px;padding:6px 12px;border-radius:10px;min-width:70px;text-align:center;">₹'+p.reward+'</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;">'+p.item+'</div><div style="font-size:11px;color:var(--text-muted);"> '+p.loc+'</div></div><span style="background:'+tc+';color:'+tt+';font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;">'+(p.type==='lost'?'Lost':'Found')+'</span></div>';}).join('');};
@@ -5368,8 +5369,8 @@ window.shareFIRWhatsApp = function() {
     + (dist||state ? ' ' + [dist,state].filter(Boolean).join(', ') + '\n' : '')
     + '━━━━━━━━━━━━━━━━━━━━━━\n\n';
   var full = header + window._lastFIR
-    + '\n\n *Yeh sirf draft hai — police station par jaake submit karo*'
-    + '\n *ID dikhao officer ko: ' + id + '*';
+    + _t('\n\n *This is only a draft — submit it at the police station*','\n\n *यह सिर्फ़ ड्राफ्ट है — पुलिस थाने जाकर जमा करें*')
+    + _t('\n *Show this ID to the officer: ','\n *अधिकारी को यह ID दिखाएँ: ') + id + '*';
   window.open('https://wa.me/?text=' + encodeURIComponent(full), '_blank');
 };
 
@@ -5382,7 +5383,7 @@ window.sharePSLink = function() {
     + ' *' + ps + '*\n'
     + ' ' + [dist, state].filter(Boolean).join(', ') + '\n\n'
     + ' *FIR Reference ID: ' + id + '*\n\n'
-    + ' Yeh ID lekar police station par jaao — FIR submit karo\n'
+    + _t(' Take this ID to the police station and submit the FIR\n',' यह ID लेकर पुलिस थाने जाएँ और FIR जमा करें\n')
     + ' FindBack: https://findback.org';
   window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
 };
@@ -5651,7 +5652,7 @@ window._verifySelfie=async function(imgData){
   var statusEl=document.getElementById('m-id-ai-status');
   if(statusEl){statusEl.style.display='block';statusEl.style.background='#EFF6FF';statusEl.style.color='#1A73E8';statusEl.textContent=' Selfie saving for admin review...';}
   // Auto-accept — admin will manually verify face+ID
-  if('FaceDetector' in window){try{var _im=new Image();_im.src=imgData;await _im.decode();var _f=await new FaceDetector({fastMode:true}).detect(_im);if(_f.length===0){if(statusEl){statusEl.style.display='block';statusEl.style.background='#FEE2E2';statusEl.style.color='#991B1B';statusEl.textContent='Chehra nahi mila - apna face aur ID card dono saaf dikhne chahiye. Dobara try karo.';}window._selfieVerified=false;window._idPhotoData=null;return;}}catch(e){}}window._selfieVerified=true;
+  if('FaceDetector' in window){try{var _im=new Image();_im.src=imgData;await _im.decode();var _f=await new FaceDetector({fastMode:true}).detect(_im);if(_f.length===0){if(statusEl){statusEl.style.display='block';statusEl.style.background='#FEE2E2';statusEl.style.color='#991B1B';statusEl.textContent=_t('No face detected — your face and ID card must both be clearly visible. Please try again.','चेहरा नहीं मिला — आपका चेहरा और ID कार्ड दोनों साफ़ दिखने चाहिए। दोबारा कोशिश करें।');}window._selfieVerified=false;window._idPhotoData=null;return;}}catch(e){}}window._selfieVerified=true;
   window._idManualReview=true;
   if(statusEl){
     statusEl.style.display='block';
@@ -5661,7 +5662,7 @@ window._verifySelfie=async function(imgData){
   }
   var sb=document.getElementById('selfie-btn');if(sb)sb.style.display='none';
   var pw=document.getElementById('photo-id-warning');
-  if(pw){pw.style.background='#D1FAE5';pw.style.borderColor='#6EE7B7';pw.style.color='#065F46';pw.innerHTML='<span></span><span><strong>Selfie with ID captured!</strong> Ab item photos add kar sakte ho</span>';}
+  if(pw){pw.style.background='#D1FAE5';pw.style.borderColor='#6EE7B7';pw.style.color='#065F46';pw.innerHTML='<span></span><span><strong>'+_t('Selfie with ID captured!','ID के साथ सेल्फ़ी ले ली गई!')+'</strong> '+_t('You can now add item photos','अब आप सामान की फ़ोटो जोड़ सकते हैं')+'</span>';}
   window.runIDPhotoAI();
 };
 
@@ -5679,7 +5680,7 @@ window.runIDPhotoAI=function(){
 
   if(statusEl){
     statusEl.style.cssText='display:block;border-radius:10px;padding:12px;font-size:13px;font-weight:600;background:#D1FAE5;border:1.5px solid #6EE7B7;color:#065F46;margin-bottom:8px;';
-    statusEl.innerHTML=' ID photo upload ho gayi!<br><span style="font-size:11px;font-weight:400;">'+idType+' number <strong>'+idNum.replace(/\s/g,'').substring(0,4)+'****'+idNum.replace(/\s/g,'').slice(-4)+'</strong> record ho gaya. Admin verify karega.</span>';
+    statusEl.innerHTML=_t(' ID photo uploaded!',' ID फ़ोटो अपलोड हो गई!')+'<br><span style="font-size:11px;font-weight:400;">'+idType+_t(' number ',' नंबर ')+'<strong>'+idNum.replace(/\s/g,'').substring(0,4)+'****'+idNum.replace(/\s/g,'').slice(-4)+'</strong> '+_t('recorded. An admin will verify it.','दर्ज हो गया। एडमिन इसकी जाँच करेगा।')+'</span>';
   }
 
   // Show submit button
@@ -5755,7 +5756,7 @@ window.removeIDPhoto=function(){
   <div style="padding:20px 20px 110px;">
     <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;padding:20px;margin-bottom:20px;color:white;">
       <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;"> Legal Document Generator</div>
-      <div style="font-size:13px;opacity:.8;">Lost item ke liye zaroori documents — free, 13 languages mein</div>
+      <div style="font-size:13px;opacity:.8;">Essential documents for lost items — free, in 13 languages</div>
     </div>
 
     <!-- LANGUAGE -->
@@ -5789,12 +5790,12 @@ window.removeIDPhoto=function(){
       <div onclick="ldSelectDoc('rti')" id="ldcard-rti" style="border:2px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;text-align:center;transition:all .2s;" onmouseover="this.style.borderColor='var(--orange)'" onmouseout="if(!this.classList.contains('ld-active'))this.style.borderColor='var(--border)'">
         <div style="font-size:24px;margin-bottom:6px;"></div>
         <div style="font-size:13px;font-weight:700;">RTI Application</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Police update maango</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:2px;"><span data-lang="en">Ask police for an update</span><span data-lang="hi">पुलिस से जानकारी माँगें</span></div>
       </div>
       <div onclick="ldSelectDoc('indemnity')" id="ldcard-indemnity" style="border:2px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;text-align:center;transition:all .2s;" onmouseover="this.style.borderColor='var(--orange)'" onmouseout="if(!this.classList.contains('ld-active'))this.style.borderColor='var(--border)'">
         <div style="font-size:24px;margin-bottom:6px;"></div>
         <div style="font-size:13px;font-weight:700;">Indemnity Bond</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Item return karte waqt</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:2px;"><span data-lang="en">When returning an item</span><span data-lang="hi">सामान लौटाते समय</span></div>
       </div>
       <div onclick="ldSelectDoc('missing')" id="ldcard-missing" style="border:2px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;text-align:center;transition:all .2s;" onmouseover="this.style.borderColor='var(--orange)'" onmouseout="if(!this.classList.contains('ld-active'))this.style.borderColor='var(--border)'">
         <div style="font-size:24px;margin-bottom:6px;"></div>
@@ -5804,23 +5805,23 @@ window.removeIDPhoto=function(){
       <div onclick="ldSelectDoc('notice')" id="ldcard-notice" style="border:2px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;text-align:center;transition:all .2s;grid-column:1/-1;" onmouseover="this.style.borderColor='var(--orange)'" onmouseout="if(!this.classList.contains('ld-active'))this.style.borderColor='var(--border)'">
         <div style="font-size:24px;margin-bottom:6px;"></div>
         <div style="font-size:13px;font-weight:700;">Legal Notice</div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Agar koi item return nahi kar raha</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:2px;"><span data-lang="en">If someone isn't returning your item</span><span data-lang="hi">अगर कोई सामान वापस नहीं कर रहा</span></div>
       </div>
     </div>
 
     <!-- FORM -->
     <div id="ld-form" style="display:none;">
       <div style="background:var(--gray);border-radius:14px;padding:16px;margin-bottom:16px;">
-        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;" id="ld-form-title"> Details Bharo</div>
-        <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;"> Aapka Naam</label><input type="text" id="ld-name" placeholder="Full name as per ID" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
-        <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;"> Address</label><input type="text" id="ld-addr" placeholder="Aapka pata" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
+        <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:14px;" id="ld-form-title"> <span data-lang="en">Fill in details</span><span data-lang="hi">विवरण भरें</span></div>
+        <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;"> <span data-lang="en">Your Name</span><span data-lang="hi">आपका नाम</span></label><input type="text" id="ld-name" placeholder="Full name as per ID" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
+        <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;"> Address</label><input type="text" id="ld-addr" placeholder="Your address" data-ph-hi="आपका पता" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
         <div id="ld-item-group" class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;"> Item / Cheez</label><input type="text" id="ld-item" placeholder="Phone, Wallet, Documents..." style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
-        <div id="ld-loc-group" class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;"> Location</label><input type="text" id="ld-loc" placeholder="Kahan khoya/mila" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
+        <div id="ld-loc-group" class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;"> Location</label><input type="text" id="ld-loc" placeholder="Where was it lost/found?" data-ph-hi="कहाँ खोया/मिला?" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
         <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;"> Date</label><input type="date" id="ld-date" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
-        <div id="ld-party-group" class="form-group" style="display:none;"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;"> Doosre Party ka Naam</label><input type="text" id="ld-party" placeholder="Jiske against notice/bond" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
-        <div id="ld-desc-group" class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;"> Additional Details</label><textarea id="ld-desc" placeholder="Koi aur zaroori jankari..." style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;resize:vertical;min-height:70px;"></textarea></div>
+        <div id="ld-party-group" class="form-group" style="display:none;"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;"> <span data-lang="en">Other Party's Name</span><span data-lang="hi">दूसरे पक्ष का नाम</span></label><input type="text" id="ld-party" placeholder="Person the notice/bond is against" data-ph-hi="जिसके ख़िलाफ़ नोटिस/बॉन्ड है" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
+        <div id="ld-desc-group" class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;"> Additional Details</label><textarea id="ld-desc" placeholder="Any other important information..." data-ph-hi="कोई और ज़रूरी जानकारी..." style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;resize:vertical;min-height:70px;"></textarea></div>
       </div>
-      <button onclick="generateLegalDoc()" class="btn-primary" style="width:100%;margin-bottom:10px;font-size:16px;padding:14px;"> Document Generate Karo</button>
+      <button onclick="generateLegalDoc()" class="btn-primary" style="width:100%;margin-bottom:10px;font-size:16px;padding:14px;"> <span data-lang="en">Generate Document</span><span data-lang="hi">दस्तावेज़ बनाएँ</span></button>
     </div>
 
     <!-- OUTPUT MODAL -->
@@ -5840,7 +5841,7 @@ window.removeIDPhoto=function(){
             <button onclick="ldWhatsApp()" style="padding:13px;background:#25D366;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;"> WhatsApp</button>
           </div>
           <div style="background:#FEF3C7;border-radius:10px;padding:12px;font-size:11px;color:#92400E;line-height:1.7;">
-             Yeh sirf draft hai — advocate se review zaroor karwayein apni specific situation ke liye।
+             <span data-lang="en">This is only a draft — please have an advocate review it for your specific situation.</span><span data-lang="hi">यह सिर्फ़ ड्राफ्ट है — अपनी स्थिति के लिए किसी वकील से इसकी जाँच ज़रूर करवाएँ।</span>
           </div>
         </div>
       </div>
@@ -5848,7 +5849,7 @@ window.removeIDPhoto=function(){
 
     <!-- DISCLAIMER -->
     <div style="background:#EFF6FF;border-radius:12px;padding:14px;font-size:12px;color:#1D4ED8;line-height:1.7;margin-top:16px;">
-       Yeh documents draft hain — legal filing ke liye advocate se milein।
+       <span data-lang="en">These documents are drafts — consult an advocate before any legal filing.</span><span data-lang="hi">ये दस्तावेज़ ड्राफ्ट हैं — क़ानूनी फ़ाइलिंग के लिए किसी वकील से मिलें।</span>
     </div>
   </div>
 </div>
@@ -5885,12 +5886,12 @@ window.removeIDPhoto=function(){
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;"> Address</label><input id="fir-addr" type="text" placeholder="Current address" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;"></div>
       <div class="form-group"><label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;"> ID Proof</label><select id="fir-idtype" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;outline:none;background:white;"><option>Aadhaar Card</option><option>PAN Card</option><option>Passport</option><option>Voter ID</option><option>Driving Licence</option></select></div>
     </div>
-    <button onclick="generateFIR()" class="btn-primary" style="width:100%;margin-bottom:10px;font-size:16px;padding:14px;"> FIR Draft Generate Karo</button>
+    <button onclick="generateFIR()" class="btn-primary" style="width:100%;margin-bottom:10px;font-size:16px;padding:14px;"> <span data-lang="en">Generate FIR Draft</span><span data-lang="hi">FIR ड्राफ्ट बनाएँ</span></button>
 
     <!-- FIND MY FIR -->
     <div style="background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:14px;padding:16px;margin-bottom:16px;">
       <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:700;margin-bottom:10px;color:#065F46;"> Find My FIR</div>
-      <div style="font-size:12px;color:#166534;margin-bottom:12px;">Phone number se apni purani FIR ID dhundo</div>
+      <div style="font-size:12px;color:#166534;margin-bottom:12px;"><span data-lang="en">Find your old FIR ID using your phone number</span><span data-lang="hi">फ़ोन नंबर से अपनी पुरानी FIR ID खोजें</span></div>
       <div style="display:flex;gap:8px;">
         <div style="display:flex;align-items:center;background:white;border:1.5px solid #86EFAC;border-radius:10px;padding:0 10px;flex:1;">
           <span style="color:#059669;font-size:14px;margin-right:6px;">+91</span>
@@ -5916,7 +5917,7 @@ window.removeIDPhoto=function(){
           <div style="width:38px;height:38px;background:rgba(245,158,11,0.15);border:1.5px solid rgba(245,158,11,0.3);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;"></div>
           <div>
             <div style="font-family:'Sora',sans-serif;font-size:16px;font-weight:800;color:white;">FIR Draft Ready</div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.45);margin-top:1px;">Police station par jaake submit karo</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.45);margin-top:1px;"><span data-lang="en">Submit it at the police station</span><span data-lang="hi">पुलिस थाने जाकर जमा करें</span></div>
           </div>
         </div>
         <button onclick="document.getElementById('fir-modal').style.display='none'" style="background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;color:white;">×</button>
@@ -5929,7 +5930,7 @@ window.removeIDPhoto=function(){
       <div id="fir-id-box" style="background:linear-gradient(135deg,#f0f7ff,#e8f0fe);border:2px solid #1e4d8c;border-radius:14px;padding:14px 16px;margin-bottom:14px;text-align:center;">
         <div style="font-size:10px;font-weight:700;color:#1e4d8c;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;"> Unique Reference ID</div>
         <div id="fir-unique-id-display" style="font-family:monospace;font-size:22px;font-weight:800;color:#0a1628;letter-spacing:3px;">—</div>
-        <div style="font-size:10px;color:#64748b;margin-top:5px;">Yeh ID police station par dikhaao — bina ID ke FIR register nahi hogi</div>
+        <div style="font-size:10px;color:#64748b;margin-top:5px;"><span data-lang="en">Show this ID at the police station — the FIR cannot be registered without it</span><span data-lang="hi">यह ID पुलिस थाने में दिखाएँ — इसके बिना FIR दर्ज नहीं होगी</span></div>
       </div>
 
       <!-- Selected PS Box -->
@@ -5966,9 +5967,9 @@ window.removeIDPhoto=function(){
 
       <!-- Notice -->
       <div style="background:#fef3c7;border:1px solid #d97706;border-radius:10px;padding:12px 14px;margin-top:12px;font-size:11px;color:#92400e;line-height:1.8;">
-         <strong>Zaroori:</strong> Yeh sirf Draft hai — officially register nahi hua.<br>
-         Police station par jaao aur yeh ID dikhao: <strong id="fir-notice-id" style="font-family:monospace;color:#0a1628;"></strong><br>
-         Officer verify karenge — tab FIR officially register hogi.
+         <strong><span data-lang="en">Important:</span><span data-lang="hi">ज़रूरी:</span></strong> <span data-lang="en">This is only a draft — it has not been officially registered.</span><span data-lang="hi">यह सिर्फ़ ड्राफ्ट है — आधिकारिक रूप से दर्ज नहीं हुआ है।</span><br>
+         <span data-lang="en">Go to the police station and show this ID:</span><span data-lang="hi">पुलिस थाने जाएँ और यह ID दिखाएँ:</span> <strong id="fir-notice-id" style="font-family:monospace;color:#0a1628;"></strong><br>
+         <span data-lang="en">The officer will verify it — then the FIR will be officially registered.</span><span data-lang="hi">अधिकारी जाँच करेंगे — तब FIR आधिकारिक रूप से दर्ज होगी।</span>
       </div>
     </div>
   </div>
@@ -6004,8 +6005,8 @@ window.removeIDPhoto=function(){
 <div class="page" id="page-trust">
   <div style="position:sticky;top:56px;background:white;z-index:10;padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;"><span onclick="showPage('home')" style="cursor:pointer;font-size:20px;">←</span><span style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;"> Trust Score</span></div>
   <div style="padding:20px 20px 110px;">
-    <div style="background:linear-gradient(135deg,#111,#333);border-radius:16px;padding:24px;margin-bottom:20px;color:white;text-align:center;"><div id="trust-avatar" style="width:64px;height:64px;border-radius:50%;background:var(--orange);color:white;font-size:28px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">?</div><div id="trust-name" style="font-family:'Sora',sans-serif;font-size:18px;font-weight:700;margin-bottom:4px;">Login</div><div id="trust-badge" style="font-size:13px;opacity:.7;margin-bottom:16px;">Score dekhne ke liye</div><div style="display:flex;justify-content:center;gap:24px;"><div><div id="trust-score" style="font-family:'Sora',sans-serif;font-size:36px;font-weight:700;color:var(--orange);">--</div><div style="font-size:11px;opacity:.7;">Score</div></div><div><div id="trust-posts" style="font-family:'Sora',sans-serif;font-size:36px;font-weight:700;color:#64B5F6;">0</div><div style="font-size:11px;opacity:.7;">Posts</div></div></div></div>
-    <div id="trust-level-card" style="border-radius:14px;padding:16px;margin-bottom:16px;text-align:center;background:#FFF5EE;border:2px solid var(--orange);"><div id="trust-level-icon" style="font-size:36px;margin-bottom:6px;"></div><div id="trust-level-name" style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;">New Member</div><div id="trust-level-desc" style="font-size:12px;color:var(--text-muted);margin-top:4px;">Post karo score badhao</div></div>
+    <div style="background:linear-gradient(135deg,#111,#333);border-radius:16px;padding:24px;margin-bottom:20px;color:white;text-align:center;"><div id="trust-avatar" style="width:64px;height:64px;border-radius:50%;background:var(--orange);color:white;font-size:28px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">?</div><div id="trust-name" style="font-family:'Sora',sans-serif;font-size:18px;font-weight:700;margin-bottom:4px;">Login</div><div id="trust-badge" style="font-size:13px;opacity:.7;margin-bottom:16px;"><span data-lang="en">to see your score</span><span data-lang="hi">अपना स्कोर देखने के लिए</span></div><div style="display:flex;justify-content:center;gap:24px;"><div><div id="trust-score" style="font-family:'Sora',sans-serif;font-size:36px;font-weight:700;color:var(--orange);">--</div><div style="font-size:11px;opacity:.7;">Score</div></div><div><div id="trust-posts" style="font-family:'Sora',sans-serif;font-size:36px;font-weight:700;color:#64B5F6;">0</div><div style="font-size:11px;opacity:.7;">Posts</div></div></div></div>
+    <div id="trust-level-card" style="border-radius:14px;padding:16px;margin-bottom:16px;text-align:center;background:#FFF5EE;border:2px solid var(--orange);"><div id="trust-level-icon" style="font-size:36px;margin-bottom:6px;"></div><div id="trust-level-name" style="font-family:'Sora',sans-serif;font-size:16px;font-weight:700;">New Member</div><div id="trust-level-desc" style="font-size:12px;color:var(--text-muted);margin-top:4px;"><span data-lang="en">Post to raise your score</span><span data-lang="hi">पोस्ट करें, स्कोर बढ़ाएँ</span></div></div>
   </div>
 </div>
 
@@ -6118,7 +6119,7 @@ window.applyLanguage=function(lang){
 
   // ── LEGAL DOCS PAGE ──
   var ldHdr=document.querySelector('#page-legaldocs div[style*="font-weight:700;font-size:20px"]');if(ldHdr)ldHdr.textContent=hi?' कानूनी दस्तावेज़ जनरेटर':' Legal Document Generator';
-  var ldSub=document.querySelector('#page-legaldocs div[style*="font-size:13px;opacity:.8"]');if(ldSub)ldSub.textContent=hi?'खोई वस्तु के लिए दस्तावेज़ — मुफ्त':'Lost item ke liye documents — free';
+  var ldSub=document.querySelector('#page-legaldocs div[style*="font-size:13px;opacity:.8"]');if(ldSub)ldSub.textContent=hi?'खोई वस्तु के लिए ज़रूरी दस्तावेज़ — मुफ़्त, 13 भाषाओं में':'Essential documents for lost items — free, in 13 languages';
 
   // ── PROFILE PAGE ──
   var profLogout=document.querySelector('#page-profile button[onclick="doLogout()"]');if(profLogout)profLogout.textContent=hi?' लॉगआउट':' Logout';
@@ -6388,7 +6389,7 @@ window._checkMatchAlert=function(newPost){
     var catMatch=lp.category&&newPost.category&&lp.category===newPost.category;
     var locMatch=(lp.loc||'').toLowerCase().split(',')[0]===(newPost.loc||'').toLowerCase().split(',')[0];
     if(itemMatch||catMatch&&locMatch){
-      toast(' Match mila! "'+newPost.item+'" found near '+newPost.loc);
+      toast(_t(' Match found! "',' मिलान मिला! "')+newPost.item+_t('" found near ','" यहाँ मिला: ')+newPost.loc);
     }
   });
 };
@@ -6416,7 +6417,7 @@ window._checkRepostReminder=function(){
     if(ageDays>=7&&!sessionStorage.getItem(remKey)){
       sessionStorage.setItem(remKey,'1');
       setTimeout(function(){
-        toast(' "'+p.item+'" — 7 din ho gaye! Repost karo visibility badhao.');
+        toast(' "'+p.item+'" — '+_t('7 days have passed! Repost to get more visibility.','7 दिन हो गए! ज़्यादा लोगों तक पहुँचाने के लिए दोबारा पोस्ट करें।'));
       },3000);
     }
   });
@@ -6617,7 +6618,7 @@ function _goPage(pg){
 }
 window.removePagination=function(){var o=document.getElementById('pagination-bar');if(o)o.remove();};
 
-window.githubPush = async function() {alert('Browser se GitHub push band kar diya gaya hai (security). Termux se use karein: git push');return;
+window.githubPush = async function() {alert('GitHub push from the browser is disabled (security). Use Termux instead: git push');return;
   var token  = document.getElementById('gh-token')?.value.trim();
   var owner  = document.getElementById('gh-owner')?.value.trim();
   var repo   = document.getElementById('gh-repo')?.value.trim();
@@ -6625,11 +6626,11 @@ window.githubPush = async function() {alert('Browser se GitHub push band kar diy
   var btn    = document.getElementById('gh-push-btn');
   var status = document.getElementById('gh-status');
 
-  if(!token){ ghStatus('error',' GitHub token daalo'); return; }
-  if(!owner || !repo){ ghStatus('error',' Owner aur repo name daalo'); return; }
+  if(!token){ ghStatus('error',' Enter a GitHub token'); return; }
+  if(!owner || !repo){ ghStatus('error',' Enter the owner and repo name'); return; }
 
   btn.textContent = 'Pushing...'; btn.disabled = true;
-  ghStatus('info',' GitHub se current file fetch ho rahi hai...');
+  ghStatus('info',' Fetching the current file from GitHub...');
 
   try {
     var filePath = 'index.html';
@@ -6645,22 +6646,22 @@ window.githubPush = async function() {alert('Browser se GitHub push band kar diy
     if(getRes.ok) {
       var getJson = await getRes.json();
       sha = getJson.sha;
-      ghStatus('info',' SHA mili: ' + sha.substring(0,7) + '... — ab content push ho raha hai...');
+      ghStatus('info',' SHA found: ' + sha.substring(0,7) + '... — now pushing content...');
     } else if(getRes.status === 404) {
-      ghStatus('info','ℹ File exist nahi karti — naya create hoga...');
+      ghStatus('info','ℹ File does not exist — a new one will be created...');
     } else if(getRes.status === 401) {
-      ghStatus('error',' Token invalid hai ya expired — naya token banao'); btn.textContent=' Push to GitHub'; btn.disabled=false; return;
+      ghStatus('error',' Token is invalid or expired — create a new token'); btn.textContent=' Push to GitHub'; btn.disabled=false; return;
     } else {
       ghStatus('error',' GitHub error: ' + getRes.status + ' ' + getRes.statusText); btn.textContent=' Push to GitHub'; btn.disabled=false; return;
     }
 
     // Step 2: Get current page HTML
-    ghStatus('info',' Current page HTML encode ho rahi hai...');
+    ghStatus('info',' Encoding the current page HTML...');
     var html = document.documentElement.outerHTML;
     var encoded = btoa(unescape(encodeURIComponent(html)));
 
     // Step 3: Push to GitHub
-    ghStatus('info',' GitHub pe push ho rahi hai...');
+    ghStatus('info',' Pushing to GitHub...');
     var body = { message: msg, content: encoded };
     if(sha) body.sha = sha;
 
@@ -6684,7 +6685,7 @@ window.githubPush = async function() {alert('Browser se GitHub push band kar diy
         ' Live in ~1 min: <a href="https://' + owner + '.github.io" target="_blank" style="color:#16a34a;font-weight:700;">' +
         owner + '.github.io</a>'
       );
-      if(window.toast) window.toast(' GitHub pe push ho gaya!');
+      if(window.toast) window.toast(' Pushed to GitHub!');
     } else {
       var errJson = await pushRes.json().catch(function(){ return {}; });
       ghStatus('error',' Push failed: ' + (errJson.message || pushRes.status));
@@ -6733,7 +6734,7 @@ window.ldSelectDoc = function(type) {
 
   // Update form title
   var titles = {affidavit:' Affidavit Details', rti:' RTI Application Details', indemnity:' Indemnity Bond Details', missing:' Missing Person Complaint', notice:' Legal Notice Details'};
-  document.getElementById('ld-form-title').textContent = titles[type]||' Details Bharo';
+  document.getElementById('ld-form-title').textContent = titles[type]||_t(' Fill in details',' विवरण भरें');
 
   // Show/hide party field
   var pg = document.getElementById('ld-party-group');
@@ -6756,7 +6757,7 @@ window.generateLegalDoc = function() {
   var desc = document.getElementById('ld-desc').value.trim();
   var lang = document.getElementById('ld-lang').value;
 
-  if(!name||!addr){window.toast(' Naam aur address zaroori hai');return;}
+  if(!name||!addr){window.toast(_t(' Name and address are required',' नाम और पता ज़रूरी है'));return;}
 
   var dateStr = date ? new Date(date).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}) : new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});
   var today = new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});
@@ -6947,7 +6948,7 @@ window.loadMyDocs = async function(uid) {
     );
     var snap = await m.getDocs(q);
     if(snap.empty) {
-      listEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">No documents yet — FIR ya Legal Doc generate karo</div>';
+      listEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;"><span data-lang="en">No documents yet — generate an FIR or legal document</span><span data-lang="hi">अभी कोई दस्तावेज़ नहीं — FIR या कानूनी दस्तावेज़ बनाएँ</span></div>';
       return;
     }
     // Sort by createdAt locally
@@ -7015,7 +7016,7 @@ window.loadMyChats = async function(uid) {
     );
     var snap = await m.getDocs(q);
     if(snap.empty) {
-      listEl.innerHTML = '<div style="text-align:center;padding:16px;color:var(--text-muted);font-size:13px;"> Koi chat nahi abhi tak</div>';
+      listEl.innerHTML = '<div style="text-align:center;padding:16px;color:var(--text-muted);font-size:13px;"> <span data-lang="en">No chats yet</span><span data-lang="hi">अभी तक कोई चैट नहीं</span></div>';
       return;
     }
     var chats = snap.docs.map(function(d){ return Object.assign({id:d.id}, d.data()); });
@@ -7060,7 +7061,7 @@ window.loadMyChats = async function(uid) {
       listEl.appendChild(row);
     });
   } catch(e) {
-    listEl.innerHTML = '<div style="text-align:center;padding:16px;color:#DC2626;font-size:12px;"> Chats load nahi hua</div>';
+    listEl.innerHTML = '<div style="text-align:center;padding:16px;color:#DC2626;font-size:12px;"> <span data-lang="en">Could not load chats</span><span data-lang="hi">चैट लोड नहीं हो सकीं</span></div>';
     console.warn('Chat inbox err:', e);
   }
 };
@@ -7090,13 +7091,13 @@ window.sendUPIReward = function(aid, amount, note) {
   var input = document.getElementById('upi-id-input-'+aid);
   var upiId = input ? input.value.trim() : '';
   if(!upiId) {
-    window.toast(' Finder ka UPI ID daalo');
+    window.toast(_t(" Enter the finder's UPI ID",' ढूँढने वाले की UPI ID डालें'));
     if(input) input.focus();
     return;
   }
   // Basic UPI ID validation
   if(!upiId.includes('@') && !/^[0-9]{10}$/.test(upiId)) {
-    window.toast(' Valid UPI ID daalo — jaise 9876543210@paytm');
+    window.toast(_t(' Enter a valid UPI ID — e.g. 9876543210@paytm',' सही UPI ID डालें — जैसे 9876543210@paytm'));
     return;
   }
   // UPI Deep Link
@@ -7104,7 +7105,7 @@ window.sendUPIReward = function(aid, amount, note) {
   window.location.href = upiUrl;
   // Fallback after 1.5s — if UPI app not installed
   setTimeout(function(){
-    window.toast(' UPI app open ho rahi hai... Agar nahi hua toh manually transfer karo: '+upiId);
+    window.toast(_t(' Opening UPI app... If it does not open, transfer manually to: ',' UPI ऐप खुल रहा है... अगर न खुले तो इस पर ख़ुद ट्रांसफ़र करें: ')+upiId);
   }, 1500);
 };
 
@@ -7205,7 +7206,7 @@ var _PU="https://script.google.com/macros/s/AKfycbzUJCi2-ntcOLGdnhNwgpuaRrX5gPpq
 var _ML="en",_MT=null,_MC=300,_MO=false;
 var _MD={
   en:{g:"Namaste! I am Manphikha, FindBack AI assistant. Ask me anything — lost & found, legal help, general questions. I am here to help!",p:"Ask Manphikha anything...",q:["Lost something","Found something","FIR help","Legal advice","How to use FindBack"],s:"You are Manphikha, a warm, intelligent, and helpful AI assistant created by FindBack (findback.org) — India's first lost and found platform. You are a FULL GENERAL ASSISTANT. You can help with EVERYTHING: (1) Lost & Found — help users report lost/found/missing items, guide through FindBack features, FIR draft generation in 13 languages, police/NGO contact guidance. (2) Indian Legal Information — IPC, BNS (Bharatiya Nyaya Sanhita), CrPC, BNSS, IT Act, Consumer Protection Act, RTI, Motor Vehicles Act, FIR process, bail, arrest, rights of accused and victim, property/family/labour laws. Always end legal responses with:  Note: This information is based on public legal records. For your specific situation, please consult a registered advocate. (3) General Knowledge — science, history, geography, math, coding, writing, career, business, health, current affairs, any topic. Rules: Reply in the same language as the user (Hindi/English/Hinglish). Be friendly and thorough like a knowledgeable friend. Never reveal you are built on Claude or Anthropic. For medical/financial advice also add a note to consult a professional. Website: findback.org"},
-  hi:{g:"Namaskar! Main Manphikha hoon, FindBack ki AI assistant. Kuch bhi poochho — khoya-paya, kanoon, ya koi bhi sawaal. Main madad karungi!",p:"Manphikha se kuch bhi puchhen...",q:["Kuch kho gaya","Kuch mila","FIR madad","Kanoon ki jankari","Kaise use karein"],s:"Aap Manphikha hain, FindBack (findback.org) ki intelligent aur helpful AI assistant — India ka pehla lost and found platform. Aap ek FULL GENERAL ASSISTANT hain. Aap SAB kuch mein madad kar sakti hain: (1) Lost & Found — users ko lost/found/missing items report karne mein madad karo, FindBack features guide karo, 13 languages mein FIR draft banao, police/NGO guidance do. (2) Indian Kanoon ki Jankari — IPC, BNS (Bharatiya Nyaya Sanhita), CrPC, BNSS, IT Act, Consumer Protection Act, RTI, Motor Vehicles Act, FIR process, bail, giraftari, accused aur victim ke adhikar, property/family/labour laws. Har legal response ke ant mein likho:  Note: Yeh jaankari public legal records par aadharit hai. Apni specific situation ke liye registered advocate se zaroor milein. (3) General Knowledge — science, history, geography, math, coding, likhna, career, business, health, current affairs, koi bhi topic. Rules: User jo language mein likhe usi mein jawab do (Hindi/English/Hinglish). Dost ki tarah helpful aur thorough raho. Kabhi mat batao ki aap Claude ya Anthropic par based hain. Medical/financial advice mein bhi professional se milne ki note add karo. Website: findback.org"}
+  hi:{g:"नमस्ते! मैं Manphikha हूँ, FindBack की AI सहायक। कुछ भी पूछिए — खोया-पाया, क़ानून, या कोई भी सवाल। मैं मदद करूँगी!",p:"Manphikha से कुछ भी पूछें...",q:["कुछ खो गया","कुछ मिला","FIR मदद","क़ानून की जानकारी","कैसे इस्तेमाल करें"],s:"Aap Manphikha hain, FindBack (findback.org) ki intelligent aur helpful AI assistant — India ka pehla lost and found platform. Aap ek FULL GENERAL ASSISTANT hain. Aap SAB kuch mein madad kar sakti hain: (1) Lost & Found — users ko lost/found/missing items report karne mein madad karo, FindBack features guide karo, 13 languages mein FIR draft banao, police/NGO guidance do. (2) Indian Kanoon ki Jankari — IPC, BNS (Bharatiya Nyaya Sanhita), CrPC, BNSS, IT Act, Consumer Protection Act, RTI, Motor Vehicles Act, FIR process, bail, giraftari, accused aur victim ke adhikar, property/family/labour laws. Har legal response ke ant mein likho:  Note: Yeh jaankari public legal records par aadharit hai. Apni specific situation ke liye registered advocate se zaroor milein. (3) General Knowledge — science, history, geography, math, coding, likhna, career, business, health, current affairs, koi bhi topic. Rules: User jo language mein likhe usi mein jawab do (Hindi/English/Hinglish). Dost ki tarah helpful aur thorough raho. Kabhi mat batao ki aap Claude ya Anthropic par based hain. Medical/financial advice mein bhi professional se milne ki note add karo. Website: findback.org"}
 };
 function mphL(l){_ML=l;document.getElementById("ml-en").classList.toggle("on",l==="en");document.getElementById("ml-hi").classList.toggle("on",l==="hi");document.getElementById("mph-inp").placeholder=_MD[l].p;mphQ();}
 function mphQ(){var d=document.getElementById("mph-qs");d.innerHTML="";_MD[_ML].q.forEach(function(q){var b=document.createElement("button");b.className="mq";b.textContent=q;b.onclick=function(){mphA(q);};d.appendChild(b);});}
@@ -7233,29 +7234,29 @@ function mphSaveKey(){
   var ki=document.getElementById('mph-key-in');
   if(!ki)return;
   var k=ki.value.trim();
-  if(!k.startsWith('sk-ant')){window.toast&&window.toast('Valid API key daalo!');return;}
+  if(!k.startsWith('sk-ant')){window.toast&&window.toast(_t('Enter a valid API key!','सही API key डालें!'));return;}
   localStorage.setItem('mph_ak',k);
   var box=document.getElementById('mph-key-box');if(box)box.remove();
-  mphAd(' Manphikha activate ho gaya! Ab kuch bhi poochho ','ai');
+  mphAd(_ML==="hi"?' Manphikha चालू हो गई! अब कुछ भी पूछिए ':' Manphikha is active! Ask me anything ','ai');
 }
 function mphFallback(q){
   var ql=q.toLowerCase();
   var hi=_ML==="hi";
-  if(ql.match(/lost|khoya|missing|gum/)){
-    return hi?"Agar aapka kuch kho gaya hai:\n1. FindBack pe 'Lost' report banao\n2. Photo upload karo\n3. Location aur contact daalo\n4. Police ko bhi inform karo\n\nfindback.org pe jaiye! ":"Lost something? Here is what to do:\n1. Post a Lost report on FindBack\n2. Upload a photo\n3. Add location and contact\n4. Also inform local police\n\nVisit findback.org!";}
-  if(ql.match(/found|mila|milgaya/)){
-    return hi?"Kuch mila hai? Bahut achha!\n1. FindBack pe 'Found' report banao\n2. Photo aur location daalo\n3. Owner ko dhundne mein madad hogi\n\nfindback.org pe jaiye!":"Found something? Great!\n1. Post a Found report on FindBack\n2. Add photo and location\n3. Help reunite it with the owner\n\nVisit findback.org!";}
-  if(ql.match(/fir|police|complaint|report/)){
-    return hi?"FIR file karne ke liye:\n1. Nearest police station jaiye\n2. Ya FindBack ka FIR generator use karo\n3. 13 languages mein FIR draft milega\n4. Online bhi file kar sakte ho\n\nfindback.org pe FIR Help section dekho!":"To file an FIR:\n1. Visit your nearest police station\n2. Or use FindBack FIR Generator\n3. Get FIR draft in 13 languages\n4. Can also file online\n\nCheck FIR Help on findback.org!";}
-  if(ql.match(/how|kaise|use|help|kya|what/)){
-    return hi?"FindBack use karna bahut aasaan hai:\n1. findback.org kholo\n2. Lost/Found/Missing select karo\n3. Report banao\n4. Community aur Police help karegi\n\nKoi bhi sawaal ho toh poochho!":"FindBack is easy to use:\n1. Open findback.org\n2. Select Lost/Found/Missing\n3. Create your report\n4. Community and Police will help\n\nAsk me anything!";}
-  if(ql.match(/station|thana|police station/)){
-    return hi?"Police station dhundne ke liye:\napne nearest police station ki jaankari ke liye apne State Police ki official website dekhein।":"To find police station:\nFor police station details, please check your State Police official website.";}
-  if(ql.match(/hello|hi|hey|namaskar|namaste|helo/)){
-    return hi?"Namaskar! Main Manphikha hoon, FindBack ki AI assistant!\nAap mujhse pooch sakte hain:\n- Kuch khone ke baare mein\n- Kuch milne ke baare mein\n- FIR file karne ke baare mein\n- FindBack use karne ke baare mein":"Hello! I am Manphikha, FindBack AI assistant!\nYou can ask me about:\n- Lost items\n- Found items\n- Filing an FIR\n- How to use FindBack";}
-  if(ql.match(/good|fine|theek|achha|great|thanks|shukriya|dhanyawad/)){
-    return hi?"Bahut achha! Koi aur sawaal ho toh zaroor poochho! FindBack hamesha aapki madad ke liye hai!":"Great! Feel free to ask anything else! FindBack is always here to help!";}
-  return hi?"Main aapki madad karna chahti hoon!\nYe topics pe poochh sakte hain:\n- Kuch khoya\n- Kuch mila\n- FIR help\n- FindBack use karna\n\nOr seedha findback.org jaiye!":"I am here to help!\nYou can ask about:\n- Lost items\n- Found items\n- FIR help\n- Using FindBack\n\nOr visit findback.org directly!";
+  if(ql.match(/lost|khoya|missing|gum|खो|गुम/)){
+    return hi?"कुछ खो गया है? ये करें:\n1. FindBack पर 'Lost' रिपोर्ट बनाएँ\n2. फ़ोटो अपलोड करें\n3. जगह और संपर्क नंबर डालें\n4. पुलिस को भी सूचना दें\n\nfindback.org पर जाएँ!":"Lost something? Here is what to do:\n1. Post a Lost report on FindBack\n2. Upload a photo\n3. Add location and contact\n4. Also inform local police\n\nVisit findback.org!";}
+  if(ql.match(/found|mila|milgaya|मिल/)){
+    return hi?"कुछ मिला है? बहुत अच्छा!\n1. FindBack पर 'Found' रिपोर्ट बनाएँ\n2. फ़ोटो और जगह डालें\n3. इससे मालिक तक पहुँचने में मदद मिलेगी\n\nfindback.org पर जाएँ!":"Found something? Great!\n1. Post a Found report on FindBack\n2. Add photo and location\n3. Help reunite it with the owner\n\nVisit findback.org!";}
+  if(ql.match(/fir|police|complaint|report|पुलिस|शिकायत/)){
+    return hi?"FIR दर्ज करने के लिए:\n1. नज़दीकी पुलिस थाने जाएँ\n2. या FindBack का FIR जनरेटर इस्तेमाल करें\n3. 13 भाषाओं में FIR ड्राफ्ट मिलेगा\n4. ऑनलाइन भी दर्ज कर सकते हैं\n\nfindback.org पर FIR Help देखें!":"To file an FIR:\n1. Visit your nearest police station\n2. Or use FindBack FIR Generator\n3. Get FIR draft in 13 languages\n4. Can also file online\n\nCheck FIR Help on findback.org!";}
+  if(ql.match(/how|kaise|use|help|kya|what|कैसे|मदद|क्या/)){
+    return hi?"FindBack इस्तेमाल करना बहुत आसान है:\n1. findback.org खोलें\n2. Lost/Found/Missing चुनें\n3. रिपोर्ट बनाएँ\n4. समुदाय और पुलिस मदद करेंगे\n\nकोई भी सवाल हो तो पूछिए!":"FindBack is easy to use:\n1. Open findback.org\n2. Select Lost/Found/Missing\n3. Create your report\n4. Community and Police will help\n\nAsk me anything!";}
+  if(ql.match(/station|thana|police station|थाना|थाने/)){
+    return hi?"पुलिस थाना ढूँढने के लिए:\nअपने नज़दीकी थाने की जानकारी के लिए अपने राज्य पुलिस की आधिकारिक वेबसाइट देखें।":"To find police station:\nFor police station details, please check your State Police official website.";}
+  if(ql.match(/hello|hi|hey|namaskar|namaste|helo|नमस्ते|नमस्कार/)){
+    return hi?"नमस्ते! मैं Manphikha हूँ, FindBack की AI सहायक!\nआप मुझसे पूछ सकते हैं:\n- कुछ खोने के बारे में\n- कुछ मिलने के बारे में\n- FIR दर्ज करने के बारे में\n- FindBack इस्तेमाल करने के बारे में":"Hello! I am Manphikha, FindBack AI assistant!\nYou can ask me about:\n- Lost items\n- Found items\n- Filing an FIR\n- How to use FindBack";}
+  if(ql.match(/good|fine|theek|achha|great|thanks|shukriya|dhanyawad|धन्यवाद|शुक्रिया|अच्छा/)){
+    return hi?"बहुत अच्छा! कोई और सवाल हो तो ज़रूर पूछिए! FindBack हमेशा आपकी मदद के लिए है!":"Great! Feel free to ask anything else! FindBack is always here to help!";}
+  return hi?"मैं आपकी मदद करना चाहती हूँ!\nइन विषयों पर पूछ सकते हैं:\n- कुछ खोया\n- कुछ मिला\n- FIR मदद\n- FindBack इस्तेमाल करना\n\nया सीधे findback.org पर जाएँ!":"I am here to help!\nYou can ask about:\n- Lost items\n- Found items\n- FIR help\n- Using FindBack\n\nOr visit findback.org directly!";
 }
 window._saveGoogleUser=async function(u){
   try{
@@ -7360,7 +7361,7 @@ document.getElementById("fgm").addEventListener("click",function(e){if(e.target=
     <div id="fb-chat-post-info" style="font-size:11px;color:var(--text-muted);width:100%;padding-left:46px;margin-top:-4px;"></div>
   </div>
   <div class="fb-chat-msgs" id="fb-chat-msgs">
-    <div class="fb-chat-empty">Messages load ho rahe hain...</div>
+    <div class="fb-chat-empty"><span data-lang="en">Loading messages...</span><span data-lang="hi">संदेश लोड हो रहे हैं...</span></div>
   </div>
   <div class="fb-chat-inp-row">
     <textarea class="fb-chat-inp" id="fb-chat-inp" placeholder="Type a message..." rows="1"
@@ -7379,7 +7380,7 @@ document.getElementById("fgm").addEventListener("click",function(e){if(e.target=
 
   window.openChatPanel=function(postId,itemName,toUid){
     if(!window._currentUser){
-      window.toast&&window.toast(' Login karo chat karne ke liye');
+      window.toast&&window.toast(_t(' Log in to chat',' चैट करने के लिए लॉगिन करें'));
       setTimeout(function(){window.showPage&&window.showPage('login');},600);
       return;
     }
@@ -7439,7 +7440,7 @@ document.getElementById("fgm").addEventListener("click",function(e){if(e.target=
         });
       });
     }).catch(function(){
-      if(msgsEl)msgsEl.innerHTML='<div class="fb-chat-empty"> Chat load nahi ho saka</div>';
+      if(msgsEl)msgsEl.innerHTML='<div class="fb-chat-empty"> <span data-lang="en">Could not load chat</span><span data-lang="hi">चैट लोड नहीं हो सकी</span></div>';
     });
   }
 
@@ -7458,7 +7459,7 @@ document.getElementById("fgm").addEventListener("click",function(e){if(e.target=
     if(!msgsEl)return;
     var me=window._currentUser?window._currentUser.uid:'';
     if(!msgs.length){
-      msgsEl.innerHTML='<div class="fb-chat-empty"> Koi message nahi abhi tak.<br>Pehla message bhejo!</div>';
+      msgsEl.innerHTML='<div class="fb-chat-empty"> <span data-lang="en">No messages yet.<br>Send the first message!</span><span data-lang="hi">अभी तक कोई संदेश नहीं।<br>पहला संदेश भेजें!</span></div>';
       return;
     }
     msgsEl.innerHTML=msgs.map(function(msg){
@@ -7485,7 +7486,7 @@ document.getElementById("fgm").addEventListener("click",function(e){if(e.target=
     if(!inp)return;
     var text=(inp.value||'').trim();
     if(!text)return;
-    if(!window._currentUser){window.toast&&window.toast('Login karo pehle');return;}
+    if(!window._currentUser){window.toast&&window.toast(_t('Please log in first','पहले लॉगिन करें'));return;}
     if(!_chatPostId){return;}
     inp.value='';inp.style.height='auto';
     try{
@@ -7509,7 +7510,7 @@ document.getElementById("fgm").addEventListener("click",function(e){if(e.target=
         updatedAt:m.serverTimestamp()
       },{merge:true});
     }catch(e){
-      window.toast&&window.toast(' Message send nahi hua');
+      window.toast&&window.toast(_t(' Message not sent',' संदेश नहीं भेजा जा सका'));
       console.warn('Chat send err:',e);
     }
   };
@@ -7602,6 +7603,7 @@ window.ngoAdminCheck = async function() {
     l=(l||'en').toLowerCase();
     document.body.classList.remove('lang-hi','lang-en');
     document.body.classList.add(l==='hi'?'lang-hi':'lang-en');
+    if(l!==window._fbPhLang){window._fbPhLang=l;document.querySelectorAll('[data-ph-hi]').forEach(function(el){if(!el.hasAttribute('data-ph-en'))el.setAttribute('data-ph-en',el.placeholder);el.placeholder=l==='hi'?el.getAttribute('data-ph-hi'):el.getAttribute('data-ph-en');});}
   }
   // Use APP_LANG — the actual variable used by FindBack toggle
   function getLang(){ return window.APP_LANG || localStorage.getItem('fb_lang') || 'en'; }
