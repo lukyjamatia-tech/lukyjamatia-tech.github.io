@@ -556,7 +556,7 @@ window.doSignIn = async function() {
   var pass = el('si-pass').value.trim();
   var errEl = el('auth-err');
   var btn = el('si-btn');
-  if(!email||!pass){ showErr('Email aur password daalo'); return; }
+  if(!email||!pass){ showErr('Enter email and password'); return; }
   btn.textContent='Signing in...'; btn.disabled=true;
   try {
     var cred = await window._am.signInWithEmailAndPassword(_auth, email, pass);
@@ -564,7 +564,7 @@ window.doSignIn = async function() {
     var uDoc = await getDoc(doc(_db,'users',cred.user.uid));
     var ud = uDoc.exists() ? uDoc.data() : {};
     if(ud.userType!=='ngo'&&ud.userType!=='police'&&ud.userType!=='government'){
-      showErr('Yeh account Police/NGO ke liye nahi hai');
+      showErr('This account is not registered as Police/NGO');
       await window._am.signOut(_auth); return;
     }
     var org = ud.orgName || cred.user.displayName || 'Organization';
@@ -752,7 +752,7 @@ function renderList() {
   var listEl = el('case-list');
 
   if(!posts.length){
-    listEl.innerHTML='<div class="empty"><div class="empty-icon">📭</div><div class="empty-title">No cases found</div><div class="empty-sub">Filter change karo ya search clear karo</div></div>';
+    listEl.innerHTML='<div class="empty"><div class="empty-icon">📭</div><div class="empty-title">No cases found</div><div class="empty-sub">Change the filter or clear the search</div></div>';
     return;
   }
 
@@ -848,7 +848,7 @@ window.detailAction = async function(action) {
 
 window.detailHide = async function() {
   if(!_openPostId) return;
-  if(!confirm('Queue se hide karna chahte ho?')) return;
+  if(!confirm('Hide this from the queue?')) return;
   try {
     var {doc,updateDoc,serverTimestamp} = window._fsm;
     await updateDoc(doc(_db,'posts',_openPostId),{firHidden:true,firHiddenAt:serverTimestamp()});
@@ -876,7 +876,7 @@ function openAlertModal(){ el('alert-modal').classList.add('open'); }
 function closeAlertModal(){ el('alert-modal').classList.remove('open'); }
 window.sendAlert = function() {
   var type=el('al-type').value, desc=el('al-desc').value.trim(), loc=el('al-loc').value.trim();
-  if(!desc){ toast('⚠️ Description daalo'); return; }
+  if(!desc){ toast('⚠️ Enter a description'); return; }
   var msg='🚨 *FindBack ALERT*\n📢 *'+type+'*\n'+(loc?'📍 *'+loc+'*\n':'')+'━━━━━━━━━━━━━━━━━━━\n'+desc+'\n\n🔗 findback.org';
   window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
   closeAlertModal(); toast('📢 Alert shared!');

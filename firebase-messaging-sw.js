@@ -11,12 +11,23 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(function(payload) {
-  const title = (payload.notification && payload.notification.title) || 'FindBack';
-  const options = {
-    body: (payload.notification && payload.notification.body) || 'Naya message aaya hai',
+  if (payload.notification) return; // FCM already shows these; avoid duplicates
+  const d = payload.data || {};
+  self.registration.showNotification(d.title || 'FindBack', {
+    body: d.body || 'You have a new message',
     icon: 'https://findback.org/icon-192.png',
     badge: 'https://findback.org/icon-192.png',
-    data: payload.data || {}
-  };
-  self.registration.showNotification(title, options);
+    data: d
+  });
+});
+
+self.addEventListener('notificationclick', function(e) {
+  const d = e.notification.data || {};
+  if (d.FCM_MSG) return; // FCM handles clicks on its own notifications
+  e.notification.close();
+  const url = d.url || d.link || 'https://findback.org/';
+  e.waitUntil(clients.matchAll({type: 'window', includeUncontrolled: true}).then(function(list) {
+    for (const c of list) { if (c.url.indexOf('findback.org') !== -1 && 'focus' in c) return c.focus(); }
+    return clients.openWindow(url);
+  }));
 });
